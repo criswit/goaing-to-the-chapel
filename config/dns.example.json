@@ -1,0 +1,16 @@
+{
+  "production": {
+    "domainName": "example.com",
+    "hostedZoneId": "Z123456789",
+    "certificateArn": "arn:aws:acm:us-east-1:123456789012:certificate/abcdef12-3456-7890-abcd-ef1234567890",
+    "includeWww": true
+  },
+  "staging": {
+    "domainName": "staging.example.com",
+    "hostedZoneId": "Z123456789",
+    "includeWww": false
+  },
+  "development": {
+    "enabled": false
+  }
+}

@@ -1,0 +1,108 @@
+.attire {
+  background: var(--white);
+}
+
+.attire-content {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.attire-intro {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.attire-intro p {
+  font-size: 1.1rem;
+  color: var(--text-dark);
+  margin-bottom: 0.5rem;
+}
+
+.attire-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-bottom: 3rem;
+}
+
+.attire-card {
+  text-align: center;
+  padding: 1.5rem;
+  background: var(--background);
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+}
+
+.attire-card:hover {
+  transform: translateY(-5px);
+}
+
+.attire-card h3 {
+  font-size: 1.2rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  font-weight: 400;
+}
+
+.attire-image {
+  width: 100%;
+  height: 150px;
+  background: linear-gradient(135deg, var(--accent-color), var(--secondary-color));
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.beach-casual {
+  background: linear-gradient(135deg, #87CEEB, #FFE4B5);
+}
+
+.indian-festive {
+  background: linear-gradient(135deg, #FFD700, #FF6347);
+}
+
+.indian-formal {
+  background: linear-gradient(135deg, #9370DB, #FF69B4);
+}
+
+.cocktail {
+  background: linear-gradient(135deg, #4B0082, #DC143C);
+}
+
+.attire-card h4 {
+  font-size: 1.1rem;
+  color: var(--text-dark);
+  margin-bottom: 0.5rem;
+}
+
+.attire-card p {
+  color: var(--text-light);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.attire-note {
+  background: var(--background);
+  padding: 2rem;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.attire-note h3 {
+  font-size: 1.3rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  font-weight: 400;
+}
+
+.attire-note p {
+  color: var(--text-dark);
+  line-height: 1.6;
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .attire-grid {
+    grid-template-columns: 1fr;
+  }
+}

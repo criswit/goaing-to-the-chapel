@@ -1,0 +1,25 @@
+{
+  "short_name": "C&A Wedding",
+  "name": "GOAING TO THE CHAPEL",
+  "icons": [
+    {
+      "src": "ring_icon_16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "ring_icon_32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "ring_icon_96x96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

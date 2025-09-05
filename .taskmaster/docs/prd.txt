@@ -1,0 +1,138 @@
+# Wedding Website - Full Stack Project
+
+## Overview
+A complete wedding website solution that combines a React frontend with AWS CDK infrastructure. The project will serve as both the hosting infrastructure (CDK) and the actual wedding website application (React), providing guests with event information, RSVP functionality, photo galleries, and other wedding-related features.
+
+## Core Features
+
+### Frontend (React Application)
+- **Event Information Display**: Wedding date, time, venue details, and schedule
+- **RSVP System**: Guest registration and meal preference selection
+- **Photo Gallery**: Pre-wedding photos and engagement pictures
+- **Wedding Party**: Information about bridesmaids, groomsmen, and family
+- **Registry Links**: Links to gift registries
+- **Travel & Accommodations**: Hotel recommendations and travel information
+- **Contact Information**: How to reach the couple for questions
+
+### Infrastructure (AWS CDK)
+- **Static Website Hosting**: S3 bucket for React build artifacts
+- **Content Delivery**: CloudFront distribution for global performance
+- **Domain Management**: Route 53 for custom domain (optional)
+- **RSVP Backend**: API Gateway + Lambda for RSVP form processing
+- **Data Storage**: DynamoDB for RSVP responses
+- **Email Notifications**: SES for RSVP confirmations
+
+## User Experience
+
+### User Personas
+- **Wedding Guests**: Primary users who need event information and RSVP capability
+- **Couple**: Administrators who need to view RSVP responses and manage content
+
+### Key User Flows
+1. **Guest Visit**: Landing page → Browse information → Submit RSVP
+2. **RSVP Process**: Form completion → Confirmation email → Thank you page
+3. **Information Browsing**: Navigate between sections seamlessly
+
+## Technical Architecture
+
+### Frontend Components
+- React application with modern hooks and context
+- Responsive design for mobile and desktop
+- Form validation and error handling
+- Image optimization for photo galleries
+
+### Backend Services
+- **API Gateway**: RESTful endpoints for RSVP operations
+- **Lambda Functions**: Serverless processing of RSVP submissions
+- **DynamoDB**: NoSQL database for guest responses
+- **SES**: Email service for confirmations
+
+### Infrastructure Components
+- **S3 Bucket**: Static website hosting with public read access
+- **CloudFront**: CDN for performance and HTTPS
+- **Route 53**: DNS management (if custom domain needed)
+- **IAM Roles**: Secure access permissions
+
+## Development Roadmap
+
+### Phase 1: Infrastructure Foundation
+- Set up CDK stack with S3 bucket for static hosting
+- Configure CloudFront distribution
+- Implement basic CI/CD for React build deployment
+- Test with simple HTML page
+
+### Phase 2: Basic React Application
+- Migrate existing React code into this repository
+- Create basic wedding information pages
+- Implement responsive design
+- Deploy to S3 and verify CloudFront delivery
+
+### Phase 3: RSVP Backend System
+- Create DynamoDB table for RSVP data
+- Implement Lambda functions for RSVP processing
+- Set up API Gateway endpoints
+- Configure SES for email notifications
+
+### Phase 4: RSVP Frontend Integration
+- Build RSVP form components
+- Integrate with backend APIs
+- Add form validation and error handling
+- Test end-to-end RSVP flow
+
+### Phase 5: Enhanced Features
+- Photo gallery with optimized loading
+- Wedding party information pages
+- Registry links and travel information
+- Admin dashboard for viewing RSVPs
+
+## Logical Dependency Chain
+
+1. **Infrastructure First**: CDK stack must be functional before React deployment
+2. **Static Hosting**: S3 and CloudFront setup enables React app deployment
+3. **React Migration**: Move existing code before building new features
+4. **Backend Services**: RSVP infrastructure before frontend integration
+5. **Feature Development**: Build upon working foundation incrementally
+
+## Risks and Mitigations
+
+### Technical Challenges
+- **CDK Learning Curve**: Start with simple S3 hosting before complex services
+- **React Integration**: Ensure existing code is compatible with new structure
+- **AWS Costs**: Monitor usage and implement cost controls
+
+### Development Approach
+- **MVP Focus**: Get basic website deployed quickly
+- **Incremental Development**: Add features one at a time
+- **Testing Strategy**: Validate each component before integration
+
+## Repository Structure
+```
+wedding-website-cdk/
+├── lib/                    # CDK infrastructure code
+├── frontend/              # React application
+│   ├── src/
+│   ├── public/
+│   └── package.json
+├── lambda/                # Backend Lambda functions
+├── bin/                   # CDK app entry point
+└── .taskmaster/          # Task management
+```
+
+## Appendix
+
+### AWS Services Required
+- S3 (Static hosting)
+- CloudFront (CDN)
+- API Gateway (REST API)
+- Lambda (Serverless functions)
+- DynamoDB (Database)
+- SES (Email service)
+- IAM (Security)
+- Route 53 (DNS - optional)
+
+### Development Tools
+- AWS CDK v2
+- React 18+
+- TypeScript
+- Node.js/npm
+- AWS CLI

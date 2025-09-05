@@ -1,0 +1,15 @@
+{
+  "production": {
+    "domainName": "wedding.youngmonk.dev",
+    "hostedZoneId": "Z06517312T54DCBFMBD4W",
+    "includeWww": false
+  },
+  "staging": {
+    "domainName": "staging.wedding.youngmonk.dev",
+    "hostedZoneId": "Z06517312T54DCBFMBD4W",
+    "includeWww": false
+  },
+  "development": {
+    "enabled": false
+  }
+}

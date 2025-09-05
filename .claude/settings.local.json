@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "mcp__awslabs_cdk-mcp-server__CheckCDKNagSuppressions",
+      "mcp__awslabs_cdk-mcp-server__ExplainCDKNagRule",
+      "mcp__task-master-ai__add_task",
+      "mcp__cdk__CDKGeneralGuidance",
+      "mcp__cdk__ExplainCDKNagRule"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "task-master-ai"
+  ]
+}

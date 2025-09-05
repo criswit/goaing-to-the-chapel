@@ -1,0 +1,8 @@
+---
+description: common sense rules to follow while building anything
+globs:
+alwaysApply: true 
+---
+
+* you should be using the playwright mcp to validate any feature change you make to a website you can deploy locally. ALWAYS ALWAYS ALWAYS
+* you should be using the awslabs-cdk mcp to understand the best practices for CDK development
