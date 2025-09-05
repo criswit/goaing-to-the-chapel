@@ -46,7 +46,7 @@ const Registry: React.FC = () => {
               <Home className="registry-icon" />
               <h3>Crate & Barrel</h3>
               <p>Home essentials and decor</p>
-              <a href="#" className="registry-link" target="_blank" rel="noopener noreferrer">
+              <a href="https://www.crateandbarrel.com" className="registry-link" target="_blank" rel="noopener noreferrer">
                 View Registry
               </a>
             </motion.div>
@@ -61,7 +61,7 @@ const Registry: React.FC = () => {
               <Gift className="registry-icon" />
               <h3>Amazon</h3>
               <p>Everything and anything</p>
-              <a href="#" className="registry-link" target="_blank" rel="noopener noreferrer">
+              <a href="https://www.amazon.com" className="registry-link" target="_blank" rel="noopener noreferrer">
                 View Registry
               </a>
             </motion.div>
@@ -76,7 +76,7 @@ const Registry: React.FC = () => {
               <Heart className="registry-icon" />
               <h3>Honeymoon Fund</h3>
               <p>Help us explore Japan!</p>
-              <a href="#" className="registry-link" target="_blank" rel="noopener noreferrer">
+              <a href="https://www.honeyfund.com" className="registry-link" target="_blank" rel="noopener noreferrer">
                 Contribute
               </a>
             </motion.div>

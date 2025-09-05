@@ -28,13 +28,13 @@ const Hero: React.FC = () => {
           transition={{ delay: 0.3, duration: 0.8 }}
         >
           <div className="image-item image-1">
-            <img src="/mbgoose1.jpg" alt="Couple photo 1" />
+            <img src="/mbgoose1.jpg" alt="Aakanchha and Christopher 1" />
           </div>
           <div className="image-item image-2">
-            <img src="/mbgoose2.jpg" alt="Couple photo 2" />
+            <img src="/mbgoose2.jpg" alt="Aakanchha and Christopher 2" />
           </div>
           <div className="image-item image-3">
-            <img src="/mbgoose3.jpg" alt="Couple photo 3" />
+            <img src="/mbgoose3.jpg" alt="Aakanchha and Christopher 3" />
           </div>
         </motion.div>
       </div>
