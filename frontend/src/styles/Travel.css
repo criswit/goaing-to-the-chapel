@@ -57,36 +57,36 @@
 }
 
 .section-content {
-  padding: 0 1.5rem 2rem;
+  padding: 1.5rem;
   animation: slideDown 0.3s ease;
   width: 100%;
 }
 
-.section-content > * {
-  max-width: 100%;
+/* Multi-column layout for accordion content */
+.accordion-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
   width: 100%;
 }
 
-.section-content h4,
-.section-content h5,
-.section-content h6 {
+.accordion-content.three-col {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.accordion-content-single {
+  grid-column: 1 / -1;
+}
+
+.content-column {
   width: 100%;
 }
 
-.section-content ul,
-.section-content ol {
-  width: 100%;
-  max-width: 100%;
-}
-
-.section-content li {
-  width: 100%;
-  max-width: 100%;
-}
-
-.section-content p {
-  width: 100%;
-  max-width: 100%;
+.content-column h4,
+.content-column h5,
+.content-column h6 {
+  margin-top: 0;
+  color: var(--primary-color);
 }
 
 @keyframes slideDown {
@@ -400,20 +400,81 @@
   margin: 0.2rem 0;
 }
 
+/* Enhanced grid layouts for better space utilization */
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin: 1rem 0;
+}
+
+.info-grid.three-columns {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.info-section {
+  background: rgba(255, 255, 255, 0.7);
+  padding: 1.2rem;
+  border-radius: 8px;
+  border-left: 3px solid var(--secondary-color);
+}
+
+.info-section h5,
+.info-section h6 {
+  margin-top: 0;
+  margin-bottom: 0.8rem;
+  color: var(--primary-color);
+  font-size: 1rem;
+}
+
+.info-section ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.info-section li {
+  padding: 0.25rem 0;
+  color: var(--text-dark);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.compact-list {
+  columns: 2;
+  column-gap: 1.5rem;
+  column-rule: 1px solid rgba(212, 165, 116, 0.2);
+}
+
+.compact-list li {
+  break-inside: avoid;
+  margin-bottom: 0.5rem;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
+  .accordion-content,
+  .info-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .compact-list {
+    columns: 1;
+  }
+
   .hotel-options,
   .transport-options,
   .food-grid,
   .reference-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .section-header {
     padding: 1rem;
   }
-  
+
   .section-content {
-    padding: 0 1rem 1.5rem;
+    padding: 1rem;
   }
 }

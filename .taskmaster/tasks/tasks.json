@@ -581,11 +581,93 @@
         "dependencies": [],
         "priority": "medium",
         "subtasks": []
+      },
+      {
+        "id": 24,
+        "title": "Redesign Travel Information accordion sections for professional layout and optimal horizontal space utilization",
+        "description": "Restructure the Travel component accordion sections to use multi-column layouts, professional language, and maximize horizontal space usage while maintaining responsive design.",
+        "details": "1. Analyze current Travel.tsx component structure and identify accordion sections with poor space utilization\n2. Implement CSS Grid or Flexbox multi-column layouts within accordion content:\n   ```css\n   .accordion-content {\n     display: grid;\n     grid-template-columns: 1fr 1fr;\n     gap: 2rem;\n     padding: 1.5rem;\n   }\n   \n   @media (max-width: 768px) {\n     .accordion-content {\n       grid-template-columns: 1fr;\n       gap: 1rem;\n     }\n   }\n   ```\n3. Restructure content sections to utilize side-by-side layouts:\n   - Hotel information with amenities/contact in separate columns\n   - Transportation options with maps/directions split appropriately\n   - Local attractions with descriptions and practical info separated\n4. Rewrite content using professional, concise language:\n   - Remove casual phrasing and excessive adjectives\n   - Use bullet points and structured formatting\n   - Standardize terminology and tone across all sections\n5. Optimize content density by:\n   - Reducing excessive whitespace and padding\n   - Consolidating related information\n   - Using compact typography hierarchies\n6. Ensure responsive breakpoints maintain usability:\n   - Single column layout for mobile devices (<768px)\n   - Progressive enhancement for tablet and desktop\n   - Test accordion expand/collapse functionality across devices\n7. Update CSS classes and styling to support new layouts:\n   - Create reusable grid components for consistent spacing\n   - Implement consistent typography scales\n   - Ensure accessibility with proper focus states and contrast ratios",
+        "testStrategy": "Test accordion functionality across multiple screen sizes (320px, 768px, 1024px, 1440px) to verify responsive behavior. Measure horizontal space utilization before and after changes to confirm improvement. Validate content readability and professional tone through user testing. Test keyboard navigation and screen reader compatibility for accordion controls. Verify loading performance with new layouts. Cross-browser testing on Chrome, Firefox, Safari, and Edge. Mobile device testing on iOS and Android to ensure touch interactions work properly.",
+        "status": "done",
+        "dependencies": [
+          6
+        ],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 25,
+        "title": "Add guest experience recommendation section based on public artifact",
+        "description": "Add a comprehensive guest experience recommendation section to the website showcasing Goa's unique wedding guest experiences, including cultural immersion, adventure activities, dining, accommodations, and February 2025 specific opportunities.",
+        "status": "pending",
+        "dependencies": [
+          24
+        ],
+        "priority": "medium",
+        "details": "Implement a guest experience recommendation section using the detailed Goa wedding guest guide content:\n\n1. Create a new component (GuestRecommendations.tsx) in src/components/ to display the comprehensive Goa experience guide\n2. Structure the component with organized sections:\n   - Cultural Immersion (Portuguese heritage sites, Fontainhas walks, Carnival events)\n   - Adventure Activities (diving, trekking, river cruises optimized for February weather)\n   - Dining Experiences (traditional cooking classes, heritage mansion dining)\n   - Accommodations (luxury resorts, boutique properties)\n   - February 2025 specific highlights (Carnival dates, weather conditions, seasonal activities)\n\n3. Implement responsive card-based layout:\n   - Hero section highlighting February 2025 as optimal timing\n   - Category-based organization with expandable sections\n   - Individual experience cards with descriptions, pricing, and booking details\n   - Photo placeholders for cultural sites, activities, and dining experiences\n   - Responsive grid: 3 columns desktop, 2 tablet, 1 mobile\n\n4. Add interactive features:\n   - Category filtering (Cultural, Adventure, Dining, etc.)\n   - Experience type badges (Free, Premium, Booking Required)\n   - February weather highlight banner\n   - Integration with existing page navigation\n\n5. Style to match existing design:\n   - Consistent typography and wedding theme colors\n   - Proper spacing and hover effects for experience cards\n   - Accessibility with ARIA labels and keyboard navigation\n   - Loading states and error handling\n\n6. Content organization:\n   - Emphasize unique experiences unavailable in the US\n   - Highlight February 2025 timing advantages (Carnival, weather, festivals)\n   - Include practical details (pricing in rupees, booking requirements, duration)\n   - Feature both luxury and cultural authentic options",
+        "testStrategy": "Test the component renders all experience categories correctly with proper card layouts and responsive behavior. Verify category filtering functionality works smoothly. Test that February 2025 specific content is prominently displayed. Validate pricing information displays correctly in Indian rupees. Check accessibility compliance with keyboard navigation and screen reader compatibility. Test integration with existing page layout and ensure consistent styling. Verify loading states and error handling for any dynamic content. Test across different devices to ensure mobile-friendly experience browsing.",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create GuestRecommendations component structure and base layout",
+            "description": "Create the main GuestRecommendations.tsx component in frontend/src/components/ with basic structure, imports, and responsive grid layout foundation.",
+            "dependencies": [],
+            "details": "Create frontend/src/components/GuestRecommendations.tsx with React imports including useState for category filtering. Set up the main component structure with hero section highlighting February 2025 timing, category navigation, and responsive CSS Grid layout (3 columns desktop, 2 tablet, 1 mobile). Import Lucide React icons for categories (MapPin, Users, Utensils, Home, Calendar). Create companion CSS file GuestRecommendations.css in frontend/src/styles/ with base styling matching existing Travel.css patterns.",
+            "status": "pending",
+            "testStrategy": "Test component renders without errors. Verify responsive grid layout works across different screen sizes (320px, 768px, 1024px, 1440px). Ensure imports resolve correctly and component follows existing project patterns."
+          },
+          {
+            "id": 2,
+            "title": "Implement cultural immersion and Portuguese heritage section",
+            "description": "Add the cultural immersion section featuring Portuguese heritage sites, Fontainhas walking tours, and Carnival 2025 events with detailed experience cards.",
+            "dependencies": [
+              "25.1"
+            ],
+            "details": "Create cultural immersion experience cards including: Fontainhas Heritage Walk (guided tours, photography spots), Portuguese architecture sites (churches, heritage buildings), Carnival 2025 events (specific February dates and locations), traditional art workshops, and heritage mansion visits. Each card should include title, description, duration, pricing in Indian rupees, booking requirements, and photo placeholders. Implement expandable card design with proper spacing and hover effects matching Travel component styling.",
+            "status": "pending",
+            "testStrategy": "Test cultural section displays all experience cards properly. Verify card hover effects and expandability. Test content displays February-specific information prominently. Validate pricing information shows correctly in rupees."
+          },
+          {
+            "id": 3,
+            "title": "Add adventure activities and February-optimized experiences",
+            "description": "Implement adventure activities section optimized for February weather conditions including water sports, trekking, and outdoor experiences.",
+            "dependencies": [
+              "25.1"
+            ],
+            "details": "Create adventure experience cards featuring: scuba diving and snorkeling (February visibility and conditions), Western Ghats trekking (February weather advantages), river cruises (Mandovi and Zuari rivers), beach water sports, spice plantation tours, and wildlife sanctuaries. Each experience should highlight February-specific advantages (clear skies, mild temperatures, calm seas). Include difficulty levels, duration, equipment provided, and safety information. Use adventure-themed icons and maintain consistent card styling.",
+            "status": "pending",
+            "testStrategy": "Test adventure section renders all activity cards with proper categorization. Verify February weather highlights are prominent. Test difficulty level indicators and safety information display correctly."
+          },
+          {
+            "id": 4,
+            "title": "Create dining experiences and accommodation recommendations",
+            "description": "Implement dining experiences and accommodation sections featuring traditional cooking classes, heritage dining, and luxury to boutique property recommendations.",
+            "dependencies": [
+              "25.1"
+            ],
+            "details": "Create two sections: Dining Experiences with traditional Goan cooking classes, heritage mansion dining (Portuguese-Goan fusion), beach shack experiences, spice tours with tastings, and wine/feni tasting sessions. Accommodations section with luxury beach resorts, boutique heritage properties, eco-friendly options, and budget-friendly choices. Each dining experience includes cuisine type, dietary accommodations, duration, and booking details. Accommodation cards show amenities, location relative to wedding venue, and February availability notes.",
+            "status": "pending",
+            "testStrategy": "Test dining and accommodation sections display with proper categorization. Verify dietary accommodation information is clear. Test location proximity to wedding venue is indicated. Validate booking information and availability notes for February 2025."
+          },
+          {
+            "id": 5,
+            "title": "Implement interactive filtering and integrate with main application",
+            "description": "Add category filtering functionality, February 2025 highlight banner, accessibility features, and integrate the component into the main application routing and navigation.",
+            "dependencies": [
+              "25.2",
+              "25.3",
+              "25.4"
+            ],
+            "details": "Implement category filtering with buttons (All, Cultural, Adventure, Dining, Accommodations) using useState to filter experience cards. Add February 2025 weather highlight banner at top of component. Implement accessibility with ARIA labels, keyboard navigation, and screen reader support. Add loading states and error handling. Integrate component into App.tsx routing and Navigation.tsx menu. Create corresponding CSS animations and transitions. Add experience type badges (Free, Premium, Booking Required) to each card.",
+            "status": "pending",
+            "testStrategy": "Test category filtering functionality works smoothly with all combinations. Verify February banner displays prominently. Test keyboard navigation and screen reader compatibility. Test integration with existing navigation and routing. Validate badges display correctly on experience cards."
+          }
+        ]
       }
     ],
     "metadata": {
       "created": "2025-09-03T23:43:12.969Z",
-      "updated": "2025-09-05T08:23:27.049Z",
+      "updated": "2025-09-05T09:50:44.556Z",
       "description": "Tasks for master context"
     }
   }
