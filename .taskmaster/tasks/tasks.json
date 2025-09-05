@@ -570,11 +570,22 @@
         "dependencies": [],
         "priority": "high",
         "subtasks": []
+      },
+      {
+        "id": 23,
+        "title": "Make site name clickable and link to top of page",
+        "description": "Make the AK+CMW text in the top right of the page clickable, implementing smooth scroll to top functionality when clicked",
+        "details": "Implement clickable site name with scroll-to-top functionality:\n1. Locate the AK+CMW text element in the header component (likely in src/components/Header.tsx or similar)\n2. Wrap the text in a clickable element (button or anchor with href=\"#\")\n3. Add onClick handler that scrolls to top of page using window.scrollTo({ top: 0, behavior: 'smooth' })\n4. Style the clickable element to maintain current appearance but indicate it's interactive:\n   - Add cursor: pointer on hover\n   - Consider subtle hover effect (opacity change or underline)\n   - Maintain existing font styling and positioning\n5. Add appropriate accessibility attributes:\n   - aria-label=\"Scroll to top of page\"\n   - role=\"button\" if using div/span instead of button element\n6. Ensure functionality works on both desktop and mobile devices\n7. Consider adding keyboard navigation support (Enter/Space key handling)",
+        "testStrategy": "Test clicking the AK+CMW text on different browsers and devices to verify smooth scrolling to page top. Test keyboard navigation by tabbing to the element and pressing Enter/Space. Verify hover state appears correctly and element maintains proper styling. Test on mobile devices to ensure touch interaction works properly. Confirm accessibility by testing with screen reader to verify appropriate labels are announced.",
+        "status": "done",
+        "dependencies": [],
+        "priority": "medium",
+        "subtasks": []
       }
     ],
     "metadata": {
       "created": "2025-09-03T23:43:12.969Z",
-      "updated": "2025-09-05T00:39:53.334Z",
+      "updated": "2025-09-05T08:23:27.049Z",
       "description": "Tasks for master context"
     }
   }

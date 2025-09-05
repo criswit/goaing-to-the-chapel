@@ -19,11 +19,35 @@
   align-items: center;
 }
 
+.nav-logo {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: opacity 0.3s ease;
+}
+
+.nav-logo:hover {
+  opacity: 0.8;
+}
+
+.nav-logo:focus {
+  outline: 2px solid var(--secondary-color);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
 .nav-logo h2 {
   color: var(--primary-color);
   font-size: 1.5rem;
   font-weight: 400;
   letter-spacing: 2px;
+  margin: 0;
+  transition: transform 0.2s ease;
+}
+
+.nav-logo:hover h2 {
+  transform: translateY(-1px);
 }
 
 .mobile-toggle {

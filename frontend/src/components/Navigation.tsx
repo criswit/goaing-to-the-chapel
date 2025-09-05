@@ -13,12 +13,21 @@ const Navigation: React.FC = () => {
     setIsOpen(false);
   };
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setIsOpen(false);
+  };
+
   return (
     <nav className="navigation">
       <div className="nav-container">
-        <div className="nav-logo">
+        <button 
+          className="nav-logo"
+          onClick={scrollToTop}
+          aria-label="Scroll to top of page"
+        >
           <h2>AK + CMW</h2>
-        </div>
+        </button>
         
         <button className="mobile-toggle" onClick={() => setIsOpen(!isOpen)}>
           {isOpen ? <X size={24} /> : <Menu size={24} />}
