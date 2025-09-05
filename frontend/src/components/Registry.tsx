@@ -61,7 +61,7 @@ const Registry: React.FC = () => {
               <Gift className="registry-icon" />
               <h3>Amazon</h3>
               <p>Everything and anything</p>
-              <a href="https://www.amazon.com" className="registry-link" target="_blank" rel="noopener noreferrer">
+              <a href="https://www.amazon.com/hz/wishlist/ls/2RLIFOTPH7TCT?ref_=wl_share" className="registry-link" target="_blank" rel="noopener noreferrer">
                 View Registry
               </a>
             </motion.div>
