@@ -102,16 +102,16 @@ cdk-version:
 check-aws:
     aws sts get-caller-identity --profile wedding-website
 
-# Check certificate status (for wedding.youngmonk.dev)
+# Check certificate status (for wedding.himnher.dev)
 check-cert:
-    @echo "🔍 Checking ACM certificates for youngmonk.dev..."
-    aws acm list-certificates --region us-east-1 --profile wedding-website --query "CertificateSummaryList[?contains(DomainName, 'youngmonk.dev')]" --output table
+    @echo "🔍 Checking ACM certificates for himnher.dev..."
+    aws acm list-certificates --region us-east-1 --profile wedding-website --query "CertificateSummaryList[?contains(DomainName, 'himnher.dev')]" --output table
 
-# Show production diff (what will be deployed to wedding.youngmonk.dev)
+# Show production diff (what will be deployed to wedding.himnher.dev)
 diff-prod:
     npx cdk diff -c environment=production --profile wedding-website
 
-# Synthesize production stack (preview wedding.youngmonk.dev deployment)
+# Synthesize production stack (preview wedding.himnher.dev deployment)
 synth-prod:
     npx cdk synth -c environment=production --profile wedding-website
 

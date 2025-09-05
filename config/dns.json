@@ -1,12 +1,12 @@
 {
   "production": {
-    "domainName": "wedding.youngmonk.dev",
-    "hostedZoneId": "Z06517312T54DCBFMBD4W",
+    "domainName": "wedding.himnher.dev",
+    "hostedZoneId": "Z08237002D3AKVKPC3U13",
     "includeWww": false
   },
   "staging": {
-    "domainName": "staging.wedding.youngmonk.dev",
-    "hostedZoneId": "Z06517312T54DCBFMBD4W",
+    "domainName": "staging.wedding.himnher.dev",
+    "hostedZoneId": "Z08237002D3AKVKPC3U13",
     "includeWww": false
   },
   "development": {
