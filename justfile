@@ -48,7 +48,7 @@ lint:
     @echo "Linting not configured yet"
 
 # Utility Commands
-# Clean and reinstall dependencies
+# Clean and reinstall dependencies (CDK only, use clean-all for both)
 clean:
     rm -rf node_modules dist cdk.out
     npm install
@@ -141,6 +141,14 @@ frontend-test:
 frontend-test-watch:
     cd frontend && npm test -- --watch
 
+# Run frontend linter
+frontend-lint:
+    @echo "Frontend linting not configured yet"
+
+# Format frontend code
+frontend-format:
+    @echo "Frontend formatting not configured yet"
+
 # Install frontend dependencies
 frontend-install:
     cd frontend && npm install
@@ -158,6 +166,14 @@ build-all: build frontend-build
 # Run all tests
 test-all: test frontend-test
     @echo "✅ All tests completed"
+
+# Run all linters
+lint-all: lint frontend-lint
+    @echo "✅ All linting completed"
+
+# Format all code
+format-all: frontend-format
+    @echo "✅ All formatting completed"
 
 # Install all dependencies (root and frontend)
 install-all: install frontend-install
@@ -192,6 +208,20 @@ setup-full:
     cd frontend && npm install
     just bootstrap
     @echo "✅ Project setup completed"
+
+# Environment-specific setup commands
+# Setup development environment
+setup-dev:
+    npm install
+    cd frontend && npm install
+    just bootstrap
+    @echo "✅ Development environment setup completed"
+
+# Setup production environment
+setup-prod:
+    just build-all
+    just deploy-prod
+    @echo "✅ Production environment setup completed"
 
 # Help Commands
 # Show detailed help for a command
