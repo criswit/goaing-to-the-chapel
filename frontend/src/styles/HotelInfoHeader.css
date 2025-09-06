@@ -208,3 +208,49 @@
     transform: none;
   }
 }
+
+/* Informational Only Mode */
+.hotel-info-header.info-only {
+  background: rgba(47, 64, 80, 0.02);
+  border: 1px solid rgba(47, 64, 80, 0.1);
+  color: var(--text-dark);
+  box-shadow: none;
+  padding: 1.5rem 0;
+}
+
+.hotel-info-header.info-only .hotel-link {
+  color: var(--primary-color);
+}
+
+.hotel-info-header.info-only .hotel-link:hover {
+  color: var(--secondary-color);
+}
+
+.hotel-info-header.info-only .hotel-details {
+  color: var(--text-dark);
+}
+
+.hotel-info-header.info-only .phone-link {
+  color: var(--text-dark);
+  opacity: 0.8;
+}
+
+.hotel-info-header.info-only .phone-link:hover {
+  opacity: 1;
+  color: var(--primary-color);
+  background: rgba(47, 64, 80, 0.05);
+}
+
+.contact-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.info-label {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  font-style: italic;
+  opacity: 0.7;
+  margin-left: 0.5rem;
+}

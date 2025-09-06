@@ -189,13 +189,79 @@ const FlowDiagram: React.FC<{ diagram: string; id: string }> = ({ diagram, id })
 - High contrast ratios for all text and indicators
 - Focus indicators for all interactive elements
 
-### 6. Performance Optimization
+### 6. Floating Table of Contents (TOC)
+
+#### TOC Structure
+- **Day 1 Section**: Guest Arrival, Haldi, Room Check-in, Cocktail & Mehndi, Sangeet
+- **Day 2 Section**: Jaymaal, Baraat, Jaimala, Intermission, Mandap, Reception
+- **Flow Diagrams**: Quick links to visual timeline diagrams
+
+#### TOC Implementation
+```tsx
+interface TOCItem {
+  id: string;
+  title: string;
+  time: string;
+  culture: 'Indian' | 'American' | 'Fusion';
+  isActive?: boolean;
+}
+
+const FloatingTOC: React.FC = () => {
+  const [activeSection, setActiveSection] = useState<string>('');
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Scroll spy logic to determine active section
+      const sections = document.querySelectorAll('[data-event-id]');
+      const scrollPosition = window.scrollY + 100;
+
+      sections.forEach((section) => {
+        const element = section as HTMLElement;
+        const top = element.offsetTop;
+        const bottom = top + element.offsetHeight;
+        
+        if (scrollPosition >= top && scrollPosition < bottom) {
+          setActiveSection(element.dataset.eventId || '');
+        }
+      });
+
+      // Show/hide TOC based on scroll position
+      setIsVisible(window.scrollY > 300);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <div className={`floating-toc ${isVisible ? 'visible' : 'hidden'}`}>
+      {/* TOC content */}
+    </div>
+  );
+};
+```
+
+#### Responsive TOC Behavior
+- **Desktop (1024px+)**: Fixed sidebar on right side, always visible when scrolling
+- **Tablet (768px-1023px)**: Floating button that expands to show TOC overlay
+- **Mobile (320px-767px)**: Collapsible hamburger-style TOC with slide-out drawer
+
+#### TOC Features
+- **Scroll Spy**: Highlights current section as user scrolls
+- **Smooth Scrolling**: Clicking TOC items smoothly scrolls to event
+- **Cultural Indicators**: Mini badges showing event culture type
+- **Progress Indicator**: Visual progress bar showing scroll position
+- **Collapse/Expand**: Minimizable on all screen sizes
+
+### 7. Performance Optimization
 
 - Lazy loading for Mermaid diagrams
 - Optimized images for event icons
 - Efficient CSS with minimal layout shift
 - Progressive enhancement for JavaScript features
 - Core Web Vitals optimization
+- Debounced scroll events for TOC performance
 
 ## Testing Requirements
 
@@ -212,6 +278,10 @@ const FlowDiagram: React.FC<{ diagram: string; id: string }> = ({ diagram, id })
 - Verify Mermaid diagram rendering
 - Test smooth scrolling between sections
 - Validate timeline navigation
+- Test floating TOC scroll spy functionality
+- Verify TOC smooth scrolling to sections
+- Test TOC responsive behavior (sidebar/overlay/drawer)
+- Validate TOC collapse/expand functionality
 
 #### Accessibility Testing
 - Screen reader compatibility

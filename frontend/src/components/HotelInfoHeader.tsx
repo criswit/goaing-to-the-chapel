@@ -19,6 +19,7 @@ interface HotelInfo {
 interface HotelInfoHeaderProps {
   hotelInfo?: HotelInfo;
   className?: string;
+  showAsInfo?: boolean;
 }
 
 const HotelInfoHeader: React.FC<HotelInfoHeaderProps> = ({
@@ -35,6 +36,7 @@ const HotelInfoHeader: React.FC<HotelInfoHeaderProps> = ({
     phone: '+91 0832 272 7272',
   },
   className = '',
+  showAsInfo = false,
 }) => {
   const formatAddress = (address: HotelInfo['address']): string => {
     return `${address.street}, ${address.city}, ${address.state} ${address.postalCode}, ${address.country}`;
@@ -42,7 +44,7 @@ const HotelInfoHeader: React.FC<HotelInfoHeaderProps> = ({
 
   return (
     <motion.header
-      className={`hotel-info-header ${className}`}
+      className={`hotel-info-header ${className} ${showAsInfo ? 'info-only' : ''}`}
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
@@ -72,13 +74,16 @@ const HotelInfoHeader: React.FC<HotelInfoHeaderProps> = ({
 
             <div className="hotel-phone" aria-label="Hotel phone number">
               <Phone className="icon" aria-hidden="true" />
-              <a
-                href={`tel:${hotelInfo.phone.replace(/\s/g, '')}`}
-                className="phone-link"
-                aria-label={`Call hotel at ${hotelInfo.phone}`}
-              >
-                {hotelInfo.phone}
-              </a>
+              <div className="contact-info">
+                <a
+                  href={`tel:${hotelInfo.phone.replace(/\s/g, '')}`}
+                  className="phone-link"
+                  aria-label={`Hotel phone number: ${hotelInfo.phone} - For inquiries only`}
+                >
+                  {hotelInfo.phone}
+                </a>
+                {showAsInfo && <span className="info-label">For inquiries only</span>}
+              </div>
             </div>
           </div>
         </div>
