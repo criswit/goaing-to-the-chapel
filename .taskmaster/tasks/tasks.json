@@ -670,5 +670,703 @@
       "updated": "2025-09-05T09:50:44.556Z",
       "description": "Tasks for master context"
     }
+  },
+  "venue-accordion": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Create HotelInfoHeader component",
+        "description": "Develop a React TypeScript component to display Zuri White Sands resort information including name, website, address, and phone number",
+        "details": "Create `src/components/HotelInfoHeader.tsx` component with TypeScript interface. Display 'Zuri White Sands, Goa Resort & Casino' as clickable link to https://thezurihotels.com/beach-resorts-in-goa, formatted address 'Pedda Varca, Salcete, South Goa, Goa 403 721, INDIA', and clickable phone number '+91 0832 272 7272' with tel: protocol. Apply consistent styling using existing CSS variables from the design system. Use semantic HTML with proper accessibility attributes (aria-labels, roles).",
+        "testStrategy": "Unit test component rendering, verify all links are clickable with correct href values, test responsive design across breakpoints, validate accessibility with screen readers",
+        "priority": "high",
+        "dependencies": [],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Define TypeScript interfaces for HotelInfoHeader component",
+            "description": "Create TypeScript interface definitions for the HotelInfoHeader component props and data structures",
+            "dependencies": [],
+            "details": "Create interfaces for HotelInfo containing name, website, address, and phone properties. Define proper TypeScript types for all component props with strict typing. Add JSDoc comments for better developer experience. Ensure no 'any' types are used.",
+            "status": "done",
+            "testStrategy": "Run TypeScript compiler with strict mode to verify interface definitions, test intellisense support in IDE, validate type checking works correctly"
+          },
+          {
+            "id": 2,
+            "title": "Implement HotelInfoHeader component structure",
+            "description": "Create the basic React component structure with semantic HTML and accessibility features",
+            "dependencies": [
+              "1.1"
+            ],
+            "details": "Create src/components/HotelInfoHeader.tsx with semantic HTML structure. Implement proper accessibility attributes (aria-labels, roles). Use header tag with appropriate heading hierarchy. Structure content areas for hotel name, address, and contact information.",
+            "status": "done",
+            "testStrategy": "Test component rendering, validate HTML semantics, verify accessibility attributes are present, test screen reader compatibility"
+          },
+          {
+            "id": 3,
+            "title": "Add hotel information content and links",
+            "description": "Implement the actual hotel content including name, website link, address, and phone number",
+            "dependencies": [
+              "1.2"
+            ],
+            "details": "Display 'Zuri White Sands, Goa Resort & Casino' as clickable link to https://thezurihotels.com/beach-resorts-in-goa. Add formatted address 'Pedda Varca, Salcete, South Goa, Goa 403 721, INDIA'. Include clickable phone number '+91 0832 272 7272' with tel: protocol for mobile compatibility.",
+            "status": "done",
+            "testStrategy": "Test all links are clickable with correct href values, verify phone link opens dialer on mobile devices, validate link accessibility and keyboard navigation"
+          },
+          {
+            "id": 4,
+            "title": "Apply consistent styling using design system variables",
+            "description": "Style the component using existing CSS variables and design patterns from the codebase",
+            "dependencies": [
+              "1.3"
+            ],
+            "details": "Apply styling using CSS variables from App.css (--primary-color, --secondary-color, --text-dark, etc.). Match the styling patterns used in Travel.tsx component. Ensure consistent typography, spacing, and color usage. Create responsive design that works with existing grid system.",
+            "status": "done",
+            "testStrategy": "Test responsive design across breakpoints (<768px mobile, >768px desktop), verify CSS variables are properly applied, validate visual consistency with existing components"
+          },
+          {
+            "id": 5,
+            "title": "Implement responsive design and final optimization",
+            "description": "Add responsive behaviors and optimize the component for different screen sizes",
+            "dependencies": [
+              "1.4"
+            ],
+            "details": "Implement responsive design that adapts to mobile and desktop viewports. Ensure proper spacing and layout on small screens. Add hover effects and interactive states. Optimize component performance and bundle size. Add proper component export for integration.",
+            "status": "done",
+            "testStrategy": "Test component on various screen sizes and devices, verify responsive breakpoints work correctly, validate performance with React DevTools, test component integration readiness"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Develop ImageGallery component with carousel functionality",
+        "description": "Build an interactive image carousel component for resort images with navigation controls and touch support",
+        "details": "Create `src/components/ImageGallery.tsx` with TypeScript. Implement carousel for mbgoose1.jpg through mbgoose4.jpg from /public folder. Add navigation using ChevronLeft/ChevronRight from lucide-react. Include dot indicators for current position, smooth 300ms transitions, keyboard navigation (arrow keys), touch/swipe support for mobile using touch events or react-spring-gesture. Auto-size for responsive layouts with 400px fixed height. Implement lazy loading for performance optimization.",
+        "testStrategy": "Test image loading, navigation functionality, keyboard accessibility, touch gestures on mobile devices, responsive behavior, and smooth transitions",
+        "priority": "high",
+        "dependencies": [],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create base ImageGallery component structure with TypeScript interface",
+            "description": "Set up the foundational TypeScript component with proper interface definitions for props, state, and image data structure",
+            "dependencies": [],
+            "details": "Create `src/components/ImageGallery.tsx` with TypeScript interface for component props including image array, alt text, and optional styling props. Define state interface for current image index and loading states. Import required dependencies including React hooks (useState, useEffect, useCallback), lucide-react icons (ChevronLeft, ChevronRight), and motion from framer-motion. Set up basic component structure with proper TypeScript annotations following existing project patterns.",
+            "status": "done",
+            "testStrategy": "Verify component renders without errors, TypeScript compilation passes, and all interfaces are properly typed"
+          },
+          {
+            "id": 2,
+            "title": "Implement core carousel functionality with image rendering and navigation",
+            "description": "Build the main carousel display with image container, navigation buttons, and dot indicators",
+            "dependencies": [
+              "2.1"
+            ],
+            "details": "Create image container with 400px fixed height and responsive width. Implement current image display with proper aspect ratio handling. Add ChevronLeft and ChevronRight navigation buttons with proper positioning and styling. Create dot indicator system showing current position among mbgoose1.jpg through mbgoose4.jpg. Implement state management for currentIndex with bounds checking. Add smooth CSS transitions with 300ms duration for image changes and indicator updates.",
+            "status": "done",
+            "testStrategy": "Test navigation button functionality, verify dot indicators update correctly, check image rendering and transitions work smoothly"
+          },
+          {
+            "id": 3,
+            "title": "Add keyboard navigation and accessibility features",
+            "description": "Implement keyboard controls (arrow keys, Enter, Space) and comprehensive ARIA labels for screen reader support",
+            "dependencies": [
+              "2.2"
+            ],
+            "details": "Add keyboard event listeners for ArrowLeft, ArrowRight, Enter, and Space keys. Implement focus management for keyboard navigation. Add comprehensive ARIA attributes: aria-label for carousel container, aria-current for active image, role='tablist' for dot indicators, and aria-label for navigation buttons. Ensure all interactive elements are focusable and have proper focus indicators. Add keyboard navigation instructions for screen readers.",
+            "status": "done",
+            "testStrategy": "Test keyboard-only navigation, verify ARIA labels work with screen readers (test with browser screen reader extensions), validate focus management and tab order"
+          },
+          {
+            "id": 4,
+            "title": "Implement touch and swipe support for mobile devices",
+            "description": "Add touch event handling for swipe gestures on mobile and tablet devices",
+            "dependencies": [
+              "2.2"
+            ],
+            "details": "Implement touch event listeners for touchstart, touchmove, and touchend events. Calculate swipe direction and distance to determine if navigation should occur. Add minimum swipe distance threshold (e.g., 50px) to prevent accidental navigation. Implement momentum and gesture recognition for smooth mobile experience. Ensure touch events don't interfere with scroll behavior. Add visual feedback for touch interactions and prevent default behaviors where appropriate.",
+            "status": "done",
+            "testStrategy": "Test swipe gestures on mobile devices or browser mobile simulation, verify scroll behavior isn't broken, check touch feedback works correctly"
+          },
+          {
+            "id": 5,
+            "title": "Implement lazy loading optimization and error handling",
+            "description": "Add image lazy loading with loading states, error boundaries, and performance optimizations",
+            "dependencies": [
+              "2.2"
+            ],
+            "details": "Implement lazy loading for images using the loading='lazy' attribute and intersection observer for better performance. Add loading states with skeleton placeholders while images load. Create error boundaries for handling image load failures with fallback content. Implement preloading for next/previous images to improve navigation speed. Add proper image optimization attributes like sizes and srcSet if needed. Include fallback states for network failures and optimize for web delivery with appropriate image formats.",
+            "status": "done",
+            "testStrategy": "Test image loading performance, verify lazy loading works correctly, simulate network failures to test error states, check loading placeholders display properly"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Build GoogleMapWidget component",
+        "description": "Create Google Maps integration component showing Zuri White Sands resort location with interactive features",
+        "details": "Create `src/components/GoogleMapWidget.tsx` using Google Maps Embed API (no API key required). Display location at coordinates 15.2156° N, 73.9479° E with resort marker. Use iframe embed with src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3847.123!2d73.9479!3d15.2156!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTXCsDEyJzU2LjAiTiA3M8KwNTYnNTIuNCJF!5e0!3m2!1sen!2sin!4v1234567890'. Style to match image gallery height (400px), add border-radius 8px, ensure responsive design.",
+        "testStrategy": "Test map loading, marker visibility, responsive sizing, cross-browser compatibility, and iframe security settings",
+        "priority": "high",
+        "dependencies": [],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create GoogleMapWidget component structure",
+            "description": "Create the basic TypeScript React component file with proper imports and interface definition",
+            "dependencies": [],
+            "details": "Create `frontend/src/components/GoogleMapWidget.tsx` with React import, TypeScript interface, and proper file structure following the project's existing component patterns. Include lucide-react import for potential icons usage.",
+            "status": "done",
+            "testStrategy": "Verify component renders without errors and follows TypeScript conventions"
+          },
+          {
+            "id": 2,
+            "title": "Implement Google Maps iframe embed",
+            "description": "Add the Google Maps embed iframe with the specified coordinates and styling",
+            "dependencies": [
+              "3.1"
+            ],
+            "details": "Implement iframe with src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3847.123!2d73.9479!3d15.2156!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTXCsDEyJzU2LjAiTiA3M8KwNTYnNTIuNCJF!5e0!3m2!1sen!2sin!4v1234567890' showing Zuri White Sands resort location at coordinates 15.2156° N, 73.9479° E",
+            "status": "done",
+            "testStrategy": "Test map loading, verify coordinates display resort location correctly"
+          },
+          {
+            "id": 3,
+            "title": "Apply responsive styling and dimensions",
+            "description": "Style the component to match image gallery height and implement responsive design",
+            "dependencies": [
+              "3.2"
+            ],
+            "details": "Set fixed height of 400px to match ImageGallery component, add border-radius of 8px, implement responsive design that works within Travel.tsx accordion-content grid system. Ensure proper styling integration with existing Travel.css patterns.",
+            "status": "done",
+            "testStrategy": "Test responsive behavior on different screen sizes, verify 400px height matches other components"
+          },
+          {
+            "id": 4,
+            "title": "Add accessibility and security attributes",
+            "description": "Implement proper iframe security settings and accessibility features",
+            "dependencies": [
+              "3.3"
+            ],
+            "details": "Add iframe security attributes (sandbox, allow permissions), implement proper aria-label for screen readers, add loading='lazy' for performance, and include proper fallback content for when maps fail to load.",
+            "status": "done",
+            "testStrategy": "Test with screen readers, verify security attributes are properly set, test loading behavior"
+          },
+          {
+            "id": 5,
+            "title": "Add error handling and fallback states",
+            "description": "Implement error handling for map loading failures and provide fallback content",
+            "dependencies": [
+              "3.4"
+            ],
+            "details": "Add error boundary or loading state handling, provide fallback text content with address information when iframe fails to load, implement proper TypeScript error handling patterns consistent with other components in the project.",
+            "status": "done",
+            "testStrategy": "Test error scenarios, verify fallback content displays correctly, test in different network conditions"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Remove existing hotel content from Travel component",
+        "description": "Clean up Travel.tsx by removing all old hotel information sections and obsolete content",
+        "details": "Remove lines 377-447 from Travel.tsx containing 'Primary Hotel Block' (The Leela Goa section), 'Alternative Accommodations' (Taj Exotica, Alila Diwa), 'Budget-friendly options' (Novotel), booking codes, rates, deadlines, and 'Reserve Room' button. Preserve the section header structure and expandedSection logic for 'hotels' but replace content with new components.",
+        "testStrategy": "Verify old content is completely removed, ensure no broken references remain, test accordion expand/collapse functionality still works",
+        "priority": "medium",
+        "dependencies": [],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Identify and document all hotel content to be removed",
+            "description": "Analyze Travel.tsx lines 377-447 to catalog all hotel-related content that needs removal",
+            "dependencies": [],
+            "details": "Examine the exact content within the hotels expandedSection including Primary Hotel Block (The Leela Goa section with booking codes, rates, deadlines), Alternative Accommodations (Taj Exotica, Alila Diwa sections), Budget-friendly options (Novotel section), and Reserve Room button. Document line numbers and content structure to ensure complete removal.",
+            "status": "done",
+            "testStrategy": "Create checklist of all content to be removed and verify each item is documented with exact line references"
+          },
+          {
+            "id": 2,
+            "title": "Remove Primary Hotel Block section content",
+            "description": "Delete The Leela Goa hotel section including all associated content and styling",
+            "dependencies": [
+              "4.1"
+            ],
+            "details": "Remove the featured hotel card containing The Leela Goa information, including location details, group rates ($150/night), booking code (ALEXBEN2024), deadline (January 15, 2024), amenities list, and Reserve Room button from lines approximately 379-402.",
+            "status": "done",
+            "testStrategy": "Verify The Leela Goa section is completely removed and no references remain in the component"
+          },
+          {
+            "id": 3,
+            "title": "Remove Alternative Accommodations section",
+            "description": "Delete Taj Exotica and Alila Diwa hotel information sections",
+            "dependencies": [
+              "4.1"
+            ],
+            "details": "Remove the Alternative Accommodations heading and both hotel cards containing Taj Exotica Resort & Spa (Benaulim Beach, $200-250/night) and Alila Diwa Goa (Majorda Beach, $120-150/night) information from lines approximately 406-426.",
+            "status": "done",
+            "testStrategy": "Confirm both alternative hotel options are removed and no broken references exist"
+          },
+          {
+            "id": 4,
+            "title": "Remove Budget-friendly options section",
+            "description": "Delete the Novotel Goa budget accommodation information",
+            "dependencies": [
+              "4.1"
+            ],
+            "details": "Remove the Budget-Friendly Option section containing Novotel Goa information including Candolim location, rate ($80-100/night), distance (30 minutes to venue), and amenities details from lines approximately 428-443.",
+            "status": "done",
+            "testStrategy": "Verify budget option section is completely removed with no remaining content"
+          },
+          {
+            "id": 5,
+            "title": "Preserve accordion structure and prepare for new components",
+            "description": "Maintain the hotels section header and expandedSection logic while clearing content area",
+            "dependencies": [
+              "4.2",
+              "4.3",
+              "4.4"
+            ],
+            "details": "Keep the 'Where to Stay' header button, chevron toggle functionality, and expandedSection === 'hotels' conditional rendering intact. Preserve the section-content and accordion-content div structure but remove all inner content between lines 377-447, leaving a clean container ready for new component integration.",
+            "status": "done",
+            "testStrategy": "Test that hotels accordion still expands/collapses properly, header remains functional, and content area is empty but structurally sound"
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Integrate new components into Travel component",
+        "description": "Import and integrate the three new components into the existing Travel.tsx accommodation section",
+        "details": "Import HotelInfoHeader, ImageGallery, and GoogleMapWidget into Travel.tsx. Replace removed hotel content in the 'hotels' expandedSection with new component structure: HotelInfoHeader (full width), then responsive two-column grid with ImageGallery (left) and GoogleMapWidget (right). Use existing .accordion-content grid system with proper responsive breakpoints. Maintain TypeScript strict typing with proper prop interfaces.",
+        "testStrategy": "Test component integration, verify responsive layout switches to single column on mobile (<768px), ensure all components render correctly within accordion",
+        "priority": "high",
+        "dependencies": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Import new components into Travel.tsx",
+            "description": "Add import statements for HotelInfoHeader, ImageGallery, and GoogleMapWidget components at the top of the Travel.tsx file",
+            "dependencies": [],
+            "details": "Import the three new components (HotelInfoHeader, ImageGallery, GoogleMapWidget) into Travel.tsx file. Add proper TypeScript import statements at the top of the file after the existing imports from lucide-react and framer-motion. Ensure imports follow the existing pattern used in the codebase.",
+            "status": "done",
+            "testStrategy": "Verify imports compile without errors and components are properly recognized by TypeScript"
+          },
+          {
+            "id": 2,
+            "title": "Locate and prepare the hotels accordion section",
+            "description": "Find the 'hotels' expandedSection in Travel.tsx and prepare it for component replacement",
+            "dependencies": [
+              "5.1"
+            ],
+            "details": "Locate the hotels section within the Travel.tsx file (around lines 367-448 based on the existing content). Identify the current accordion content structure within the 'hotels' expandedSection. Remove the existing hotel content while preserving the section header and expandedSection conditional rendering logic.",
+            "status": "done",
+            "testStrategy": "Ensure section header remains functional and accordion expand/collapse behavior is maintained"
+          },
+          {
+            "id": 3,
+            "title": "Implement HotelInfoHeader component integration",
+            "description": "Add HotelInfoHeader component as the first element in the hotels section content",
+            "dependencies": [
+              "5.2"
+            ],
+            "details": "Replace the existing hotel content with the HotelInfoHeader component. Place it as the first element within the section-content div, ensuring it spans full width above the responsive grid layout. Apply proper styling classes and ensure it integrates with the existing accordion animation system.",
+            "status": "done",
+            "testStrategy": "Verify HotelInfoHeader renders correctly within the accordion and displays resort information properly"
+          },
+          {
+            "id": 4,
+            "title": "Create responsive two-column grid layout",
+            "description": "Implement the responsive grid system for ImageGallery and GoogleMapWidget components",
+            "dependencies": [
+              "5.3"
+            ],
+            "details": "Use the existing .accordion-content grid system to create a two-column layout below the HotelInfoHeader. Place ImageGallery component in the left column and GoogleMapWidget in the right column. Ensure the layout follows the existing responsive breakpoints defined in Travel.css (single column on mobile <768px). Apply proper CSS classes matching the existing styling patterns.",
+            "status": "done",
+            "testStrategy": "Test responsive behavior by resizing browser window to ensure proper column layout on desktop and single column stacking on mobile devices"
+          },
+          {
+            "id": 5,
+            "title": "Implement TypeScript interfaces and prop handling",
+            "description": "Add proper TypeScript interfaces and ensure strict typing for all integrated components",
+            "dependencies": [
+              "5.4"
+            ],
+            "details": "Define and implement proper TypeScript interfaces for component props if not already defined. Ensure all three components (HotelInfoHeader, ImageGallery, GoogleMapWidget) have proper type definitions and are used with correct prop types. Add any necessary prop passing for component functionality while maintaining strict TypeScript compliance with no 'any' types.",
+            "status": "done",
+            "testStrategy": "Run TypeScript compiler with strict mode, verify no type errors, and ensure proper intellisense support in IDE"
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "title": "Update Travel.css with new styling rules",
+        "description": "Add CSS styles for the new venue components while maintaining design consistency",
+        "details": "Add styles to Travel.css for .hotel-info-header (clean layout with typography hierarchy), .image-gallery (carousel controls, indicators, transitions), .google-map-widget (iframe styling, responsive sizing). Ensure 400px fixed height for both gallery and map, 8px border-radius, proper hover states for navigation controls with 44px minimum touch targets for accessibility. Use existing CSS variables for colors and maintain consistency with current design patterns.",
+        "testStrategy": "Test visual consistency with existing design system, verify responsive behavior, test hover and focus states, validate touch-friendly control sizing",
+        "priority": "medium",
+        "dependencies": [
+          5
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Add hotel-info-header styles to Travel.css",
+            "description": "Create CSS styles for the hotel info header component with clean layout and typography hierarchy",
+            "dependencies": [],
+            "details": "Add .hotel-info-header class with clean layout styles including margin, padding, and typography hierarchy. Use existing CSS variables for colors (--primary-color, --secondary-color) and maintain consistency with the current design patterns. Include proper spacing for title, subtitle, and other header elements.",
+            "status": "done",
+            "testStrategy": "Verify header layout matches design specs, test responsive behavior, confirm color consistency with existing components"
+          },
+          {
+            "id": 2,
+            "title": "Implement image-gallery carousel styles",
+            "description": "Create comprehensive CSS styles for the image gallery component including carousel controls, indicators, and transitions",
+            "dependencies": [],
+            "details": "Add .image-gallery class with 400px fixed height, 8px border-radius, carousel navigation controls (.gallery-nav-btn), image indicators (.gallery-indicators), smooth transitions for image changes. Include hover states for navigation controls with 44px minimum touch targets for accessibility. Use existing CSS variables for consistency.",
+            "status": "done",
+            "testStrategy": "Test carousel navigation, verify 400px height constraint, validate touch-friendly control sizing, test smooth transitions and hover states"
+          },
+          {
+            "id": 3,
+            "title": "Create google-map-widget iframe styling",
+            "description": "Add CSS styles for the Google Maps widget with proper iframe styling and responsive sizing",
+            "dependencies": [],
+            "details": "Create .google-map-widget class with 400px fixed height matching image gallery, 8px border-radius, responsive iframe styling. Include proper border and shadow to match existing component styles. Ensure iframe takes full width and height of container while maintaining aspect ratio.",
+            "status": "done",
+            "testStrategy": "Test map widget sizing at 400px height, verify responsive behavior, check iframe styling consistency with other components"
+          },
+          {
+            "id": 4,
+            "title": "Add responsive layout styles for two-column grid",
+            "description": "Implement CSS grid styles for the two-column layout containing image gallery and map widget",
+            "dependencies": [
+              "6.2",
+              "6.3"
+            ],
+            "details": "Create responsive grid layout styles that display image gallery and map widget side-by-side on desktop (using existing .accordion-content grid system) and stacked on mobile (<768px). Ensure proper gap spacing and alignment between components. Use existing responsive breakpoints from Travel.css.",
+            "status": "done",
+            "testStrategy": "Test desktop two-column layout, verify mobile single-column stacking, validate proper gap spacing and component alignment"
+          },
+          {
+            "id": 5,
+            "title": "Enhance accessibility features and optimize styles",
+            "description": "Add focus states, ARIA-compatible styling, and performance optimizations to all new CSS components",
+            "dependencies": [
+              "6.1",
+              "6.2",
+              "6.3"
+            ],
+            "details": "Add proper focus indicators for interactive elements, ensure sufficient color contrast ratios, optimize CSS for performance. Include focus-visible styles for keyboard navigation, enhance hover states for better UX. Validate all styles work with screen readers and keyboard-only navigation.",
+            "status": "done",
+            "testStrategy": "Test focus indicators visibility, validate color contrast ratios meet WCAG 2.1 AA standards, verify keyboard navigation styling, test with screen reader software"
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "title": "Implement comprehensive TypeScript interfaces",
+        "description": "Define proper TypeScript interfaces and types for all new components and their props",
+        "details": "Create TypeScript interfaces for HotelInfo (name, website, address, phone), ImageGalleryProps (images array, alt texts, dimensions), GoogleMapProps (coordinates, zoom, styling options). Add proper type definitions for carousel state management, touch event handlers, and responsive breakpoint handling. Ensure strict TypeScript compliance with no 'any' types. Add JSDoc comments for better developer experience.",
+        "testStrategy": "Run TypeScript compiler with strict mode, verify no type errors, test intellisense support in IDE, validate prop type checking at runtime",
+        "priority": "medium",
+        "dependencies": [
+          1,
+          2,
+          3
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create centralized types directory and base interfaces",
+            "description": "Create src/types directory with index.ts file and define base TypeScript interfaces for HotelInfo, ImageGalleryProps, and GoogleMapProps",
+            "dependencies": [],
+            "details": "Set up the types directory structure at src/types/index.ts. Define HotelInfo interface with properties: name (string), website (string), address (string), phone (string). Create ImageGalleryProps interface with images (array of image objects with src, alt, dimensions), altTexts (string[]), and dimensions (width/height). Define GoogleMapProps interface with coordinates (lat/lng), zoom (number), and styling options object. Ensure all interfaces have proper JSDoc comments.",
+            "status": "pending",
+            "testStrategy": "Verify TypeScript compilation with no errors, check that all interfaces export correctly from index file"
+          },
+          {
+            "id": 2,
+            "title": "Define carousel and touch event handler types",
+            "description": "Create comprehensive TypeScript interfaces for carousel state management, touch event handlers, and navigation controls",
+            "dependencies": [
+              "7.1"
+            ],
+            "details": "Add CarouselState interface with currentIndex (number), isTransitioning (boolean), totalImages (number). Create TouchHandlers interface with onTouchStart, onTouchMove, onTouchEnd event handlers using React.TouchEvent types. Define NavigationProps with onPrevious/onNext functions, currentIndex, totalItems. Add KeyboardHandlers type for arrow key navigation using React.KeyboardEvent. All handlers should be properly typed with void return types.",
+            "status": "pending",
+            "testStrategy": "Test interface compatibility with existing carousel implementations, verify proper event handler typing"
+          },
+          {
+            "id": 3,
+            "title": "Implement responsive breakpoint and styling type definitions",
+            "description": "Define TypeScript types for responsive breakpoint handling and component styling configurations",
+            "dependencies": [
+              "7.1"
+            ],
+            "details": "Create BreakpointConfig interface with mobile (number), tablet (number), desktop (number) values. Define ResponsiveStyles type with CSS-in-JS style objects for different screen sizes. Add ComponentTheme interface for consistent styling across components including colors, spacing, borderRadius, shadows. Create MediaQueryHandlers type for responsive behavior callbacks. Ensure strict typing for CSS properties using React.CSSProperties where appropriate.",
+            "status": "pending",
+            "testStrategy": "Validate that responsive types work with existing CSS-in-JS solutions, test breakpoint logic"
+          },
+          {
+            "id": 4,
+            "title": "Add strict TypeScript compliance and eliminate 'any' types",
+            "description": "Review and refactor existing component files to ensure strict TypeScript compliance with no 'any' types",
+            "dependencies": [
+              "7.1",
+              "7.2",
+              "7.3"
+            ],
+            "details": "Audit Travel.tsx, RSVP.tsx, Events.tsx, and FAQ.tsx components for any usage of 'any' types. Replace with proper type definitions from the centralized types directory. Update function parameters and return types to be explicit. Ensure all props interfaces are properly typed. Add generic constraints where appropriate for better type safety. Configure TypeScript strict mode settings in tsconfig.json if not already enabled.",
+            "status": "pending",
+            "testStrategy": "Run TypeScript compiler with --strict flag, ensure zero 'any' types in codebase, verify no type errors"
+          },
+          {
+            "id": 5,
+            "title": "Add comprehensive JSDoc comments for developer experience",
+            "description": "Add detailed JSDoc comments to all interfaces, types, and component props for enhanced IDE intellisense and documentation",
+            "dependencies": [
+              "7.1",
+              "7.2",
+              "7.3",
+              "7.4"
+            ],
+            "details": "Add comprehensive JSDoc comments to all TypeScript interfaces with descriptions, parameter explanations, and usage examples. Document component props with @param tags for each property. Include @example blocks showing typical usage patterns. Add @since tags for version tracking. Document complex types with detailed explanations of their purpose and constraints. Ensure all public APIs have complete JSDoc coverage for optimal developer experience in IDEs.",
+            "status": "pending",
+            "testStrategy": "Verify JSDoc comments appear correctly in IDE tooltips, validate JSDoc syntax, test intellisense functionality"
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "title": "Add accessibility features and performance optimizations",
+        "description": "Implement ARIA labels, keyboard navigation, image optimization, and responsive testing",
+        "details": "Add comprehensive ARIA labels for carousel navigation (aria-label, aria-current for active image, role='tablist' for indicators), keyboard support (arrow keys, enter, space), focus management. Implement lazy loading for images with proper loading states, optimize image sizes for web delivery. Add error boundaries and fallback states for component failures. Ensure all interactive elements meet WCAG 2.1 AA standards with proper color contrast and focus indicators.",
+        "testStrategy": "Test with screen readers (NVDA, JAWS), verify keyboard-only navigation, run Lighthouse accessibility audit, test image loading performance, validate responsive design on multiple devices and browsers",
+        "priority": "high",
+        "dependencies": [
+          6,
+          7
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement comprehensive ARIA labels for carousel navigation",
+            "description": "Add accessibility attributes to carousel components including aria-label, aria-current for active image, and role='tablist' for indicators",
+            "dependencies": [],
+            "details": "Add ARIA labels to carousel navigation elements: aria-label for carousel container, aria-current='true' for active image indicator, role='tablist' for indicator buttons, aria-label for previous/next buttons with descriptive text. Ensure carousel announces current position (e.g., 'Image 2 of 5') to screen readers. Add aria-live region for dynamic content updates.",
+            "status": "pending",
+            "testStrategy": "Test with NVDA and JAWS screen readers, verify proper announcement of carousel state and navigation options"
+          },
+          {
+            "id": 2,
+            "title": "Add keyboard navigation support for interactive elements",
+            "description": "Implement keyboard support with arrow keys, enter, space, and proper focus management for all interactive components",
+            "dependencies": [],
+            "details": "Add keyboard event handlers: arrow keys for carousel navigation (left/right for previous/next), enter and space for activation of buttons and indicators, tab navigation between focusable elements. Implement focus management with visible focus indicators, focus trapping in modals if present, and logical tab order. Ensure all interactive elements are keyboard accessible without mouse dependency.",
+            "status": "pending",
+            "testStrategy": "Perform keyboard-only navigation testing, verify all interactions work with keyboard, test focus indicators visibility and tab order"
+          },
+          {
+            "id": 3,
+            "title": "Implement lazy loading for images with proper loading states",
+            "description": "Add lazy loading functionality for carousel images with loading spinners, error states, and progressive enhancement",
+            "dependencies": [],
+            "details": "Implement lazy loading using Intersection Observer API for images below the fold. Add loading='lazy' attribute to img elements, implement loading states with skeleton placeholders or spinners, error handling for failed image loads with retry mechanism. Include proper alt text for all images and ensure graceful degradation for browsers without lazy loading support.",
+            "status": "pending",
+            "testStrategy": "Test image loading performance with network throttling, verify loading states display correctly, test error handling with broken image URLs"
+          },
+          {
+            "id": 4,
+            "title": "Add error boundaries and fallback states for component failures",
+            "description": "Implement React error boundaries around components with user-friendly fallback UI and error logging",
+            "dependencies": [],
+            "details": "Create ErrorBoundary components wrapping carousel, map, and hotel info components. Implement fallback UI that maintains page functionality when individual components fail. Add error logging for debugging purposes and graceful degradation paths. Include retry mechanisms for recoverable errors and clear error messages for users.",
+            "status": "pending",
+            "testStrategy": "Test error scenarios by intentionally breaking components, verify fallback UI displays correctly, test error recovery mechanisms"
+          },
+          {
+            "id": 5,
+            "title": "Ensure WCAG 2.1 AA compliance with color contrast and focus indicators",
+            "description": "Audit and fix color contrast ratios, focus indicators, and other accessibility requirements to meet WCAG 2.1 AA standards",
+            "dependencies": [
+              "8.1",
+              "8.2"
+            ],
+            "details": "Run accessibility audit using Lighthouse and axe-core. Ensure minimum 4.5:1 color contrast ratio for normal text and 3:1 for large text. Implement visible focus indicators with 2px outline and high contrast colors. Add proper heading hierarchy, ensure minimum 44px touch targets for mobile, verify semantic HTML structure. Test with high contrast mode and ensure compatibility.",
+            "status": "pending",
+            "testStrategy": "Run Lighthouse accessibility audit achieving 95+ score, test with high contrast mode, verify color contrast ratios with tools like WebAIM Color Contrast Checker"
+          }
+        ]
+      },
+      {
+        "id": 9,
+        "title": "Replace travel information accordion sections with work-in-progress messages",
+        "description": "Replace six travel information accordion sections with friendly work-in-progress messages and remove the Quick Reference section entirely",
+        "details": "Replace content in six accordion sections (Cultural Etiquette & Respect, Getting Around Goa, Explore Goa, Safety & Scam Prevention, Health & Safety, Money & Communication) with friendly, concise work-in-progress messages that maintain the website's tone. Each message should be tailored to the specific section topic and convey active development while encouraging visitors to check back later. Preserve the existing accordion structure, expand/collapse functionality, and section icons. Remove the Quick Reference section completely (lines ~979-1024 in Travel.tsx) including all subsections like Emergency Contacts, Important Numbers, Local Services, and Transportation Links. Ensure the removal doesn't break the component structure or cause layout issues with remaining sections.",
+        "testStrategy": "Verify all six accordion sections display appropriate WIP messages while maintaining expand/collapse functionality. Confirm Quick Reference section is completely removed with no broken references or layout issues. Test that accordion icons and styling remain consistent. Validate that the removal doesn't affect other sections or cause console errors. Test responsive behavior to ensure messages display properly on all screen sizes.",
+        "status": "done",
+        "dependencies": [],
+        "priority": "medium",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Replace Cultural Etiquette & Respect section content with WIP message",
+            "description": "Replace the content of the Cultural Etiquette & Respect accordion section (lines 283-377) with a friendly work-in-progress message while maintaining the accordion structure, expand/collapse functionality, and section icon",
+            "dependencies": [],
+            "details": "Update the content within the 'etiquette' expandedSection condition to display a tailored WIP message about cultural etiquette guidelines being actively developed. Keep the existing section header with Users icon and button functionality intact. The message should maintain the website's tone and encourage visitors to check back later for comprehensive cultural guidance.",
+            "status": "done",
+            "testStrategy": "Verify the Cultural Etiquette section displays the WIP message when expanded, maintains expand/collapse functionality, and preserves the Users icon and section styling"
+          },
+          {
+            "id": 2,
+            "title": "Replace Getting Around Goa section content with WIP message",
+            "description": "Replace the content of the Getting Around Goa accordion section (lines 412-525) with a friendly work-in-progress message while maintaining the accordion structure, expand/collapse functionality, and section icon",
+            "dependencies": [],
+            "details": "Update the content within the 'transport' expandedSection condition to display a tailored WIP message about transportation options being actively developed. Keep the existing section header with Car icon and button functionality intact. The message should focus on local transportation guidance being prepared and encourage visitors to check back later.",
+            "status": "done",
+            "testStrategy": "Verify the Getting Around Goa section displays the WIP message when expanded, maintains expand/collapse functionality, and preserves the Car icon and section styling"
+          },
+          {
+            "id": 3,
+            "title": "Replace Explore Goa and Safety & Scam Prevention sections with WIP messages",
+            "description": "Replace the content of both the Explore Goa accordion section (lines 536-650) and Safety & Scam Prevention section (lines 667-742) with appropriate work-in-progress messages",
+            "dependencies": [],
+            "details": "Update content within both 'explore' and 'safety' expandedSection conditions. For Explore Goa, create a message about exciting destinations and activities being curated. For Safety & Scam Prevention, create a message about comprehensive safety guidelines being developed. Maintain existing MapPin and Shield icons respectively, along with all accordion functionality.",
+            "status": "done",
+            "testStrategy": "Verify both sections display appropriate WIP messages when expanded, maintain expand/collapse functionality, and preserve their respective icons (MapPin for Explore, Shield for Safety)"
+          },
+          {
+            "id": 4,
+            "title": "Replace Health & Safety and Money & Communication sections with WIP messages",
+            "description": "Replace the content of both the Health & Safety accordion section (lines 760-840) and Money & Communication section (lines 859-920) with appropriate work-in-progress messages",
+            "dependencies": [],
+            "details": "Update content within both 'health' and 'money' expandedSection conditions. For Health & Safety, create a message about health recommendations and medical guidance being prepared. For Money & Communication, create a message about financial tips and communication options being developed. Maintain existing Heart and DollarSign icons respectively, along with all accordion functionality.",
+            "status": "done",
+            "testStrategy": "Verify both sections display appropriate WIP messages when expanded, maintain expand/collapse functionality, and preserve their respective icons (Heart for Health, DollarSign for Money)"
+          },
+          {
+            "id": 5,
+            "title": "Remove Quick Reference section completely",
+            "description": "Remove the entire Quick Reference section (lines 924-969) including the motion.div wrapper, header, and all reference grid content without breaking the component structure",
+            "dependencies": [
+              "9.1",
+              "9.2",
+              "9.3",
+              "9.4"
+            ],
+            "details": "Delete the complete Quick Reference section from line 924 to 969, which includes the motion.div with className 'quick-reference', the h3 header '📱 Quick Reference', and the entire reference-grid containing emergency contacts, hotel information, wedding coordinator details, and other quick reference items. Ensure the removal doesn't affect the closing tags of the parent container or cause any layout issues with remaining sections.",
+            "status": "done",
+            "testStrategy": "Verify the Quick Reference section is completely removed, no broken references remain, the Travel component still renders correctly, and the layout flows properly without gaps or structural issues"
+          }
+        ]
+      },
+      {
+        "id": 10,
+        "title": "Fix horizontal alignment between Google Maps widget and Image Gallery",
+        "description": "Adjust the CSS layout to ensure the GoogleMapWidget and ImageGallery components are properly aligned horizontally at the same baseline level.",
+        "details": "Investigate the current CSS implementation in Travel.css and Travel.tsx to identify the alignment issue between the GoogleMapWidget and ImageGallery components. The Google Maps widget appears to be positioned higher than the image gallery in their side-by-side layout. Check for differences in margin, padding, vertical-align, or flexbox properties that might be causing the misalignment. Likely solutions include: ensuring both components have consistent margin/padding values, setting proper vertical alignment (align-items: flex-start or align-items: stretch on the container), or adjusting any top/bottom margins that differ between the components. Update the responsive grid layout styles to maintain proper alignment across all breakpoints. Test with different content heights to ensure the fix works reliably.",
+        "testStrategy": "Verify that both GoogleMapWidget and ImageGallery are aligned at the same horizontal baseline when displayed side-by-side on desktop. Test the layout on multiple screen sizes (desktop, tablet, mobile) to ensure alignment remains consistent. Check that the components maintain proper alignment when the accordion is expanded/collapsed. Test with different browser zoom levels to confirm the alignment fix is robust. Use browser developer tools to measure exact pixel positions and confirm equal top margins/padding.",
+        "status": "done",
+        "dependencies": [
+          2,
+          3,
+          5,
+          6
+        ],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 11,
+        "title": "Add heartfelt bride and groom welcome note section",
+        "description": "Create a prominently displayed welcome note from Aakanchha and Chris positioned strategically after the hero section with elegant typography and romantic styling that matches the wedding website's theme.",
+        "details": "Create a new React component 'WelcomeNote' that displays the heartfelt message from the bride and groom. Position this component in the main layout after the hero section but before other content sections. Implement elegant typography using CSS custom properties for font families, sizes, and line heights that complement the existing wedding theme. Apply warm color palette with subtle background treatments like soft gradients or texture overlays. Use responsive typography scaling (clamp() functions) for optimal readability across devices. Add subtle animations like fade-in on scroll or gentle text highlighting. Ensure proper semantic HTML structure with appropriate heading levels and paragraph tags. Include the couple's names with special styling treatment (script fonts, color accents, or decorative elements). Implement proper spacing and visual hierarchy to create emotional impact while maintaining design consistency with existing components.",
+        "testStrategy": "Verify the note displays prominently and is easily readable on all device sizes. Test typography scaling and spacing across different screen resolutions. Validate color contrast meets WCAG accessibility standards. Confirm the note's positioning creates appropriate visual flow from hero to subsequent sections. Test animations perform smoothly without causing layout shifts. Verify the romantic styling integrates seamlessly with existing design system and doesn't clash with other components. Test with screen readers to ensure semantic structure is accessible.",
+        "status": "done",
+        "dependencies": [],
+        "priority": "high",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Analyze current site structure and determine optimal placement",
+            "description": "Review the existing App.tsx and component structure to determine the best location for the heartfelt note, likely after the Hero section or as a dedicated introductory section",
+            "details": "",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 11
+          },
+          {
+            "id": 2,
+            "title": "Create HeartfeltNote React component",
+            "description": "Create a new React TypeScript component for the bride and groom's heartfelt message with proper semantic HTML structure and accessibility features",
+            "details": "",
+            "status": "done",
+            "dependencies": [
+              "11.1"
+            ],
+            "parentTaskId": 11
+          },
+          {
+            "id": 3,
+            "title": "Design and implement elegant styling for the heartfelt note",
+            "description": "Create CSS styling that matches the wedding theme with elegant typography, appropriate spacing, romantic visual treatment, and responsive design",
+            "details": "",
+            "status": "done",
+            "dependencies": [
+              "11.2"
+            ],
+            "parentTaskId": 11
+          },
+          {
+            "id": 4,
+            "title": "Integrate HeartfeltNote component into App.tsx",
+            "description": "Add the HeartfeltNote component to the main App.tsx file in the optimal position, ensuring proper import statements and component placement",
+            "details": "",
+            "status": "done",
+            "dependencies": [
+              "11.3"
+            ],
+            "parentTaskId": 11
+          },
+          {
+            "id": 5,
+            "title": "Test and validate with Playwright browser automation",
+            "description": "Use Playwright MCP to validate the heartfelt note displays correctly, has proper styling, is responsive across devices, and integrates seamlessly with the overall site design",
+            "details": "",
+            "status": "done",
+            "dependencies": [
+              "11.4"
+            ],
+            "parentTaskId": 11
+          }
+        ]
+      },
+      {
+        "id": 12,
+        "title": "Create Definitions & Quick Reference component for Indian wedding culture terms",
+        "description": "Develop a comprehensive React component displaying Indian wedding culture terms with pronunciations, definitions, and cultural significance alongside Western wedding terms, featuring search/filter functionality and elegant styling.",
+        "details": "Create `src/components/DefinitionsQuickReference.tsx` as a React TypeScript component with the following features:\n\n1. **Data Structure**: Define TypeScript interface for terms including id, term, pronunciation, definition, culturalSignificance, origin (Indian/Western), and category fields. Create comprehensive dataset with provided Indian terms (Haldi, Mehndi, Sangeet, Jaymaal, Baraat, Jaimala, Mandap, Pundit) and Western terms (Cocktail Hour, First Dance, Reception, etc.).\n\n2. **Search & Filter**: Implement real-time search functionality using useState hook for filtering terms by name or definition content. Add category filters (All, Indian Traditions, Western Traditions) with toggle buttons. Include debounced search input to optimize performance.\n\n3. **UI Layout**: Design card-based layout with CSS Grid (auto-fit minmax(300px, 1fr)) for responsive behavior. Each term card displays term name, pronunciation in italics, definition, and cultural significance with distinct visual hierarchy using typography scales.\n\n4. **Styling**: Apply wedding website theme colors and fonts using CSS custom properties. Implement hover effects, smooth transitions (300ms), and consistent spacing (8px base unit). Add subtle shadows and border-radius for card elevation. Ensure mobile-first responsive design.\n\n5. **Accessibility**: Include proper ARIA labels, semantic HTML structure with heading hierarchy (h2 for section, h3 for terms), keyboard navigation support, and WCAG 2.1 AA compliant color contrast ratios.\n\n6. **Performance**: Implement virtualization for large term lists using react-window if needed, memoize search results with useMemo, and lazy load component if used in route-based setup.",
+        "testStrategy": "Create comprehensive test suite covering: 1) Component renders all terms correctly with proper pronunciation and definitions, 2) Search functionality filters terms accurately by name and content, 3) Category filters work independently and in combination with search, 4) Responsive design displays properly across mobile (320px), tablet (768px), and desktop (1200px) breakpoints, 5) Accessibility testing with screen readers and keyboard-only navigation, 6) Performance testing with large datasets to ensure smooth scrolling and search, 7) Visual regression testing to maintain design consistency with wedding website theme, 8) Cross-browser compatibility testing in Chrome, Firefox, Safari, and Edge.",
+        "status": "done",
+        "dependencies": [],
+        "priority": "high",
+        "subtasks": []
+      }
+    ],
+    "metadata": {
+      "created": "2025-09-06T07:48:12.495Z",
+      "updated": "2025-09-06T10:14:13.324Z",
+      "description": "Tasks for venue-accordion context"
+    }
   }
 }

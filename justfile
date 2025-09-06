@@ -118,6 +118,7 @@ synth-prod:
 # Frontend React Commands
 # Start frontend development server
 frontend-dev:
+    export PATH="$PATH:/home/christopher/.local/share/mise/installs/node/22.18.0/bin/npm"
     cd frontend && npm start
 
 # Sync frontend build to S3 bucket and invalidate CloudFront cache

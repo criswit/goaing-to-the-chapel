@@ -90,7 +90,7 @@ const FAQ: React.FC = () => {
 
         <div className="faq-contact">
           <p>Still have questions?</p>
-          <p>Contact us at <a href="mailto:alexben2024@email.com">alexben2024@email.com</a></p>
+          <p>Contact us at <a href="mailto:wedding-questions@himnher.dev">wedding-questions@himnher.dev</a></p>
         </div>
       </div>
     </section>

@@ -1,0 +1,43 @@
+# Task ID: 11
+# Title: Add heartfelt bride and groom welcome note section
+# Status: pending
+# Dependencies: None
+# Priority: high
+# Description: Create a prominently displayed welcome note from Aakanchha and Chris positioned strategically after the hero section with elegant typography and romantic styling that matches the wedding website's theme.
+# Details:
+Create a new React component 'WelcomeNote' that displays the heartfelt message from the bride and groom. Position this component in the main layout after the hero section but before other content sections. Implement elegant typography using CSS custom properties for font families, sizes, and line heights that complement the existing wedding theme. Apply warm color palette with subtle background treatments like soft gradients or texture overlays. Use responsive typography scaling (clamp() functions) for optimal readability across devices. Add subtle animations like fade-in on scroll or gentle text highlighting. Ensure proper semantic HTML structure with appropriate heading levels and paragraph tags. Include the couple's names with special styling treatment (script fonts, color accents, or decorative elements). Implement proper spacing and visual hierarchy to create emotional impact while maintaining design consistency with existing components.
+
+# Test Strategy:
+Verify the note displays prominently and is easily readable on all device sizes. Test typography scaling and spacing across different screen resolutions. Validate color contrast meets WCAG accessibility standards. Confirm the note's positioning creates appropriate visual flow from hero to subsequent sections. Test animations perform smoothly without causing layout shifts. Verify the romantic styling integrates seamlessly with existing design system and doesn't clash with other components. Test with screen readers to ensure semantic structure is accessible.
+
+# Subtasks:
+## 1. Analyze current site structure and determine optimal placement [pending]
+### Dependencies: None
+### Description: Review the existing App.tsx and component structure to determine the best location for the heartfelt note, likely after the Hero section or as a dedicated introductory section
+### Details:
+
+
+## 2. Create HeartfeltNote React component [pending]
+### Dependencies: 11.1
+### Description: Create a new React TypeScript component for the bride and groom's heartfelt message with proper semantic HTML structure and accessibility features
+### Details:
+
+
+## 3. Design and implement elegant styling for the heartfelt note [pending]
+### Dependencies: 11.2
+### Description: Create CSS styling that matches the wedding theme with elegant typography, appropriate spacing, romantic visual treatment, and responsive design
+### Details:
+
+
+## 4. Integrate HeartfeltNote component into App.tsx [pending]
+### Dependencies: 11.3
+### Description: Add the HeartfeltNote component to the main App.tsx file in the optimal position, ensuring proper import statements and component placement
+### Details:
+
+
+## 5. Test and validate with Playwright browser automation [pending]
+### Dependencies: 11.4
+### Description: Use Playwright MCP to validate the heartfelt note displays correctly, has proper styling, is responsive across devices, and integrates seamlessly with the overall site design
+### Details:
+
+

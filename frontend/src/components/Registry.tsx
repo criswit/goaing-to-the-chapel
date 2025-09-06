@@ -59,8 +59,8 @@ const Registry: React.FC = () => {
               transition={{ delay: 0.4, duration: 0.6 }}
             >
               <Gift className="registry-icon" />
-              <h3>Amazon</h3>
-              <p>Everything and anything</p>
+              <h3>relentless.com</h3>
+              <p>help me help my employer</p>
               <a href="https://www.amazon.com/hz/wishlist/ls/2RLIFOTPH7TCT?ref_=wl_share" className="registry-link" target="_blank" rel="noopener noreferrer">
                 View Registry
               </a>
@@ -74,9 +74,9 @@ const Registry: React.FC = () => {
               transition={{ delay: 0.5, duration: 0.6 }}
             >
               <Heart className="registry-icon" />
-              <h3>Honeymoon Fund</h3>
-              <p>Help us explore Japan!</p>
-              <a href="https://www.honeyfund.com" className="registry-link" target="_blank" rel="noopener noreferrer">
+              <h3>We are so poor!</h3>
+              <p>Help us pay for this extremely expensive wedding!</p>
+              <a href="https://gofund.me/e3bec327b" className="registry-link" target="_blank" rel="noopener noreferrer">
                 Contribute
               </a>
             </motion.div>

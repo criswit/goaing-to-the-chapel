@@ -2,8 +2,10 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import Hero from './components/Hero';
+import HeartfeltNote from './components/HeartfeltNote';
 import Travel from './components/Travel';
 import Events from './components/Events';
+import DefinitionsQuickReference from './components/DefinitionsQuickReference';
 import Attire from './components/Attire';
 import Registry from './components/Registry';
 import FAQ from './components/FAQ';
@@ -15,8 +17,10 @@ function Home() {
   return (
     <>
       <Hero />
+      <HeartfeltNote />
       <Travel />
       <Events />
+      <DefinitionsQuickReference />
       <Attire />
       <Registry />
       <FAQ />

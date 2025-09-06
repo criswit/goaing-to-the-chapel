@@ -1,0 +1,11 @@
+# Task ID: 10
+# Title: Fix horizontal alignment between Google Maps widget and Image Gallery
+# Status: done
+# Dependencies: 2, 3, 5, 6
+# Priority: medium
+# Description: Adjust the CSS layout to ensure the GoogleMapWidget and ImageGallery components are properly aligned horizontally at the same baseline level.
+# Details:
+Investigate the current CSS implementation in Travel.css and Travel.tsx to identify the alignment issue between the GoogleMapWidget and ImageGallery components. The Google Maps widget appears to be positioned higher than the image gallery in their side-by-side layout. Check for differences in margin, padding, vertical-align, or flexbox properties that might be causing the misalignment. Likely solutions include: ensuring both components have consistent margin/padding values, setting proper vertical alignment (align-items: flex-start or align-items: stretch on the container), or adjusting any top/bottom margins that differ between the components. Update the responsive grid layout styles to maintain proper alignment across all breakpoints. Test with different content heights to ensure the fix works reliably.
+
+# Test Strategy:
+Verify that both GoogleMapWidget and ImageGallery are aligned at the same horizontal baseline when displayed side-by-side on desktop. Test the layout on multiple screen sizes (desktop, tablet, mobile) to ensure alignment remains consistent. Check that the components maintain proper alignment when the accordion is expanded/collapsed. Test with different browser zoom levels to confirm the alignment fix is robust. Use browser developer tools to measure exact pixel positions and confirm equal top margins/padding.

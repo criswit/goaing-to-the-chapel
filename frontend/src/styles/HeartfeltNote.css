@@ -1,0 +1,253 @@
+@import url('https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap');
+
+.heartfelt-note {
+  position: relative;
+  padding: 100px 20px;
+  background: linear-gradient(135deg, #FDFBF7 0%, #FFF8F3 50%, #FDFBF7 100%);
+  overflow: hidden;
+}
+
+.heartfelt-note::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    var(--secondary-color) 20%, 
+    var(--primary-color) 50%, 
+    var(--secondary-color) 80%, 
+    transparent 100%
+  );
+  opacity: 0.3;
+}
+
+.heartfelt-note::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    var(--secondary-color) 20%, 
+    var(--primary-color) 50%, 
+    var(--secondary-color) 80%, 
+    transparent 100%
+  );
+  opacity: 0.3;
+}
+
+.heartfelt-container {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.heartfelt-header {
+  margin-bottom: 50px;
+}
+
+.heartfelt-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 300;
+  color: var(--primary-color);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  position: relative;
+  display: inline-block;
+}
+
+.heartfelt-ornament {
+  font-size: 1.5rem;
+  color: var(--accent-color);
+  opacity: 0.7;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+}
+
+.heartfelt-content {
+  padding: 0 20px;
+}
+
+.heartfelt-message {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.1rem, 2vw, 1.25rem);
+  line-height: 1.8;
+  color: var(--text-dark);
+  margin-bottom: 1.5rem;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.heartfelt-message:first-child {
+  font-style: italic;
+  font-size: clamp(1.2rem, 2.2vw, 1.4rem);
+  color: var(--primary-color);
+  margin-bottom: 2rem;
+}
+
+.heartfelt-signature {
+  margin-top: 60px;
+  padding-top: 40px;
+  position: relative;
+}
+
+.heartfelt-signature::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    var(--secondary-color) 50%, 
+    transparent 100%
+  );
+}
+
+.signature-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--text-light);
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+
+.couple-names {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.bride-name,
+.groom-name {
+  font-family: 'Pinyon Script', cursive;
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  color: var(--primary-color);
+  font-weight: 400;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.bride-name:hover,
+.groom-name:hover {
+  color: var(--secondary-color);
+}
+
+.ampersand-fancy {
+  font-family: 'Pinyon Script', cursive;
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  color: var(--accent-color);
+  margin: 0 10px;
+  position: relative;
+  top: -5px;
+}
+
+/* Decorative background pattern */
+.heartfelt-note {
+  background-image: 
+    radial-gradient(circle at 20% 50%, rgba(212, 165, 116, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 50%, rgba(232, 180, 184, 0.05) 0%, transparent 50%),
+    linear-gradient(135deg, #FDFBF7 0%, #FFF8F3 50%, #FDFBF7 100%);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .heartfelt-note {
+    padding: 80px 15px;
+  }
+
+  .heartfelt-container {
+    padding: 0 10px;
+  }
+
+  .heartfelt-title {
+    letter-spacing: 2px;
+  }
+
+  .heartfelt-message {
+    text-align: left;
+    padding: 0 10px;
+  }
+
+  .heartfelt-message:first-child {
+    text-align: center;
+  }
+
+  .couple-names {
+    gap: 15px;
+  }
+
+  .bride-name,
+  .groom-name {
+    display: block;
+  }
+
+  .ampersand-fancy {
+    display: block;
+    margin: 10px 0;
+    top: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .heartfelt-note {
+    padding: 60px 10px;
+  }
+
+  .heartfelt-header {
+    margin-bottom: 35px;
+  }
+
+  .heartfelt-signature {
+    margin-top: 40px;
+    padding-top: 30px;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .heartfelt-ornament {
+    animation: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .heartfelt-message {
+    color: var(--text-dark);
+    font-weight: 400;
+  }
+  
+  .heartfelt-title,
+  .bride-name,
+  .groom-name {
+    font-weight: 600;
+  }
+}

@@ -1,0 +1,168 @@
+# Venue Accordion Redesign - Product Requirements Document
+
+## Project Overview
+Redesign the "Where to Stay" accordion section in the Travel component to replace the current text-heavy hotel listings with a visually engaging layout featuring an image gallery and Google Maps integration for the Zuri White Sands resort.
+
+## Background
+The current "Where to Stay" section contains outdated hotel information (The Leela Goa, Taj Exotica, etc.) and lacks visual appeal. The new design will focus exclusively on the Zuri White Sands resort with a modern, visual presentation that enhances user engagement through interactive elements.
+
+## Objectives
+- Replace text-heavy accordion content with visual storytelling
+- Create an engaging image carousel showcasing the resort
+- Integrate Google Maps for location context
+- Maintain responsive design across all devices
+- Improve user experience through interactive elements
+- Ensure accessibility compliance
+
+## Requirements
+
+### Functional Requirements
+
+#### 1. Hotel Information Header Component
+- Display resort name: "Zuri White Sands, Goa Resort & Casino"
+- Clickable website link: https://thezurihotels.com/beach-resorts-in-goa
+- Formatted address: "Pedda Varca, Salcete, South Goa, Goa 403 721, INDIA"
+- Clickable phone number (tel: link): "+91 0832 272 7272"
+- Prominent, styled layout with consistent branding
+
+#### 2. Image Gallery Component
+- Display existing resort images: mbgoose1.jpg, mbgoose2.jpg, mbgoose3.jpg, mbgoose4.jpg
+- Smooth carousel transitions with animation
+- Navigation arrows using Lucide icons (ChevronLeft, ChevronRight)
+- Dot indicators showing current image position
+- Touch/swipe support for mobile devices
+- Keyboard navigation (arrow keys)
+- Click-to-advance functionality
+- Auto-sizing for responsive layouts
+
+#### 3. Google Maps Integration
+- Display resort location at coordinates: 15.2156° N, 73.9479° E
+- Interactive map widget with resort marker
+- Responsive sizing to match image gallery height
+- Styled to match overall design theme
+- Implementation using Google Maps Embed API (no API key required)
+
+### Technical Requirements
+
+#### Component Architecture
+- Create three new React components:
+  - `HotelInfoHeader.tsx` - Resort information display
+  - `ImageGallery.tsx` - Interactive image carousel
+  - `GoogleMapWidget.tsx` - Maps integration
+- Integrate components into existing `Travel.tsx`
+- Maintain TypeScript strict typing
+- Follow existing component patterns
+
+#### Styling Requirements
+- Utilize existing CSS variables for color consistency
+- Implement responsive two-column layout (desktop) / single column (mobile)
+- Fixed heights for visual consistency (400px)
+- Border radius: 8px for visual elements
+- Integration with existing `.accordion-content` grid system
+
+#### Performance Requirements
+- Optimize images for web delivery
+- Implement lazy loading for images
+- Smooth transitions (300ms duration)
+- Touch-friendly controls (minimum 44px touch targets)
+
+#### Accessibility Requirements
+- ARIA labels for all interactive elements
+- Keyboard navigation support
+- Screen reader compatibility
+- Focus indicators for navigation elements
+- Alt text for all images
+
+### Content Changes
+
+#### Content Removal
+- Remove entire "Primary Hotel Block" section (The Leela Goa)
+- Remove "Alternative Accommodations" section (Taj Exotica, Alila Diwa, Novotel)
+- Remove all booking codes, rates, and deadlines
+- Remove "Reserve Room" button
+- Remove "Budget-friendly options" section
+
+#### Content Addition
+- Add Zuri White Sands resort information
+- Add visual image gallery
+- Add interactive Google Maps widget
+
+### Layout Specifications
+
+#### Desktop Layout (768px+)
+```
+┌─────────────────────────────────────────────────────────┐
+│  ZURI WHITE SANDS INFORMATION HEADER (Full Width)      │
+└─────────────────────────────────────────────────────────┘
+┌───────────────────────┬─────────────────────────────────┐
+│  Image Gallery        │  Google Maps Widget             │
+│  (400px height)       │  (400px height)                 │
+└───────────────────────┴─────────────────────────────────┘
+```
+
+#### Mobile Layout (<768px)
+```
+┌─────────────────────────────────────────────────────────┐
+│  ZURI WHITE SANDS INFORMATION HEADER                    │
+├─────────────────────────────────────────────────────────┤
+│  Image Gallery                                          │
+├─────────────────────────────────────────────────────────┤
+│  Google Maps Widget                                     │
+└─────────────────────────────────────────────────────────┘
+```
+
+## Implementation Strategy
+
+### Phase 1: Component Development
+1. Create `HotelInfoHeader.tsx` with resort information
+2. Develop `ImageGallery.tsx` with carousel functionality
+3. Build `GoogleMapWidget.tsx` with maps integration
+4. Implement comprehensive TypeScript interfaces
+
+### Phase 2: Integration & Styling
+1. Integrate new components into `Travel.tsx`
+2. Update `Travel.css` with new styling rules
+3. Ensure responsive behavior across breakpoints
+4. Test component interactions
+
+### Phase 3: Testing & Optimization
+1. Test image carousel functionality across devices
+2. Verify Google Maps integration and responsiveness
+3. Validate accessibility compliance
+4. Optimize performance and loading
+
+### Phase 4: Deployment Validation
+1. Test with Playwright browser automation
+2. Verify responsive design on multiple screen sizes
+3. Confirm all interactive elements function correctly
+4. Validate against existing design system
+
+## Assets & Resources
+- Existing images: `/public/mbgoose1.jpg`, `/public/mbgoose2.jpg`, `/public/mbgoose3.jpg`, `/public/mbgoose4.jpg`
+- Lucide React icons for navigation
+- Google Maps Embed API
+- Existing CSS variables and design system
+
+## Success Criteria
+- Clean, visual layout replacing text-heavy sections
+- Functional image carousel with smooth navigation
+- Interactive Google Maps showing resort location
+- Responsive design working on all devices (mobile, tablet, desktop)
+- Consistent styling with existing design system
+- Improved user experience with visual storytelling
+- Accessible components with proper ARIA labels
+- Performance optimization with smooth interactions
+
+## Risk Mitigation
+- Use Google Maps Embed API to avoid API key requirements
+- Implement fallback states for image loading failures
+- Ensure touch events work across different mobile devices
+- Test keyboard navigation thoroughly
+- Validate cross-browser compatibility
+
+## Future Enhancements
+- Add image captions/descriptions
+- Include nearby landmarks on map
+- Add more resort images
+- Integrate booking functionality
+- Add virtual tour links

@@ -1,0 +1,43 @@
+# Task ID: 4
+# Title: Remove existing hotel content from Travel component
+# Status: done
+# Dependencies: None
+# Priority: medium
+# Description: Clean up Travel.tsx by removing all old hotel information sections and obsolete content
+# Details:
+Remove lines 377-447 from Travel.tsx containing 'Primary Hotel Block' (The Leela Goa section), 'Alternative Accommodations' (Taj Exotica, Alila Diwa), 'Budget-friendly options' (Novotel), booking codes, rates, deadlines, and 'Reserve Room' button. Preserve the section header structure and expandedSection logic for 'hotels' but replace content with new components.
+
+# Test Strategy:
+Verify old content is completely removed, ensure no broken references remain, test accordion expand/collapse functionality still works
+
+# Subtasks:
+## 1. Identify and document all hotel content to be removed [done]
+### Dependencies: None
+### Description: Analyze Travel.tsx lines 377-447 to catalog all hotel-related content that needs removal
+### Details:
+Examine the exact content within the hotels expandedSection including Primary Hotel Block (The Leela Goa section with booking codes, rates, deadlines), Alternative Accommodations (Taj Exotica, Alila Diwa sections), Budget-friendly options (Novotel section), and Reserve Room button. Document line numbers and content structure to ensure complete removal.
+
+## 2. Remove Primary Hotel Block section content [done]
+### Dependencies: 4.1
+### Description: Delete The Leela Goa hotel section including all associated content and styling
+### Details:
+Remove the featured hotel card containing The Leela Goa information, including location details, group rates ($150/night), booking code (ALEXBEN2024), deadline (January 15, 2024), amenities list, and Reserve Room button from lines approximately 379-402.
+
+## 3. Remove Alternative Accommodations section [done]
+### Dependencies: 4.1
+### Description: Delete Taj Exotica and Alila Diwa hotel information sections
+### Details:
+Remove the Alternative Accommodations heading and both hotel cards containing Taj Exotica Resort & Spa (Benaulim Beach, $200-250/night) and Alila Diwa Goa (Majorda Beach, $120-150/night) information from lines approximately 406-426.
+
+## 4. Remove Budget-friendly options section [done]
+### Dependencies: 4.1
+### Description: Delete the Novotel Goa budget accommodation information
+### Details:
+Remove the Budget-Friendly Option section containing Novotel Goa information including Candolim location, rate ($80-100/night), distance (30 minutes to venue), and amenities details from lines approximately 428-443.
+
+## 5. Preserve accordion structure and prepare for new components [done]
+### Dependencies: 4.2, 4.3, 4.4
+### Description: Maintain the hotels section header and expandedSection logic while clearing content area
+### Details:
+Keep the 'Where to Stay' header button, chevron toggle functionality, and expandedSection === 'hotels' conditional rendering intact. Preserve the section-content and accordion-content div structure but remove all inner content between lines 377-447, leaving a clean container ready for new component integration.
+

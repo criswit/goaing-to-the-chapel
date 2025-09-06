@@ -1,0 +1,43 @@
+# Task ID: 5
+# Title: Integrate new components into Travel component
+# Status: done
+# Dependencies: 1, 2, 3, 4
+# Priority: high
+# Description: Import and integrate the three new components into the existing Travel.tsx accommodation section
+# Details:
+Import HotelInfoHeader, ImageGallery, and GoogleMapWidget into Travel.tsx. Replace removed hotel content in the 'hotels' expandedSection with new component structure: HotelInfoHeader (full width), then responsive two-column grid with ImageGallery (left) and GoogleMapWidget (right). Use existing .accordion-content grid system with proper responsive breakpoints. Maintain TypeScript strict typing with proper prop interfaces.
+
+# Test Strategy:
+Test component integration, verify responsive layout switches to single column on mobile (<768px), ensure all components render correctly within accordion
+
+# Subtasks:
+## 1. Import new components into Travel.tsx [done]
+### Dependencies: None
+### Description: Add import statements for HotelInfoHeader, ImageGallery, and GoogleMapWidget components at the top of the Travel.tsx file
+### Details:
+Import the three new components (HotelInfoHeader, ImageGallery, GoogleMapWidget) into Travel.tsx file. Add proper TypeScript import statements at the top of the file after the existing imports from lucide-react and framer-motion. Ensure imports follow the existing pattern used in the codebase.
+
+## 2. Locate and prepare the hotels accordion section [done]
+### Dependencies: 5.1
+### Description: Find the 'hotels' expandedSection in Travel.tsx and prepare it for component replacement
+### Details:
+Locate the hotels section within the Travel.tsx file (around lines 367-448 based on the existing content). Identify the current accordion content structure within the 'hotels' expandedSection. Remove the existing hotel content while preserving the section header and expandedSection conditional rendering logic.
+
+## 3. Implement HotelInfoHeader component integration [done]
+### Dependencies: 5.2
+### Description: Add HotelInfoHeader component as the first element in the hotels section content
+### Details:
+Replace the existing hotel content with the HotelInfoHeader component. Place it as the first element within the section-content div, ensuring it spans full width above the responsive grid layout. Apply proper styling classes and ensure it integrates with the existing accordion animation system.
+
+## 4. Create responsive two-column grid layout [done]
+### Dependencies: 5.3
+### Description: Implement the responsive grid system for ImageGallery and GoogleMapWidget components
+### Details:
+Use the existing .accordion-content grid system to create a two-column layout below the HotelInfoHeader. Place ImageGallery component in the left column and GoogleMapWidget in the right column. Ensure the layout follows the existing responsive breakpoints defined in Travel.css (single column on mobile <768px). Apply proper CSS classes matching the existing styling patterns.
+
+## 5. Implement TypeScript interfaces and prop handling [done]
+### Dependencies: 5.4
+### Description: Add proper TypeScript interfaces and ensure strict typing for all integrated components
+### Details:
+Define and implement proper TypeScript interfaces for component props if not already defined. Ensure all three components (HotelInfoHeader, ImageGallery, GoogleMapWidget) have proper type definitions and are used with correct prop types. Add any necessary prop passing for component functionality while maintaining strict TypeScript compliance with no 'any' types.
+
