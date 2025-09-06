@@ -1,0 +1,321 @@
+---
+description: Wedding website accessibility standards and WCAG 2.1 AA compliance guidelines
+globs: frontend/src/components/*.tsx,frontend/src/styles/*.css
+---
+
+# Wedding Website Accessibility Standards
+
+## WCAG 2.1 AA Compliance Requirements
+
+This wedding website must meet WCAG 2.1 AA accessibility standards for inclusive user experience.
+
+## Semantic HTML Structure
+
+### Proper Heading Hierarchy
+```typescript
+// Correct heading structure
+<h1>Main page title (only one per page)</h1>
+  <h2>Section titles (.section-title class)</h2>
+    <h3>Subsection titles</h3>
+      <h4>Component titles</h4>
+        <h5>Detail headings</h5>
+```
+
+### Landmark Elements
+```typescript
+<main>         // Main content area
+<section>      // Content sections with headings
+<nav>          // Navigation areas
+<aside>        // Sidebar content
+<header>       // Page/section headers
+<footer>       // Page/section footers
+```
+
+## Interactive Element Requirements
+
+### Button Accessibility
+```typescript
+<button
+  type="button"
+  aria-label="Navigate to next image"
+  aria-describedby="carousel-instructions"
+  onClick={handleNext}
+  className="carousel-nav-button"
+>
+  <ChevronRight aria-hidden="true" />
+</button>
+```
+
+### Link Accessibility
+```typescript
+<a 
+  href="https://thezurihotels.com/beach-resorts-in-goa"
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="Visit Zuri White Sands Resort website (opens in new tab)"
+>
+  Zuri White Sands Resort
+</a>
+```
+
+## Keyboard Navigation
+
+### Required Keyboard Support
+- **Tab/Shift+Tab**: Navigate through interactive elements
+- **Enter/Space**: Activate buttons and links
+- **Arrow keys**: Navigate carousel images, accordion sections
+- **Escape**: Close modals, exit focus traps
+
+### Focus Management
+```css
+.interactive-element:focus {
+  outline: 2px solid var(--secondary-color);
+  outline-offset: 2px;
+}
+
+.interactive-element:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.interactive-element:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+}
+```
+
+### Touch Target Sizing
+```css
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 12px; /* Ensure adequate touch area */
+}
+```
+
+## ARIA Labels and Roles
+
+### Carousel/Gallery Components
+```typescript
+<div 
+  role="region"
+  aria-label="Resort image gallery"
+  aria-describedby="gallery-instructions"
+>
+  <div role="tablist" aria-label="Image selection">
+    {images.map((image, index) => (
+      <button
+        key={index}
+        role="tab"
+        aria-selected={currentIndex === index}
+        aria-controls={`image-${index}`}
+        aria-label={`View image ${index + 1} of ${images.length}`}
+        onClick={() => setCurrentIndex(index)}
+      />
+    ))}
+  </div>
+  
+  <div 
+    role="tabpanel"
+    id={`image-${currentIndex}`}
+    aria-live="polite"
+  >
+    <img 
+      src={images[currentIndex]}
+      alt={`Resort view ${currentIndex + 1}: ${imageDescriptions[currentIndex]}`}
+    />
+  </div>
+</div>
+```
+
+### Accordion Sections
+```typescript
+<button
+  type="button"
+  aria-expanded={expandedSection === 'hotels'}
+  aria-controls="hotels-content"
+  aria-describedby="hotels-description"
+  onClick={() => toggleSection('hotels')}
+  className="section-header"
+>
+  <div className="header-content">
+    <Hotel aria-hidden="true" className="section-icon" />
+    <h3>Where to Stay</h3>
+  </div>
+  {expandedSection === 'hotels' ? <ChevronUp aria-hidden="true" /> : <ChevronDown aria-hidden="true" />}
+</button>
+
+<div
+  id="hotels-content"
+  role="region"
+  aria-labelledby="hotels-header"
+  className={`section-content ${expandedSection === 'hotels' ? 'expanded' : 'collapsed'}`}
+>
+  {/* Content */}
+</div>
+```
+
+## Color and Contrast
+
+### Color Contrast Requirements
+- **Normal text**: 4.5:1 minimum contrast ratio
+- **Large text** (18pt+ or 14pt+ bold): 3:1 minimum contrast ratio
+- **Interactive elements**: Meet contrast requirements in all states
+
+### Color Usage Guidelines
+```css
+/* Ensure sufficient contrast with background */
+.text-on-light {
+  color: var(--text-dark); /* #333333 - passes AA standards */
+}
+
+.text-on-dark {
+  color: var(--white); /* #ffffff - passes AA standards */
+}
+
+/* Don't rely solely on color for information */
+.error-state {
+  color: #d32f2f;
+  border-left: 4px solid #d32f2f; /* Visual indicator beyond color */
+}
+```
+
+## Screen Reader Support
+
+### Image Alt Text
+```typescript
+// Descriptive alt text for meaningful images
+<img 
+  src="/mbgoose1.jpg" 
+  alt="Aakanchha and Christopher embracing on the beach at sunset, with palm trees and ocean waves in the background"
+/>
+
+// Empty alt for decorative images
+<img 
+  src="/decorative-border.jpg" 
+  alt=""
+  role="presentation"
+/>
+```
+
+### Live Regions
+```typescript
+// For dynamic content updates
+<div aria-live="polite" aria-atomic="true">
+  {statusMessage}
+</div>
+
+// For urgent announcements
+<div aria-live="assertive" aria-atomic="true">
+  {errorMessage}
+</div>
+```
+
+### Skip Links
+```typescript
+// Add skip link for keyboard users
+<a 
+  href="#main-content" 
+  className="skip-link"
+  onFocus={(e) => e.target.scrollIntoView()}
+>
+  Skip to main content
+</a>
+
+<main id="main-content">
+  {/* Main content */}
+</main>
+```
+
+## Form Accessibility
+
+### Label Association
+```typescript
+<label htmlFor="guest-name">
+  Guest Name *
+</label>
+<input
+  id="guest-name"
+  type="text"
+  required
+  aria-describedby="name-error name-help"
+  aria-invalid={hasError}
+/>
+<div id="name-help">Enter your full name as it appears on your ID</div>
+{hasError && (
+  <div id="name-error" role="alert">
+    Name is required
+  </div>
+)}
+```
+
+## Motion and Animation
+
+### Reduced Motion Support
+```css
+@media (prefers-reduced-motion: reduce) {
+  .animated-element {
+    animation: none;
+    transition: none;
+  }
+  
+  .carousel {
+    scroll-behavior: auto;
+  }
+}
+```
+
+### Accessible Animations
+- **Avoid flashing content** (no more than 3 flashes per second)
+- **Provide controls** for auto-playing content
+- **Respect user preferences** for reduced motion
+
+## Testing Checklist
+
+### Manual Testing
+- [ ] Navigate entire site using only keyboard
+- [ ] Test with screen reader (NVDA, JAWS, VoiceOver)
+- [ ] Verify color contrast ratios
+- [ ] Test with 200% browser zoom
+- [ ] Validate HTML semantics
+
+### Automated Testing
+```typescript
+// Use axe-core for automated accessibility testing
+import { axe } from '@axe-core/react';
+
+if (process.env.NODE_ENV !== 'production') {
+  axe(React, ReactDOM, 1000);
+}
+```
+
+### Playwright Accessibility Testing
+```typescript
+// Include in Playwright test validation
+await page.accessibility.snapshot();
+await expect(page).toHaveNoViolations(); // Using axe-playwright
+```
+
+## Error Handling
+
+### Graceful Degradation
+```typescript
+// Provide fallback content for failed components
+<ErrorBoundary fallback={<div role="alert">Content temporarily unavailable</div>}>
+  <ImageGallery images={images} />
+</ErrorBoundary>
+```
+
+### User Feedback
+```typescript
+// Clear error messages with recovery instructions
+<div role="alert" aria-live="assertive">
+  <h4>Map failed to load</h4>
+  <p>
+    Please refresh the page or visit{' '}
+    <a href="https://maps.google.com">Google Maps</a> directly 
+    to view the resort location.
+  </p>
+</div>
+```
+
+These accessibility standards ensure the wedding website is usable by all guests, regardless of their abilities or assistive technologies used.

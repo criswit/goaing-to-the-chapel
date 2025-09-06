@@ -70,17 +70,6 @@ const Attire: React.FC = () => {
             </div>
           </div>
 
-          <div className="attire-note">
-            <h3>Color Palette</h3>
-            <p>We love colors! Feel free to wear vibrant hues.</p>
-            <p>Please avoid wearing all white or all black to the ceremony.</p>
-          </div>
-
-          <div className="attire-note">
-            <h3>Weather Note</h3>
-            <p>June in Goa is warm and humid (25-30°C / 77-86°F)</p>
-            <p>Light, breathable fabrics recommended. The reception is air-conditioned.</p>
-          </div>
         </motion.div>
       </div>
     </section>

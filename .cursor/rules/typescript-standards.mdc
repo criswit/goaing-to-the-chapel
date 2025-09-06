@@ -1,0 +1,416 @@
+---
+description: TypeScript development standards and conventions for the wedding website
+globs: frontend/src/**/*.ts,frontend/src/**/*.tsx
+---
+
+# TypeScript Development Standards
+
+## Strict TypeScript Configuration
+
+This project uses strict TypeScript settings. All code must comply with:
+- `strict: true`
+- `noImplicitAny: true`
+- `strictNullChecks: true`
+- `noImplicitReturns: true`
+
+## Interface and Type Definitions
+
+### Component Props Interfaces
+```typescript
+// Always define explicit interfaces for component props
+interface ComponentNameProps {
+  /** Brief description of the prop */
+  title: string;
+  /** Optional prop with default value */
+  showIcon?: boolean;
+  /** Array of items with specific structure */
+  items: Array<{
+    id: string;
+    label: string;
+    value: number;
+  }>;
+  /** Event handler with proper typing */
+  onItemSelect: (item: { id: string; label: string }) => void;
+}
+
+const ComponentName: React.FC<ComponentNameProps> = ({
+  title,
+  showIcon = true,
+  items,
+  onItemSelect
+}) => {
+  // Component implementation
+};
+```
+
+### Venue-Specific Interfaces
+```typescript
+// Create in src/types/venue.ts
+export interface HotelInfo {
+  name: string;
+  website: string;
+  address: string;
+  phone: string;
+}
+
+export interface ImageGalleryProps {
+  images: string[];
+  autoPlay?: boolean;
+  showDots?: boolean;
+  height?: string;
+  onImageChange?: (index: number) => void;
+}
+
+export interface GoogleMapProps {
+  coordinates: {
+    lat: number;
+    lng: number;
+  };
+  height?: string;
+  title?: string;
+  zoom?: number;
+}
+
+export interface CarouselState {
+  currentIndex: number;
+  isPlaying: boolean;
+  direction: 'next' | 'prev' | null;
+}
+```
+
+## Event Handler Typing
+
+### React Event Handlers
+```typescript
+// Button click events
+const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  event.preventDefault();
+  // Handle click
+};
+
+// Input change events
+const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const { value, name } = event.target;
+  // Handle change
+};
+
+// Keyboard events
+const handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
+  if (event.key === 'Enter' || event.key === ' ') {
+    event.preventDefault();
+    handleActivation();
+  }
+};
+
+// Touch events for carousel
+const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
+  const touch = event.touches[0];
+  setTouchStart({ x: touch.clientX, y: touch.clientY });
+};
+```
+
+### Custom Event Handlers
+```typescript
+// Custom callback types
+type ImageChangeHandler = (index: number, image: string) => void;
+type NavigationHandler = (direction: 'next' | 'prev') => void;
+type AccordionToggleHandler = (sectionId: string, isExpanded: boolean) => void;
+
+// Usage in component props
+interface ImageGalleryProps {
+  onImageChange?: ImageChangeHandler;
+  onNavigate?: NavigationHandler;
+}
+```
+
+## State Management Typing
+
+### useState Hook Typing
+```typescript
+// Simple state
+const [isExpanded, setIsExpanded] = useState<boolean>(false);
+const [currentIndex, setCurrentIndex] = useState<number>(0);
+const [selectedItem, setSelectedItem] = useState<string | null>(null);
+
+// Complex state objects
+interface CarouselState {
+  currentIndex: number;
+  isPlaying: boolean;
+  direction: 'next' | 'prev' | null;
+}
+
+const [carouselState, setCarouselState] = useState<CarouselState>({
+  currentIndex: 0,
+  isPlaying: false,
+  direction: null
+});
+
+// State updates with proper typing
+const updateCarousel = (updates: Partial<CarouselState>) => {
+  setCarouselState(prev => ({ ...prev, ...updates }));
+};
+```
+
+### useEffect Dependencies
+```typescript
+// Properly typed useEffect dependencies
+useEffect(() => {
+  const handleResize = () => {
+    // Handle resize
+  };
+  
+  window.addEventListener('resize', handleResize);
+  return () => window.removeEventListener('resize', handleResize);
+}, []); // Empty dependency array
+
+useEffect(() => {
+  // Effect that depends on state
+  if (isPlaying && images.length > 1) {
+    const interval = setInterval(handleNext, 3000);
+    return () => clearInterval(interval);
+  }
+}, [isPlaying, images.length, handleNext]); // Properly listed dependencies
+```
+
+## Utility Type Usage
+
+### Common Utility Types
+```typescript
+// Pick specific properties from interface
+type HotelBasicInfo = Pick<HotelInfo, 'name' | 'address'>;
+
+// Make all properties optional
+type PartialHotelInfo = Partial<HotelInfo>;
+
+// Make specific properties required
+type RequiredImageGallery = Required<Pick<ImageGalleryProps, 'images' | 'onImageChange'>>;
+
+// Extract values from union types
+type AccordionSection = 'hotels' | 'transport' | 'explore' | 'health';
+type AccordionState = Record<AccordionSection, boolean>;
+```
+
+## Generic Type Definitions
+
+### Reusable Generic Interfaces
+```typescript
+// Generic list component interface
+interface ListProps<T> {
+  items: T[];
+  renderItem: (item: T, index: number) => React.ReactNode;
+  keyExtractor: (item: T) => string;
+  onItemSelect?: (item: T) => void;
+}
+
+// Generic form field interface
+interface FormFieldProps<T> {
+  value: T;
+  onChange: (value: T) => void;
+  validator?: (value: T) => string | null;
+  placeholder?: string;
+}
+
+// Usage with specific types
+const ImageList: React.FC<ListProps<string>> = ({ items, renderItem, keyExtractor }) => {
+  // Implementation
+};
+```
+
+## Error Handling Types
+
+### Error Boundary Types
+```typescript
+interface ErrorInfo {
+  componentStack: string;
+}
+
+interface ErrorBoundaryState {
+  hasError: boolean;
+  error: Error | null;
+  errorInfo: ErrorInfo | null;
+}
+
+class ComponentErrorBoundary extends React.Component<
+  React.PropsWithChildren<{}>,
+  ErrorBoundaryState
+> {
+  constructor(props: React.PropsWithChildren<{}>) {
+    super(props);
+    this.state = { hasError: false, error: null, errorInfo: null };
+  }
+  
+  static getDerivedStateFromError(error: Error): Partial<ErrorBoundaryState> {
+    return { hasError: true, error };
+  }
+}
+```
+
+### API Response Types
+```typescript
+// API response wrapper types
+interface ApiResponse<T> {
+  data: T;
+  success: boolean;
+  message?: string;
+}
+
+interface ApiError {
+  code: string;
+  message: string;
+  details?: Record<string, any>;
+}
+
+// Usage in async functions
+const fetchHotelData = async (): Promise<ApiResponse<HotelInfo> | ApiError> => {
+  try {
+    const response = await fetch('/api/hotel-info');
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+    return await response.json() as ApiResponse<HotelInfo>;
+  } catch (error) {
+    return {
+      code: 'FETCH_ERROR',
+      message: error instanceof Error ? error.message : 'Unknown error'
+    };
+  }
+};
+```
+
+## JSDoc Comments
+
+### Interface Documentation
+```typescript
+/**
+ * Configuration for the image gallery carousel component
+ */
+interface ImageGalleryProps {
+  /** Array of image URLs to display in the carousel */
+  images: string[];
+  
+  /** Whether to automatically advance slides (default: false) */
+  autoPlay?: boolean;
+  
+  /** Show dot indicators for navigation (default: true) */
+  showDots?: boolean;
+  
+  /** Fixed height for the gallery container (default: '400px') */
+  height?: string;
+  
+  /** 
+   * Callback fired when the current image changes
+   * @param index - Zero-based index of the new current image
+   * @param image - URL of the new current image
+   */
+  onImageChange?: (index: number, image: string) => void;
+}
+```
+
+### Function Documentation
+```typescript
+/**
+ * Validates hotel information for completeness and format
+ * @param hotelInfo - Hotel information object to validate
+ * @returns Validation result with any error messages
+ */
+const validateHotelInfo = (hotelInfo: Partial<HotelInfo>): {
+  isValid: boolean;
+  errors: string[];
+} => {
+  const errors: string[] = [];
+  
+  if (!hotelInfo.name?.trim()) {
+    errors.push('Hotel name is required');
+  }
+  
+  if (!hotelInfo.website || !isValidUrl(hotelInfo.website)) {
+    errors.push('Valid website URL is required');
+  }
+  
+  return {
+    isValid: errors.length === 0,
+    errors
+  };
+};
+```
+
+## Import/Export Conventions
+
+### Named Exports for Utilities
+```typescript
+// src/utils/validation.ts
+export const validateEmail = (email: string): boolean => { /* ... */ };
+export const validatePhone = (phone: string): boolean => { /* ... */ };
+export const formatDate = (date: Date): string => { /* ... */ };
+
+// src/types/index.ts
+export type { HotelInfo, ImageGalleryProps, GoogleMapProps } from './venue';
+export type { FormFieldProps, ApiResponse } from './common';
+```
+
+### Default Exports for Components
+```typescript
+// Component files use default exports
+import React from 'react';
+import type { ImageGalleryProps } from '../types/venue';
+
+const ImageGallery: React.FC<ImageGalleryProps> = (props) => {
+  // Implementation
+};
+
+export default ImageGallery;
+```
+
+## Type Guards and Assertions
+
+### Type Guard Functions
+```typescript
+// Type guard for runtime type checking
+const isHotelInfo = (obj: any): obj is HotelInfo => {
+  return (
+    typeof obj === 'object' &&
+    obj !== null &&
+    typeof obj.name === 'string' &&
+    typeof obj.website === 'string' &&
+    typeof obj.address === 'string' &&
+    typeof obj.phone === 'string'
+  );
+};
+
+// Usage in components
+const processHotelData = (data: unknown) => {
+  if (isHotelInfo(data)) {
+    // TypeScript knows data is HotelInfo here
+    console.log(data.name); // ✅ Type-safe access
+  }
+};
+```
+
+## Forbidden Patterns
+
+### Never Use `any`
+```typescript
+// ❌ Never do this
+const handleData = (data: any) => {
+  return data.someProperty;
+};
+
+// ✅ Use proper typing instead
+const handleData = <T extends Record<string, unknown>>(data: T) => {
+  return data;
+};
+```
+
+### Avoid Non-null Assertions
+```typescript
+// ❌ Avoid non-null assertions
+const element = document.getElementById('my-element')!;
+
+// ✅ Use proper null checks
+const element = document.getElementById('my-element');
+if (element) {
+  // Safe to use element here
+}
+```
+
+These TypeScript standards ensure type safety, maintainability, and excellent developer experience throughout the wedding website codebase.

@@ -69,6 +69,7 @@ const Travel: React.FC = () => {
           {/* Getting to Goa - Standalone Section */}
           <motion.div
             className="standalone-section getting-to-goa"
+            data-section="getting-to-goa-section"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -368,7 +369,7 @@ const Travel: React.FC = () => {
                 </div>
 
                 {/* Booking Strategy Panel */}
-                <div className="travel-panel">
+                <div className="travel-panel" data-section="booking-strategy-section">
                   <div className="panel-header">
                     <Calendar className="panel-icon" />
                     <h3>Booking Strategy & Tips</h3>
@@ -483,6 +484,7 @@ const Travel: React.FC = () => {
           {/* Visa & Documentation - Standalone Section */}
           <motion.div
             className="standalone-section visa-documentation"
+            data-section="visa-documentation-section"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -598,6 +600,7 @@ const Travel: React.FC = () => {
           {/* Where You Are Staying - Standalone Section */}
           <motion.div
             className="standalone-section where-you-are-staying"
+            data-section="accommodations-section"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -634,7 +637,7 @@ const Travel: React.FC = () => {
           </motion.div>
 
           {/* Being Here Column */}
-          <div className="travel-column being-here">
+          <div className="travel-column being-here" data-section="being-here-section">
             <h3 className="column-title">Being Here</h3>
 
             {/* Local Transportation */}

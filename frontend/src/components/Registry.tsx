@@ -101,8 +101,10 @@ const Registry: React.FC = () => {
             <p>
               <strong>For our friends traveling from afar:</strong>
               <br />
-              Please don't feel obligated to bring a physical gift. Your journey to celebrate with
-              us means the world!
+              Please don't feel obligated to bring a gift. Your willingness to go half way across the world to celebrate with us is the greatest gift of all.
+              <br/>
+              Syyyyke !!!! We need your money. GoFundMe (link above) or GTFO.
+              <br/>
             </p>
           </div>
         </motion.div>

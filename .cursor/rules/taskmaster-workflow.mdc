@@ -1,0 +1,108 @@
+---
+description: Taskmaster project management workflow and conventions for the wedding website
+alwaysApply: true
+---
+
+# Taskmaster Workflow Guidelines
+
+## Project Structure
+
+This wedding website project uses Taskmaster for comprehensive task management with tagged contexts:
+
+- **Master tag**: Main project tasks and infrastructure
+- **Venue-accordion tag**: Specific venue redesign implementation
+- **Additional tags**: Created as needed for feature branches or major initiatives
+
+## Current Active Context
+
+The project is currently working within the `venue-accordion` tag context, which contains:
+- 11 main tasks with detailed subtasks
+- Venue accordion redesign implementation
+- WIP content updates for travel sections
+- Heartfelt note from bride and groom addition
+
+## Taskmaster Integration
+
+### Task Files Location
+- **Tasks definition**: `.taskmaster/tasks/tasks.json`
+- **Individual task files**: `.taskmaster/tasks/` directory
+- **Project documentation**: `.taskmaster/docs/` directory
+- **Complexity reports**: `.taskmaster/reports/` directory
+
+### Task Status Management
+
+Update task statuses as work progresses:
+- `pending` → `in-progress` → `done`
+- Use `set-status` command to update task completion
+- Log progress with `update-subtask` for detailed implementation notes
+
+### Development Workflow
+
+1. **Check next task**: Use `next-task` to identify what to work on
+2. **Review task details**: Use `show <id>` for comprehensive task information
+3. **Start implementation**: Set status to `in-progress`
+4. **Log progress**: Use `update-subtask` to document findings and decisions
+5. **Complete validation**: Use Playwright MCP for testing (required per CLAUDE.md)
+6. **Mark complete**: Set status to `done` after validation
+
+## Playwright Validation Requirement
+
+Per [CLAUDE.md](mdc:CLAUDE.md) rules:
+- **MUST validate all development work** using Playwright MCP
+- Browser automation testing is required before considering tasks complete
+- Test responsive design, functionality, and user interactions
+- Document test results in task updates
+
+## Task Dependencies
+
+The venue accordion project has clear dependency chains:
+- **Components must be created** before integration (Tasks 1-3 → Task 5)
+- **Styling follows integration** (Task 5 → Task 6)
+- **TypeScript interfaces support all components** (Tasks 1-3 → Task 7)
+- **Accessibility comes after styling** (Task 6 → Task 8)
+
+## Implementation Priority
+
+Current recommended implementation order:
+1. **Task 11**: Heartfelt note (high priority, no dependencies)
+2. **Task 9**: WIP content updates (medium priority, no dependencies)
+3. **Task 1**: HotelInfoHeader component (foundation for venue redesign)
+4. **Task 2**: ImageGallery component (complex, start early)
+5. **Task 3**: GoogleMapWidget component
+6. **Continue with dependency chain**
+
+## Research Integration
+
+Many tasks include research flags for:
+- Current best practices for React components
+- Accessibility compliance standards (WCAG 2.1 AA)
+- Performance optimization techniques
+- Modern CSS and animation approaches
+
+## Quality Standards
+
+All implementation must meet:
+- **TypeScript strict compliance** (no `any` types)
+- **Accessibility requirements** (ARIA labels, keyboard navigation)
+- **Responsive design** (mobile-first approach)
+- **Performance optimization** (lazy loading, error boundaries)
+- **Consistent styling** (design system variables)
+- **Playwright validation** (browser automation testing)
+
+## Progress Tracking
+
+Monitor overall project completion:
+- **Venue accordion**: 11 tasks with 45+ subtasks
+- **Completion percentage**: Track via task status updates
+- **Dependencies**: Ensure prerequisite tasks complete before dependents
+- **Testing validation**: All tasks require Playwright confirmation
+
+## Documentation Updates
+
+As implementation progresses:
+- Update task details with findings and decisions
+- Document any deviations from original specifications
+- Log technical challenges and solutions
+- Maintain comprehensive implementation notes
+
+This workflow ensures systematic, high-quality implementation of the wedding website features while maintaining proper project management discipline.

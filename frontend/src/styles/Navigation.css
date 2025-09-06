@@ -98,6 +98,29 @@
   width: 100%;
 }
 
+.definitions-btn {
+  background: var(--secondary-color) !important;
+  color: white !important;
+  padding: 0.6rem 1rem !important;
+  border-radius: 20px !important;
+  font-weight: 500;
+  display: flex !important;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  text-transform: none !important;
+}
+
+.definitions-btn:hover {
+  background: var(--primary-color) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(212, 165, 116, 0.3);
+}
+
+.definitions-btn::after {
+  display: none !important;
+}
+
 .rsvp-btn {
   background: var(--primary-color) !important;
   color: white !important;
@@ -108,6 +131,18 @@
 .rsvp-btn:hover {
   background: var(--secondary-color) !important;
   transform: translateY(-2px);
+}
+
+/* Travel Dropdown Integration */
+.nav-dropdown-item {
+  position: relative;
+}
+
+.nav-dropdown-item .travel-dropdown-trigger {
+  font-family: inherit;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.9rem;
 }
 
 @media (max-width: 768px) {

@@ -5,11 +5,12 @@ import Hero from './components/Hero';
 import HeartfeltNote from './components/HeartfeltNote';
 import Travel from './components/Travel';
 import Events from './components/Events';
-import DefinitionsQuickReference from './components/DefinitionsQuickReference';
 import Attire from './components/Attire';
 import Registry from './components/Registry';
 import FAQ from './components/FAQ';
 import RSVP from './components/RSVP';
+import CulturalCompass from './components/CulturalCompass/CulturalCompass';
+import FloatingTraditionsButton from './components/FloatingTraditionsButton';
 import './App.css';
 
 // Home page component that displays all sections
@@ -20,7 +21,6 @@ function Home() {
       <HeartfeltNote />
       <Travel />
       <Events />
-      <DefinitionsQuickReference />
       <Attire />
       <Registry />
       <FAQ />
@@ -42,6 +42,8 @@ function App() {
           <Route path="/registry" element={<Registry />} />
           <Route path="/faq" element={<FAQ />} />
         </Routes>
+        <CulturalCompass />
+        <FloatingTraditionsButton />
       </div>
     </Router>
   );

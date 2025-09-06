@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
+import TravelDropdown from './TravelDropdown';
 import '../styles/Navigation.css';
 
 const Navigation: React.FC = () => {
@@ -22,7 +23,7 @@ const Navigation: React.FC = () => {
     <nav className="navigation">
       <div className="nav-container">
         <button className="nav-logo" onClick={scrollToTop} aria-label="Scroll to top of page">
-          <h2>AK + CMW</h2>
+          <h2>MAPLE LEAF 4 LYFE</h2>
         </button>
 
         <button className="mobile-toggle" onClick={() => setIsOpen(!isOpen)}>
@@ -30,8 +31,8 @@ const Navigation: React.FC = () => {
         </button>
 
         <ul className={`nav-menu ${isOpen ? 'active' : ''}`}>
-          <li>
-            <button onClick={() => scrollToSection('travel')}>Travel</button>
+          <li className="nav-dropdown-item">
+            <TravelDropdown onNavigate={() => setIsOpen(false)} />
           </li>
           <li>
             <button onClick={() => scrollToSection('events')}>Events</button>

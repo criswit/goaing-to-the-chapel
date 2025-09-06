@@ -93,35 +93,6 @@ const FAQ: React.FC = () => {
           Frequently Asked Questions
         </motion.h2>
 
-        {/* Table of Contents */}
-        <motion.div
-          className="faq-toc"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-        >
-          <div className="faq-toc-header">
-            <List size={18} />
-            <h3>Quick Navigation</h3>
-          </div>
-          <div className="faq-toc-content">
-            {tocCategories.map((category, categoryIndex) => (
-              <div key={categoryIndex} className="faq-toc-category">
-                <h4 className="faq-toc-category-title">{category.name}</h4>
-                <ul className="faq-toc-items">
-                  {category.items.map((item, itemIndex) => (
-                    <li key={itemIndex}>
-                      <button className="faq-toc-item" onClick={() => scrollToFAQ(item.index)}>
-                        {item.question}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </motion.div>
 
         <div className="faq-list">
           {faqs.map((faq, index) => (
