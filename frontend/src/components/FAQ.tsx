@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, List } from 'lucide-react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import { motion } from 'framer-motion';
 import '../styles/FAQ.css';
 
@@ -9,10 +9,10 @@ interface FAQItem {
   category: string;
 }
 
-interface TOCCategory {
-  name: string;
-  items: { question: string; index: number }[];
-}
+// interface TOCCategory {
+//   name: string;
+//   items: { question: string; index: number }[];
+// }
 
 const FAQ: React.FC = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -57,28 +57,7 @@ const FAQ: React.FC = () => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
-  const scrollToFAQ = (index: number) => {
-    const element = document.getElementById(`faq-item-${index}`);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      // Auto-open the FAQ item after scrolling
-      setTimeout(() => setOpenIndex(index), 500);
-    }
-  };
-
-  // Group FAQs by category for TOC
-  const tocCategories: TOCCategory[] = faqs.reduce((acc, faq, index) => {
-    const existingCategory = acc.find((cat) => cat.name === faq.category);
-    if (existingCategory) {
-      existingCategory.items.push({ question: faq.question, index });
-    } else {
-      acc.push({
-        name: faq.category,
-        items: [{ question: faq.question, index }],
-      });
-    }
-    return acc;
-  }, [] as TOCCategory[]);
+  // Group FAQs by category for TOC (kept for potential future use)
 
   return (
     <section className="faq" id="faq">

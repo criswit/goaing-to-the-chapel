@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BookOpen, X } from 'lucide-react';
+import { BookOpen } from 'lucide-react';
 import DefinitionsPopup from './DefinitionsPopup';
 import '../styles/FloatingTraditionsButton.css';
 

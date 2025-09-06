@@ -98,7 +98,7 @@ export const useScrollSpy = (events: CulturalEvent[]): ScrollSpyResult => {
     
     lastScrollTop.current = currentScrollTop;
     lastScrollTime.current = currentTime;
-  }, [activeSection, events, isInEventsSection]);
+  }, [activeSection, isInEventsSection]);
 
   useEffect(() => {
     // Debounce function

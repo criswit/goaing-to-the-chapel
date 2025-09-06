@@ -259,7 +259,6 @@ const CulturalCompass: React.FC = () => {
       }}
       role="navigation"
       aria-label="Wedding events timeline navigation"
-      aria-expanded={state.visibility !== 'dormant'}
     >
       <AnimatePresence mode="wait">
         {state.visibility === 'dormant' && (

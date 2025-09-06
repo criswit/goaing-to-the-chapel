@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ResponsiveConfig, ResponsiveMode } from './types';
+import { ResponsiveConfig } from './types';
 
 export const useResponsiveMode = (): ResponsiveConfig => {
   const [config, setConfig] = useState<ResponsiveConfig>({
