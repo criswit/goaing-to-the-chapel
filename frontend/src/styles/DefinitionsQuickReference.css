@@ -1,6 +1,6 @@
 .definitions-reference {
   padding: 80px 0;
-  background: linear-gradient(180deg, var(--background) 0%, #FFF8F3 50%, var(--background) 100%);
+  background: linear-gradient(180deg, var(--background) 0%, #fff8f3 50%, var(--background) 100%);
   position: relative;
 }
 
@@ -196,7 +196,7 @@
 
 .term-badge.western {
   background: rgba(232, 180, 184, 0.15);
-  color: #C67478;
+  color: #c67478;
 }
 
 .term-definition {

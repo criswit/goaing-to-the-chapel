@@ -2,6 +2,120 @@
   background: var(--white);
 }
 
+/* Table of Contents Styles */
+.faq-toc {
+  background: var(--background);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 3rem;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid rgba(212, 165, 116, 0.2);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.faq-toc-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--secondary-color);
+}
+
+.faq-toc-header svg {
+  color: var(--primary-color);
+  flex-shrink: 0;
+}
+
+.faq-toc-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: var(--text-dark);
+  font-weight: 600;
+  font-family: var(--font-serif);
+}
+
+.faq-toc-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.faq-toc-category {
+  background: var(--white);
+  border-radius: 8px;
+  padding: 1.25rem;
+  border: 1px solid rgba(212, 165, 116, 0.15);
+}
+
+.faq-toc-category-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin: 0 0 1rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(212, 165, 116, 0.2);
+  font-family: var(--font-serif);
+}
+
+.faq-toc-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.faq-toc-items li {
+  margin-bottom: 0.5rem;
+}
+
+.faq-toc-item {
+  background: none;
+  border: none;
+  color: var(--text-light);
+  font-size: 0.9rem;
+  text-align: left;
+  cursor: pointer;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  width: 100%;
+  transition: all 0.3s ease;
+  line-height: 1.4;
+}
+
+.faq-toc-item:hover {
+  background: rgba(212, 165, 116, 0.1);
+  color: var(--primary-color);
+  transform: translateX(4px);
+}
+
+.faq-toc-item:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* Responsive adjustments for TOC */
+@media (max-width: 768px) {
+  .faq-toc {
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .faq-toc-content {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .faq-toc-category {
+    padding: 1rem;
+  }
+
+  .faq-toc-header h3 {
+    font-size: 1.1rem;
+  }
+}
+
 .faq-list {
   max-width: 800px;
   margin: 0 auto 3rem;
@@ -44,7 +158,7 @@
   transition: transform 0.3s ease;
 }
 
-.faq-question[aria-expanded="true"] svg {
+.faq-question[aria-expanded='true'] svg {
   transform: rotate(180deg);
 }
 

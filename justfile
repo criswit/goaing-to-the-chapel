@@ -148,7 +148,7 @@ frontend-lint:
 
 # Format frontend code
 frontend-format:
-    @echo "Frontend formatting not configured yet"
+    cd frontend && /home/christopher/.local/share/mise/installs/node/22.18.0/bin/npx prettier --write "src/**/*.{js,jsx,ts,tsx,json,css,md}"
 
 # Install frontend dependencies
 frontend-install:

@@ -7,7 +7,7 @@ const Registry: React.FC = () => {
   return (
     <section className="registry" id="registry">
       <div className="container">
-        <motion.h2 
+        <motion.h2
           className="section-title"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -17,7 +17,7 @@ const Registry: React.FC = () => {
           Gift Registry
         </motion.h2>
 
-        <motion.div 
+        <motion.div
           className="registry-content"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -30,13 +30,13 @@ const Registry: React.FC = () => {
               Your presence at our wedding is the greatest gift of all!
             </p>
             <p>
-              If you'd like to help us start our new life together, 
-              we've registered at a few of our favorite stores.
+              If you'd like to help us start our new life together, we've registered at a few of our
+              favorite stores.
             </p>
           </div>
 
           <div className="registry-grid">
-            <motion.div 
+            <motion.div
               className="registry-card"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -46,12 +46,17 @@ const Registry: React.FC = () => {
               <Home className="registry-icon" />
               <h3>Crate & Barrel</h3>
               <p>Home essentials and decor</p>
-              <a href="https://www.crateandbarrel.com" className="registry-link" target="_blank" rel="noopener noreferrer">
+              <a
+                href="https://www.crateandbarrel.com"
+                className="registry-link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 View Registry
               </a>
             </motion.div>
 
-            <motion.div 
+            <motion.div
               className="registry-card"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -61,12 +66,17 @@ const Registry: React.FC = () => {
               <Gift className="registry-icon" />
               <h3>relentless.com</h3>
               <p>help me help my employer</p>
-              <a href="https://www.amazon.com/hz/wishlist/ls/2RLIFOTPH7TCT?ref_=wl_share" className="registry-link" target="_blank" rel="noopener noreferrer">
+              <a
+                href="https://www.amazon.com/hz/wishlist/ls/2RLIFOTPH7TCT?ref_=wl_share"
+                className="registry-link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 View Registry
               </a>
             </motion.div>
 
-            <motion.div 
+            <motion.div
               className="registry-card"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -76,7 +86,12 @@ const Registry: React.FC = () => {
               <Heart className="registry-icon" />
               <h3>We are so poor!</h3>
               <p>Help us pay for this extremely expensive wedding!</p>
-              <a href="https://gofund.me/e3bec327b" className="registry-link" target="_blank" rel="noopener noreferrer">
+              <a
+                href="https://gofund.me/e3bec327b"
+                className="registry-link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Contribute
               </a>
             </motion.div>
@@ -84,9 +99,10 @@ const Registry: React.FC = () => {
 
           <div className="registry-note">
             <p>
-              <strong>For our friends traveling from afar:</strong><br />
-              Please don't feel obligated to bring a physical gift. 
-              Your journey to celebrate with us means the world!
+              <strong>For our friends traveling from afar:</strong>
+              <br />
+              Please don't feel obligated to bring a physical gift. Your journey to celebrate with
+              us means the world!
             </p>
           </div>
         </motion.div>

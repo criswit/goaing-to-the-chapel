@@ -3,7 +3,7 @@
 .heartfelt-note {
   position: relative;
   padding: 100px 20px;
-  background: linear-gradient(135deg, #FDFBF7 0%, #FFF8F3 50%, #FDFBF7 100%);
+  background: linear-gradient(135deg, #fdfbf7 0%, #fff8f3 50%, #fdfbf7 100%);
   overflow: hidden;
 }
 
@@ -14,11 +14,12 @@
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, 
-    transparent 0%, 
-    var(--secondary-color) 20%, 
-    var(--primary-color) 50%, 
-    var(--secondary-color) 80%, 
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--secondary-color) 20%,
+    var(--primary-color) 50%,
+    var(--secondary-color) 80%,
     transparent 100%
   );
   opacity: 0.3;
@@ -31,11 +32,12 @@
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, 
-    transparent 0%, 
-    var(--secondary-color) 20%, 
-    var(--primary-color) 50%, 
-    var(--secondary-color) 80%, 
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--secondary-color) 20%,
+    var(--primary-color) 50%,
+    var(--secondary-color) 80%,
     transparent 100%
   );
   opacity: 0.3;
@@ -73,7 +75,8 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
     opacity: 0.7;
   }
@@ -121,11 +124,7 @@
   transform: translateX(-50%);
   width: 100px;
   height: 1px;
-  background: linear-gradient(90deg, 
-    transparent 0%, 
-    var(--secondary-color) 50%, 
-    transparent 100%
-  );
+  background: linear-gradient(90deg, transparent 0%, var(--secondary-color) 50%, transparent 100%);
 }
 
 .signature-text {
@@ -171,10 +170,10 @@
 
 /* Decorative background pattern */
 .heartfelt-note {
-  background-image: 
+  background-image:
     radial-gradient(circle at 20% 50%, rgba(212, 165, 116, 0.05) 0%, transparent 50%),
     radial-gradient(circle at 80% 50%, rgba(232, 180, 184, 0.05) 0%, transparent 50%),
-    linear-gradient(135deg, #FDFBF7 0%, #FFF8F3 50%, #FDFBF7 100%);
+    linear-gradient(135deg, #fdfbf7 0%, #fff8f3 50%, #fdfbf7 100%);
 }
 
 /* Mobile Responsiveness */
@@ -244,7 +243,7 @@
     color: var(--text-dark);
     font-weight: 400;
   }
-  
+
   .heartfelt-title,
   .bride-name,
   .groom-name {

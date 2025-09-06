@@ -5,14 +5,14 @@
 }
 
 :root {
-  --primary-color: #8B7355;
-  --secondary-color: #D4A574;
-  --accent-color: #E8B4B8;
+  --primary-color: #8b7355;
+  --secondary-color: #d4a574;
+  --accent-color: #e8b4b8;
   --text-dark: #333333;
   --text-light: #666666;
-  --background: #FDFBF7;
-  --white: #FFFFFF;
-  --border: #E5E5E5;
+  --background: #fdfbf7;
+  --white: #ffffff;
+  --border: #e5e5e5;
 }
 
 body {
@@ -50,7 +50,7 @@ section {
   .section-title {
     font-size: 2rem;
   }
-  
+
   section {
     padding: 60px 0;
   }

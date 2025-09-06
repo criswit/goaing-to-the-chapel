@@ -6,7 +6,7 @@
   align-items: center;
   position: relative;
   padding-top: 80px;
-  background: linear-gradient(135deg, #FDFBF7 0%, #FFF5E6 100%);
+  background: linear-gradient(135deg, #fdfbf7 0%, #fff5e6 100%);
 }
 
 .hero-content {
@@ -121,7 +121,11 @@
 }
 
 @keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
     transform: translateX(-50%) translateY(0);
   }
   40% {

@@ -21,7 +21,7 @@ interface HotelInfoHeaderProps {
   className?: string;
 }
 
-const HotelInfoHeader: React.FC<HotelInfoHeaderProps> = ({ 
+const HotelInfoHeader: React.FC<HotelInfoHeaderProps> = ({
   hotelInfo = {
     name: 'Zuri White Sands, Goa Resort & Casino',
     website: 'https://thezurihotels.com/beach-resorts-in-goa',
@@ -30,18 +30,18 @@ const HotelInfoHeader: React.FC<HotelInfoHeaderProps> = ({
       city: 'Salcete',
       state: 'South Goa, Goa',
       postalCode: '403 721',
-      country: 'INDIA'
+      country: 'INDIA',
     },
-    phone: '+91 0832 272 7272'
+    phone: '+91 0832 272 7272',
   },
-  className = ''
+  className = '',
 }) => {
   const formatAddress = (address: HotelInfo['address']): string => {
     return `${address.street}, ${address.city}, ${address.state} ${address.postalCode}, ${address.country}`;
   };
 
   return (
-    <motion.header 
+    <motion.header
       className={`hotel-info-header ${className}`}
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -52,7 +52,7 @@ const HotelInfoHeader: React.FC<HotelInfoHeaderProps> = ({
       <div className="hotel-info-container">
         <div className="hotel-info-content">
           <h2 className="hotel-name">
-            <a 
+            <a
               href={hotelInfo.website}
               target="_blank"
               rel="noopener noreferrer"
@@ -63,18 +63,16 @@ const HotelInfoHeader: React.FC<HotelInfoHeaderProps> = ({
               {hotelInfo.name}
             </a>
           </h2>
-          
+
           <div className="hotel-details">
             <div className="hotel-address" aria-label="Hotel address">
               <MapPin className="icon" aria-hidden="true" />
-              <address className="address-text">
-                {formatAddress(hotelInfo.address)}
-              </address>
+              <address className="address-text">{formatAddress(hotelInfo.address)}</address>
             </div>
-            
+
             <div className="hotel-phone" aria-label="Hotel phone number">
               <Phone className="icon" aria-hidden="true" />
-              <a 
+              <a
                 href={`tel:${hotelInfo.phone.replace(/\s/g, '')}`}
                 className="phone-link"
                 aria-label={`Call hotel at ${hotelInfo.phone}`}

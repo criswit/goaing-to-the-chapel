@@ -18,15 +18,17 @@ const RSVP: React.FC = () => {
     attending: '',
     guests: '1',
     dietary: '',
-    message: ''
+    message: '',
   });
 
   const [submitted, setSubmitted] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -41,7 +43,7 @@ const RSVP: React.FC = () => {
     return (
       <section className="rsvp" id="rsvp">
         <div className="container">
-          <motion.div 
+          <motion.div
             className="rsvp-success"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -59,7 +61,7 @@ const RSVP: React.FC = () => {
   return (
     <section className="rsvp" id="rsvp">
       <div className="container">
-        <motion.h2 
+        <motion.h2
           className="section-title"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -69,7 +71,7 @@ const RSVP: React.FC = () => {
           RSVP
         </motion.h2>
 
-        <motion.div 
+        <motion.div
           className="rsvp-intro"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -79,7 +81,7 @@ const RSVP: React.FC = () => {
           <p>Please let us know if you can join us by May 1, 2024</p>
         </motion.div>
 
-        <motion.form 
+        <motion.form
           className="rsvp-form"
           onSubmit={handleSubmit}
           initial={{ opacity: 0, y: 20 }}

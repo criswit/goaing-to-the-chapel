@@ -1368,5 +1368,302 @@
       "updated": "2025-09-06T10:14:13.324Z",
       "description": "Tasks for venue-accordion context"
     }
+  },
+  "travel-layout-redesign": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Redesign Stuff to Know Section with Responsive Three-Column Grid Layout",
+        "description": "Transform the current Stuff to Know section from accordion-heavy layout to responsive three-column grid system that improves space utilization and information hierarchy across all device sizes.",
+        "details": "Implementation approach:\n\n1. **CSS Grid Layout Structure**:\n   - Create responsive CSS Grid with `grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))`\n   - Set container max-width to 1200px with proper centering\n   - Use CSS custom properties for breakpoint management\n\n2. **Column Organization**:\n   - Column 1 (Getting Here): Group 'Getting to Goa' and 'Visa & Documentation'\n   - Column 2 (Being Here): Promote 'Where You Are Staying' to full section, include 'Getting Around' and 'Explore Goa'\n   - Column 3 (Essential Info): Consolidate 'Cultural Etiquette', 'Health & Safety', 'Money & Communication'\n\n3. **Responsive Breakpoints**:\n   - Mobile (< 768px): Single column layout with vertical stacking\n   - Tablet (768px - 1023px): Two-column layout with strategic content distribution\n   - Desktop (≥ 1024px): Full three-column layout\n\n4. **Content Hierarchy Improvements**:\n   - Convert key information from accordion to always-visible cards\n   - Maintain accordion functionality for detailed/secondary information\n   - Implement progressive disclosure with expandable sections\n   - Use semantic HTML5 structure with proper heading hierarchy\n\n5. **Technical Implementation**:\n   - Use CSS Container Queries for component-level responsiveness\n   - Implement smooth transitions for layout changes\n   - Ensure accessibility with proper ARIA labels and keyboard navigation\n   - Optimize for performance with CSS-only solutions where possible\n\n6. **Modern CSS Features**:\n   - CSS Grid with `grid-template-areas` for semantic layout definition\n   - CSS Custom Properties for consistent spacing and theming\n   - CSS Logical Properties for internationalization support\n   - `gap` property for consistent spacing between grid items",
+        "testStrategy": "1. **Responsive Testing**: Verify layout behavior across all breakpoints (mobile 320px-767px, tablet 768px-1023px, desktop 1024px+) using browser dev tools and real devices\n\n2. **Content Verification**: Ensure all original content is properly organized into correct columns and no information is lost during restructuring\n\n3. **Accordion Functionality**: Test that existing accordion components still work correctly within the new grid layout, including expand/collapse animations\n\n4. **Cross-browser Compatibility**: Test in Chrome, Firefox, Safari, and Edge to ensure CSS Grid support and consistent rendering\n\n5. **Accessibility Testing**: \n   - Screen reader navigation through reorganized content\n   - Keyboard-only navigation for accordion elements\n   - Color contrast ratios meet WCAG standards\n   - Focus indicators are visible and logical\n\n6. **Performance Testing**: Measure layout shift (CLS) during responsive transitions and ensure smooth animations without jank\n\n7. **Visual Regression**: Compare before/after screenshots at multiple breakpoints to ensure design improvements are achieved\n\n8. **Content Hierarchy**: Verify important information is more prominent and accessible without excessive scrolling or clicking\n\n9. **Space Utilization**: Confirm reduced white space on wider screens and better content density without compromising readability",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "high",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement CSS Grid-based Three-Column Layout Foundation",
+            "description": "Create the core CSS Grid infrastructure for the responsive three-column layout, replacing the current two-column system with a flexible grid that adapts from single column on mobile to three columns on desktop.",
+            "dependencies": [],
+            "details": "Replace the existing .travel-columns grid layout with a responsive CSS Grid system using grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)). Update the CSS container max-width to 1200px. Add CSS custom properties for breakpoint management (--mobile-max: 767px, --tablet-min: 768px, --desktop-min: 1024px). Implement grid-template-areas for semantic layout definition with areas named 'getting-here', 'being-here', and 'essential-info'. Ensure smooth transitions between layout states using CSS transitions.",
+            "status": "pending",
+            "testStrategy": "Test layout behavior across all breakpoints: mobile (320px-767px) shows single column, tablet (768px-1023px) shows two columns, desktop (1024px+) shows full three columns. Verify grid gaps remain consistent and content doesn't overflow at any screen size."
+          },
+          {
+            "id": 2,
+            "title": "Transform Getting to Goa and Visa Sections to Standalone Format",
+            "description": "Convert the 'Getting to Goa' and 'Visa & Documentation' sections from accordion-based UI to always-visible standalone sections, removing toggleSection functionality and implementing card-based layouts.",
+            "dependencies": [
+              "1.1"
+            ],
+            "details": "Remove accordion wrapper buttons and expandedSection state management for flights and visa sections. Convert section content from conditional rendering to always-visible format. Restructure HTML to use semantic section elements with proper heading hierarchy (h2 for main titles, h3 for subsections). Implement responsive card-based layout using CSS Grid for organized information display. Update section styling to remove hover states and chevron icons, replacing with permanent visibility.",
+            "status": "pending",
+            "testStrategy": "Verify all flight and visa information is immediately visible without requiring user interaction. Test that content flows properly in card layouts across all breakpoints. Ensure semantic HTML structure maintains accessibility with screen readers."
+          },
+          {
+            "id": 3,
+            "title": "Reorganize Content into Three Logical Column Groups",
+            "description": "Restructure all travel information into three semantically organized columns: 'Getting Here' (travel and visa info), 'Being Here' (accommodation, transportation, activities), and 'Essential Info' (cultural, health, safety, practical information).",
+            "dependencies": [
+              "1.1",
+              "1.2"
+            ],
+            "details": "Create three distinct column containers with proper semantic structure. Column 1 'Getting Here': Group 'Getting to Goa' and 'Visa & Documentation' sections. Column 2 'Being Here': Promote 'Where You Are Staying' to full section, include 'Getting Around' and 'Explore Goa' sections. Column 3 'Essential Info': Consolidate 'Cultural Etiquette', 'Health & Safety', 'Money & Communication' sections. Update CSS grid-template-areas to assign content to appropriate columns. Ensure consistent spacing and visual hierarchy across all three columns.",
+            "status": "pending",
+            "testStrategy": "Verify each column contains the correct sections and maintains visual balance. Test that content distribution works effectively across all responsive breakpoints. Confirm that the three-column organization improves information findability and reduces cognitive load."
+          },
+          {
+            "id": 4,
+            "title": "Implement Progressive Disclosure with Expandable Card UI",
+            "description": "Convert remaining accordion sections to modern expandable cards with priority indicators, maintaining some accordion functionality for detailed/secondary information while making key information always visible.",
+            "dependencies": [
+              "1.3"
+            ],
+            "details": "Design new expandable card components with visual priority indicators (high/medium importance badges). Implement progressive disclosure pattern where primary information is always visible and secondary details expand on demand. Replace current section headers with card-style headers showing summary information. Add smooth CSS transitions for expand/collapse animations. Implement proper ARIA labels and keyboard navigation for accessibility. Use consistent visual hierarchy with clear typography scales.",
+            "status": "pending",
+            "testStrategy": "Test expandable functionality works smoothly across all devices. Verify keyboard navigation and screen reader compatibility. Ensure priority indicators accurately reflect information importance and help users identify essential content quickly."
+          },
+          {
+            "id": 5,
+            "title": "Optimize Performance and Implement Modern CSS Features",
+            "description": "Enhance the layout with modern CSS features including Container Queries, CSS Custom Properties for theming, CSS Logical Properties for internationalization, and performance optimizations.",
+            "dependencies": [
+              "1.1",
+              "1.2",
+              "1.3",
+              "1.4"
+            ],
+            "details": "Implement CSS Container Queries for component-level responsiveness instead of relying solely on viewport-based media queries. Add comprehensive CSS Custom Properties system for consistent spacing, colors, and typography scales. Replace directional properties with CSS Logical Properties (margin-inline, padding-block, etc.) for better internationalization support. Use CSS gap property consistently throughout grid layouts. Optimize CSS delivery by implementing critical CSS extraction and non-critical CSS lazy loading. Add CSS containment properties where appropriate to improve rendering performance.",
+            "status": "pending",
+            "testStrategy": "Test Container Queries respond correctly to component size changes. Verify CSS Custom Properties cascade properly and maintain design consistency. Test layout behavior with different writing modes and text directions. Measure performance improvements using browser dev tools and ensure no layout shifts occur during loading."
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Promote Where You Are Staying Section to Standalone with Pre-arranged Accommodations Messaging",
+        "description": "Transform the Where You Are Staying section from accordion to full standalone section with clear messaging that accommodations are pre-arranged, removing booking CTAs and adding comprehensive hotel information display.",
+        "details": "Implementation approach:\n\n1. **Section Structure Update**:\n   - Remove accordion wrapper and promote to full section at same level as other main sections\n   - Update section title from 'Where to Stay' to 'Where You Are Staying'\n   - Add semantic HTML structure with proper heading hierarchy (h2 for main title)\n\n2. **Pre-arranged Messaging Implementation**:\n   - Create prominent hero message stating 'Your accommodations have been arranged for you'\n   - Add secondary messaging explaining no action required from guests\n   - Remove all booking CTAs, reservation buttons, and booking-related links\n   - Replace with informational contact details for inquiries only\n\n3. **Content Layout Design**:\n   - Desktop: Two-column layout with image gallery on left, hotel details and map on right\n   - Mobile: Stacked layout with image gallery first, followed by details and map\n   - Use CSS Grid for responsive layout with breakpoints at 768px and 1024px\n\n4. **Hotel Information Display**:\n   - Zuri White Sands resort details with address, amenities, and description\n   - Image gallery with lazy loading and lightbox functionality\n   - Google Maps embedded widget with hotel location pinned\n   - Contact information section (phone, email) for guest services only\n\n5. **Visual Design**:\n   - Elegant typography hierarchy with clear section separation\n   - Visual indicators that this is informational (use muted colors for contact info)\n   - Consistent spacing and alignment with overall site design\n   - Ensure proper contrast ratios for accessibility",
+        "testStrategy": "1. **Layout Verification**: Test responsive behavior at all breakpoints ensuring image gallery and map display correctly side-by-side on desktop (min-width: 1024px) and stack properly on mobile/tablet\n\n2. **Content Validation**: Verify title change from 'Where to Stay' to 'Where You Are Staying' is reflected in all instances, confirm pre-arranged messaging is prominent and clear\n\n3. **CTA Removal**: Audit section to ensure all booking buttons, reservation links, and call-to-action elements have been removed or converted to informational content only\n\n4. **Functionality Testing**: Test Google Maps widget loads correctly and shows accurate hotel location, verify image gallery displays properly with navigation controls\n\n5. **Accessibility Testing**: Check heading hierarchy is logical, ensure all images have alt text, verify color contrast meets WCAG guidelines, test keyboard navigation through gallery\n\n6. **Cross-browser Testing**: Verify consistent display across Chrome, Firefox, Safari, and Edge, test on actual mobile devices for touch interactions",
+        "status": "pending",
+        "dependencies": [
+          1
+        ],
+        "priority": "high",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Remove Accordion Structure and Convert to Standalone Section",
+            "description": "Remove the accordion wrapper from the 'Where to Stay' section and convert it to a standalone section with proper semantic HTML structure. This includes removing the button-based section header, chevron icons, and conditional rendering based on expandedSection state.",
+            "dependencies": [],
+            "details": "Modify the Travel.tsx component by: 1) Removing the `button className=\"section-header\"` element and its onClick handler for the hotels section, 2) Removing the conditional `{expandedSection === 'hotels' &&}` wrapper around the section content, 3) Converting the section to always be visible and properly structured, 4) Update CSS classes to match the new standalone structure, 5) Ensure the section maintains proper heading hierarchy with h2 for the main title",
+            "status": "pending",
+            "testStrategy": "Verify that the section renders without accordion functionality, test that no JavaScript errors occur from removed state dependencies, confirm the section is always visible and properly structured in the DOM"
+          },
+          {
+            "id": 2,
+            "title": "Update Section Title and Add Pre-arranged Accommodations Messaging",
+            "description": "Change the section title from 'Where to Stay' to 'Where You Are Staying' and implement prominent messaging that accommodations are pre-arranged for guests, removing any booking-related CTAs or language.",
+            "dependencies": [
+              "2.1"
+            ],
+            "details": "Update the h3 text content from 'Where to Stay' to 'Where You Are Staying'. Add a prominent hero message component stating 'Your accommodations have been arranged for you' with secondary messaging explaining no action required from guests. Remove any booking buttons, reservation links, or booking-related calls-to-action from the HotelInfoHeader component and replace with informational contact details only.",
+            "status": "pending",
+            "testStrategy": "Verify title change is displayed correctly, confirm pre-arranged messaging is prominent and clear, ensure no booking CTAs remain in the interface, test that contact information is displayed as informational only"
+          },
+          {
+            "id": 3,
+            "title": "Implement Two-Column Desktop Layout with CSS Grid",
+            "description": "Create a responsive two-column layout using CSS Grid where the image gallery appears on the left and hotel details with map appear on the right on desktop, with proper stacking on mobile devices.",
+            "dependencies": [
+              "2.1",
+              "2.2"
+            ],
+            "details": "Modify the Travel.css file to implement CSS Grid layout for the hotel section content. Create `.hotel-content-grid` class with `grid-template-columns: 1fr 1fr` for desktop (min-width: 1024px), and single column for mobile. Update the accordion-content structure to use this new grid system. Ensure proper gap spacing (2rem) and responsive breakpoints at 768px and 1024px. The ImageGallery should be in the first column, and GoogleMapWidget with hotel details in the second column.",
+            "status": "pending",
+            "testStrategy": "Test layout behavior across all breakpoints using browser dev tools (320px-1024px+), verify image gallery and map display side-by-side on desktop, confirm proper stacking order on mobile (gallery first, then details and map), validate grid spacing and alignment"
+          },
+          {
+            "id": 4,
+            "title": "Enhance Hotel Information Display and Remove Booking Elements",
+            "description": "Update the HotelInfoHeader component to focus on comprehensive informational display while removing all booking-related elements, ensuring the content emphasizes that accommodations are pre-arranged.",
+            "dependencies": [
+              "2.2"
+            ],
+            "details": "Modify HotelInfoHeader.tsx to: 1) Remove any booking buttons or reservation links, 2) Update contact information to be clearly marked as 'For inquiries only', 3) Add visual indicators using muted colors for contact info to show it's informational, 4) Ensure phone and website links are styled as informational rather than actionable, 5) Add ARIA labels to clarify the informational nature of the contact details, 6) Consider adding a subtle visual indicator or text that reinforces the pre-arranged nature of the accommodation",
+            "status": "pending",
+            "testStrategy": "Verify no booking CTAs remain in the component, confirm contact information is clearly marked as informational, test ARIA labels for accessibility, validate visual styling conveys informational rather than actionable nature, ensure pre-arranged messaging is reinforced throughout the component"
+          },
+          {
+            "id": 5,
+            "title": "Integrate Section into Main Travel Component Structure",
+            "description": "Properly integrate the transformed standalone section into the main Travel component structure, ensuring it works cohesively with other sections and maintains consistent spacing and design patterns.",
+            "dependencies": [
+              "2.1",
+              "2.2",
+              "2.3",
+              "2.4"
+            ],
+            "details": "Update the Travel.tsx component to properly position the new standalone hotel section within the existing travel-columns structure. Ensure proper CSS class integration with the existing `.being-here` column structure. Update any motion animations to work with the new always-visible section. Verify consistent spacing with other sections using the existing travel-section margins and padding. Test integration with the overall page scroll behavior and navigation anchors. Ensure the section maintains the visual hierarchy and design consistency with other travel sections.",
+            "status": "pending",
+            "testStrategy": "Test section positioning within the overall Travel component layout, verify consistent spacing and margins with other sections, confirm motion animations work properly, validate scroll behavior and navigation anchors, test visual hierarchy and design consistency across the entire 'Stuff to Know' section"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Promote Getting to Goa Section to Standalone with Comprehensive Travel Information",
+        "description": "Transform the Getting to Goa section from accordion format to a full standalone section featuring comprehensive travel information that is immediately visible to wedding guests without requiring expansion.",
+        "details": "Implementation approach:\n\n1. **Section Structure Transformation**:\n   - Remove accordion wrapper and promote to full section at main content level\n   - Update semantic HTML with proper heading hierarchy (h2 for main title 'Getting to Goa')\n   - Implement responsive card-based layout using CSS Grid for information organization\n\n2. **Comprehensive Travel Information Display**:\n   - **Flight Information Panel**: Create dedicated subsection with recommended routes to Goa International Airport (GOI), major connecting hubs (Mumbai, Delhi, Bangalore), and direct flight options from international destinations\n   - **Airport Details Section**: Include comprehensive GOI airport information with terminal layout, facilities, services, and contact details\n   - **Transportation Hub**: Detail multiple transport options from airport to hotel including pre-paid taxis, app-based rides, rental cars, and shuttle services with estimated costs and travel times\n   - **Airlines & Booking Panel**: Recommend preferred airlines for domestic/international routes with booking tips, advance booking recommendations, and frequent flyer considerations\n\n3. **February Wedding Travel Optimization**:\n   - Add specific timing recommendations for February travel including peak season considerations\n   - Include weather-appropriate travel advice and packing suggestions\n   - Highlight any February-specific booking considerations or pricing patterns\n\n4. **Visual Design Implementation**:\n   - Use consistent icon library (Lucide React or similar) for each information category\n   - Implement responsive typography scale with clear visual hierarchy\n   - Apply wedding theme color palette and maintain design consistency\n   - Create mobile-first responsive design with proper breakpoints\n\n5. **Interactive Elements**:\n   - Add copy-to-clipboard functionality for airport codes and important phone numbers\n   - Include expandable subsections for detailed airline information without reverting to full accordion\n   - Implement smooth scroll navigation between travel information categories\n\n6. **Technical Implementation**:\n   - Use CSS Grid with `grid-template-columns: repeat(auto-fit, minmax(320px, 1fr))` for responsive cards\n   - Implement CSS custom properties for consistent spacing and theme variables\n   - Ensure accessibility with proper ARIA labels and keyboard navigation\n   - Optimize for Core Web Vitals with efficient image loading and minimal layout shift",
+        "testStrategy": "1. **Content Verification**: Validate all travel information accuracy including airport codes, transportation options, and February-specific recommendations through cross-reference with official sources\n\n2. **Responsive Design Testing**: Test layout behavior across all breakpoints (320px mobile to 1440px+ desktop) ensuring proper card stacking and information hierarchy maintenance\n\n3. **Accessibility Compliance**: Verify keyboard navigation, screen reader compatibility, proper heading structure, and adequate color contrast ratios using axe-core or similar tools\n\n4. **User Experience Validation**: Conduct usability testing to ensure travel information is easily scannable and actionable, with logical information flow from planning to arrival\n\n5. **Performance Testing**: Measure page load impact and Core Web Vitals metrics, ensuring section expansion doesn't negatively affect site performance\n\n6. **Cross-browser Compatibility**: Test functionality across modern browsers (Chrome, Firefox, Safari, Edge) and verify consistent visual presentation\n\n7. **Mobile Interaction Testing**: Validate touch interactions, copy-to-clipboard functionality, and readability on actual mobile devices\n\n8. **Integration Testing**: Ensure seamless integration with existing site navigation and maintain consistent user experience with other promoted sections",
+        "status": "pending",
+        "dependencies": [
+          1,
+          2
+        ],
+        "priority": "high",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Remove Accordion Structure and Create Standalone Section Layout",
+            "description": "Transform the 'Getting to Goa' section from accordion format to standalone by removing the .section-header button wrapper, .section-content conditional rendering, and expandedSection state management. Convert the section to always-visible content with proper semantic HTML structure using h2 heading hierarchy.",
+            "dependencies": [],
+            "details": "In Travel.tsx (lines 55-184), remove the button.section-header wrapper around the 'Getting to Goa' content and eliminate the conditional rendering based on expandedSection state. Update the section structure to use semantic HTML with h2 for 'Getting to Goa' title. Remove the ChevronUp/ChevronDown icons and onClick toggle functionality. Ensure the content that was previously inside the conditional .section-content div is now always visible and properly structured as a standalone section.",
+            "status": "pending",
+            "testStrategy": "Verify that the Getting to Goa section renders without accordion functionality, content is always visible, and section hierarchy uses proper h2 heading. Test that the section maintains responsive layout and content organization without JavaScript toggle state dependencies."
+          },
+          {
+            "id": 2,
+            "title": "Implement Comprehensive Travel Information Cards with CSS Grid",
+            "description": "Create responsive card-based layout using CSS Grid for organizing flight information, airport details, transportation options, and booking recommendations. Replace the existing accordion-content grid structure with dedicated information panels that display comprehensive travel data immediately.",
+            "dependencies": [
+              "3.1"
+            ],
+            "details": "Restructure the content in Travel.tsx to create distinct information panels: Flight Information Panel (Qatar Airways, Emirates, European connections), Airport Details Section (GOI information), Transportation Hub (taxi, ride services, rental cars), and Airlines & Booking Panel. Implement CSS Grid layout with `grid-template-columns: repeat(auto-fit, minmax(320px, 1fr))` in Travel.css. Use consistent Lucide React icons for each category and ensure mobile-first responsive design with proper breakpoints.",
+            "status": "pending",
+            "testStrategy": "Test responsive grid behavior across all screen sizes (320px-1200px+). Verify that information cards maintain readability and proper spacing. Validate that icons render correctly and content hierarchy is clear. Test that grid adapts properly on mobile, tablet, and desktop breakpoints."
+          },
+          {
+            "id": 3,
+            "title": "Add February-Specific Travel Optimization Content",
+            "description": "Enhance the travel information with February wedding-specific content including peak season considerations, weather-appropriate travel advice, packing suggestions, and February-specific booking patterns. Create dedicated subsections for timing recommendations and seasonal optimization.",
+            "dependencies": [
+              "3.2"
+            ],
+            "details": "Add content sections specifically addressing February travel to Goa including weather conditions (temperature ranges, humidity, rainfall), peak season considerations for pricing and availability, packing recommendations for February climate, optimal booking windows for February travel, and seasonal transportation considerations. Structure this information within the existing card layout system using proper typography hierarchy and visual emphasis.",
+            "status": "pending",
+            "testStrategy": "Verify that February-specific information is prominently displayed and easily scannable. Test that seasonal recommendations are clearly differentiated from general travel information. Validate that weather and packing information is accurate and helpful for wedding guests planning February travel."
+          },
+          {
+            "id": 4,
+            "title": "Implement Interactive Elements with Copy-to-Clipboard and Expandable Details",
+            "description": "Add interactive functionality including copy-to-clipboard for airport codes and phone numbers, expandable subsections for detailed airline information, and smooth scroll navigation between travel information categories. Ensure accessibility with proper ARIA labels and keyboard navigation support.",
+            "dependencies": [
+              "3.2"
+            ],
+            "details": "Implement copy-to-clipboard functionality for GOI airport code and important contact numbers using JavaScript with visual feedback. Create expandable subsections for detailed airline information that expand inline without reverting to full accordion behavior. Add smooth scroll navigation for travel information categories. Ensure all interactive elements have proper ARIA labels, keyboard navigation support, and meet accessibility standards.",
+            "status": "pending",
+            "testStrategy": "Test copy-to-clipboard functionality across different browsers and devices. Verify that expandable subsections work smoothly and maintain layout integrity. Test keyboard navigation and screen reader compatibility. Validate that smooth scroll navigation works correctly and interactive feedback is clear and responsive."
+          },
+          {
+            "id": 5,
+            "title": "Update CSS Styling and Visual Design Implementation",
+            "description": "Update Travel.css to support the new standalone section layout, remove accordion-specific styling, and implement the wedding theme color palette with consistent visual hierarchy. Optimize for Core Web Vitals with efficient styling and minimal layout shift.",
+            "dependencies": [
+              "3.1",
+              "3.2",
+              "3.4"
+            ],
+            "details": "Modify Travel.css to remove .section-header button styling, .section-content conditional display, and accordion-specific animations. Implement new styling for the standalone section with consistent typography scale, proper spacing using CSS custom properties, and wedding theme color palette integration. Add styles for new interactive elements like copy-to-clipboard buttons and expandable details. Ensure CSS Grid implementation is properly styled and responsive. Optimize for Core Web Vitals by minimizing layout shift and efficient CSS delivery.",
+            "status": "pending",
+            "testStrategy": "Verify that all accordion-specific CSS is removed and replaced with appropriate standalone section styling. Test visual consistency with wedding theme colors and typography. Validate responsive behavior across all breakpoints. Test Core Web Vitals metrics to ensure performance optimization is maintained. Check that new interactive element styling is consistent and accessible."
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Promote Visa & Documentation Section to Standalone with Comprehensive Immigration Information",
+        "description": "Transform the Visa & Documentation section from accordion format to a full standalone section providing immediately accessible, comprehensive immigration and travel documentation information for international wedding guests.",
+        "details": "Implementation approach:\n\n1. **Section Structure Transformation**:\n   - Remove accordion wrapper and promote to full section at main content level\n   - Update semantic HTML with proper heading hierarchy (h2 for 'Visa & Documentation')\n   - Implement responsive card-based layout using CSS Grid for organized information display\n   - Add section navigation anchor for direct linking\n\n2. **Comprehensive Documentation Content**:\n   - **Visa Requirements Panel**: Create dedicated subsection covering US citizen visa requirements for India tourist/business visas, application procedures, and processing timelines (typically 3-5 business days for e-visa)\n   - **Required Documentation Checklist**: Interactive checklist including passport validity (6+ months), visa application photos (2x2 inches, specific background requirements), supporting documents\n   - **Processing Timeline Section**: Visual timeline showing application submission, processing periods, and recommended application timing (minimum 4 days before travel)\n   - **Embassy Information Panel**: Contact details and locations for Indian consulates/embassy offices with jurisdiction mapping\n   - **Health Documentation**: COVID-19 requirements, vaccination recommendations, health insurance mandates\n   - **Travel Insurance Section**: Comprehensive coverage recommendations with minimum coverage amounts\n\n3. **Visual Design Implementation**:\n   - Use CSS custom properties for consistent theming with existing site palette\n   - Implement responsive grid layout: single column mobile (<768px), two columns tablet (768px-1023px), three columns desktop (1024px+)\n   - Add warning callouts using CSS classes for critical information (passport expiration, processing delays)\n   - Include iconography for visual hierarchy (passport, calendar, warning icons)\n   - Implement progressive disclosure for detailed embassy information\n\n4. **Interactive Elements**:\n   - Downloadable document checklist (PDF format)\n   - External links to official government resources (travel.state.gov, indianvisaonline.gov.in)\n   - Expandable FAQ section for common visa questions\n   - Processing timeline calculator based on travel dates\n\n5. **Accessibility and SEO**:\n   - Implement ARIA landmarks and proper heading structure\n   - Add alt text for all informational icons\n   - Include structured data markup for travel information\n   - Ensure keyboard navigation for all interactive elements",
+        "testStrategy": "1. **Content Accuracy Verification**: Cross-reference all visa requirements, processing timelines, and embassy information with official government sources (US State Department, Indian Embassy websites) to ensure current accuracy\n\n2. **Responsive Layout Testing**: Test grid layout behavior across all breakpoints ensuring proper column stacking on mobile, two-column display on tablet, and three-column layout on desktop without content overflow\n\n3. **Interactive Element Validation**: Verify all external links open correctly in new tabs, downloadable checklist generates properly, and FAQ expand/collapse functionality works smoothly across browsers\n\n4. **Accessibility Compliance**: Test with screen readers, verify keyboard navigation functionality, validate ARIA labels and semantic HTML structure using axe-core or similar accessibility testing tools\n\n5. **Performance Impact Assessment**: Measure page load times before/after implementation, optimize image assets for web delivery, and ensure no significant impact on Core Web Vitals\n\n6. **Cross-browser Compatibility**: Test layout and functionality in Chrome, Firefox, Safari, and Edge, ensuring consistent display and interaction patterns\n\n7. **Mobile Usability Testing**: Verify touch targets meet minimum size requirements (44px), test scrolling behavior, and ensure information hierarchy remains clear on small screens",
+        "status": "pending",
+        "dependencies": [
+          1
+        ],
+        "priority": "high",
+        "subtasks": []
+      },
+      {
+        "id": 5,
+        "title": "Implement responsive CSS Grid system for the redesigned Stuff to Know section",
+        "description": "Create a flexible CSS Grid layout that adapts across desktop (3-column), tablet (2-column), and mobile (single-column) breakpoints with proper spacing, alignment, and accessibility features.",
+        "details": "Implementation approach:\n\n1. **CSS Grid Foundation Setup**:\n   - Create `.stuff-to-know-grid` container with `display: grid`\n   - Implement responsive grid using `grid-template-columns: repeat(auto-fit, minmax(350px, 1fr))`\n   - Set container max-width to 1200px with margin auto for centering\n   - Define CSS custom properties for breakpoint management and consistent spacing\n\n2. **Responsive Breakpoint Implementation**:\n   - **Desktop (1200px+)**: `grid-template-columns: repeat(3, 1fr)` with 2rem gap\n   - **Tablet (768px-1199px)**: `grid-template-columns: repeat(2, 1fr)` with 1.5rem gap\n   - **Mobile (<768px)**: `grid-template-columns: 1fr` with 1rem gap\n   - Use CSS clamp() for fluid gap sizing: `gap: clamp(1rem, 2vw, 2rem)`\n\n3. **Grid Item Styling**:\n   - Add `.grid-item` class for consistent card-like appearance\n   - Implement proper padding, border-radius, and subtle shadow\n   - Ensure equal height items using `align-items: stretch`\n   - Add smooth transitions for responsive changes: `transition: all 0.3s ease`\n\n4. **Typography and Visual Hierarchy**:\n   - Use CSS clamp() for responsive typography scaling\n   - Section headers: `font-size: clamp(1.25rem, 2.5vw, 1.75rem)`\n   - Body text: `font-size: clamp(0.875rem, 1.5vw, 1rem)`\n   - Maintain consistent line-height and letter-spacing\n\n5. **Accessibility Enhancements**:\n   - Add focus-visible styles with 2px solid outline and offset\n   - Implement skip navigation for keyboard users\n   - Ensure minimum 44px touch targets for interactive elements\n   - Add reduced-motion preferences support\n\n6. **Travel.css Integration**:\n   - Preserve existing component styles by using specific grid selectors\n   - Add new grid styles after existing Travel component styles\n   - Use CSS cascade properly to avoid conflicts with existing accordion styles",
+        "testStrategy": "1. **Responsive Grid Testing**: Test layout behavior at exact breakpoints (768px, 1199px, 1200px) using browser dev tools, verify smooth column transitions and proper gap spacing adjustments\n\n2. **Cross-Device Verification**: Test on actual devices including iPhone (375px), iPad (768px), desktop (1200px+) to ensure grid items display correctly and maintain readability\n\n3. **Content Integration Testing**: Verify all promoted sections (Getting to Goa, Where You Are Staying, Visa & Documentation) display properly within grid layout without content overflow or alignment issues\n\n4. **Accessibility Validation**: Test keyboard navigation through grid items, verify focus indicators are visible and logical, run axe-core accessibility checker to ensure WCAG compliance\n\n5. **Performance Testing**: Verify CSS transitions don't cause layout thrashing during resize, test smooth responsive behavior using browser dev tools device simulation\n\n6. **Browser Compatibility**: Test CSS Grid support and fallbacks in Chrome, Firefox, Safari, and Edge, verify layout doesn't break in browsers with partial Grid support\n\n7. **Visual Regression Testing**: Compare grid layout appearance against design mockups at all breakpoints, ensure consistent spacing and alignment across different screen sizes",
+        "status": "pending",
+        "dependencies": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 6,
+        "title": "Reorganize remaining accordion sections with improved visual hierarchy and expandable card UI",
+        "description": "Transform remaining accordion sections into three logical groupings (Cultural & Social, Health & Safety, Practical Info) with enhanced visual design, expandable cards, priority indicators, and improved content organization.",
+        "details": "Implementation approach:\n\n1. **Content Restructuring and Grouping**:\n   - Create three main container sections with semantic HTML structure\n   - Group Cultural Etiquette & Respect + Explore Goa under 'Cultural & Social' heading\n   - Group Health & Safety + Safety & Scam Prevention under 'Health & Safety' heading\n   - Group Money & Communication + Getting Around Goa under 'Practical Info' heading\n   - Replace placeholder content with comprehensive, actionable information for each section\n\n2. **Expandable Card UI Implementation**:\n   - Convert accordion structure to expandable card components using CSS transforms and transitions\n   - Implement smooth expand/collapse animations with CSS transitions (0.3s ease-in-out)\n   - Add visual icons for each section using semantic icon library (travel, health, money icons)\n   - Create card headers with title, icon, and priority indicator (essential/helpful badges)\n\n3. **Enhanced Visual Design**:\n   - Implement hover states with subtle elevation effects (box-shadow transitions)\n   - Add consistent border-radius and spacing using CSS custom properties\n   - Create priority indicator system with color-coded badges (red for essential, blue for helpful)\n   - Ensure proper focus states and keyboard navigation for accessibility\n\n4. **Content Development**:\n   - Research and write comprehensive content for Cultural Etiquette covering local customs, dress codes, religious considerations\n   - Develop Explore Goa section with specific recommendations, hidden gems, and cultural experiences\n   - Create detailed Health & Safety content including medical facilities, emergency contacts, common health concerns\n   - Write practical Safety & Scam Prevention guide with specific local awareness tips\n   - Develop Money & Communication section covering currency, tipping, mobile networks, internet access\n   - Create comprehensive Getting Around section with local transport options, pricing, and navigation tips\n\n5. **Responsive Design Integration**:\n   - Ensure cards stack properly on mobile devices and maintain grid layout on desktop\n   - Implement consistent spacing and typography that aligns with the CSS Grid system from Task 5\n   - Test expandable functionality across all device sizes and touch interfaces",
+        "testStrategy": "1. **Content Quality Verification**: Review all written content for accuracy, completeness, and cultural sensitivity by cross-referencing with official tourism sources and local guides, ensure consistent content depth across all six sections\n\n2. **Interactive Functionality Testing**: Test expandable card behavior across all devices, verify smooth animations, proper focus management, and keyboard accessibility (Enter/Space keys for expansion)\n\n3. **Visual Design Validation**: Verify icon consistency, priority indicator visibility, hover state smoothness, and color contrast compliance with WCAG 2.1 AA standards\n\n4. **Responsive Integration Testing**: Test card layout behavior within the CSS Grid system from Task 5, ensure proper spacing and alignment across all breakpoints, verify touch target sizes meet minimum accessibility requirements (44px)\n\n5. **Cross-Browser Compatibility**: Test expandable card functionality and animations in Chrome, Firefox, Safari, and Edge, verify CSS transform and transition support",
+        "status": "pending",
+        "dependencies": [
+          1,
+          5
+        ],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 7,
+        "title": "Add Quick Start Summary Section with Essential Information and Navigation",
+        "description": "Create a visually distinct Quick Start section at the top of 'Stuff to Know' featuring essential timeline, priority checklist, quick links, emergency contacts, and weather summary with mobile-friendly expand/collapse functionality.",
+        "details": "Implementation approach:\n\n1. **Section Structure and Positioning**:\n   - Create `.quick-start-summary` container positioned at the top of the 'Stuff to Know' section\n   - Implement semantic HTML with proper heading hierarchy (h2 for 'Quick Start Guide')\n   - Add distinctive styling with background color (#f8f9fa), border, and padding for visual separation\n   - Include expand/collapse functionality using CSS transitions and JavaScript toggle for mobile space efficiency\n\n2. **Essential Timeline Panel**:\n   - Create `.timeline-essentials` subsection with key dates display\n   - Include visa application deadlines, recommended arrival dates, and important event dates\n   - Use CSS flexbox for responsive timeline layout with date/description pairs\n   - Add visual timeline indicators using CSS pseudo-elements\n\n3. **Priority Checklist Implementation**:\n   - Create interactive checklist using semantic HTML checkboxes with custom styling\n   - Include essential items: get visa, book flights, pack appropriately, confirm accommodations\n   - Implement local storage to persist checkbox states using JavaScript\n   - Style checkboxes with custom CSS for consistent cross-browser appearance\n\n4. **Quick Links Navigation**:\n   - Create `.quick-links` grid with touch-friendly buttons (min 44px touch target)\n   - Implement smooth scroll navigation using `scroll-behavior: smooth` and JavaScript fallback\n   - Link to promoted sections: Where You Are Staying, Getting to Goa, Visa & Documentation\n   - Add hover and focus states for accessibility\n\n5. **Emergency Contacts Section**:\n   - Display important phone numbers and email addresses in accessible format\n   - Include click-to-call links for mobile devices using `tel:` protocol\n   - Add copy-to-clipboard functionality for contact information\n   - Ensure proper contrast ratios for readability\n\n6. **Weather Summary Panel**:\n   - Create February weather overview with temperature ranges and conditions\n   - Include packing recommendations based on weather data\n   - Add weather icons using CSS sprites or SVG for visual appeal\n   - Implement responsive layout for weather information display\n\n7. **Mobile Optimization**:\n   - Implement CSS Grid for desktop (2-column layout) and single-column for mobile\n   - Add expand/collapse functionality using CSS transforms and JavaScript\n   - Ensure touch-friendly interface with appropriate spacing and button sizes\n   - Test across different screen orientations and devices\n\n8. **Visual Design and Accessibility**:\n   - Use consistent iconography throughout the section\n   - Implement proper color contrast (WCAG AA compliance)\n   - Add focus management for keyboard navigation\n   - Include ARIA labels and proper semantic markup for screen readers",
+        "testStrategy": "1. **Functionality Testing**: Verify all quick links properly scroll to target sections with smooth animation, test checklist persistence across browser sessions, validate emergency contact click-to-call functionality on mobile devices\n\n2. **Responsive Design Verification**: Test layout behavior across breakpoints (320px mobile to 1200px+ desktop), verify expand/collapse functionality works smoothly on touch devices, ensure touch targets meet minimum 44px requirement\n\n3. **Content Accuracy Validation**: Cross-reference timeline dates with official wedding schedule, verify emergency contact information is current and functional, validate weather data accuracy for February in Goa\n\n4. **Accessibility Testing**: Test keyboard navigation through all interactive elements, verify screen reader compatibility using NVDA/VoiceOver, validate color contrast ratios meet WCAG AA standards, test focus management during expand/collapse operations\n\n5. **Cross-Browser Compatibility**: Test smooth scroll behavior across Chrome, Firefox, Safari, and Edge, verify CSS Grid fallbacks for older browsers, test JavaScript functionality across different browser versions\n\n6. **Performance Testing**: Measure page load impact of new section, test smooth scroll performance on lower-end devices, verify no layout shifts during expand/collapse animations\n\n7. **Integration Testing**: Verify visual consistency with overall wedding website design theme, test navigation flow from Quick Start to detailed sections, ensure section doesn't interfere with existing functionality",
+        "status": "pending",
+        "dependencies": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 8,
+        "title": "Implement Playwright Browser Automation Testing for Redesigned Stuff to Know Section",
+        "description": "Create comprehensive Playwright test suite to validate functionality, responsiveness, accessibility, and cross-browser compatibility of the redesigned Stuff to Know section with automated testing across multiple devices and breakpoints.",
+        "details": "Implementation approach:\n\n1. **Test Suite Architecture Setup**:\n   - Create Playwright project structure with configuration for multiple browsers (Chrome, Firefox, Safari, Edge)\n   - Set up test fixtures for different viewport sizes and device emulation\n   - Configure screenshot comparison and visual regression testing\n   - Implement custom assertions for accessibility and performance validation\n\n2. **Responsive Design Testing Framework**:\n   - Create viewport test matrix covering mobile (320px, 375px), tablet (768px, 1024px), and desktop (1200px, 1400px, 1920px) breakpoints\n   - Implement automated screenshot capture at each breakpoint for visual regression\n   - Validate CSS Grid behavior and column distribution across all screen sizes\n   - Test content reflow and element positioning at breakpoint transitions\n\n3. **Section Functionality Validation**:\n   - Test promoted standalone sections (Where You Are Staying, Getting to Goa, Visa & Documentation) display correctly\n   - Validate accordion expand/collapse behavior for remaining sections with smooth animations\n   - Test Quick Start navigation links with scroll behavior and smooth scrolling validation\n   - Verify image gallery navigation, map interactions, and interactive element responsiveness\n\n4. **Accessibility Testing Implementation**:\n   - Integrate axe-core accessibility testing for WCAG compliance validation\n   - Test keyboard navigation flow through all interactive elements\n   - Validate screen reader compatibility using aria-labels and semantic HTML\n   - Test focus management and visual focus indicators\n\n5. **Cross-Browser and Performance Testing**:\n   - Configure parallel test execution across Chrome, Firefox, Safari, and Edge\n   - Implement performance metrics collection for loading times and animation smoothness\n   - Set up content validation to ensure messaging reflects pre-arranged accommodations\n   - Create comprehensive test reporting with screenshots and performance metrics",
+        "testStrategy": "1. **Multi-Viewport Automated Testing**: Execute test suite across all specified breakpoints (320px, 375px, 768px, 1024px, 1200px, 1400px, 1920px) with automatic screenshot capture and comparison against baseline images for visual regression detection\n\n2. **Functional Component Validation**: Test all interactive elements including accordion expand/collapse animations, Quick Start navigation scroll behavior, image gallery controls, map interactions, and button click responses with assertions for expected DOM changes\n\n3. **Accessibility Compliance Verification**: Run automated axe-core accessibility audits on each page state, test keyboard navigation flow from top to bottom, validate screen reader announcements using virtual screen reader, and verify WCAG 2.1 AA compliance\n\n4. **Cross-Browser Compatibility Matrix**: Execute full test suite in parallel across Chrome, Firefox, Safari, and Edge with comparison of screenshot outputs and functionality behavior to identify browser-specific issues\n\n5. **Performance and Content Validation**: Measure page load times and animation performance using Playwright's performance APIs, validate all content accurately reflects pre-arranged accommodations messaging, and generate comprehensive HTML test reports with embedded screenshots and performance metrics for each browser and viewport combination",
+        "status": "pending",
+        "dependencies": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "priority": "high",
+        "subtasks": []
+      }
+    ],
+    "metadata": {
+      "created": "2025-09-06T10:52:11.369Z",
+      "updated": "2025-09-06T10:57:16.136Z",
+      "description": "Redesign the 'Stuff to Know' travel section with improved layout, better space utilization, and promoted key sections"
+    }
   }
 }

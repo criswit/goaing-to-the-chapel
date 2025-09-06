@@ -98,7 +98,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
 
   const onTouchEnd = () => {
     if (!touchStart || !touchEnd) return;
-    
+
     const distance = touchStart - touchEnd;
     const isLeftSwipe = distance > minSwipeDistance;
     const isRightSwipe = distance < -minSwipeDistance;
@@ -144,7 +144,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
     // Preload next and previous images
     const nextIndex = currentIndex === images.length - 1 ? 0 : currentIndex + 1;
     const prevIndex = currentIndex === 0 ? images.length - 1 : currentIndex - 1;
-    
+
     preloadImage(nextIndex);
     preloadImage(prevIndex);
   }, [currentIndex, images]);
@@ -228,11 +228,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
 
         {/* Dot Indicators */}
         {images.length > 1 && (
-          <div 
-            className="image-gallery-indicators"
-            role="tablist"
-            aria-label="Image navigation"
-          >
+          <div className="image-gallery-indicators" role="tablist" aria-label="Image navigation">
             {images.map((_, index) => (
               <button
                 key={index}

@@ -5,7 +5,7 @@ import '../styles/Hero.css';
 const Hero: React.FC = () => {
   return (
     <section className="hero" id="hero">
-      <motion.div 
+      <motion.div
         className="hero-content"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -21,7 +21,7 @@ const Hero: React.FC = () => {
       </motion.div>
 
       <div className="hero-images">
-        <motion.div 
+        <motion.div
           className="image-grid"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -39,7 +39,7 @@ const Hero: React.FC = () => {
         </motion.div>
       </div>
 
-      <motion.div 
+      <motion.div
         className="scroll-indicator"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
