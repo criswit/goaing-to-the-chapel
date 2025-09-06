@@ -1,0 +1,99 @@
+---
+description: Wedding website React component development patterns and conventions
+globs: frontend/src/components/*.tsx,frontend/src/components/**/*.tsx
+---
+
+# Wedding Website React Component Guidelines
+
+## Component Structure Standards
+
+- **File Organization**: All components in `frontend/src/components/` directory
+- **TypeScript**: Use strict TypeScript with proper interfaces (no `any` types)
+- **Naming**: PascalCase for component files and names (e.g., `HeartfeltNote.tsx`)
+- **Exports**: Use default exports for components
+
+## Required Imports Pattern
+```typescript
+import React from 'react';
+import { motion } from 'framer-motion';
+import '../styles/ComponentName.css'; // or '../../styles/' for nested components
+```
+
+## Component Template
+```typescript
+import React from 'react';
+import { motion } from 'framer-motion';
+import '../styles/ComponentName.css';
+
+const ComponentName: React.FC = () => {
+  return (
+    <section className="component-name" id="component-name">
+      <div className="container">
+        <motion.h2
+          className="section-title"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          Section Title
+        </motion.h2>
+        {/* Component content */}
+      </div>
+    </section>
+  );
+};
+
+export default ComponentName;
+```
+
+## Animation Standards
+
+- **Use Framer Motion** for all animations
+- **Standard entrance animation**: `initial={{ opacity: 0, y: 20 }}`, `whileInView={{ opacity: 1, y: 0 }}`
+- **Viewport settings**: Always include `viewport={{ once: true }}`
+- **Duration**: Default `0.6s`, stagger with `delay` increments of `0.1-0.2s`
+
+## Accordion Components
+
+For expandable sections, follow the [Travel.tsx](mdc:frontend/src/components/Travel.tsx) pattern:
+- Use `useState` for `expandedSection` state
+- Button structure with icon + title + chevron
+- Conditional rendering with slide-down animation
+- Maintain accessibility with proper ARIA attributes
+
+## CSS Class Naming
+
+- **Section wrapper**: `.component-name` (kebab-case)
+- **Content wrapper**: `.container` (from global styles)
+- **Section title**: `.section-title` (from global styles)
+- **BEM methodology**: Use for component-specific classes
+
+## Responsive Design
+
+- **Mobile-first approach**: Base styles for mobile, then `@media (min-width: 768px)`
+- **Breakpoints**: 768px for tablet/desktop transition
+- **Grid layouts**: Use CSS Grid with `repeat(auto-fit, minmax())`
+
+## Image Handling
+
+- **Location**: All images in `/public/` directory
+- **References**: Use `/imagename.jpg` (absolute path from public)
+- **Alt text**: Always provide descriptive alt attributes
+- **Optimization**: Consider lazy loading for carousels/galleries
+
+## Accessibility Requirements
+
+- **Semantic HTML**: Use proper heading hierarchy (h1 → h2 → h3)
+- **ARIA labels**: For interactive elements and complex components
+- **Keyboard navigation**: Support arrow keys, Enter, Space for interactive elements
+- **Focus management**: Visible focus indicators and logical tab order
+- **Screen readers**: Meaningful text alternatives and descriptions
+
+## Integration with App.tsx
+
+When adding new components to [App.tsx](mdc:frontend/src/App.tsx):
+1. Import at the top with other components
+2. Add to `Home` function in logical order
+3. Add route if component needs standalone page
+4. Follow existing component order and spacing

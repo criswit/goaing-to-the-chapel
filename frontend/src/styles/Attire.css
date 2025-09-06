@@ -53,19 +53,19 @@
 }
 
 .beach-casual {
-  background: linear-gradient(135deg, #87CEEB, #FFE4B5);
+  background: linear-gradient(135deg, #87ceeb, #ffe4b5);
 }
 
 .indian-festive {
-  background: linear-gradient(135deg, #FFD700, #FF6347);
+  background: linear-gradient(135deg, #ffd700, #ff6347);
 }
 
 .indian-formal {
-  background: linear-gradient(135deg, #9370DB, #FF69B4);
+  background: linear-gradient(135deg, #9370db, #ff69b4);
 }
 
 .cocktail {
-  background: linear-gradient(135deg, #4B0082, #DC143C);
+  background: linear-gradient(135deg, #4b0082, #dc143c);
 }
 
 .attire-card h4 {

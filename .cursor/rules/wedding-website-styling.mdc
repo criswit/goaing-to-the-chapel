@@ -1,0 +1,244 @@
+---
+description: Wedding website CSS styling conventions and design system
+globs: frontend/src/styles/*.css,frontend/src/**/*.css
+---
+
+# Wedding Website CSS Styling Guidelines
+
+## Design System Variables
+
+Use CSS custom properties from [App.css](mdc:frontend/src/App.css):
+
+```css
+:root {
+  --primary-color: #8b7355;    /* Warm brown for headings */
+  --secondary-color: #d4a574;  /* Golden accent */
+  --accent-color: #e8b4b8;     /* Soft pink highlight */
+  --text-dark: #333333;        /* Primary text */
+  --text-light: #666666;       /* Secondary text */
+  --background: #fdfbf7;       /* Warm off-white */
+  --white: #ffffff;            /* Pure white */
+  --border: #e5e5e5;           /* Light borders */
+}
+```
+
+## Typography Hierarchy
+
+- **Section titles**: Use `.section-title` class (2.5rem, `var(--primary-color)`)
+- **Body text**: Georgia serif font family
+- **Headings**: Font-weight 300, letter-spacing for elegance
+- **Responsive**: Scale down on mobile (2rem for section titles)
+
+## Component Styling Structure
+
+```css
+.component-name {
+  /* Section-level styles */
+  background: var(--white);
+  padding: 80px 0; /* Use section padding from global */
+}
+
+.component-specific-class {
+  /* Component-specific styles */
+  background: var(--background);
+  border-radius: 10px; /* Consistent border radius */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* Subtle shadows */
+}
+```
+
+## Layout Patterns
+
+### Grid Layouts
+```css
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.two-column {
+  grid-template-columns: 1fr 1fr;
+}
+
+.three-column {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+```
+
+### Responsive Breakpoints
+```css
+/* Mobile-first approach */
+@media (max-width: 768px) {
+  .grid-layout {
+    grid-template-columns: 1fr;
+  }
+}
+```
+
+## Interactive Elements
+
+### Buttons
+```css
+.btn-primary {
+  padding: 0.6rem 1.5rem;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: var(--secondary-color);
+  transform: translateY(-2px);
+}
+```
+
+### Accordion Headers
+```css
+.section-header {
+  width: 100%;
+  padding: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.3s ease;
+}
+
+.section-header:hover {
+  background: rgba(212, 165, 116, 0.05);
+}
+```
+
+## Visual Elements
+
+### Cards and Containers
+```css
+.card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  border-left: 4px solid var(--secondary-color); /* Accent border */
+}
+
+.tip-box {
+  background: rgba(212, 165, 116, 0.1);
+  border: 1px solid var(--secondary-color);
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  gap: 1rem;
+  align-items: start;
+}
+```
+
+### Images and Media
+```css
+.image-container {
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.image-container:hover img {
+  transform: scale(1.05);
+}
+```
+
+## Animation and Transitions
+
+### Standard Transitions
+```css
+.animated-element {
+  transition: all 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+```
+
+## Accessibility Styling
+
+### Focus States
+```css
+.interactive-element:focus {
+  outline: 2px solid var(--secondary-color);
+  outline-offset: 2px;
+}
+
+.interactive-element:focus-visible {
+  outline: 2px solid var(--accent-color);
+}
+```
+
+### Touch Targets
+```css
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+```
+
+## Component-Specific Patterns
+
+### Carousel/Gallery Styling
+```css
+.carousel-container {
+  position: relative;
+  height: 400px; /* Fixed height for consistency */
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.carousel-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+```
+
+### Map Integration
+```css
+.map-widget {
+  height: 400px; /* Match gallery height */
+  border-radius: 8px;
+  border: none;
+  width: 100%;
+}
+```
+
+## File Organization
+
+- **Component styles**: `frontend/src/styles/ComponentName.css`
+- **Global styles**: [App.css](mdc:frontend/src/App.css) and [index.css](mdc:frontend/src/index.css)
+- **Import pattern**: Relative imports from component files

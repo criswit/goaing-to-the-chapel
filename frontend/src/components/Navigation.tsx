@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
+import TravelDropdown from './TravelDropdown';
 import '../styles/Navigation.css';
 
 const Navigation: React.FC = () => {
@@ -21,25 +22,35 @@ const Navigation: React.FC = () => {
   return (
     <nav className="navigation">
       <div className="nav-container">
-        <button 
-          className="nav-logo"
-          onClick={scrollToTop}
-          aria-label="Scroll to top of page"
-        >
-          <h2>AK + CMW</h2>
+        <button className="nav-logo" onClick={scrollToTop} aria-label="Scroll to top of page">
+          <h2>MAPLE LEAF 4 LYFE</h2>
         </button>
-        
+
         <button className="mobile-toggle" onClick={() => setIsOpen(!isOpen)}>
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
 
         <ul className={`nav-menu ${isOpen ? 'active' : ''}`}>
-          <li><button onClick={() => scrollToSection('travel')}>Travel</button></li>
-          <li><button onClick={() => scrollToSection('events')}>Events</button></li>
-          <li><button onClick={() => scrollToSection('attire')}>Attire</button></li>
-          <li><button onClick={() => scrollToSection('registry')}>Registry</button></li>
-          <li><button onClick={() => scrollToSection('faq')}>FAQ</button></li>
-          <li><button onClick={() => scrollToSection('rsvp')} className="rsvp-btn">RSVP</button></li>
+          <li className="nav-dropdown-item">
+            <TravelDropdown onNavigate={() => setIsOpen(false)} />
+          </li>
+          <li>
+            <button onClick={() => scrollToSection('events')}>Events</button>
+          </li>
+          <li>
+            <button onClick={() => scrollToSection('attire')}>Attire</button>
+          </li>
+          <li>
+            <button onClick={() => scrollToSection('registry')}>Registry</button>
+          </li>
+          <li>
+            <button onClick={() => scrollToSection('faq')}>FAQ</button>
+          </li>
+          <li>
+            <button onClick={() => scrollToSection('rsvp')} className="rsvp-btn">
+              RSVP
+            </button>
+          </li>
         </ul>
       </div>
     </nav>

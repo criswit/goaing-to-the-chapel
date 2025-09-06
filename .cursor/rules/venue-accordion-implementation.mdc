@@ -1,0 +1,250 @@
+---
+description: Specific implementation guidelines for the venue accordion redesign project
+globs: frontend/src/components/Travel.tsx,frontend/src/components/HotelInfoHeader.tsx,frontend/src/components/ImageGallery.tsx,frontend/src/components/GoogleMapWidget.tsx,frontend/src/styles/Travel.css
+---
+
+# Venue Accordion Implementation Guidelines
+
+## Project Context
+
+This rule applies to the venue accordion redesign project tracked in the `venue-accordion` Taskmaster tag. The goal is to replace the "Where to Stay" section in [Travel.tsx](mdc:frontend/src/components/Travel.tsx) with a visual layout featuring Zuri White Sands resort information.
+
+## Component Architecture
+
+### New Components to Create
+
+1. **HotelInfoHeader.tsx** - Resort information display
+2. **ImageGallery.tsx** - Interactive image carousel  
+3. **GoogleMapWidget.tsx** - Maps integration
+
+### Integration Pattern
+
+```typescript
+// In Travel.tsx, replace lines 377-447 content with:
+{expandedSection === 'hotels' && (
+  <div className="section-content">
+    <HotelInfoHeader />
+    <div className="venue-layout">
+      <ImageGallery images={resortImages} />
+      <GoogleMapWidget coordinates={{ lat: 15.2156, lng: 73.9479 }} />
+    </div>
+  </div>
+)}
+```
+
+## Zuri White Sands Resort Data
+
+```typescript
+interface HotelInfo {
+  name: string;
+  website: string;
+  address: string;
+  phone: string;
+}
+
+const zuriResortInfo: HotelInfo = {
+  name: "Zuri White Sands, Goa Resort & Casino",
+  website: "https://thezurihotels.com/beach-resorts-in-goa",
+  address: "Pedda Varca, Salcete, South Goa, Goa 403 721, INDIA",
+  phone: "+91 0832 272 7272"
+};
+```
+
+## Image Assets
+
+Use existing resort images from `/public/`:
+- `/mbgoose1.jpg`
+- `/mbgoose2.jpg` 
+- `/mbgoose3.jpg`
+- `/mbgoose4.jpg`
+
+## Layout Specifications
+
+### Desktop Layout (768px+)
+```css
+.venue-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+
+.image-gallery,
+.google-map-widget {
+  height: 400px;
+  border-radius: 8px;
+}
+```
+
+### Mobile Layout (<768px)
+```css
+@media (max-width: 768px) {
+  .venue-layout {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+```
+
+## ImageGallery Component Requirements
+
+### State Management
+```typescript
+interface ImageGalleryProps {
+  images: string[];
+  autoPlay?: boolean;
+  showDots?: boolean;
+}
+
+const [currentIndex, setCurrentIndex] = useState(0);
+const [isPlaying, setIsPlaying] = useState(false);
+```
+
+### Navigation Controls
+- Left/Right arrow buttons using Lucide icons (`ChevronLeft`, `ChevronRight`)
+- Dot indicators showing current position
+- Keyboard navigation (arrow keys, Enter, Space)
+- Touch/swipe support for mobile
+
+### Accessibility Features
+```typescript
+// ARIA attributes for carousel
+<div 
+  role="tablist" 
+  aria-label="Resort image gallery"
+  className="carousel-container"
+>
+  <img 
+    src={images[currentIndex]}
+    alt={`Resort view ${currentIndex + 1} of ${images.length}`}
+    role="tabpanel"
+    aria-live="polite"
+  />
+</div>
+```
+
+## GoogleMapWidget Component Requirements
+
+### Embed Implementation
+```typescript
+const GoogleMapWidget: React.FC<{ coordinates: { lat: number; lng: number } }> = ({ coordinates }) => {
+  const mapSrc = `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3847.123!2d${coordinates.lng}!3d${coordinates.lat}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTXCsDEyJzU2LjIiTiA3M8KwNTYnNTIuNCJF!5e0!3m2!1sen!2sus!4v1234567890123`;
+  
+  return (
+    <iframe
+      src={mapSrc}
+      className="google-map-widget"
+      loading="lazy"
+      referrerPolicy="no-referrer-when-downgrade"
+      title="Zuri White Sands Resort Location"
+      aria-label="Interactive map showing Zuri White Sands Resort location"
+    />
+  );
+};
+```
+
+## Content Removal Guidelines
+
+### Remove from Travel.tsx (lines 377-447):
+- Primary Hotel Block section (The Leela Goa)
+- Alternative Accommodations (Taj Exotica, Alila Diwa)
+- Budget-friendly options (Novotel)
+- All booking codes, rates, deadlines
+- "Reserve Room" button
+
+### Preserve:
+- Accordion section header with Hotel icon
+- `expandedSection === 'hotels'` logic
+- Section expand/collapse functionality
+
+## Work-in-Progress Content Updates
+
+For sections requiring WIP messages, use this pattern:
+
+```typescript
+{expandedSection === 'sectionName' && (
+  <div className="section-content">
+    <div className="wip-message">
+      <h4>🚧 Content Coming Soon</h4>
+      <p>
+        We're actively developing comprehensive [section-specific content] 
+        to help make your Goa experience unforgettable. Please check back 
+        soon for detailed information and recommendations!
+      </p>
+    </div>
+  </div>
+)}
+```
+
+### WIP Message Styling
+```css
+.wip-message {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: rgba(212, 165, 116, 0.05);
+  border-radius: 8px;
+  border: 1px dashed var(--secondary-color);
+}
+
+.wip-message h4 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.wip-message p {
+  color: var(--text-light);
+  font-style: italic;
+  line-height: 1.6;
+}
+```
+
+## Testing Requirements
+
+### Playwright Validation
+Always validate implementation with Playwright MCP:
+- Test accordion expand/collapse functionality
+- Verify image carousel navigation
+- Check Google Maps loading and interaction
+- Validate responsive behavior across devices
+- Confirm accessibility features work correctly
+
+### Test Scenarios
+1. **Desktop**: Two-column layout with 400px height elements
+2. **Mobile**: Single-column stacked layout
+3. **Keyboard navigation**: Tab through interactive elements
+4. **Screen readers**: ARIA labels and descriptions
+5. **Touch devices**: Swipe gestures and touch targets
+
+## Performance Considerations
+
+- **Lazy loading**: Implement for carousel images
+- **Error boundaries**: Handle component failures gracefully
+- **Loading states**: Show spinners for map and image loading
+- **Optimization**: Compress and optimize image assets
+
+## TypeScript Interfaces
+
+Create centralized type definitions in `src/types/venue.ts`:
+
+```typescript
+export interface HotelInfo {
+  name: string;
+  website: string;
+  address: string;
+  phone: string;
+}
+
+export interface ImageGalleryProps {
+  images: string[];
+  autoPlay?: boolean;
+  showDots?: boolean;
+  height?: string;
+}
+
+export interface GoogleMapProps {
+  coordinates: { lat: number; lng: number };
+  height?: string;
+  title?: string;
+}
+```

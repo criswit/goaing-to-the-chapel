@@ -1,0 +1,255 @@
+.image-gallery {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.image-gallery-container {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+  border-radius: 12px;
+  background-color: #f3f4f6;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.image-gallery-slide {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-gallery-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: opacity 0.3s ease;
+}
+
+.image-gallery-slide img.loading {
+  opacity: 0;
+}
+
+/* Loading State */
+.image-gallery-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: #f9fafb;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #e5e7eb;
+  border-top-color: #6b7280;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.image-gallery-loading p {
+  margin-top: 16px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* Error State */
+.image-gallery-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: #fef2f2;
+  color: #991b1b;
+  font-size: 16px;
+}
+
+/* Empty State */
+.image-gallery-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 400px;
+  background-color: #f9fafb;
+  color: #6b7280;
+  font-size: 16px;
+  border-radius: 12px;
+}
+
+/* Navigation Buttons */
+.image-gallery-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.9);
+  border: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 2;
+  color: #374151;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.image-gallery-nav:hover {
+  background-color: rgba(255, 255, 255, 1);
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.image-gallery-nav:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.image-gallery-nav:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.image-gallery-nav-prev {
+  left: 16px;
+}
+
+.image-gallery-nav-next {
+  right: 16px;
+}
+
+/* Dot Indicators */
+.image-gallery-indicators {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 2;
+  padding: 8px 12px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.image-gallery-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.image-gallery-dot:hover {
+  background-color: rgba(255, 255, 255, 0.7);
+  transform: scale(1.2);
+}
+
+.image-gallery-dot:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.image-gallery-dot.active {
+  background-color: #ffffff;
+  width: 24px;
+  border-radius: 5px;
+}
+
+/* Screen Reader Only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .image-gallery-container {
+    height: 300px;
+    border-radius: 8px;
+  }
+
+  .image-gallery-nav {
+    width: 40px;
+    height: 40px;
+  }
+
+  .image-gallery-nav-prev {
+    left: 10px;
+  }
+
+  .image-gallery-nav-next {
+    right: 10px;
+  }
+
+  .image-gallery-indicators {
+    bottom: 15px;
+    gap: 6px;
+    padding: 6px 10px;
+  }
+
+  .image-gallery-dot {
+    width: 8px;
+    height: 8px;
+  }
+
+  .image-gallery-dot.active {
+    width: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .image-gallery-container {
+    height: 250px;
+  }
+
+  .image-gallery-nav {
+    width: 36px;
+    height: 36px;
+  }
+
+  .image-gallery-nav svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* Touch Device Optimization */
+@media (hover: none) and (pointer: coarse) {
+  .image-gallery-nav {
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+
+  .image-gallery-nav:hover {
+    transform: translateY(-50%);
+  }
+}

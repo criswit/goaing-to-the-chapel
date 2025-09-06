@@ -12,15 +12,35 @@ import {
   Heart,
   Users,
   Shield,
+  Clock,
+  Copy,
+  Check,
+  Sun,
+  Briefcase,
+  Info,
+  Phone,
+  Globe,
+  Navigation,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import HotelInfoHeader from './HotelInfoHeader';
+import ImageGallery from './ImageGallery';
+import GoogleMapWidget from './GoogleMapWidget';
 import '../styles/Travel.css';
 
 const Travel: React.FC = () => {
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
+  const [copiedText, setCopiedText] = useState<string | null>(null);
 
   const toggleSection = (section: string) => {
     setExpandedSection(expandedSection === section ? null : section);
+  };
+
+  const copyToClipboard = (text: string, label: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopiedText(label);
+      setTimeout(() => setCopiedText(null), 2000);
+    });
   };
 
   return (
@@ -33,166 +53,449 @@ const Travel: React.FC = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          Travel Information
+          Stuff to Know
         </motion.h2>
 
         <div className="travel-intro">
           <p>
-            Flying to Goa for our February wedding? You've picked the perfect time! February offers
-            ideal weather conditions with 20-38% lower fares than peak season.
+            We're so excited to celebrate with you in the paradise of Goa! February is one of the
+            best times to visit, with clear skies and festive energy—but be prepared: it's still
+            going to be extremely hot! We've gathered all the essential information to help make
+            your journey as smooth as possible.
           </p>
         </div>
 
-        {/* Flight Information Section */}
-        <motion.div
-          className="travel-section"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.1, duration: 0.6 }}
-        >
-          <button className="section-header" onClick={() => toggleSection('flights')}>
-            <div className="header-content">
+        <div className="travel-columns">
+          {/* Getting to Goa - Standalone Section */}
+          <motion.div
+            className="standalone-section getting-to-goa"
+            data-section="getting-to-goa-section"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1, duration: 0.6 }}
+          >
+            <div className="section-header-standalone">
               <Plane className="section-icon" />
-              <h3>Getting to Goa</h3>
+              <h2>Getting to Goa</h2>
             </div>
-            {expandedSection === 'flights' ? <ChevronUp /> : <ChevronDown />}
-          </button>
 
-          {expandedSection === 'flights' && (
-            <div className="section-content">
-              <div className="accordion-content">
-                <div className="content-column">
-                  <h4>Recommended Airlines & Routes</h4>
+            <div className="section-content-standalone">
+              {/* February Travel Advisory */}
+              <div className="february-advisory">
+                <Sun className="advisory-icon" />
+                <div className="advisory-content">
+                  <h3>February Wedding Travel - Perfect Timing!</h3>
+                  <p>
+                    You've chosen the ideal time to visit Goa! February offers perfect weather with
+                    temperatures between 20-32°C (68-90°F), minimal rainfall, and low humidity. It's
+                    peak tourist season, so <strong>book your flights by October 31, 2025</strong>{' '}
+                    to secure the best rates and availability.
+                  </p>
+                </div>
+              </div>
 
-                  <div className="info-grid">
-                    <div className="info-section">
-                      <h5>Qatar Airways via Doha</h5>
-                      <ul>
-                        <li>Route: SEA/SFO → DOH → GOX</li>
-                        <li>Duration: 18-22 hours</li>
-                        <li>Price: $1,053-$1,168</li>
-                        <li>4x weekly service to North Goa</li>
-                        <li>World's top-rated airline</li>
-                      </ul>
-                    </div>
-                    <div className="info-section">
-                      <h5>Emirates via Dubai</h5>
-                      <ul>
-                        <li>Route: SEA → DXB → GOX</li>
-                        <li>Price: ~$1,075 economy</li>
-                        <li>Daily SEA-DXB service</li>
-                        <li>Superior entertainment system</li>
-                        <li>Premium airport experience</li>
-                      </ul>
-                    </div>
+              {/* Quick Info Cards */}
+              <div className="travel-info-cards">
+                <div className="info-card-quick">
+                  <div className="card-header">
+                    <MapPin className="card-icon" />
+                    <h4>Airport Code</h4>
                   </div>
-
-                  <div className="info-section">
-                    <h5>European Connections</h5>
-                    <ul className="compact-list">
-                      <li>
-                        <strong>Lufthansa via Frankfurt:</strong> $983-$1,486
-                      </li>
-                      <li>
-                        <strong>British Airways via London:</strong> English service
-                      </li>
-                      <li>
-                        <strong>Journey time:</strong> 19-23 hours total
-                      </li>
-                      <li>
-                        <strong>Best for:</strong> Western hospitality preference
-                      </li>
-                    </ul>
+                  <div className="card-content">
+                    <div className="copyable-item">
+                      <span className="code-text">GOI</span>
+                      <button
+                        className="copy-btn"
+                        onClick={() => copyToClipboard('GOI', 'airport-code')}
+                        aria-label="Copy airport code"
+                      >
+                        {copiedText === 'airport-code' ? <Check size={16} /> : <Copy size={16} />}
+                      </button>
+                    </div>
+                    <p className="card-subtitle">Dabolim Airport, Goa</p>
                   </div>
                 </div>
 
-                <div className="content-column">
-                  <h4>Booking Strategy</h4>
-
-                  <div className="info-section">
-                    <h5>Optimal Timing</h5>
-                    <ul>
-                      <li>Book 5-6 months in advance (Sept-Oct 2024)</li>
-                      <li>Arrive February 11-12 for wedding</li>
-                      <li>Tuesday/Wednesday bookings save 10-20%</li>
-                      <li>Allow 2-4 hours for connections</li>
-                    </ul>
+                <div className="info-card-quick">
+                  <div className="card-header">
+                    <Clock className="card-icon" />
+                    <h4>Flight Duration</h4>
                   </div>
-
-                  <div className="info-section">
-                    <h5>City-Specific Options</h5>
-                    <ul>
-                      <li>
-                        <strong>Seattle (SEA):</strong> $1,000-$1,500
-                      </li>
-                      <li>
-                        <strong>San Francisco (SFO):</strong> $800-$1,300
-                      </li>
-                      <li>
-                        <strong>Best SFO route:</strong> Air India direct to DEL/BOM
-                      </li>
-                      <li>
-                        <strong>Group discounts:</strong> 10+ passengers save 10-15%
-                      </li>
-                    </ul>
+                  <div className="card-content">
+                    <p className="highlight-text">17-24 hours</p>
+                    <p className="card-subtitle">From US West Coast</p>
                   </div>
+                </div>
 
-                  <div className="tip-box">
-                    <AlertCircle className="tip-icon" />
-                    <div>
-                      <strong>Recommendation:</strong> SFO offers better routing options. Direct Air
-                      India flights to Delhi/Mumbai provide superior connections to Goa.
-                    </div>
+                <div className="info-card-quick">
+                  <div className="card-header">
+                    <DollarSign className="card-icon" />
+                    <h4>Budget Range</h4>
+                  </div>
+                  <div className="card-content">
+                    <p className="highlight-text">$900-$1,500</p>
+                    <p className="card-subtitle">Economy Round-trip</p>
+                  </div>
+                </div>
+
+                <div className="info-card-quick">
+                  <div className="card-header">
+                    <Calendar className="card-icon" />
+                    <h4>Book By</h4>
+                  </div>
+                  <div className="card-content">
+                    <p className="highlight-text">Oct 31, 2025</p>
+                    <p className="card-subtitle">Avoid price surge</p>
                   </div>
                 </div>
               </div>
 
-              <div className="accordion-content-single">
-                <div className="info-section">
-                  <h4>Extended Stay Opportunities</h4>
-                  <div className="info-grid three-columns">
-                    <div>
-                      <h6>Golden Triangle (2 weeks)</h6>
-                      <p>Delhi → Agra (Taj Mahal) → Jaipur → Goa</p>
+              {/* Main Content Grid */}
+              <div className="travel-content-grid">
+                {/* Flight Information Panel */}
+                <div className="travel-panel">
+                  <div className="panel-header">
+                    <Plane className="panel-icon" />
+                    <h3>Flight Information</h3>
+                  </div>
+
+                  <div className="airline-cards">
+                    <div className="airline-card featured">
+                      <div className="airline-header">
+                        <h4>Air India Direct</h4>
+                        <span className="badge best-value">Best Value</span>
+                      </div>
+                      <div className="airline-details">
+                        <div className="route-info">
+                          <Globe size={16} />
+                          <span>SFO → DEL → GOI</span>
+                        </div>
+                        <div className="detail-grid">
+                          <div className="detail-item">
+                            <Clock size={14} />
+                            <span>17-21 hours</span>
+                          </div>
+                          <div className="detail-item">
+                            <DollarSign size={14} />
+                            <span>$900-$1,100</span>
+                          </div>
+                        </div>
+                        <ul className="airline-features">
+                          <li>Only nonstop transpacific option</li>
+                          <li>Fastest overall journey time</li>
+                          <li>Direct connection in Delhi</li>
+                        </ul>
+                      </div>
                     </div>
-                    <div>
-                      <h6>Rajasthan Circuit (2-3 weeks)</h6>
-                      <p>Add Udaipur, Jodhpur, desert experiences</p>
+
+                    <div className="airline-card premium">
+                      <div className="airline-header">
+                        <h4>Qatar Airways</h4>
+                        <span className="badge luxury">Best Business</span>
+                      </div>
+                      <div className="airline-details">
+                        <div className="route-info">
+                          <Globe size={16} />
+                          <span>SEA/SFO → DOH → GOI</span>
+                        </div>
+                        <div className="detail-grid">
+                          <div className="detail-item">
+                            <Clock size={14} />
+                            <span>19-23 hours</span>
+                          </div>
+                          <div className="detail-item">
+                            <DollarSign size={14} />
+                            <span>$1,200-$1,500</span>
+                          </div>
+                        </div>
+                        <ul className="airline-features">
+                          <li>Qsuites business class with doors</li>
+                          <li>Business: $4,200-$5,900</li>
+                          <li>Award-winning service</li>
+                        </ul>
+                      </div>
                     </div>
-                    <div>
-                      <h6>Kerala Extension (1-2 weeks)</h6>
-                      <p>Backwaters, tea plantations, coastal beauty</p>
+
+                    <div className="airline-card">
+                      <div className="airline-header">
+                        <h4>Emirates</h4>
+                        <span className="badge">Premium Option</span>
+                      </div>
+                      <div className="airline-details">
+                        <div className="route-info">
+                          <Globe size={16} />
+                          <span>SEA/SFO → DXB → GOI</span>
+                        </div>
+                        <div className="detail-grid">
+                          <div className="detail-item">
+                            <Clock size={14} />
+                            <span>20-24 hours</span>
+                          </div>
+                          <div className="detail-item">
+                            <DollarSign size={14} />
+                            <span>$1,100-$1,400</span>
+                          </div>
+                        </div>
+                        <ul className="airline-features">
+                          <li>A380 First Class available</li>
+                          <li>Onboard shower & bar (First)</li>
+                          <li>First: $12,000-$19,000</li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div className="airline-card">
+                      <div className="airline-header">
+                        <h4>Turkish Airlines</h4>
+                        <span className="badge">Seattle Best</span>
+                      </div>
+                      <div className="airline-details">
+                        <div className="route-info">
+                          <Globe size={16} />
+                          <span>SEA → IST → GOI</span>
+                        </div>
+                        <div className="detail-grid">
+                          <div className="detail-item">
+                            <Clock size={14} />
+                            <span>19 hours</span>
+                          </div>
+                          <div className="detail-item">
+                            <DollarSign size={14} />
+                            <span>$1,050-$1,300</span>
+                          </div>
+                        </div>
+                        <ul className="airline-features">
+                          <li>Excellent Istanbul lounge</li>
+                          <li>Business: $4,000-$5,500</li>
+                          <li>Great Seattle connections</li>
+                        </ul>
+                      </div>
                     </div>
                   </div>
-                  <div className="highlight">
-                    February provides ideal weather across all regions. Extended stays reduce daily
-                    flight costs from $200-300 to $50-80.
+                </div>
+
+                {/* Airport & Transportation Panel */}
+                <div className="travel-panel">
+                  <div className="panel-header">
+                    <Navigation className="panel-icon" />
+                    <h3>Airport & Transportation</h3>
+                  </div>
+
+                  <div className="airport-info-card">
+                    <div className="airport-header">
+                      <h4>Goa International Airport (Dabolim)</h4>
+                      <div className="copyable-item inline">
+                        <span className="code-badge">GOI</span>
+                        <button
+                          className="copy-btn-inline"
+                          onClick={() => copyToClipboard('GOI', 'goi-code')}
+                          aria-label="Copy GOI code"
+                        >
+                          {copiedText === 'goi-code' ? <Check size={14} /> : <Copy size={14} />}
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="airport-details">
+                      <div className="detail-row">
+                        <MapPin size={16} />
+                        <span>32km from Zuri Resort (50 minutes)</span>
+                      </div>
+                      <div className="detail-row">
+                        <Phone size={16} />
+                        <div className="copyable-item inline">
+                          <span>+91 832 254 0806</span>
+                          <button
+                            className="copy-btn-inline"
+                            onClick={() => copyToClipboard('+918322540806', 'airport-phone')}
+                            aria-label="Copy phone number"
+                          >
+                            {copiedText === 'airport-phone' ? (
+                              <Check size={14} />
+                            ) : (
+                              <Copy size={14} />
+                            )}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="transport-options-grid">
+                      <div className="transport-option">
+                        <Car size={20} />
+                        <div>
+                          <h5>Pre-paid Taxi</h5>
+                          <p>₹1,500-2,000 ($20-25)</p>
+                          <span className="option-note">Book at airport counter</span>
+                        </div>
+                      </div>
+                      <div className="transport-option">
+                        <Navigation size={20} />
+                        <div>
+                          <h5>Uber/Ola</h5>
+                          <p>₹1,800-2,500 ($25-35)</p>
+                          <span className="option-note">App-based booking</span>
+                        </div>
+                      </div>
+                      <div className="transport-option">
+                        <Car size={20} />
+                        <div>
+                          <h5>Hotel Transfer</h5>
+                          <p>₹2,500-3,500 ($35-45)</p>
+                          <span className="option-note">Pre-arrange with Zuri</span>
+                        </div>
+                      </div>
+                      <div className="transport-option">
+                        <Briefcase size={20} />
+                        <div>
+                          <h5>Rental Car</h5>
+                          <p>₹2,000-4,000/day ($25-50)</p>
+                          <span className="option-note">Book in advance</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="warning-card">
+                    <AlertCircle className="warning-icon" />
+                    <div>
+                      <strong>Avoid Manohar Airport (GOX)</strong>
+                      <p>
+                        78km away (2+ hours) with limited flights. Always book to Dabolim (GOI).
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Booking Strategy Panel */}
+                <div className="travel-panel" data-section="booking-strategy-section">
+                  <div className="panel-header">
+                    <Calendar className="panel-icon" />
+                    <h3>Booking Strategy & Tips</h3>
+                  </div>
+
+                  <div className="booking-timeline">
+                    <h4>Critical Booking Deadlines</h4>
+                    <div className="timeline-items">
+                      <div className="timeline-item urgent">
+                        <div className="timeline-date">Oct 15, 2025</div>
+                        <div className="timeline-content">
+                          <strong>First Class & Premium Economy</strong>
+                          <p>Best rates and availability</p>
+                        </div>
+                      </div>
+                      <div className="timeline-item important">
+                        <div className="timeline-date">Oct 31, 2025</div>
+                        <div className="timeline-content">
+                          <strong>Economy Class Deadline</strong>
+                          <p>Prices increase 20-40% after</p>
+                        </div>
+                      </div>
+                      <div className="timeline-item">
+                        <div className="timeline-date">Nov 30, 2025</div>
+                        <div className="timeline-content">
+                          <strong>Business Class</strong>
+                          <p>Last chance for deals</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="booking-tips-grid">
+                    <div className="tip-card">
+                      <DollarSign className="tip-card-icon" />
+                      <h5>Save Money</h5>
+                      <ul>
+                        <li>Book Tuesday/Wednesday (-15%)</li>
+                        <li>Flexible dates save $200-500</li>
+                        <li>Group bookings save 10-15%</li>
+                      </ul>
+                    </div>
+                    <div className="tip-card">
+                      <Info className="tip-card-icon" />
+                      <h5>Pro Tips</h5>
+                      <ul>
+                        <li>Use Google Flights alerts</li>
+                        <li>Check airline sites directly</li>
+                        <li>Consider multi-city routing</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                {/* February Travel Specifics Panel */}
+                <div className="travel-panel">
+                  <div className="panel-header">
+                    <Sun className="panel-icon" />
+                    <h3>February in Goa</h3>
+                  </div>
+
+                  <div className="february-info">
+                    <div className="weather-card">
+                      <h4>Perfect Wedding Weather</h4>
+                      <div className="weather-grid">
+                        <div className="weather-item">
+                          <Sun size={20} />
+                          <div>
+                            <strong>20-32°C</strong>
+                            <span>68-90°F</span>
+                          </div>
+                        </div>
+                        <div className="weather-item">
+                          <Calendar size={20} />
+                          <div>
+                            <strong>Peak Season</strong>
+                            <span>Book early!</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="packing-card">
+                      <h4>What to Pack</h4>
+                      <div className="packing-grid">
+                        <div className="packing-category">
+                          <h5>Essentials</h5>
+                          <ul>
+                            <li>Light, breathable clothing</li>
+                            <li>Sunscreen (SPF 30+)</li>
+                            <li>Comfortable sandals</li>
+                            <li>Hat and sunglasses</li>
+                          </ul>
+                        </div>
+                        <div className="packing-category">
+                          <h5>Wedding Attire</h5>
+                          <ul>
+                            <li>Formal Indian wear</li>
+                            <li>Light evening jacket</li>
+                            <li>Dressy sandals/shoes</li>
+                            <li>Traditional accessories</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          )}
-        </motion.div>
+          </motion.div>
 
-        {/* Visa & Documentation */}
-        <motion.div
-          className="travel-section"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-        >
-          <button className="section-header" onClick={() => toggleSection('visa')}>
-            <div className="header-content">
+          {/* Visa & Documentation - Standalone Section */}
+          <motion.div
+            className="standalone-section visa-documentation"
+            data-section="visa-documentation-section"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+          >
+            <div className="section-header-standalone">
               <Calendar className="section-icon" />
               <h3>Visa & Documentation</h3>
             </div>
-            {expandedSection === 'visa' ? <ChevronUp /> : <ChevronDown />}
-          </button>
 
-          {expandedSection === 'visa' && (
-            <div className="section-content">
+            <div className="section-content-standalone">
               <div className="accordion-content">
                 <div className="content-column">
                   <h4>E-Visa Application Process</h4>
@@ -259,769 +562,287 @@ const Travel: React.FC = () => {
                 </div>
               </div>
             </div>
-          )}
-        </motion.div>
+          </motion.div>
 
-        {/* Cultural Etiquette & Respect */}
-        <motion.div
-          className="travel-section"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.25, duration: 0.6 }}
-        >
-          <button className="section-header" onClick={() => toggleSection('etiquette')}>
-            <div className="header-content">
-              <Users className="section-icon" />
-              <h3>Cultural Etiquette & Respect</h3>
-            </div>
-            {expandedSection === 'etiquette' ? <ChevronUp /> : <ChevronDown />}
-          </button>
+          {/* Getting Here Column - Travel & Visa Info */}
+          <div className="travel-column getting-here">
+            <h3 className="column-title">Getting Here</h3>
 
-          {expandedSection === 'etiquette' && (
-            <div className="section-content">
-              <h4>🏖️ Beach Etiquette Guidelines</h4>
-              <ul>
-                <li>
-                  Maintain appropriate attire when away from beach areas - please ensure shoulders
-                  and knees are covered in public spaces
-                </li>
-                <li>
-                  Topless sunbathing is not permitted - we encourage respecting local cultural
-                  sensitivities
-                </li>
-                <li>
-                  Beach attire is appropriate for coastal areas only; modest clothing is recommended
-                  for dining establishments and urban areas
-                </li>
-                <li>Please be considerate of local families and children in shared beach spaces</li>
-              </ul>
-
-              <h4>🤝 Cultural Engagement & Courtesy</h4>
-              <ul>
-                <li>
-                  Engage with local community members with genuine interest and respect, avoiding
-                  assumptions or generalizations
-                </li>
-                <li>Please request permission before photographing individuals or sacred sites</li>
-                <li>Footwear should be removed when entering private homes or places of worship</li>
-                <li>
-                  Traditional etiquette suggests using your right hand for greetings and monetary
-                  exchanges
-                </li>
-                <li>
-                  Public displays of affection should be kept minimal in accordance with local
-                  customs
-                </li>
-              </ul>
-
-              <h4>🌿 Environmental Stewardship</h4>
-              <ul>
-                <li>Vehicle access on beaches is prohibited by law and harmful to the ecosystem</li>
-                <li>
-                  Please observe wildlife from a respectful distance and refrain from feeding
-                  animals
-                </li>
-                <li>Proper waste disposal helps maintain Goa's natural beauty for all visitors</li>
-                <li>We encourage supporting environmentally conscious local businesses</li>
-              </ul>
-
-              <h4>🔇 Community Noise Guidelines</h4>
-              <ul>
-                <li>Please observe quiet hours in residential areas after 10:00 PM</li>
-                <li>Maintain considerate noise levels in public beach areas and shared spaces</li>
-                <li>Most accommodations observe quiet hours from 10:00 PM to 8:00 AM</li>
-              </ul>
-
-              <h4>🛕 Sacred Sites & Places of Worship</h4>
-              <ul>
-                <li>
-                  Conservative dress is required when visiting temples, churches, and religious
-                  sites
-                </li>
-                <li>Photography restrictions may apply at certain religious locations</li>
-                <li>Please observe all posted guidelines and local customs</li>
-                <li>Quiet, respectful behavior is expected in places of worship</li>
-              </ul>
-
-              <div className="tip-box">
-                <AlertCircle className="tip-icon" />
-                <div>
-                  <strong>Cultural Appreciation:</strong> As honored guests in Goa, demonstrating
-                  respect for local customs and traditions enriches your travel experience while
-                  helping preserve the region's warm hospitality for future visitors.
+            {/* Additional helpful travel tips and resources */}
+            <motion.div
+              className="travel-section expandable-card priority-medium"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+            >
+              <button className="section-header" onClick={() => toggleSection('travel-tips')}>
+                <div className="header-content">
+                  <MapPin className="section-icon" />
+                  <h3>Travel Resources</h3>
                 </div>
-              </div>
-            </div>
-          )}
-        </motion.div>
-
-        {/* Accommodation */}
-        <motion.div
-          className="travel-section"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3, duration: 0.6 }}
-        >
-          <button className="section-header" onClick={() => toggleSection('hotels')}>
-            <div className="header-content">
-              <Hotel className="section-icon" />
-              <h3>Where to Stay</h3>
-            </div>
-            {expandedSection === 'hotels' ? <ChevronUp /> : <ChevronDown />}
-          </button>
-
-          {expandedSection === 'hotels' && (
-            <div className="section-content">
-              <div className="accordion-content">
-                <div className="content-column">
-                  <h4>Primary Hotel Block</h4>
-                  <div className="hotel-card featured">
-                    <h5>The Leela Goa</h5>
-                    <p>Mobor Beach, Cavelossim, South Goa</p>
-                    <div className="info-grid">
-                      <div>
-                        <ul>
-                          <li>10 minutes from venue</li>
-                          <li>Group rate: $150/night</li>
-                          <li>Booking code: ALEXBEN2024</li>
-                          <li>Deadline: January 15, 2024</li>
-                        </ul>
-                      </div>
-                      <div>
-                        <ul>
-                          <li>Private beach access</li>
-                          <li>Complimentary breakfast</li>
-                          <li>Spa and pool facilities</li>
-                          <li>Free WiFi throughout</li>
-                        </ul>
-                      </div>
-                    </div>
-                    <button className="book-btn">Reserve Room</button>
-                  </div>
-                </div>
-
-                <div className="content-column">
-                  <h4>Alternative Accommodations</h4>
-                  <div className="info-grid">
-                    <div className="info-section">
-                      <h5>Taj Exotica Resort & Spa</h5>
-                      <ul>
-                        <li>Location: Benaulim Beach</li>
-                        <li>Rate: $200-250/night</li>
-                        <li>Distance: 15 minutes to venue</li>
-                        <li>Luxury beachfront resort</li>
-                      </ul>
-                    </div>
-                    <div className="info-section">
-                      <h5>Alila Diwa Goa</h5>
-                      <ul>
-                        <li>Location: Majorda Beach</li>
-                        <li>Rate: $120-150/night</li>
-                        <li>Distance: 20 minutes to venue</li>
-                        <li>Contemporary design resort</li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div className="info-section">
-                    <h5>Budget-Friendly Option</h5>
-                    <ul>
-                      <li>
-                        <strong>Novotel Goa:</strong> Candolim location
-                      </li>
-                      <li>
-                        <strong>Rate:</strong> $80-100/night
-                      </li>
-                      <li>
-                        <strong>Distance:</strong> 30 minutes to venue
-                      </li>
-                      <li>
-                        <strong>Amenities:</strong> International standards
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-        </motion.div>
-
-        {/* Local Transportation */}
-        <motion.div
-          className="travel-section"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4, duration: 0.6 }}
-        >
-          <button className="section-header" onClick={() => toggleSection('transport')}>
-            <div className="header-content">
-              <Car className="section-icon" />
-              <h3>Getting Around Goa</h3>
-            </div>
-            {expandedSection === 'transport' ? <ChevronUp /> : <ChevronDown />}
-          </button>
-
-          {expandedSection === 'transport' && (
-            <div className="section-content">
-              <div className="accordion-content">
-                <div className="content-column">
-                  <h4>Airport Transfer Options</h4>
-
-                  <div className="info-section">
-                    <h5>Recommended Services</h5>
-                    <ul>
-                      <li>GoaMiles app (pre-download required)</li>
-                      <li>Hotel-arranged transfers</li>
-                      <li>Official pre-paid taxi counters</li>
-                      <li>Arrive during daylight hours</li>
-                    </ul>
-                  </div>
-
-                  <div className="info-section">
-                    <h5>Distance & Pricing from GOX Airport</h5>
-                    <ul>
-                      <li>
-                        <strong>Panaji:</strong> 40 min, $11-12
-                      </li>
-                      <li>
-                        <strong>Beach areas:</strong> 60-75 min, $14-16
-                      </li>
-                      <li>
-                        <strong>Hotel transfers:</strong> $18-24 (premium service)
-                      </li>
-                    </ul>
-                  </div>
-
+                {expandedSection === 'travel-tips' ? <ChevronUp /> : <ChevronDown />}
+              </button>
+              {expandedSection === 'travel-tips' && (
+                <div className="section-content">
                   <div className="tip-box">
-                    <AlertCircle className="tip-icon" />
+                    <MapPin className="tip-icon" />
                     <div>
-                      <strong>Important:</strong> Avoid unauthorized taxis approaching at airport.
-                      Use official services only.
+                      <h4>Additional travel resources coming soon!</h4>
+                      <p>We're compiling helpful travel tips, packing lists, and local insights.</p>
                     </div>
                   </div>
                 </div>
-
-                <div className="content-column">
-                  <h4>Local Transportation</h4>
-
-                  <div className="info-grid">
-                    <div className="info-section">
-                      <h5>Ride-Hailing Apps</h5>
-                      <ul>
-                        <li>GoaMiles (recommended)</li>
-                        <li>Uber and Ola available</li>
-                        <li>Tracked rides, fair pricing</li>
-                        <li>Safest transportation option</li>
-                      </ul>
-                    </div>
-                    <div className="info-section">
-                      <h5>Alternative Options</h5>
-                      <ul>
-                        <li>
-                          <strong>Hotel cars:</strong> Most reliable
-                        </li>
-                        <li>
-                          <strong>Auto-rickshaws:</strong> Negotiate first
-                        </li>
-                        <li>
-                          <strong>Scooter rental:</strong> ₹300-500/day
-                        </li>
-                        <li>
-                          <strong>License required</strong> for rentals
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-
-                  <div className="info-section">
-                    <h5>Safety Guidelines</h5>
-                    <ul className="compact-list">
-                      <li>Use apps for transparent pricing</li>
-                      <li>Document rental vehicle condition</li>
-                      <li>Confirm fares before departure</li>
-                      <li>Share ride details when alone</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-
-              <div className="accordion-content-single">
-                <div className="wedding-shuttles">
-                  <h4>Complimentary Wedding Shuttles</h4>
-                  <div className="info-grid three-columns">
-                    <div className="info-section">
-                      <h5>Mehendi/Sangeet</h5>
-                      <p>Pickup service starts 3:30 PM from all partner hotels</p>
-                    </div>
-                    <div className="info-section">
-                      <h5>Wedding Ceremony</h5>
-                      <p>Morning pickups begin 8:30 AM for ceremony attendance</p>
-                    </div>
-                    <div className="info-section">
-                      <h5>Reception</h5>
-                      <p>Evening shuttles start 6:30 PM to reception venue</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-        </motion.div>
-
-        {/* Things to Do */}
-        <motion.div
-          className="travel-section"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.5, duration: 0.6 }}
-        >
-          <button className="section-header" onClick={() => toggleSection('explore')}>
-            <div className="header-content">
-              <MapPin className="section-icon" />
-              <h3>Explore Goa</h3>
-            </div>
-            {expandedSection === 'explore' ? <ChevronUp /> : <ChevronDown />}
-          </button>
-
-          {expandedSection === 'explore' && (
-            <div className="section-content">
-              <div className="accordion-content">
-                <div className="content-column">
-                  <h4>Attractions & Activities</h4>
-
-                  <div className="info-section">
-                    <h5>Beaches</h5>
-                    <ul>
-                      <li>
-                        <strong>Palolem Beach:</strong> Crescent bay, South Goa
-                      </li>
-                      <li>
-                        <strong>Anjuna Beach:</strong> Wednesday flea market
-                      </li>
-                      <li>
-                        <strong>Baga Beach:</strong> Water sports, dining
-                      </li>
-                      <li>
-                        <strong>Agonda Beach:</strong> Serene, less crowded
-                      </li>
-                    </ul>
-                  </div>
-
-                  <div className="info-section">
-                    <h5>Cultural Sites</h5>
-                    <ul>
-                      <li>
-                        <strong>Old Goa Churches:</strong> UNESCO heritage
-                      </li>
-                      <li>
-                        <strong>Fontainhas:</strong> Portuguese quarter
-                      </li>
-                      <li>
-                        <strong>Spice Plantations:</strong> Guided tours
-                      </li>
-                      <li>
-                        <strong>Dudhsagar Falls:</strong> Four-tiered waterfall
-                      </li>
-                    </ul>
-                  </div>
-
-                  <div className="info-section">
-                    <h5>Essential Experiences</h5>
-                    <ul className="compact-list">
-                      <li>Chapora Fort sunset viewing</li>
-                      <li>Dolphin watching cruises</li>
-                      <li>Arpora night market (Saturday)</li>
-                      <li>Ayurvedic spa treatments</li>
-                      <li>Beach yoga sessions</li>
-                    </ul>
-                  </div>
-                </div>
-
-                <div className="content-column">
-                  <h4>Dining & Safety</h4>
-
-                  <div className="info-section">
-                    <h5>Recommended Restaurants</h5>
-                    <ul>
-                      <li>
-                        <strong>Gunpowder (Assagao):</strong> Upscale Indian
-                      </li>
-                      <li>
-                        <strong>Fisherman's Wharf:</strong> Tourist-friendly seafood
-                      </li>
-                      <li>
-                        <strong>Black Sheep Bistro:</strong> European fusion
-                      </li>
-                      <li>
-                        <strong>Mum's Kitchen:</strong> Traditional Goan
-                      </li>
-                      <li>
-                        <strong>Vinayak Family:</strong> Authentic local
-                      </li>
-                    </ul>
-                  </div>
-
-                  <div className="info-section">
-                    <h5>Essential Dishes</h5>
-                    <ul>
-                      <li>Fish curry rice (regional staple)</li>
-                      <li>Chicken Xacuti (spiced curry)</li>
-                      <li>Prawn Balchão (pickled preparation)</li>
-                      <li>Bebinca (layered dessert)</li>
-                      <li>Feni (cashew spirit)</li>
-                    </ul>
-                  </div>
-
-                  <div className="info-section">
-                    <h5>Food Safety Guidelines</h5>
-                    <ul className="compact-list">
-                      <li>Sealed bottled water only</li>
-                      <li>Choose busy, clean establishments</li>
-                      <li>Hot, freshly prepared food</li>
-                      <li>Avoid street vendor dairy</li>
-                      <li>Start with hotel dining</li>
-                      <li>Use digital payments when possible</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-
-              <div className="accordion-content-single">
-                <div className="tip-box">
-                  <AlertCircle className="tip-icon" />
-                  <div>
-                    <strong>Dining Strategy:</strong> Begin with hotel restaurants to acclimate,
-                    then explore local establishments. High customer turnover indicates fresh food
-                    preparation.
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-        </motion.div>
-
-        {/* Tourist Safety & Scam Awareness */}
-        <motion.div
-          className="travel-section"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.55, duration: 0.6 }}
-        >
-          <button className="section-header" onClick={() => toggleSection('safety')}>
-            <div className="header-content">
-              <Shield className="section-icon" />
-              <h3>Safety & Scam Prevention</h3>
-            </div>
-            {expandedSection === 'safety' ? <ChevronUp /> : <ChevronDown />}
-          </button>
-
-          {expandedSection === 'safety' && (
-            <div className="section-content">
-              <h4>🚨 Common Tourist Scams to Avoid</h4>
-              <ul>
-                <li>
-                  <strong>Overpriced Taxi Fares:</strong> Airport taxis quoting 3-5x normal rates
-                </li>
-                <li>
-                  <strong>Rental Vehicle Damage Claims:</strong> False damage claims on returns
-                </li>
-                <li>
-                  <strong>Gem/Jewelry Scams:</strong> "Special price" precious stones that are
-                  worthless
-                </li>
-                <li>
-                  <strong>Beach Vendor Pressure:</strong> Aggressive selling of overpriced items
-                </li>
-                <li>
-                  <strong>Currency Exchange:</strong> Poor rates at unofficial exchanges
-                </li>
-                <li>
-                  <strong>Tourist Menu Pricing:</strong> Different (higher) prices for tourists
-                </li>
-              </ul>
-
-              <h4>🛡️ General Safety Tips</h4>
-              <ul>
-                <li>📱 Keep digital copies of all important documents</li>
-                <li>💰 Use hotel safes for valuables and extra cash</li>
-                <li>🏖️ Don't leave belongings unattended on beaches</li>
-                <li>🌃 Avoid isolated areas after dark</li>
-                <li>👥 Travel in groups when possible, especially at night</li>
-                <li>📸 Be discreet with expensive cameras and jewelry</li>
-                <li>🍺 Know your limits with alcohol, especially in unfamiliar settings</li>
-              </ul>
-
-              <h4>💳 Money Safety</h4>
-              <ul>
-                <li>Use ATMs attached to banks, not standalone machines</li>
-                <li>Notify your bank of travel dates to avoid card blocks</li>
-                <li>Carry cash in small denominations for tips/small purchases</li>
-                <li>Keep emergency cash in multiple locations</li>
-                <li>Use RFID-blocking wallet for cards</li>
-              </ul>
-
-              <h4>📚 Trusted Resources</h4>
-              <div className="resource-grid">
-                <div className="resource-card">
-                  <strong>Local Blogs & Guides:</strong>
-                  <ul>
-                    <li>Goa Tourism official website</li>
-                    <li>TripAdvisor Goa forums</li>
-                    <li>Local expat Facebook groups</li>
-                  </ul>
-                </div>
-                <div className="resource-card">
-                  <strong>Emergency Contacts:</strong>
-                  <ul>
-                    <li>Tourist Police: 1800-11-1363</li>
-                    <li>Medical Emergency: 108</li>
-                    <li>US Consulate Mumbai: +91-22-2672-4000</li>
-                  </ul>
-                </div>
-              </div>
-
-              <div className="tip-box">
-                <AlertCircle className="tip-icon" />
-                <div>
-                  <strong>Golden Rule:</strong> If a deal seems too good to be true, it probably is.
-                  Trust your instincts and don't be afraid to walk away from uncomfortable
-                  situations.
-                </div>
-              </div>
-            </div>
-          )}
-        </motion.div>
-
-        {/* Health & Safety */}
-        <motion.div
-          className="travel-section"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.6, duration: 0.6 }}
-        >
-          <button className="section-header" onClick={() => toggleSection('health')}>
-            <div className="header-content">
-              <Heart className="section-icon" />
-              <h3>Health & Safety</h3>
-            </div>
-            {expandedSection === 'health' ? <ChevronUp /> : <ChevronDown />}
-          </button>
-
-          {expandedSection === 'health' && (
-            <div className="section-content">
-              <h4>💉 Vaccinations & COVID-19</h4>
-              <p>Consult your doctor 4-6 weeks before travel:</p>
-              <ul>
-                <li>Hepatitis A & B (strongly recommended)</li>
-                <li>Typhoid (for rural areas)</li>
-                <li>Routine vaccines should be up-to-date</li>
-                <li>COVID-19: Check latest India entry requirements</li>
-                <li>Carry vaccination documentation (physical and digital)</li>
-              </ul>
-
-              <h4>🦟 Mosquito Protection & Disease Prevention</h4>
-              <ul>
-                <li>Use DEET-based repellent from dusk to dawn (malaria and dengue risk)</li>
-                <li>Wear long sleeves and pants in the evening</li>
-                <li>Consider prophylaxis for extended stays (consult travel clinic)</li>
-                <li>Use mosquito nets if windows aren't screened</li>
-                <li>Stay in air-conditioned rooms when possible</li>
-              </ul>
-
-              <h4>🏥 Health Tips & Hygiene</h4>
-              <ul>
-                <li>💧 Drink only sealed bottled water (avoid ice from unknown sources)</li>
-                <li>🧼 Frequent hand washing/sanitizer use is essential</li>
-                <li>🍽️ Stick to hotel/venue food initially, gradually try local cuisine</li>
-                <li>☀️ Use sunscreen SPF 30+ and stay hydrated</li>
-                <li>
-                  💊 Essential medications: Pepto-Bismol, Imodium, antihistamines, pain relievers
-                </li>
-                <li>🏊 Avoid risky activities (unregulated adventure sports)</li>
-              </ul>
-
-              <h4>🛡️ Enhanced Travel Insurance Requirements</h4>
-              <p>
-                <strong>Comprehensive coverage is essential:</strong>
-              </p>
-              <ul>
-                <li>
-                  <strong>Medical coverage:</strong> $50,000+ minimum recommended
-                </li>
-                <li>
-                  <strong>Medical evacuation:</strong> $50,000-$100,000 coverage
-                </li>
-                <li>
-                  <strong>Trip cancellation:</strong> Full trip cost protection
-                </li>
-                <li>
-                  <strong>COVID-19 coverage:</strong> Ensure policy covers pandemic-related issues
-                </li>
-                <li>
-                  <strong>Adventure activities:</strong> Add riders if planning water
-                  sports/trekking
-                </li>
-                <li>
-                  <strong>Cost:</strong> ~$12-15 per day (worth every penny!)
-                </li>
-              </ul>
-
-              <div className="tip-box">
-                <AlertCircle className="tip-icon" />
-                <div>
-                  <strong>Pro Tip:</strong> Purchase insurance when booking flights for immediate
-                  coverage. Keep copies of policy and emergency numbers in multiple places (phone,
-                  wallet, hotel safe).
-                </div>
-              </div>
-
-              <h4>🌡️ February Weather</h4>
-              <div className="weather-info">
-                <p>Perfect conditions for our celebration!</p>
-                <ul>
-                  <li>☀️ Temperature: 79°F (26°C) average</li>
-                  <li>💧 Rainfall: Almost none (0.1mm)</li>
-                  <li>🌅 Sunny days with coastal breeze</li>
-                  <li>👕 Pack light, breathable clothing</li>
-                </ul>
-              </div>
-            </div>
-          )}
-        </motion.div>
-
-        {/* Money & Communication */}
-        <motion.div
-          className="travel-section"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.7, duration: 0.6 }}
-        >
-          <button className="section-header" onClick={() => toggleSection('money')}>
-            <div className="header-content">
-              <DollarSign className="section-icon" />
-              <h3>Money & Communication</h3>
-            </div>
-            {expandedSection === 'money' ? <ChevronUp /> : <ChevronDown />}
-          </button>
-
-          {expandedSection === 'money' && (
-            <div className="section-content">
-              <h4>💰 Currency</h4>
-              <ul>
-                <li>Indian Rupees (₹) - Current rate: $1 = ₹83</li>
-                <li>ATMs widely available (notify your bank of travel)</li>
-                <li>Credit cards accepted at hotels and major shops</li>
-                <li>Carry cash for markets and small vendors</li>
-              </ul>
-
-              <h4>💵 Tipping Guide</h4>
-              <ul>
-                <li>Hotels: ₹100-200 for bellhops/housekeeping</li>
-                <li>Restaurants: 10% if service charge not included</li>
-                <li>Drivers: ₹200-300 for full day</li>
-                <li>Spa: 10-15% of service cost</li>
-              </ul>
-
-              <h4>📱 Staying Connected</h4>
-              <ul>
-                <li>
-                  <strong>International plans:</strong> Check with your carrier
-                </li>
-                <li>
-                  <strong>Local SIM:</strong> Available at airport (~₹500 for 1GB/day)
-                </li>
-                <li>
-                  <strong>WiFi:</strong> Available at all hotels and most restaurants
-                </li>
-                <li>
-                  <strong>WhatsApp:</strong> Most used messaging app in India
-                </li>
-              </ul>
-
-              <h4>🔌 Other Essentials</h4>
-              <ul>
-                <li>Power adapter: Type C, D, and M plugs (230V)</li>
-                <li>Time zone: GMT+5:30 (10.5-13.5 hours ahead of US)</li>
-              </ul>
-
-              <h4>🚨 Emergency Contacts</h4>
-              <ul>
-                <li>
-                  <strong>Police:</strong> 100
-                </li>
-                <li>
-                  <strong>Medical Emergency:</strong> 108
-                </li>
-                <li>
-                  <strong>Fire:</strong> 101
-                </li>
-                <li>
-                  <strong>Tourist Helpline:</strong> 1800-11-1363 (24/7)
-                </li>
-                <li>
-                  <strong>US Consulate Mumbai:</strong> +91-22-2672-4000
-                </li>
-                <li>
-                  <strong>Nearest Hospital:</strong> Manipal Hospital Goa: +91-832-2458888
-                </li>
-              </ul>
-            </div>
-          )}
-        </motion.div>
-
-        {/* Quick Reference Card */}
-        <motion.div
-          className="quick-reference"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.8, duration: 0.6 }}
-        >
-          <h3>📱 Quick Reference</h3>
-          <div className="reference-grid">
-            <div className="reference-item">
-              <strong>Wedding Coordinator:</strong>
-              <p>Sarah Johnson</p>
-              <p>WhatsApp: +1-555-0123</p>
-              <p>Available 24/7 during wedding week</p>
-            </div>
-            <div className="reference-item">
-              <strong>Hotel Contact:</strong>
-              <p>The Leela Goa</p>
-              <p>+91-832-662-1234</p>
-              <p>Ask for wedding guest services</p>
-            </div>
-            <div className="reference-item">
-              <strong>Emergency Contacts:</strong>
-              <p>🚓 Police: 100</p>
-              <p>🚑 Medical: 108</p>
-              <p>📞 Tourist Helpline: 1800-11-1363</p>
-            </div>
-            <div className="reference-item">
-              <strong>Wedding Couple:</strong>
-              <p>Alex: +1-555-0456</p>
-              <p>Ben: +1-555-0789</p>
-              <p>WhatsApp preferred</p>
-            </div>
-            <div className="reference-item">
-              <strong>US Consulate Mumbai:</strong>
-              <p>+91-22-2672-4000</p>
-              <p>Emergency after-hours: +91-22-2672-4000</p>
-            </div>
-            <div className="reference-item">
-              <strong>Group WhatsApp:</strong>
-              <p>Join "Chris&Aakanchha Wedding Guests"</p>
-              <p>[QR Code]</p>
-              <p>For real-time updates & coordination</p>
-            </div>
+              )}
+            </motion.div>
           </div>
-        </motion.div>
+
+          {/* Where You Are Staying - Standalone Section */}
+          <motion.div
+            className="standalone-section where-you-are-staying"
+            data-section="accommodations-section"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3, duration: 0.6 }}
+          >
+            <div className="section-header-standalone">
+              <Hotel className="section-icon" />
+              <h2>Where You Are Staying</h2>
+            </div>
+
+            <div className="section-content-standalone">
+              {/* Pre-arranged Accommodations Message */}
+              <div className="pre-arranged-message">
+                <div className="message-content">
+                  <h3>Your accommodations have been arranged for you</h3>
+                  <p>
+                    We've taken care of your stay at the beautiful Zuri White Sands resort. No
+                    booking required – just arrive and enjoy!
+                  </p>
+                </div>
+              </div>
+
+              <HotelInfoHeader showAsInfo={true} />
+
+              <div className="hotel-content-grid">
+                <div className="gallery-column">
+                  <ImageGallery className="hotel-gallery" autoPlay={true} autoPlayInterval={4000} />
+                </div>
+                <div className="details-column">
+                  <GoogleMapWidget className="venue-map" />
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Being Here Column */}
+          <div className="travel-column being-here" data-section="being-here-section">
+            <h3 className="column-title">Being Here</h3>
+
+            {/* Local Transportation */}
+            <motion.div
+              className="travel-section"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.4, duration: 0.6 }}
+            >
+              <button className="section-header" onClick={() => toggleSection('transport')}>
+                <div className="header-content">
+                  <Car className="section-icon" />
+                  <h3>Getting Around Goa</h3>
+                </div>
+                {expandedSection === 'transport' ? <ChevronUp /> : <ChevronDown />}
+              </button>
+
+              {expandedSection === 'transport' && (
+                <div className="section-content">
+                  <div className="tip-box">
+                    <Car className="tip-icon" />
+                    <div>
+                      <h4>Transportation Guide in Development</h4>
+                      <p>
+                        We're preparing detailed transportation information to help you navigate Goa
+                        with ease, from airport transfers to local travel options.
+                      </p>
+                      <p>
+                        Our guide will include trusted services, pricing estimates, safety tips, and
+                        complimentary wedding shuttle schedules.
+                      </p>
+                      <p>
+                        <strong>Check back soon for comprehensive transportation guidance!</strong>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </motion.div>
+
+            {/* Things to Do */}
+            <motion.div
+              className="travel-section"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.5, duration: 0.6 }}
+            >
+              <button className="section-header" onClick={() => toggleSection('explore')}>
+                <div className="header-content">
+                  <MapPin className="section-icon" />
+                  <h3>Explore Goa</h3>
+                </div>
+                {expandedSection === 'explore' ? <ChevronUp /> : <ChevronDown />}
+              </button>
+
+              {expandedSection === 'explore' && (
+                <div className="section-content">
+                  <div className="tip-box">
+                    <MapPin className="tip-icon" />
+                    <div>
+                      <h4>Exciting Destinations & Activities Coming Soon!</h4>
+                      <p>
+                        We're curating the best of Goa's beaches, cultural sites, dining
+                        experiences, and must-see attractions just for our wedding guests.
+                      </p>
+                      <p>
+                        From pristine beaches to historic sites, local cuisine to essential
+                        experiences - our guide will help you make the most of your Goa adventure.
+                      </p>
+                      <p>
+                        <strong>Stay tuned for insider recommendations and local favorites!</strong>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </motion.div>
+          </div>
+
+          {/* Essential Info Column - Cultural, Health, Safety, Practical */}
+          <div className="travel-column essential-info">
+            <h3 className="column-title">Essential Info</h3>
+
+            {/* Cultural Etiquette & Respect */}
+            <motion.div
+              className="travel-section expandable-card priority-medium"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.25, duration: 0.6 }}
+            >
+              <button className="section-header" onClick={() => toggleSection('etiquette')}>
+                <div className="header-content">
+                  <Users className="section-icon" />
+                  <h3>Cultural Etiquette</h3>
+                </div>
+                {expandedSection === 'etiquette' ? <ChevronUp /> : <ChevronDown />}
+              </button>
+
+              {expandedSection === 'etiquette' && (
+                <div className="section-content">
+                  <div className="tip-box">
+                    <Users className="tip-icon" />
+                    <div>
+                      <h4>Cultural Guidelines</h4>
+                      <p>
+                        Comprehensive cultural etiquette to help you navigate Goa's rich cultural
+                        landscape.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </motion.div>
+
+            {/* Health & Safety */}
+            <motion.div
+              className="travel-section expandable-card priority-high"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.6, duration: 0.6 }}
+            >
+              <button className="section-header" onClick={() => toggleSection('health')}>
+                <div className="header-content">
+                  <Heart className="section-icon" />
+                  <h3>Health & Safety</h3>
+                </div>
+                {expandedSection === 'health' ? <ChevronUp /> : <ChevronDown />}
+              </button>
+
+              {expandedSection === 'health' && (
+                <div className="section-content">
+                  <div className="tip-box">
+                    <Heart className="tip-icon" />
+                    <div>
+                      <h4>Health Information</h4>
+                      <p>Essential health and safety information for your trip to Goa.</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </motion.div>
+
+            {/* Safety & Scam Prevention */}
+            <motion.div
+              className="travel-section expandable-card priority-high"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.55, duration: 0.6 }}
+            >
+              <button className="section-header" onClick={() => toggleSection('safety')}>
+                <div className="header-content">
+                  <Shield className="section-icon" />
+                  <h3>Safety Tips</h3>
+                </div>
+                {expandedSection === 'safety' ? <ChevronUp /> : <ChevronDown />}
+              </button>
+
+              {expandedSection === 'safety' && (
+                <div className="section-content">
+                  <div className="tip-box">
+                    <Shield className="tip-icon" />
+                    <div>
+                      <h4>Safety Guidelines</h4>
+                      <p>Important safety information and scam prevention tips.</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </motion.div>
+
+            {/* Money & Communication */}
+            <motion.div
+              className="travel-section expandable-card priority-medium"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.7, duration: 0.6 }}
+            >
+              <button className="section-header" onClick={() => toggleSection('money')}>
+                <div className="header-content">
+                  <DollarSign className="section-icon" />
+                  <h3>Money & Comms</h3>
+                </div>
+                {expandedSection === 'money' ? <ChevronUp /> : <ChevronDown />}
+              </button>
+
+              {expandedSection === 'money' && (
+                <div className="section-content">
+                  <div className="tip-box">
+                    <DollarSign className="tip-icon" />
+                    <div>
+                      <h4>Financial Tips</h4>
+                      <p>Currency, tipping, and communication essentials.</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </motion.div>
+          </div>
+        </div>
       </div>
     </section>
   );

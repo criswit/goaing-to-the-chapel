@@ -1,0 +1,79 @@
+# Cultural Compass Floating TOC - Product Requirements Document
+
+## Project Overview
+Implement a sophisticated "Cultural Compass" floating table of contents for the wedding events timeline that serves as an ambient intelligence navigation system for the comprehensive 11-event, 2-day wedding timeline.
+
+## Problem Statement
+The new wedding events section will feature 11 detailed events across 2 days with complex cultural transitions (Indian/American/Fusion). Users need:
+- Quick navigation between events without losing context
+- Cultural context awareness as they browse the timeline  
+- Progress tracking through the 2-day celebration
+- Mobile-friendly timeline navigation
+- Seamless integration with existing smooth scroll patterns
+
+## Solution: Cultural Compass Design
+A floating TOC that embodies the "wedding planner's clipboard" metaphor - an intelligent, context-aware navigation aid with progressive disclosure.
+
+## Core Features
+
+### 1. Progressive Disclosure Interaction Model
+- **Dormant State**: Minimal floating cultural indicator (color-coded dot)
+- **Hover/Touch State**: Expands to condensed mini-timeline with next 2-3 events
+- **Expanded State**: Full timeline overlay with all 11 events
+- **Navigation State**: Smooth scroll with cultural transition animations
+
+### 2. Cultural Intelligence System
+- **Color Morphing**: Smooth transitions between Indian (saffron #FF6B35), American (blue #4A90E2), Fusion (purple #8B5CF6)
+- **Cultural Context Preview**: Shows upcoming cultural transitions
+- **Timeline Progress Arc**: Circular progress indicator for 2-day timeline
+- **Ambient Behavior**: Predictive visibility based on scroll patterns
+
+### 3. Responsive Design Strategy
+- **Desktop (1024px+)**: Fixed sidebar compass with full timeline visibility
+- **Tablet (768px-1023px)**: Floating button expanding to overlay
+- **Mobile (320px-767px)**: Bottom-anchored indicator with swipe-up drawer
+
+## Technical Requirements
+
+### Component Architecture
+- CulturalCompass.tsx - Main floating component
+- TimelineIndicator.tsx - Progress visualization  
+- CulturalBadge.tsx - Cultural indicator with animations
+- EventPreview.tsx - Condensed event preview cards
+- ScrollSpy.tsx - Intelligent scroll detection
+
+### Integration Points
+- Seamless integration with Events.tsx timeline
+- Coordination with Navigation.tsx smooth scroll
+- Framer Motion animation consistency
+- Cultural indicator system matching specification colors
+
+### Performance & Accessibility
+- WCAG 2.1 AA compliant with ARIA labels
+- Keyboard navigation with focus management
+- Debounced scroll events for performance
+- Progressive enhancement support
+- Core Web Vitals optimization
+
+## Success Criteria
+- Enhances wedding timeline experience without distraction
+- Provides instant cultural context and navigation utility
+- Feels like natural extension of existing design system
+- Performs smoothly across all device types
+- Creates memorable, sophisticated user experience
+
+## Implementation Phases
+1. Core component structure and scroll spy logic
+2. Cultural color system and transition animations  
+3. Responsive behavior and gesture support
+4. Integration with existing timeline and testing
+5. Accessibility features and performance optimization
+6. Cross-browser testing and deployment
+
+## User Stories
+- As a wedding guest, I want to quickly jump between Day 1 and Day 2 events
+- As a guest, I want to understand cultural transitions as I browse
+- As a mobile user, I want easy timeline navigation without losing my place
+- As an accessibility user, I want keyboard navigation and screen reader support
+- As any user, I want the TOC to feel helpful, not intrusive
+
