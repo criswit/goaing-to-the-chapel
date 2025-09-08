@@ -506,3 +506,4 @@ const swipeHandlers = useSwipeable({
 
 This Cultural Compass system will transform the wedding events section from a simple timeline into an intelligent, culturally-aware navigation experience that enhances the storytelling and practical utility of the wedding celebration timeline.
 
+
