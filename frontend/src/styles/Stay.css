@@ -40,6 +40,55 @@
   margin: 0;
 }
 
+.hotel-highlights {
+  margin: 2rem 0;
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(42, 54, 69, 0.02) 0%, rgba(212, 165, 116, 0.04) 100%);
+  border-radius: 12px;
+}
+
+.hotel-highlights h4 {
+  color: var(--primary-color);
+  font-size: 1.4rem;
+  font-weight: 300;
+  margin: 0 0 1.5rem 0;
+  text-align: center;
+}
+
+.highlights-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.highlight-item {
+  padding: 1.25rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.highlight-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(212, 165, 116, 0.15);
+}
+
+.highlight-item strong {
+  display: block;
+  color: var(--secondary-color);
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.highlight-item p {
+  color: var(--text-light);
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin: 0;
+}
+
 .hotel-content-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -82,6 +131,33 @@
     font-size: 1rem;
   }
 
+  .hotel-highlights {
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .hotel-highlights h4 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+
+  .highlights-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .highlight-item {
+    padding: 1rem;
+  }
+
+  .highlight-item strong {
+    font-size: 0.95rem;
+  }
+
+  .highlight-item p {
+    font-size: 0.85rem;
+  }
+
   .hotel-content-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
@@ -96,6 +172,10 @@
 
 /* Tablet */
 @media (max-width: 1024px) and (min-width: 769px) {
+  .highlights-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .hotel-gallery,
   .venue-map {
     height: 350px;
