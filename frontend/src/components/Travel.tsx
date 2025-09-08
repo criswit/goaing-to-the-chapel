@@ -3,18 +3,12 @@ import {
   Plane,
   Car,
   MapPin,
-  DollarSign,
   Calendar,
-  ChevronDown,
-  ChevronUp,
   AlertCircle,
-  Heart,
-  Users,
   Shield,
   Clock,
   Copy,
   Check,
-  Sun,
   Briefcase,
   Info,
   Phone,
@@ -26,12 +20,7 @@ import FlightOptions from './FlightOptions';
 import '../styles/Travel.css';
 
 const Travel: React.FC = () => {
-  const [expandedSection, setExpandedSection] = useState<string | null>(null);
   const [copiedText, setCopiedText] = useState<string | null>(null);
-
-  const toggleSection = (section: string) => {
-    setExpandedSection(expandedSection === section ? null : section);
-  };
 
   const copyToClipboard = (text: string, label: string) => {
     navigator.clipboard.writeText(text).then(() => {

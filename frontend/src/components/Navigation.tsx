@@ -11,11 +11,6 @@ const Navigation: React.FC = () => {
     setIsOpen(false);
   };
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    setIsOpen(false);
-  };
-
   return (
     <nav className="navigation">
       <div className="nav-container">

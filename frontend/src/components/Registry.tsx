@@ -1,5 +1,5 @@
 import React from 'react';
-import { Gift, Heart, Home } from 'lucide-react';
+import { Gift, Heart } from 'lucide-react';
 import { motion } from 'framer-motion';
 import '../styles/Registry.css';
 
