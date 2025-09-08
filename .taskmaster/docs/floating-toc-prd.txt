@@ -78,3 +78,4 @@ A floating TOC that embodies the "wedding planner's clipboard" metaphor - an int
 - As any user, I want the TOC to feel helpful, not intrusive
 
 
+

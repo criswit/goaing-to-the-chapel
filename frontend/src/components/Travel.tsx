@@ -23,9 +23,6 @@ import {
   Navigation,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
-import HotelInfoHeader from './HotelInfoHeader';
-import ImageGallery from './ImageGallery';
-import GoogleMapWidget from './GoogleMapWidget';
 import '../styles/Travel.css';
 
 const Travel: React.FC = () => {
@@ -163,113 +160,73 @@ const Travel: React.FC = () => {
                   <div className="airline-cards">
                     <div className="airline-card featured">
                       <div className="airline-header">
-                        <h4>Air India Direct</h4>
-                        <span className="badge best-value">Best Value</span>
+                        <h4>Air India</h4>
                       </div>
                       <div className="airline-details">
-                        <div className="route-info">
-                          <Globe size={16} />
-                          <span>SFO → DEL → GOI</span>
-                        </div>
-                        <div className="detail-grid">
+                        <div className="airline-summary-row">
+                          <div className="route-info">
+                            <Globe size={16} />
+                            <span>SFO → DEL → GOI</span>
+                          </div>
                           <div className="detail-item">
                             <Clock size={14} />
                             <span>17-21 hours</span>
                           </div>
-                          <div className="detail-item">
-                            <DollarSign size={14} />
-                            <span>$900-$1,100</span>
-                          </div>
                         </div>
-                        <ul className="airline-features">
-                          <li>Only nonstop transpacific option</li>
-                          <li>Fastest overall journey time</li>
-                          <li>Direct connection in Delhi</li>
-                        </ul>
                       </div>
                     </div>
 
                     <div className="airline-card premium">
                       <div className="airline-header">
                         <h4>Qatar Airways</h4>
-                        <span className="badge luxury">Best Business</span>
                       </div>
                       <div className="airline-details">
-                        <div className="route-info">
-                          <Globe size={16} />
-                          <span>SEA/SFO → DOH → GOI</span>
-                        </div>
-                        <div className="detail-grid">
+                        <div className="airline-summary-row">
+                          <div className="route-info">
+                            <Globe size={16} />
+                            <span>SEA/SFO → DOH → GOI</span>
+                          </div>
                           <div className="detail-item">
                             <Clock size={14} />
                             <span>19-23 hours</span>
                           </div>
-                          <div className="detail-item">
-                            <DollarSign size={14} />
-                            <span>$1,200-$1,500</span>
-                          </div>
                         </div>
-                        <ul className="airline-features">
-                          <li>Qsuites business class with doors</li>
-                          <li>Business: $4,200-$5,900</li>
-                          <li>Award-winning service</li>
-                        </ul>
                       </div>
                     </div>
 
                     <div className="airline-card">
                       <div className="airline-header">
                         <h4>Emirates</h4>
-                        <span className="badge">Premium Option</span>
                       </div>
                       <div className="airline-details">
-                        <div className="route-info">
-                          <Globe size={16} />
-                          <span>SEA/SFO → DXB → GOI</span>
-                        </div>
-                        <div className="detail-grid">
+                        <div className="airline-summary-row">
+                          <div className="route-info">
+                            <Globe size={16} />
+                            <span>SEA/SFO → DXB → GOI</span>
+                          </div>
                           <div className="detail-item">
                             <Clock size={14} />
                             <span>20-24 hours</span>
                           </div>
-                          <div className="detail-item">
-                            <DollarSign size={14} />
-                            <span>$1,100-$1,400</span>
-                          </div>
                         </div>
-                        <ul className="airline-features">
-                          <li>A380 First Class available</li>
-                          <li>Onboard shower & bar (First)</li>
-                          <li>First: $12,000-$19,000</li>
-                        </ul>
                       </div>
                     </div>
 
                     <div className="airline-card">
                       <div className="airline-header">
                         <h4>Turkish Airlines</h4>
-                        <span className="badge">Seattle Best</span>
                       </div>
                       <div className="airline-details">
-                        <div className="route-info">
-                          <Globe size={16} />
-                          <span>SEA → IST → GOI</span>
-                        </div>
-                        <div className="detail-grid">
+                        <div className="airline-summary-row">
+                          <div className="route-info">
+                            <Globe size={16} />
+                            <span>SEA → IST → GOI</span>
+                          </div>
                           <div className="detail-item">
                             <Clock size={14} />
                             <span>19 hours</span>
                           </div>
-                          <div className="detail-item">
-                            <DollarSign size={14} />
-                            <span>$1,050-$1,300</span>
-                          </div>
                         </div>
-                        <ul className="airline-features">
-                          <li>Excellent Istanbul lounge</li>
-                          <li>Business: $4,000-$5,500</li>
-                          <li>Great Seattle connections</li>
-                        </ul>
                       </div>
                     </div>
                   </div>
@@ -368,111 +325,115 @@ const Travel: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Booking Strategy Panel */}
-                <div className="travel-panel" data-section="booking-strategy-section">
+                {/* Visa Application Process Panel */}
+                <div className="travel-panel" data-section="visa-application-section">
                   <div className="panel-header">
-                    <Calendar className="panel-icon" />
-                    <h3>Booking Strategy & Tips</h3>
+                    <Shield className="panel-icon" />
+                    <h3>E-Visa Application Process</h3>
                   </div>
 
-                  <div className="booking-timeline">
-                    <h4>Critical Booking Deadlines</h4>
-                    <div className="timeline-items">
-                      <div className="timeline-item urgent">
-                        <div className="timeline-date">Oct 15, 2025</div>
-                        <div className="timeline-content">
-                          <strong>First Class & Premium Economy</strong>
-                          <p>Best rates and availability</p>
+                  <div className="visa-content">
+                    <div className="visa-timeline">
+                      <h4>Application Timeline</h4>
+                      <div className="timeline-items">
+                        <div className="timeline-item">
+                          <div className="timeline-date">120 days before</div>
+                          <div className="timeline-content">
+                            <strong>Earliest Application</strong>
+                            <p>Maximum advance window</p>
+                          </div>
                         </div>
-                      </div>
-                      <div className="timeline-item important">
-                        <div className="timeline-date">Oct 31, 2025</div>
-                        <div className="timeline-content">
-                          <strong>Economy Class Deadline</strong>
-                          <p>Prices increase 20-40% after</p>
+                        <div className="timeline-item important">
+                          <div className="timeline-date">2-3 weeks before</div>
+                          <div className="timeline-content">
+                            <strong>Recommended</strong>
+                            <p>Ideal application time</p>
+                          </div>
                         </div>
-                      </div>
-                      <div className="timeline-item">
-                        <div className="timeline-date">Nov 30, 2025</div>
-                        <div className="timeline-content">
-                          <strong>Business Class</strong>
-                          <p>Last chance for deals</p>
+                        <div className="timeline-item urgent">
+                          <div className="timeline-date">4 days before</div>
+                          <div className="timeline-content">
+                            <strong>Latest Application</strong>
+                            <p>Minimum processing time</p>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="booking-tips-grid">
-                    <div className="tip-card">
-                      <DollarSign className="tip-card-icon" />
-                      <h5>Save Money</h5>
-                      <ul>
-                        <li>Book Tuesday/Wednesday (-15%)</li>
-                        <li>Flexible dates save $200-500</li>
-                        <li>Group bookings save 10-15%</li>
-                      </ul>
-                    </div>
-                    <div className="tip-card">
-                      <Info className="tip-card-icon" />
-                      <h5>Pro Tips</h5>
-                      <ul>
-                        <li>Use Google Flights alerts</li>
-                        <li>Check airline sites directly</li>
-                        <li>Consider multi-city routing</li>
-                      </ul>
+                    <div className="visa-details-grid">
+                      <div className="visa-info-card">
+                        <Globe className="visa-icon" />
+                        <h5>Application Details</h5>
+                        <ul>
+                          <li>
+                            Website:{' '}
+                            <a
+                              href="https://indianvisaonline.gov.in/"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="visa-link"
+                            >
+                              indianvisaonline.gov.in
+                            </a>
+                          </li>
+                          <li>Processing: 3-5 business days</li>
+                          <li>Cost: $10-80 (varies by duration)</li>
+                          <li>Entry: Air and sea ports only</li>
+                        </ul>
+                      </div>
+                      <div className="visa-info-card">
+                        <Info className="visa-icon" />
+                        <h5>Pro Tips</h5>
+                        <ul>
+                          <li>Multiple-entry visa recommended</li>
+                          <li>Screenshot approval email</li>
+                          <li>Print 2 copies of e-visa</li>
+                          <li>Check passport expiry date</li>
+                        </ul>
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                {/* February Travel Specifics Panel */}
+                {/* Required Documentation Panel */}
                 <div className="travel-panel">
                   <div className="panel-header">
-                    <Sun className="panel-icon" />
-                    <h3>February in Goa</h3>
+                    <Briefcase className="panel-icon" />
+                    <h3>Required Documentation</h3>
                   </div>
 
-                  <div className="february-info">
-                    <div className="weather-card">
-                      <h4>Perfect Wedding Weather</h4>
-                      <div className="weather-grid">
-                        <div className="weather-item">
-                          <Sun size={20} />
-                          <div>
-                            <strong>20-32°C</strong>
-                            <span>68-90°F</span>
-                          </div>
+                  <div className="documentation-info">
+                    <div className="doc-requirements">
+                      <h4>Essential Documents</h4>
+                      <div className="doc-grid">
+                        <div className="doc-category">
+                          <h5>For Visa Application</h5>
+                          <ul>
+                            <li>Passport (6+ months validity)</li>
+                            <li>Passport photo (white background)</li>
+                            <li>Return flight confirmation</li>
+                            <li>Hotel booking confirmation</li>
+                          </ul>
                         </div>
-                        <div className="weather-item">
-                          <Calendar size={20} />
-                          <div>
-                            <strong>Peak Season</strong>
-                            <span>Book early!</span>
-                          </div>
+                        <div className="doc-category">
+                          <h5>For Travel</h5>
+                          <ul>
+                            <li>Printed e-visa approval</li>
+                            <li>Travel insurance documents</li>
+                            <li>Wedding invitation</li>
+                            <li>Emergency contact info</li>
+                          </ul>
                         </div>
                       </div>
                     </div>
 
-                    <div className="packing-card">
-                      <h4>What to Pack</h4>
-                      <div className="packing-grid">
-                        <div className="packing-category">
-                          <h5>Essentials</h5>
-                          <ul>
-                            <li>Light, breathable clothing</li>
-                            <li>Sunscreen (SPF 30+)</li>
-                            <li>Comfortable sandals</li>
-                            <li>Hat and sunglasses</li>
-                          </ul>
-                        </div>
-                        <div className="packing-category">
-                          <h5>Wedding Attire</h5>
-                          <ul>
-                            <li>Formal Indian wear</li>
-                            <li>Light evening jacket</li>
-                            <li>Dressy sandals/shoes</li>
-                            <li>Traditional accessories</li>
-                          </ul>
-                        </div>
+                    <div className="warning-card">
+                      <AlertCircle className="warning-icon" />
+                      <div>
+                        <strong>Important Reminder</strong>
+                        <p>
+                          Apply 2-3 weeks before departure. Multiple-entry visas advised for extended stays.
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -597,44 +558,6 @@ const Travel: React.FC = () => {
             </motion.div>
           </div>
 
-          {/* Where You Are Staying - Standalone Section */}
-          <motion.div
-            className="standalone-section where-you-are-staying"
-            data-section="accommodations-section"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-          >
-            <div className="section-header-standalone">
-              <Hotel className="section-icon" />
-              <h2>Where You Are Staying</h2>
-            </div>
-
-            <div className="section-content-standalone">
-              {/* Pre-arranged Accommodations Message */}
-              <div className="pre-arranged-message">
-                <div className="message-content">
-                  <h3>Your accommodations have been arranged for you</h3>
-                  <p>
-                    We've taken care of your stay at the beautiful Zuri White Sands resort. No
-                    booking required – just arrive and enjoy!
-                  </p>
-                </div>
-              </div>
-
-              <HotelInfoHeader showAsInfo={true} />
-
-              <div className="hotel-content-grid">
-                <div className="gallery-column">
-                  <ImageGallery className="hotel-gallery" autoPlay={true} autoPlayInterval={4000} />
-                </div>
-                <div className="details-column">
-                  <GoogleMapWidget className="venue-map" />
-                </div>
-              </div>
-            </div>
-          </motion.div>
 
           {/* Being Here Column */}
           <div className="travel-column being-here" data-section="being-here-section">

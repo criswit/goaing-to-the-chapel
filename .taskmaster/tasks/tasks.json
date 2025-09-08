@@ -1,34 +1,787 @@
 {
-  "version": "1.0.0",
-  "tags": {
-    "floating-toc": {
-      "metadata": {
-        "description": "Cultural Compass floating table of contents implementation",
-        "created": "2024-12-19T00:00:00.000Z"
+  "rsvp-system": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Setup Backend Infrastructure with AWS CDK",
+        "description": "Create serverless backend infrastructure using AWS CDK including Lambda functions, API Gateway, and DynamoDB table",
+        "details": "Setup AWS CDK stack extending the existing wedding website infrastructure. Create: 1) API Gateway REST API with CORS enabled for frontend integration 2) DynamoDB table with single-table design using PK/SK pattern for guests, events, and RSVP data 3) Lambda functions for RSVP operations using Node.js 22.x runtime 4) IAM roles and policies for Lambda-DynamoDB access. Use aws-cdk-lib 2.211.0 to maintain compatibility with existing CDK version. Implement proper error handling and CloudWatch logging for all Lambda functions.",
+        "testStrategy": "Deploy CDK stack to test environment, verify API Gateway endpoints respond correctly, test DynamoDB table creation and access patterns, validate Lambda function execution with sample data, confirm CORS configuration works with frontend domain",
+        "priority": "high",
+        "dependencies": [],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create new CDK stack for backend services",
+            "description": "Set up a new CDK stack class extending existing infrastructure pattern with proper construct organization",
+            "dependencies": [],
+            "details": "Create new CDK stack class in the existing CDK project structure. Extend the current stack pattern used in the wedding website infrastructure. Set up proper construct organization with separate constructs for API, database, and compute resources. Configure stack props to accept environment-specific parameters. Ensure compatibility with existing aws-cdk-lib 2.211.0 version.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Set up DynamoDB table with single-table design",
+            "description": "Create DynamoDB table with PK/SK pattern for guests, events, and RSVP data storage",
+            "dependencies": [
+              "1.1"
+            ],
+            "details": "Design and implement DynamoDB table using single-table design pattern. Set up partition key (PK) and sort key (SK) structure to support guests, events, and RSVP entities. Configure GSI for query patterns. Set up proper table attributes, billing mode, and encryption settings. Include data access patterns for efficient querying.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Create API Gateway with CORS configuration",
+            "description": "Set up REST API Gateway with proper CORS settings for frontend integration",
+            "dependencies": [
+              "1.1"
+            ],
+            "details": "Create API Gateway REST API construct with proper resource structure for RSVP endpoints. Configure CORS to allow requests from the wedding website frontend domain. Set up request/response models, validation, and proper HTTP methods. Configure API Gateway logging and throttling settings.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Implement base Lambda function structure",
+            "description": "Create Lambda function constructs with Node.js 22.x runtime and proper error handling framework",
+            "dependencies": [
+              "1.2",
+              "1.3"
+            ],
+            "details": "Set up Lambda function constructs using Node.js 22.x runtime. Create base Lambda handler structure with proper error handling, logging, and response formatting. Set up Lambda layers for shared dependencies. Configure environment variables for DynamoDB table names and other configuration. Implement CloudWatch logging integration.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Configure IAM roles and policies for service integration",
+            "description": "Set up proper IAM roles and policies for Lambda-DynamoDB access and API Gateway integration",
+            "dependencies": [
+              "1.4"
+            ],
+            "details": "Create IAM roles and policies following principle of least privilege. Set up Lambda execution role with DynamoDB read/write permissions for specific table and indexes. Configure API Gateway execution role for Lambda invocation. Set up CloudWatch logs permissions for all services. Implement proper resource-based policies for secure service integration.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
       },
-      "tasks": [
-        {
-          "id": 1,
-          "title": "Implement Cultural Compass Floating TOC System",
-          "description": "Create sophisticated floating TOC with cultural awareness",
-          "status": "pending",
-          "priority": "high",
-          "dependencies": [],
-          "details": "Implement Cultural Compass floating TOC with progressive disclosure",
-          "testStrategy": "Test across all devices and accessibility requirements"
-        }
-      ]
-    }
-  },
-  "global": {
-    "defaultTag": "floating-toc"
-  },
-  "floating-toc": {
-    "tasks": [],
+      {
+        "id": 2,
+        "title": "Design DynamoDB Data Model and Access Patterns",
+        "description": "Implement single-table DynamoDB design with optimized access patterns for guest management and RSVP operations",
+        "details": "Design single-table DynamoDB schema with entities: GUEST, EVENT, RSVP_RESPONSE, INVITATION_CODE. Use composite keys: PK='EVENT#{eventId}', SK='GUEST#{email}' for main access pattern. Create 2-3 GSIs for additional access patterns: 1) GSI1 for guest lookup by invitation code 2) GSI2 for filtering by RSVP status 3) GSI3 for admin queries by date/status. Include attributes: guest_name, email, phone, rsvp_status, dietary_restrictions, plus_ones_count, invitation_code, created_at, updated_at. Implement data validation and consistent naming conventions.",
+        "testStrategy": "Create test data sets covering all entity types, verify all access patterns work efficiently, test GSI queries for performance, validate data integrity constraints, confirm single-table design handles all required queries",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Define Entity Relationships and Composite Key Structure",
+            "description": "Design the core entity structure for GUEST, EVENT, RSVP_RESPONSE, and INVITATION_CODE with optimized composite key patterns",
+            "dependencies": [],
+            "details": "Define primary key structure using PK='EVENT#{eventId}' and SK='GUEST#{email}' pattern. Map out entity relationships and data hierarchy. Design composite keys for efficient querying of guest information within events. Document key patterns for each entity type and their relationships. Establish naming conventions for partition and sort keys.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Design Global Secondary Indexes for Access Patterns",
+            "description": "Create three GSIs to support different query patterns: invitation code lookup, RSVP status filtering, and admin queries",
+            "dependencies": [
+              "2.1"
+            ],
+            "details": "Design GSI1 with PK='INVITATION#{code}' for guest lookup by invitation code. Create GSI2 with PK='EVENT#{eventId}#STATUS#{status}' for RSVP status filtering. Design GSI3 with PK='ADMIN' and SK='DATE#{date}#STATUS#{status}' for admin queries. Define projection attributes for each GSI to minimize query costs while supporting required access patterns.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Create Data Validation Schemas and Naming Conventions",
+            "description": "Implement comprehensive data validation rules and establish consistent naming conventions for all attributes",
+            "dependencies": [
+              "2.2"
+            ],
+            "details": "Define validation schemas for all attributes: guest_name, email, phone, rsvp_status, dietary_restrictions, plus_ones_count, invitation_code, created_at, updated_at. Establish consistent naming conventions using snake_case for attributes and camelCase for API responses. Create enum definitions for status fields and validation rules for email format, phone numbers, and invitation codes.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Document Access Patterns and Query Efficiency Requirements",
+            "description": "Document all supported access patterns with performance requirements and query optimization strategies",
+            "dependencies": [
+              "2.3"
+            ],
+            "details": "Document primary access patterns: get guest by event and email, lookup by invitation code, filter by RSVP status, admin queries by date/status. Define performance requirements for each pattern (target latency, throughput). Create query examples and expected response times. Document single-table design benefits and trade-offs. Include capacity planning guidelines and scaling considerations.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Implement Guest Lookup and Authentication System",
+        "description": "Create secure guest lookup system using invitation codes with JWT-based authentication",
+        "details": "Build Lambda function for guest authentication using invitation codes. Generate unique UUIDs for invitation codes during guest data seeding. Implement JWT token generation using RS256 algorithm with 1-hour expiration for security. JWT payload includes: guest_email, event_id, invite_code, role (GUEST/ADMIN), exp, iat. Create middleware for token validation in subsequent API calls. Store JWT signing keys in AWS Systems Manager Parameter Store for security. Implement proper error handling for invalid codes, expired tokens, and unauthorized access.",
+        "testStrategy": "Test invitation code validation with valid/invalid codes, verify JWT token generation and validation, test token expiration handling, validate middleware blocks unauthorized requests, confirm secure key storage and retrieval",
+        "priority": "high",
+        "dependencies": [
+          2
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create Lambda function for invitation code validation",
+            "description": "Build AWS Lambda function to validate invitation codes against guest database and return guest information",
+            "dependencies": [],
+            "details": "Create Lambda function that accepts invitation code as input, queries DynamoDB to validate code exists and is active, returns guest details including email, event_id, and permissions. Implement proper error handling for invalid codes, database connection issues, and malformed requests. Include logging for security auditing.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Implement JWT token generation with RS256 algorithm",
+            "description": "Set up JWT token creation with RS256 signing algorithm and proper payload structure",
+            "dependencies": [
+              "3.1"
+            ],
+            "details": "Implement JWT token generation using RS256 algorithm with 1-hour expiration. Create token payload containing guest_email, event_id, invite_code, role (GUEST/ADMIN), exp, and iat claims. Generate RSA key pair for signing and verification. Include token refresh logic for seamless user experience.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Configure AWS Systems Manager Parameter Store for key management",
+            "description": "Set up secure storage and retrieval of JWT signing keys using AWS Systems Manager Parameter Store",
+            "dependencies": [],
+            "details": "Create secure parameters in AWS Systems Manager for RSA private and public keys. Configure proper IAM roles and policies for Lambda functions to access keys. Implement key rotation strategy and secure key retrieval functions. Set up parameter encryption using AWS KMS for additional security.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Create authentication middleware for API protection",
+            "description": "Build middleware to validate JWT tokens and protect API endpoints from unauthorized access",
+            "dependencies": [
+              "3.2",
+              "3.3"
+            ],
+            "details": "Develop middleware that extracts JWT tokens from Authorization headers, validates tokens using public key from Parameter Store, verifies token expiration and signature. Implement role-based access control for GUEST/ADMIN permissions. Add request context enrichment with authenticated user information.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Implement comprehensive error handling and security measures",
+            "description": "Add robust error handling, security logging, and protection against common authentication vulnerabilities",
+            "dependencies": [
+              "3.1",
+              "3.2",
+              "3.4"
+            ],
+            "details": "Implement comprehensive error handling for invalid codes, expired tokens, malformed requests, and database errors. Add security logging for failed authentication attempts, suspicious activity patterns, and successful logins. Implement rate limiting for authentication endpoints, brute force protection, and secure error messages that don't leak sensitive information.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Create Core RSVP API Endpoints",
+        "description": "Implement RESTful API endpoints for RSVP operations including create, read, update functionality",
+        "details": "Create Lambda functions for RSVP API endpoints: 1) GET /api/rsvp/{invitationCode} - retrieve guest info and current RSVP status 2) POST /api/rsvp - submit/update RSVP response 3) GET /api/rsvp/{invitationCode}/status - check RSVP completion status. Implement proper HTTP status codes (200, 201, 400, 401, 404, 500), request/response validation using Zod schemas, rate limiting to prevent abuse, and comprehensive error handling. Include CORS configuration for frontend domain. Use Node.js 22.x runtime for optimal performance.",
+        "testStrategy": "Test all API endpoints with valid/invalid requests, verify proper HTTP status codes, test CORS configuration with frontend, validate request/response schemas, test rate limiting functionality, confirm error handling returns appropriate messages",
+        "priority": "high",
+        "dependencies": [
+          3
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement GET /api/rsvp/{invitationCode} endpoint",
+            "description": "Create Lambda function to retrieve guest information and current RSVP status using invitation code",
+            "dependencies": [],
+            "details": "Build Lambda function that accepts invitation code parameter, validates the code against DynamoDB, retrieves guest data and current RSVP status. Implement proper error handling for invalid codes (404), server errors (500), and success responses (200). Include CORS headers and integrate with authentication middleware from task 3.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Create POST /api/rsvp endpoint for RSVP submission",
+            "description": "Implement Lambda function to handle RSVP form submissions and updates with comprehensive validation",
+            "dependencies": [
+              "4.1"
+            ],
+            "details": "Build POST endpoint that accepts RSVP data, validates request using Zod schemas, updates DynamoDB with guest responses. Implement proper HTTP status codes: 201 for new submissions, 200 for updates, 400 for validation errors, 401 for unauthorized access. Include request body validation for dietary restrictions, plus-one information, and special requests.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Add GET /api/rsvp/{invitationCode}/status endpoint",
+            "description": "Create endpoint to check RSVP completion status and provide progress information",
+            "dependencies": [
+              "4.2"
+            ],
+            "details": "Implement Lambda function that returns RSVP completion status, including whether guest has responded, submission timestamp, and any pending requirements. Use proper status codes and provide detailed response indicating completion percentage and missing fields if applicable.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Implement request validation, error handling, and rate limiting",
+            "description": "Add comprehensive request/response validation, error handling, and rate limiting across all RSVP endpoints",
+            "dependencies": [
+              "4.3"
+            ],
+            "details": "Integrate Zod schemas for request/response validation across all endpoints. Implement rate limiting using API Gateway throttling or custom Lambda logic to prevent abuse. Create standardized error response format with appropriate HTTP status codes. Add comprehensive logging for debugging and monitoring. Configure CORS for frontend domain access.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Build Multi-Step RSVP Form Frontend",
+        "description": "Create responsive multi-step RSVP form using React Hook Form and Zod validation replacing the current placeholder",
+        "details": "Replace existing RSVP.tsx placeholder with multi-step form using React Hook Form 7.x and Zod 3.x for validation. Install dependencies: react-hook-form, @hookform/resolvers, zod. Create 4 steps: 1) Guest lookup with invitation code 2) Personal information and attendance confirmation 3) Dietary restrictions and special requests 4) Review and final submission. Implement progress indicator, step validation, form persistence using localStorage, and consistent styling with existing website theme using Framer Motion animations. Ensure mobile-first responsive design.",
+        "testStrategy": "Test form validation on each step, verify localStorage persistence works across browser sessions, test responsive design on mobile/desktop, validate accessibility with screen readers, confirm consistent styling with website theme, test form submission integration with API",
+        "priority": "high",
+        "dependencies": [
+          4
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Install and configure React Hook Form and Zod dependencies",
+            "description": "Install react-hook-form, @hookform/resolvers, and zod packages, then configure TypeScript types and basic form setup",
+            "dependencies": [],
+            "details": "Run npm install react-hook-form @hookform/resolvers zod. Update package.json with correct versions (react-hook-form 7.x, zod 3.x). Create types for form schemas and configure TypeScript imports. Set up basic form context and providers for multi-step form state management.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Build step 1: Guest lookup with invitation code",
+            "description": "Create the first step of RSVP form for guest lookup using invitation code validation",
+            "dependencies": [
+              "5.1"
+            ],
+            "details": "Create StepOne component with invitation code input field using react-hook-form. Implement Zod schema for invitation code validation (UUID format). Add form submission handler that validates code and retrieves guest information. Style with consistent theme matching existing website design. Include loading states and error handling.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Build step 2: Personal information and attendance confirmation",
+            "description": "Create second step for personal details and attendance confirmation form",
+            "dependencies": [
+              "5.2"
+            ],
+            "details": "Create StepTwo component with form fields for guest name confirmation, email, phone number, and attendance selection (attending/not attending). Implement Zod validation schemas for personal information fields. Add conditional rendering based on attendance choice. Include proper form state management and validation feedback.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Build step 3: Dietary restrictions and special requests",
+            "description": "Create third step for dietary restrictions and special accommodation requests",
+            "dependencies": [
+              "5.3"
+            ],
+            "details": "Create StepThree component with fields for dietary restrictions (checkboxes for common restrictions, custom text input), accessibility needs, and special requests textarea. Implement Zod validation for optional fields with character limits. Add conditional display based on attendance status from previous step.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Build step 4: Review and submission interface",
+            "description": "Create final step showing review of all entered information with submission capability",
+            "dependencies": [
+              "5.4"
+            ],
+            "details": "Create StepFour component displaying read-only summary of all form data from previous steps. Include edit buttons to navigate back to specific steps. Implement final form submission with loading states and success/error feedback. Add confirmation dialog before submission and thank you message after successful submission.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "Implement progress indicator, validation, and localStorage persistence",
+            "description": "Add progress indicator, step-by-step validation, and form data persistence using localStorage",
+            "dependencies": [
+              "5.5"
+            ],
+            "details": "Create ProgressIndicator component showing current step and completion status. Implement form persistence using localStorage to save form data between sessions. Add step validation logic preventing navigation to next step without completing current step. Integrate Framer Motion animations for smooth step transitions. Ensure mobile-responsive design with proper touch interactions.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "title": "Implement Plus-One and Party Management",
+        "description": "Add functionality for managing plus-ones and family party RSVP responses within the form system",
+        "details": "Extend RSVP form and backend to handle party management. Update DynamoDB schema to include plus_ones array with guest details, relationship type, and individual dietary preferences. Modify API endpoints to handle batch RSVP submissions for entire parties. Add dynamic form fields in frontend for plus-one information including name, dietary restrictions, and special needs. Implement validation for maximum plus-one limits per invitation. Create party summary view showing all attendees and their preferences.",
+        "testStrategy": "Test party RSVP submissions with various plus-one counts, verify individual dietary preferences are captured correctly, test maximum plus-one limit enforcement, validate party summary displays accurate information, confirm batch API operations work correctly",
+        "priority": "medium",
+        "dependencies": [
+          5
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Update DynamoDB Schema for Plus-One Support",
+            "description": "Extend the DynamoDB data model to support plus-ones array and party relationships within the existing single-table design",
+            "dependencies": [],
+            "details": "Add plus_ones array field to GUEST entity containing guest details, relationship type, and individual dietary preferences. Update the schema to include party_id for grouping related guests and max_plus_ones limit per invitation. Modify existing GSI queries to handle party-based filtering and ensure data integrity constraints for plus-one relationships.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Modify API Endpoints for Batch Party Operations",
+            "description": "Update Lambda functions and API Gateway endpoints to handle batch RSVP submissions for entire parties",
+            "dependencies": [
+              "6.1"
+            ],
+            "details": "Extend existing RSVP submission endpoints to accept party data arrays. Implement batch processing logic for multiple guest responses in single API call. Add validation for party consistency and plus-one limits. Update response format to handle party-level success/error states and individual guest validation results.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Create Dynamic Plus-One Form Fields",
+            "description": "Implement dynamic form components in the frontend for capturing plus-one information and managing party details",
+            "dependencies": [
+              "6.1"
+            ],
+            "details": "Build React components for adding/removing plus-one entries dynamically. Include fields for plus-one name, dietary restrictions, special needs, and relationship type. Implement real-time validation for maximum plus-one limits and required field completion. Create intuitive UI for party management with clear visual grouping of family members and plus-ones.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Implement Party Summary and Validation Logic",
+            "description": "Create party summary view and implement comprehensive validation logic for plus-one limits and party management",
+            "dependencies": [
+              "6.2",
+              "6.3"
+            ],
+            "details": "Build party summary component displaying all attendees with their preferences and RSVP status. Implement client and server-side validation for maximum plus-one limits per invitation type. Add party-level validation for required information completion and dietary restriction conflicts. Create admin view for reviewing and managing party RSVPs with bulk operations support.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "title": "Setup Email Confirmation System with AWS SES",
+        "description": "Implement automated email confirmations and reminders using AWS SES with proper bounce handling",
+        "details": "Configure AWS SES in the CDK stack with proper domain verification and DKIM setup. Create email templates for: 1) RSVP confirmation 2) RSVP update notification 3) Reminder emails for non-respondents. Implement Lambda function for email sending with SES v3 SDK. Setup SNS topics and SQS queues for bounce/complaint handling with automated guest status updates. Include HTML and text versions of all emails with consistent branding. Implement email queue processing for bulk operations with proper retry logic.",
+        "testStrategy": "Test email delivery for all template types, verify bounce handling updates guest status correctly, test email templates render properly in major email clients, confirm DKIM authentication works, validate retry logic handles temporary failures",
+        "priority": "medium",
+        "dependencies": [
+          4
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Configure AWS SES in CDK with Domain Verification and DKIM",
+            "description": "Set up AWS SES service in the CDK stack with proper domain verification, DKIM authentication, and production-ready configuration",
+            "dependencies": [],
+            "details": "Add SES configuration to CDK stack including domain identity, DKIM setup, and reputation monitoring. Configure proper IAM permissions for Lambda functions to send emails. Set up domain verification records and ensure DKIM authentication is enabled for email deliverability.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Create HTML and Text Email Templates",
+            "description": "Design and implement responsive email templates for RSVP confirmations, updates, and reminder notifications",
+            "dependencies": [
+              "7.1"
+            ],
+            "details": "Create branded HTML and plain text email templates for: RSVP confirmation, RSVP update notification, and reminder emails for non-respondents. Ensure templates are responsive, accessible, and maintain consistent branding with the wedding website. Include dynamic content placeholders for guest information and event details.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Build Lambda Function for Email Sending with SES v3 SDK",
+            "description": "Implement Lambda function that handles email sending operations using AWS SES v3 SDK with proper error handling",
+            "dependencies": [
+              "7.2"
+            ],
+            "details": "Create Lambda function using SES v3 SDK for sending emails with template selection, recipient management, and comprehensive error handling. Implement proper logging, monitoring, and integration with DynamoDB for tracking email status. Include support for both individual and batch email operations.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Setup SNS Topics and SQS Queues for Bounce and Complaint Handling",
+            "description": "Configure SNS/SQS infrastructure for handling email bounces and complaints with automated guest status updates",
+            "dependencies": [
+              "7.3"
+            ],
+            "details": "Set up SNS topics for SES bounce and complaint notifications. Create SQS queues for processing these notifications with dead letter queues for failed processing. Implement Lambda function to process bounce/complaint messages and automatically update guest status in DynamoDB. Configure proper retry policies and monitoring.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Implement Email Queue Processing with Retry Logic",
+            "description": "Build robust email queue system for bulk operations with exponential backoff retry logic and failure handling",
+            "dependencies": [
+              "7.4"
+            ],
+            "details": "Implement SQS-based email queue for bulk email operations with exponential backoff retry logic. Create processing Lambda function that handles email batching, rate limiting to respect SES sending limits, and proper failure handling. Include monitoring and alerting for queue health and processing failures.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "title": "Create Admin Dashboard for Guest Management",
+        "description": "Build comprehensive admin dashboard for wedding planners to manage RSVPs, view analytics, and export data",
+        "details": "Create protected admin routes in React app with separate authentication flow. Build dashboard components: 1) Real-time RSVP statistics with charts 2) Guest list with search/filter capabilities 3) Bulk operations for sending reminders 4) Data export functionality (CSV/PDF) 5) Event management interface. Implement admin API endpoints with proper authorization checks using JWT role-based access. Use React Query for efficient data fetching and caching. Include responsive design for tablet/desktop use.",
+        "testStrategy": "Test admin authentication and authorization, verify real-time statistics update correctly, test search/filter functionality with large guest lists, validate bulk operations work without timeouts, confirm data export generates accurate files, test responsive design on various screen sizes",
+        "priority": "medium",
+        "dependencies": [
+          6,
+          7
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement Admin Authentication System",
+            "description": "Create separate admin authentication flow with JWT-based access control and role validation",
+            "dependencies": [],
+            "details": "Build admin login component with email/password authentication. Create separate admin JWT tokens with ADMIN role. Implement protected route wrapper component that validates admin JWT tokens and redirects unauthorized users. Add admin logout functionality and token refresh mechanism.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Create Dashboard Layout and Navigation",
+            "description": "Build responsive admin dashboard layout with navigation sidebar and main content area",
+            "dependencies": [
+              "8.1"
+            ],
+            "details": "Design dashboard shell component with collapsible sidebar navigation. Create responsive layout that works on tablet/desktop devices. Include navigation items for RSVP stats, guest management, bulk operations, and export tools. Add user profile section with logout option.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Build Real-time RSVP Statistics Dashboard",
+            "description": "Implement statistics dashboard with charts showing RSVP metrics and real-time updates",
+            "dependencies": [
+              "8.2"
+            ],
+            "details": "Create statistics overview component with key metrics cards (total invites, confirmed, pending, declined). Implement charts using chart library for visual data representation. Set up React Query for real-time data fetching with polling. Display breakdown by dietary restrictions, plus-ones, and other relevant metrics.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Implement Guest List Management Interface",
+            "description": "Build comprehensive guest list view with search, filter, and individual guest management capabilities",
+            "dependencies": [
+              "8.2"
+            ],
+            "details": "Create guest list table component with pagination for large datasets. Implement search functionality by name, email, or invitation code. Add filter options for RSVP status, dietary restrictions, and plus-one count. Include individual guest edit capabilities and RSVP status override functionality.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Create Bulk Operations and Reminder System",
+            "description": "Implement bulk operations interface for sending reminders and managing multiple guests simultaneously",
+            "dependencies": [
+              "8.4"
+            ],
+            "details": "Build bulk selection interface with checkbox functionality for guest list. Create reminder email composition tool with template options. Implement bulk status update capabilities. Add progress tracking for bulk operations with error handling and retry mechanisms.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "Implement Data Export Functionality",
+            "description": "Create data export system supporting CSV and PDF formats with customizable field selection",
+            "dependencies": [
+              "8.4"
+            ],
+            "details": "Build export interface with format selection (CSV/PDF) and field customization options. Implement CSV generation for guest lists and RSVP data. Create PDF report generation with formatted layouts for printing. Add download progress indicators and error handling for large datasets.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 9,
+        "title": "Add Event-Specific RSVP Options",
+        "description": "Implement multi-event RSVP functionality for ceremony, reception, and pre-wedding events",
+        "details": "Extend data model to support multiple events per wedding with individual RSVP responses. Update DynamoDB schema to include event_responses object with separate attendance, dietary, and preference fields per event. Modify frontend form to show event-specific options with clear descriptions and separate attendance confirmations. Implement conditional logic for event-specific questions (transportation needs for destination events, accommodation preferences). Update API endpoints to handle multi-event submissions and queries.",
+        "testStrategy": "Test RSVP submissions for multiple event combinations, verify event-specific data is stored and retrieved correctly, test conditional form logic shows appropriate questions, validate multi-event analytics in admin dashboard, confirm email confirmations include all event details",
+        "priority": "medium",
+        "dependencies": [
+          5
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Extend DynamoDB Schema for Multi-Event Support",
+            "description": "Update database schema to support event_responses object with individual RSVP data per event",
+            "dependencies": [],
+            "details": "Modify DynamoDB table structure to include event_responses object containing separate fields for each event (ceremony, reception, pre-wedding). Each event should have attendance status, dietary restrictions, special requests, and event-specific preferences. Update existing data migration scripts to handle schema changes. Ensure backward compatibility with existing single-event RSVPs.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Update API Endpoints for Multi-Event Processing",
+            "description": "Modify backend API to handle multi-event RSVP submissions and data retrieval",
+            "dependencies": [
+              "9.1"
+            ],
+            "details": "Update Lambda functions to process event_responses object in RSVP submissions. Modify GET endpoints to return event-specific data for form population. Add validation logic for required vs optional events. Update response formatting to handle multiple event statuses. Ensure API maintains compatibility with existing single-event clients while supporting new multi-event structure.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Implement Multi-Event Frontend Form Logic",
+            "description": "Modify RSVP form to display event-specific options with clear descriptions and separate confirmations",
+            "dependencies": [
+              "9.2"
+            ],
+            "details": "Update React components to render individual event sections with attendance toggles. Add event descriptions and timing information for clarity. Implement progressive disclosure showing event-specific questions only when attendance is confirmed. Create unified form validation that handles partial submissions (attending some events but not others). Add visual indicators to distinguish between different event types.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Add Conditional Event-Specific Questions",
+            "description": "Implement dynamic form fields that show relevant questions based on selected events",
+            "dependencies": [
+              "9.3"
+            ],
+            "details": "Create conditional logic for event-specific questions: transportation needs for destination ceremony, accommodation preferences for multi-day events, dietary restrictions per event, plus-one attendance per event. Implement smart form flow that shows/hides fields based on event selections. Add validation to ensure required event-specific information is completed. Create clear UI feedback for conditional field requirements.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 10,
+        "title": "Implement Data Export and Vendor Integration",
+        "description": "Create data export functionality for vendors with format customization and automated delivery options",
+        "details": "Build Lambda functions for generating vendor-specific data exports: 1) Catering list with dietary restrictions and counts 2) Venue list with final headcount and special requests 3) Transportation list with pickup requirements 4) Accommodation preferences summary. Support multiple export formats (CSV, PDF, JSON) with customizable templates. Implement scheduled export delivery via email using SES. Create admin interface for configuring export templates and delivery schedules. Include data validation and formatting for vendor systems integration.",
+        "testStrategy": "Test all export formats generate correctly with sample data, verify scheduled delivery works reliably, test vendor-specific formatting requirements, validate data accuracy in exported files, confirm email delivery to multiple vendor contacts",
+        "priority": "medium",
+        "dependencies": [
+          8
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Build Lambda Functions for Vendor-Specific Data Export Generation",
+            "description": "Create Lambda functions to generate vendor-specific data exports including catering lists, venue lists, transportation lists, and accommodation summaries",
+            "dependencies": [],
+            "details": "Develop Lambda functions for each vendor type: 1) Catering export with dietary restrictions and guest counts 2) Venue export with final headcount and special requests 3) Transportation export with pickup requirements and passenger details 4) Accommodation export with preferences summary. Each function should query DynamoDB for relevant RSVP data, aggregate information by vendor requirements, and prepare data structures for format conversion. Include data validation and error handling for missing or incomplete RSVP information.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Implement Multi-Format Export Support with Customizable Templates",
+            "description": "Build export system supporting CSV, PDF, and JSON formats with customizable vendor-specific templates",
+            "dependencies": [
+              "10.1"
+            ],
+            "details": "Create format conversion modules for CSV (using csv-writer), PDF (using jsPDF or puppeteer), and JSON output. Implement template engine for customizable export formats allowing vendors to specify field ordering, headers, and data formatting. Store templates in S3 with version control and template validation. Include support for vendor logos, custom styling for PDFs, and configurable data field mapping. Add template testing functionality to preview exports before delivery.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Set Up Scheduled Export Delivery via SES",
+            "description": "Implement automated email delivery system for scheduled vendor exports using Amazon SES",
+            "dependencies": [
+              "10.2"
+            ],
+            "details": "Configure Amazon SES for email delivery with proper domain verification and DKIM setup. Create EventBridge rules for scheduled export triggers (daily, weekly, custom intervals). Build email composition service with vendor-specific templates, attachment handling for export files, and delivery confirmation tracking. Implement retry logic for failed deliveries and bounce/complaint handling. Add email recipient management allowing multiple contacts per vendor with role-based distribution (primary, backup, accounting).",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Create Admin Interface for Export Template Configuration and Scheduling",
+            "description": "Build admin dashboard interface for managing export templates, delivery schedules, and vendor configurations",
+            "dependencies": [
+              "10.3"
+            ],
+            "details": "Develop admin interface components for: 1) Vendor management with contact information and export preferences 2) Template editor with live preview for customizing export formats 3) Schedule configuration with flexible timing options and timezone support 4) Export history and delivery status tracking 5) Manual export trigger capability for ad-hoc requests. Include form validation, user permissions (admin-only access), and integration with existing admin dashboard design patterns. Add export analytics showing delivery success rates and vendor engagement metrics.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 11,
+        "title": "Add Advanced Security and Performance Features",
+        "description": "Implement rate limiting, input sanitization, audit logging, and performance optimizations for production deployment",
+        "details": "Implement comprehensive security measures: 1) API rate limiting using AWS API Gateway throttling (10 req/sec per IP) 2) Input validation and sanitization for all user inputs using Zod schemas 3) Audit logging for all RSVP changes and admin actions 4) HTTPS enforcement and security headers 5) Data encryption at rest for sensitive information. Add performance optimizations: Lambda provisioned concurrency for critical endpoints, DynamoDB auto-scaling configuration, CloudFront caching for API responses where appropriate, and connection pooling for database operations.",
+        "testStrategy": "Test rate limiting blocks excessive requests, verify input sanitization prevents XSS/injection attacks, confirm audit logs capture all required events, test HTTPS enforcement and security headers, validate performance improvements under load testing, confirm encryption works for sensitive data",
+        "priority": "high",
+        "dependencies": [
+          9,
+          10
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Configure API Gateway Rate Limiting and Throttling",
+            "description": "Set up AWS API Gateway throttling policies with 10 requests per second per IP address and configure burst limits for production deployment",
+            "dependencies": [],
+            "details": "Configure API Gateway throttling settings including per-IP rate limits (10 req/sec), burst capacity configuration, and throttling error responses. Set up usage plans and API keys for different client types. Implement proper error handling for rate limit exceeded responses (429 status codes). Configure CloudWatch alarms for monitoring throttling metrics.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Implement Comprehensive Input Validation and Sanitization",
+            "description": "Add Zod schema validation and input sanitization across all API endpoints to prevent XSS and injection attacks",
+            "dependencies": [],
+            "details": "Create Zod validation schemas for all API request payloads including RSVP forms, guest lookup, and admin operations. Implement input sanitization middleware for HTML tags, SQL injection patterns, and script injection attempts. Add validation for email formats, phone numbers, and special characters. Configure proper error responses for validation failures.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Set Up Audit Logging System",
+            "description": "Implement comprehensive audit logging for all RSVP changes and administrative actions with CloudWatch integration",
+            "dependencies": [],
+            "details": "Create audit logging Lambda layer with structured logging format. Log all RSVP submissions, updates, deletions, and admin actions including user identity, timestamp, action type, and data changes. Integrate with CloudWatch Logs for centralized logging. Set up log retention policies and alerting for suspicious activities. Include request tracing and correlation IDs.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Configure HTTPS Enforcement and Security Headers",
+            "description": "Set up HTTPS enforcement, SSL certificates, and implement comprehensive security headers for all API responses",
+            "dependencies": [],
+            "details": "Configure SSL/TLS certificates through AWS Certificate Manager. Implement security headers including HSTS, X-Content-Type-Options, X-Frame-Options, and CSP headers. Set up HTTPS-only redirects in CloudFront and API Gateway. Configure CORS policies with proper origin restrictions. Add security header middleware to Lambda functions.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Implement Data Encryption and Key Management",
+            "description": "Set up encryption at rest for sensitive data using AWS KMS and implement proper key rotation policies",
+            "dependencies": [],
+            "details": "Configure DynamoDB encryption at rest using customer-managed KMS keys. Set up KMS key policies and rotation schedules. Implement encryption for sensitive fields like phone numbers and special requests. Configure Lambda environment variable encryption. Set up proper IAM roles for key access and implement encryption/decryption utilities.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "Configure Performance Optimizations and Scaling",
+            "description": "Implement Lambda provisioned concurrency, DynamoDB auto-scaling, and CloudFront caching strategies for optimal performance",
+            "dependencies": [
+              "11.1"
+            ],
+            "details": "Configure Lambda provisioned concurrency for critical RSVP endpoints to reduce cold starts. Set up DynamoDB auto-scaling policies for read/write capacity based on utilization metrics. Implement CloudFront caching with appropriate TTL values for API responses. Configure connection pooling for database operations and optimize Lambda memory allocation based on performance testing.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 12,
+        "title": "Implement Mobile Optimization and PWA Features",
+        "description": "Optimize RSVP system for mobile devices and add Progressive Web App capabilities for offline functionality",
+        "details": "Enhance mobile experience with: 1) PWA manifest for app-like installation 2) Service worker for offline form completion and sync when online 3) Touch-optimized form controls and navigation 4) Mobile-specific validation feedback 5) Reduced data usage with optimized API payloads 6) Quick RSVP flow for returning users. Implement offline storage using IndexedDB for form data persistence, background sync for form submissions, and push notifications for RSVP reminders (optional). Ensure WCAG 2.1 AA accessibility compliance throughout.",
+        "testStrategy": "Test PWA installation on various mobile devices, verify offline form completion works correctly, test background sync functionality, validate touch interactions and mobile navigation, confirm accessibility compliance with screen readers, test push notifications if implemented, verify reduced data usage in network throttling conditions",
+        "priority": "medium",
+        "dependencies": [
+          11
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement PWA Manifest and Service Worker Setup",
+            "description": "Create PWA manifest file and implement service worker for offline functionality and app installation",
+            "dependencies": [],
+            "details": "Create manifest.json with app metadata (name, icons, theme colors, display mode). Implement service worker registration in main app. Set up basic caching strategies for static assets. Enable 'Add to Home Screen' functionality. Configure scope and start URL for PWA installation.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Implement IndexedDB for Offline Data Persistence",
+            "description": "Set up IndexedDB storage system for offline form data and implement background sync",
+            "dependencies": [
+              "12.1"
+            ],
+            "details": "Create IndexedDB schema for storing RSVP form data offline. Implement data models for guest info, dietary preferences, and plus-ones. Add background sync API for queuing form submissions when offline. Handle sync conflicts and duplicate submission prevention. Store partial form progress for user continuity.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Optimize Mobile Touch Interactions and Navigation",
+            "description": "Enhance mobile user experience with touch-optimized controls and navigation patterns",
+            "dependencies": [],
+            "details": "Implement touch-friendly form controls with proper sizing (min 44px touch targets). Add mobile-specific navigation patterns like bottom navigation or drawer menu. Optimize form field spacing and grouping for mobile screens. Implement swipe gestures for multi-step forms. Add mobile-specific loading states and progress indicators.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Implement Mobile-Specific Validation and API Optimization",
+            "description": "Add mobile-optimized validation feedback and reduce API payload sizes for mobile data usage",
+            "dependencies": [
+              "12.2"
+            ],
+            "details": "Create mobile-friendly validation messages with better positioning. Implement real-time validation with debounced API calls. Optimize API payloads by removing unnecessary data fields for mobile requests. Add request compression and implement progressive data loading. Create mobile-specific error handling with retry mechanisms.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Ensure WCAG 2.1 AA Accessibility Compliance",
+            "description": "Implement comprehensive accessibility features meeting WCAG 2.1 AA standards for mobile PWA",
+            "dependencies": [
+              "12.3",
+              "12.4"
+            ],
+            "details": "Add proper ARIA labels and roles throughout mobile interface. Implement keyboard navigation support for touch interfaces. Ensure sufficient color contrast ratios (4.5:1). Add screen reader support with meaningful announcements. Test with assistive technologies on mobile devices. Implement focus management for modal dialogs and form transitions.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      }
+    ],
     "metadata": {
-      "created": "2025-09-06T15:10:48.445Z",
-      "updated": "2025-09-06T15:10:48.446Z",
-      "description": "Tasks for implementing floating table of contents and UI improvements"
+      "created": "2025-09-08T01:12:16.853Z",
+      "updated": "2025-09-08T01:12:16.853Z",
+      "description": "Tasks for rsvp-system context"
     }
   }
 }

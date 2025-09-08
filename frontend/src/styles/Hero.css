@@ -1,12 +1,36 @@
 .hero {
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
   position: relative;
   padding-top: 80px;
-  background: linear-gradient(135deg, #fdfbf7 0%, #fff5e6 100%);
+  background: var(--gradient-primary);
+}
+
+.hero-container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  padding: 0 2rem;
+  align-items: center;
+}
+
+.hero-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-right {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  padding: 2.5rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  max-height: 80vh;
+  overflow-y: auto;
 }
 
 .hero-content {
@@ -35,7 +59,7 @@
 .name {
   font-size: 3rem;
   color: var(--primary-color);
-  font-weight: 300;
+  font-weight: 400;
   font-style: italic;
 }
 
@@ -69,7 +93,9 @@
   position: relative;
   overflow: hidden;
   border-radius: 8px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 20px var(--shadow-color);
+  border: 1px solid var(--border);
+  transition: all 0.3s ease;
 }
 
 .image-item img {
@@ -81,6 +107,12 @@
 
 .image-item:hover img {
   transform: scale(1.05);
+}
+
+.image-item:hover {
+  box-shadow: 0 10px 30px var(--shadow-color);
+  border-color: var(--primary-color);
+  transform: scale(1.03);
 }
 
 .image-1 {
@@ -95,30 +127,74 @@
   transform: translateY(60px);
 }
 
-.scroll-indicator {
-  position: absolute;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
+.heartfelt-content {
+  color: var(--text-dark);
+}
+
+.heartfelt-title {
+  font-size: 2rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
   text-align: center;
-  animation: bounce 2s infinite;
+  font-weight: 400;
 }
 
-.scroll-indicator span {
-  font-size: 0.9rem;
+.heartfelt-ornament {
+  text-align: center;
+  font-size: 1.5rem;
+  color: var(--secondary-color);
+  margin-bottom: 1.5rem;
+}
+
+.heartfelt-message {
+  font-size: 1rem;
+  line-height: 1.8;
   color: var(--text-light);
-  letter-spacing: 1px;
-  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+  text-align: justify;
 }
 
-.arrow-down {
-  width: 30px;
-  height: 30px;
-  margin: 10px auto;
-  border-right: 2px solid var(--text-light);
-  border-bottom: 2px solid var(--text-light);
-  transform: rotate(45deg);
+.heartfelt-signature {
+  margin-top: 2rem;
+  text-align: center;
 }
+
+.signature-text {
+  font-style: italic;
+  color: var(--text-light);
+  margin-bottom: 0.5rem;
+}
+
+.couple-names {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.bride-name,
+.groom-name {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+  font-weight: 400;
+  font-style: italic;
+}
+
+.ampersand-fancy {
+  font-size: 1.2rem;
+  color: var(--secondary-color);
+}
+
+@keyframes subtle-glow {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+
 
 @keyframes bounce {
   0%,
@@ -133,6 +209,18 @@
   }
   60% {
     transform: translateX(-50%) translateY(-5px);
+  }
+}
+
+@media (max-width: 1024px) {
+  .hero-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .hero-right {
+    max-height: none;
+    margin-bottom: 2rem;
   }
 }
 

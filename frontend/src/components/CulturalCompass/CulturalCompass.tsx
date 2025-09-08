@@ -351,6 +351,39 @@ const CulturalCompass: React.FC = () => {
               </button>
             </div>
 
+            {/* Previous section preview */}
+            {currentItemIndex > 0 && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                style={{
+                  marginBottom: '12px',
+                  padding: '8px',
+                  background: `linear-gradient(135deg, ${siteNavigationData[currentItemIndex - 1]?.culture ? CULTURAL_COLORS[siteNavigationData[currentItemIndex - 1].culture] : '#fff'}20, ${currentItem?.culture ? CULTURAL_COLORS[currentItem.culture] : '#fff'}20)`,
+                  borderRadius: '8px',
+                  fontSize: '11px',
+                  textAlign: 'center',
+                  cursor: 'pointer',
+                  transition: 'transform 0.2s, box-shadow 0.2s',
+                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
+                }}
+                onClick={() => navigateToSection(siteNavigationData[currentItemIndex - 1].id)}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 3px 6px rgba(0, 0, 0, 0.15)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1)';
+                }}
+                role="button"
+                tabIndex={0}
+                aria-label={`Navigate to previous section: ${siteNavigationData[currentItemIndex - 1].title}`}
+              >
+                <>← Previous: {siteNavigationData[currentItemIndex - 1].title}</>
+              </motion.div>
+            )}
+
             {/* Navigation Items */}
             <div style={{
               display: 'flex',
@@ -398,10 +431,25 @@ const CulturalCompass: React.FC = () => {
                   background: `linear-gradient(135deg, ${currentItem?.culture ? CULTURAL_COLORS[currentItem.culture] : '#fff'}20, ${siteNavigationData[currentItemIndex + 1]?.culture ? CULTURAL_COLORS[siteNavigationData[currentItemIndex + 1].culture] : '#fff'}20)`,
                   borderRadius: '8px',
                   fontSize: '11px',
-                  textAlign: 'center'
+                  textAlign: 'center',
+                  cursor: 'pointer',
+                  transition: 'transform 0.2s, box-shadow 0.2s',
+                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
                 }}
+                onClick={() => navigateToSection(siteNavigationData[currentItemIndex + 1].id)}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 3px 6px rgba(0, 0, 0, 0.15)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1)';
+                }}
+                role="button"
+                tabIndex={0}
+                aria-label={`Navigate to next section: ${siteNavigationData[currentItemIndex + 1].title}`}
               >
-                <>Next: {siteNavigationData[currentItemIndex + 1].title}</>
+                <>Next: {siteNavigationData[currentItemIndex + 1].title} →</>
               </motion.div>
             )}
           </motion.div>

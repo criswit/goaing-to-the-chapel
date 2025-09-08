@@ -5,21 +5,47 @@
 }
 
 :root {
-  --primary-color: #8b7355;
-  --secondary-color: #d4a574;
-  --accent-color: #e8b4b8;
-  --text-dark: #333333;
-  --text-light: #666666;
-  --background: #fdfbf7;
-  --white: #ffffff;
-  --border: #e5e5e5;
+  /* New Color Palette */
+  --dark-olive: #433d20;       /* Dark olive green */
+  --vibrant-red: #c02509;      /* Vibrant red */
+  --bright-orange: #e9730e;    /* Bright orange */
+  --medium-brown: #6f532a;     /* Medium brown */
+  
+  /* Additional colors for compatibility */
+  --cannabis: var(--dark-olive);
+  --jade: var(--medium-brown);
+  --lime: var(--bright-orange);
+  --neon-green: var(--bright-orange);
+  --crimson: var(--vibrant-red);
+  --love-color: var(--vibrant-red);
+  
+  /* Primary Palette */
+  --primary-color: var(--bright-orange);
+  --secondary-color: var(--vibrant-red);
+  --accent-green: var(--dark-olive);
+  --accent-brown: var(--medium-brown);
+  
+  /* Supporting Colors */
+  --text-dark: var(--dark-olive);
+  --text-light: var(--medium-brown);
+  --background: #FFF9F4;       /* Soft warm off-white */
+  --card-bg: #FFFFFF;
+  --white: #FFFFFF;
+  --border: #D4C4B0;
+  --shadow-color: rgba(111, 83, 42, 0.08);
+  
+  /* Subtle Gradients */
+  --gradient-primary: linear-gradient(135deg, #FFF9F4, rgba(233, 115, 14, 0.05));
+  --gradient-warm: linear-gradient(180deg, #FFF9F4, rgba(255, 249, 244, 0.7));
+  --gradient-accent: linear-gradient(135deg, var(--bright-orange), var(--vibrant-red));
 }
 
 body {
   font-family: 'Georgia', serif;
   color: var(--text-dark);
-  background-color: var(--background);
+  background: var(--background);
   line-height: 1.6;
+  min-height: 100vh;
 }
 
 .App {
@@ -37,8 +63,8 @@ body {
   font-size: 2.5rem;
   text-align: center;
   margin-bottom: 3rem;
-  color: var(--primary-color);
-  font-weight: 300;
+  color: var(--secondary-color);
+  font-weight: 400;
   letter-spacing: 2px;
 }
 

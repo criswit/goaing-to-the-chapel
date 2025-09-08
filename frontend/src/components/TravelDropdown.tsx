@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ChevronDown, Plane, DollarSign, Shield, Hotel, MapPin } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { Plane, DollarSign, Shield, Hotel, MapPin } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import '../styles/TravelDropdown.css';
 
@@ -51,25 +52,12 @@ const travelSections: TravelSection[] = [
 const TravelDropdown: React.FC<TravelDropdownProps> = ({ isMobile = false, onNavigate }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const scrollToSection = (targetId: string) => {
-    // First scroll to the main travel section
-    const travelSection = document.getElementById('travel');
-    if (travelSection) {
-      travelSection.scrollIntoView({ behavior: 'smooth' });
-      
-      // Wait for scroll to complete, then look for the specific subsection
-      setTimeout(() => {
-        const targetElement = document.querySelector(`[data-section="${targetId}"]`) || 
-                             document.querySelector(`#${targetId}`) ||
-                             document.querySelector(`.${targetId}`);
-        
-        if (targetElement) {
-          targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }, 500);
-    }
-    
+  const navigateToTravelSection = (targetId: string) => {
+    // Navigate to travel page with hash for specific section
+    navigate(`/travel#${targetId}`);
     setIsOpen(false);
     onNavigate?.();
   };
@@ -112,12 +100,6 @@ const TravelDropdown: React.FC<TravelDropdownProps> = ({ isMobile = false, onNav
         aria-label="Travel navigation menu"
       >
         <span>Travel</span>
-        <motion.div
-          animate={{ rotate: isOpen ? 180 : 0 }}
-          transition={{ duration: 0.2 }}
-        >
-          <ChevronDown size={16} />
-        </motion.div>
       </button>
 
       <AnimatePresence>
@@ -137,7 +119,7 @@ const TravelDropdown: React.FC<TravelDropdownProps> = ({ isMobile = false, onNav
                 <button
                   key={section.id}
                   className="travel-dropdown-item"
-                  onClick={() => scrollToSection(section.targetId)}
+                  onClick={() => navigateToTravelSection(section.targetId)}
                   role="menuitem"
                   aria-label={`Navigate to ${section.label}`}
                 >

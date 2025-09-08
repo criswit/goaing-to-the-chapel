@@ -1,5 +1,21 @@
 .travel {
-  background: var(--white);
+  position: relative;
+}
+
+.travel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('../../public/indian_flowers.png');
+  background-size: 50%;
+  background-position: center;
+  background-repeat: repeat;
+  opacity: 0.15;
+  z-index: -1; /* Behind the content */
+  pointer-events: none; /* Don'Pt interfere with interactions */
 }
 
 .travel-intro {
@@ -336,6 +352,27 @@
   font-size: 1.1rem;
   color: var(--primary-color);
   margin: 0;
+}
+
+.airline-summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.airline-summary-row .route-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.airline-summary-row .detail-item {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  flex-shrink: 0;
 }
 
 .badge {
@@ -763,6 +800,87 @@
 
 .expandable-card.priority-low {
   border-left: 4px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Visa and Documentation Styles */
+.visa-content,
+.documentation-info {
+  padding: 0.5rem 0;
+}
+
+.visa-timeline {
+  margin-bottom: 2rem;
+}
+
+.visa-timeline h4,
+.doc-requirements h4 {
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.visa-details-grid,
+.doc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.visa-info-card,
+.doc-category {
+  background: rgba(255, 255, 255, 0.5);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.visa-info-card h5,
+.doc-category h5 {
+  color: var(--primary-color);
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.visa-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--secondary-color);
+}
+
+.visa-info-card ul,
+.doc-category ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.visa-info-card li,
+.doc-category li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  color: var(--text-light);
+}
+
+.visa-info-card li:last-child,
+.doc-category li:last-child {
+  border-bottom: none;
+}
+
+.visa-link {
+  color: var(--accent-color);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s ease;
+}
+
+.visa-link:hover {
+  border-bottom-color: var(--accent-color);
 }
 
 /* Card-based layout for standalone sections */

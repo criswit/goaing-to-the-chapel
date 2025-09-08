@@ -2,8 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import Hero from './components/Hero';
-import HeartfeltNote from './components/HeartfeltNote';
 import Travel from './components/Travel';
+import Stay from './components/Stay';
 import Events from './components/Events';
 import Attire from './components/Attire';
 import Registry from './components/Registry';
@@ -18,7 +18,6 @@ function Home() {
   return (
     <>
       <Hero />
-      <HeartfeltNote />
       <Travel />
       <Events />
       <Attire />
@@ -37,6 +36,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/rsvp" element={<RSVP />} />
           <Route path="/travel" element={<Travel />} />
+          <Route path="/stay" element={<Stay />} />
           <Route path="/events" element={<Events />} />
           <Route path="/attire" element={<Attire />} />
           <Route path="/registry" element={<Registry />} />
