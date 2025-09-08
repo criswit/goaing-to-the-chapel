@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { AlertCircle } from 'lucide-react';
 import '../styles/Attire.css';
 
 const Attire: React.FC = () => {
@@ -23,53 +24,33 @@ const Attire: React.FC = () => {
           viewport={{ once: true }}
           transition={{ delay: 0.2, duration: 0.6 }}
         >
-          <div className="attire-intro">
-            <p>We want you to be comfortable and enjoy the celebration!</p>
-            <p>Here's what we suggest for each event:</p>
+          <div
+            className="work-in-progress"
+            style={{
+              textAlign: 'center',
+              padding: '4rem 2rem',
+              backgroundColor: 'rgba(212, 165, 116, 0.08)',
+              borderRadius: '12px',
+              border: '2px dashed var(--secondary-color)',
+              margin: '2rem auto',
+              maxWidth: '600px',
+            }}
+          >
+            <AlertCircle
+              size={48}
+              style={{ color: 'var(--secondary-color)', marginBottom: '1rem' }}
+            />
+            <h3 style={{ fontSize: '1.8rem', marginBottom: '1rem', color: 'var(--primary-color)' }}>
+              Work In Progress
+            </h3>
+            <p style={{ fontSize: '1.1rem', color: 'var(--text-dark)', marginBottom: '1rem' }}>
+              We're currently finalizing the dress code details for each event.
+            </p>
+            <p style={{ fontSize: '1rem', color: 'var(--text-light)' }}>
+              Please check back soon for complete attire guidelines including outfit suggestions,
+              color recommendations, and helpful tips for each celebration!
+            </p>
           </div>
-
-          <div className="attire-grid">
-            <div className="attire-card">
-              <h3>Welcome Dinner</h3>
-              <div className="attire-image beach-casual"></div>
-              <h4>Beach Casual</h4>
-              <p>
-                Think sundresses, linen shirts, khakis, and sandals. Light, breathable fabrics are
-                perfect for the beach setting.
-              </p>
-            </div>
-
-            <div className="attire-card">
-              <h3>Haldi & Mehndi</h3>
-              <div className="attire-image indian-festive"></div>
-              <h4>Colorful Indian Attire</h4>
-              <p>
-                Bright colors welcome! Traditional Indian wear like kurtas, lehengas, or colorful
-                dresses. Yellow is traditional for Haldi.
-              </p>
-            </div>
-
-            <div className="attire-card">
-              <h3>Wedding Ceremony</h3>
-              <div className="attire-image indian-formal"></div>
-              <h4>Indian Formal / Cocktail</h4>
-              <p>
-                Sarees, lehengas, suits, or cocktail dresses. Feel free to embrace Indian fashion or
-                wear formal Western attire.
-              </p>
-            </div>
-
-            <div className="attire-card">
-              <h3>Reception Party</h3>
-              <div className="attire-image cocktail"></div>
-              <h4>Cocktail / Formal</h4>
-              <p>
-                Time to party! Cocktail dresses, suits, or Indo-Western fusion. Dancing shoes
-                recommended!
-              </p>
-            </div>
-          </div>
-
         </motion.div>
       </div>
     </section>

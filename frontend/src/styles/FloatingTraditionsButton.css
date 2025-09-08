@@ -6,10 +6,10 @@
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #8B5CF6, #7C3AED);
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
   color: white;
   border: none;
-  box-shadow: 
+  box-shadow:
     0 4px 16px rgba(139, 92, 246, 0.4),
     0 2px 8px rgba(0, 0, 0, 0.2);
   cursor: pointer;
@@ -25,7 +25,7 @@
 
 .floating-traditions-btn:hover {
   transform: scale(1.1);
-  box-shadow: 
+  box-shadow:
     0 6px 24px rgba(139, 92, 246, 0.5),
     0 4px 12px rgba(0, 0, 0, 0.25);
   width: auto;
@@ -39,7 +39,7 @@
 
 .floating-traditions-btn:focus {
   outline: none;
-  box-shadow: 
+  box-shadow:
     0 0 0 3px rgba(139, 92, 246, 0.4),
     0 4px 16px rgba(139, 92, 246, 0.4),
     0 2px 8px rgba(0, 0, 0, 0.2);
@@ -66,7 +66,8 @@
 
 /* Subtle floating animation */
 @keyframes floatingBounce {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {
@@ -100,7 +101,8 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
     opacity: 0.6;
   }
@@ -118,13 +120,13 @@
     width: 48px;
     height: 48px;
   }
-  
+
   .floating-traditions-btn:hover {
     width: 48px;
     padding: 0;
     border-radius: 50%;
   }
-  
+
   .floating-traditions-label {
     display: none !important;
   }
@@ -135,14 +137,15 @@
   .floating-traditions-btn {
     animation: none;
   }
-  
+
   .floating-traditions-btn::before {
     animation: none;
     display: none;
   }
-  
+
   @keyframes fadeInLabel {
-    from, to {
+    from,
+    to {
       opacity: 1;
       transform: none;
     }
@@ -153,9 +156,9 @@
 @media (prefers-contrast: high) {
   .floating-traditions-btn {
     border: 2px solid white;
-    background: #7C3AED;
+    background: #7c3aed;
   }
-  
+
   .floating-traditions-btn:hover,
   .floating-traditions-btn:focus {
     border-width: 3px;

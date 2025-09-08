@@ -9,7 +9,7 @@ export const siteNavigationData: CulturalEvent[] = [
     culture: 'Fusion',
     duration: '',
     description: "Goa'ing to the Chapel - Our wedding celebration begins here",
-    date: ''
+    date: '',
   },
   {
     id: 'heartfelt-note',
@@ -18,7 +18,7 @@ export const siteNavigationData: CulturalEvent[] = [
     culture: 'Fusion',
     duration: '',
     description: 'A heartfelt message to our family and friends',
-    date: ''
+    date: '',
   },
   {
     id: 'travel',
@@ -27,9 +27,9 @@ export const siteNavigationData: CulturalEvent[] = [
     culture: 'American',
     duration: '',
     description: 'Everything you need to know about getting to Goa',
-    date: ''
+    date: '',
   },
-  
+
   // Wedding Events
   {
     id: 'events',
@@ -38,7 +38,7 @@ export const siteNavigationData: CulturalEvent[] = [
     culture: 'Fusion',
     duration: '',
     description: 'Complete timeline of our 2-day celebration',
-    date: ''
+    date: '',
   },
   {
     id: 'guest-arrival',
@@ -47,7 +47,7 @@ export const siteNavigationData: CulturalEvent[] = [
     culture: 'American',
     duration: '30 min',
     description: 'Welcome drinks and greetings',
-    date: 'Friday, June 14'
+    date: 'Friday, June 14',
   },
   {
     id: 'haldi',
@@ -56,7 +56,7 @@ export const siteNavigationData: CulturalEvent[] = [
     culture: 'Indian',
     duration: '1 hour',
     description: 'Traditional turmeric ceremony',
-    date: 'Friday, June 14'
+    date: 'Friday, June 14',
   },
   {
     id: 'cocktails',
@@ -65,7 +65,7 @@ export const siteNavigationData: CulturalEvent[] = [
     culture: 'Fusion',
     duration: '1 hour',
     description: 'Drinks and appetizers',
-    date: 'Friday, June 14'
+    date: 'Friday, June 14',
   },
   {
     id: 'sangeet',
@@ -74,7 +74,7 @@ export const siteNavigationData: CulturalEvent[] = [
     culture: 'Indian',
     duration: '4 hours',
     description: 'Music, dance, and celebration',
-    date: 'Friday, June 14'
+    date: 'Friday, June 14',
   },
   {
     id: 'baraat',
@@ -83,7 +83,7 @@ export const siteNavigationData: CulturalEvent[] = [
     culture: 'Indian',
     duration: '30 min',
     description: "Groom's festive procession",
-    date: 'Saturday, June 15'
+    date: 'Saturday, June 15',
   },
   {
     id: 'jaimala',
@@ -92,7 +92,7 @@ export const siteNavigationData: CulturalEvent[] = [
     culture: 'Indian',
     duration: '15 min',
     description: 'Exchange of garlands',
-    date: 'Saturday, June 15'
+    date: 'Saturday, June 15',
   },
   {
     id: 'ceremony-intermission',
@@ -101,7 +101,7 @@ export const siteNavigationData: CulturalEvent[] = [
     culture: 'Fusion',
     duration: '30 min',
     description: 'Refreshments break',
-    date: 'Saturday, June 15'
+    date: 'Saturday, June 15',
   },
   {
     id: 'mandap',
@@ -110,7 +110,7 @@ export const siteNavigationData: CulturalEvent[] = [
     culture: 'Indian',
     duration: '1.5 hours',
     description: 'Sacred wedding ceremony',
-    date: 'Saturday, June 15'
+    date: 'Saturday, June 15',
   },
   {
     id: 'cocktail-hour-2',
@@ -119,7 +119,7 @@ export const siteNavigationData: CulturalEvent[] = [
     culture: 'American',
     duration: '1 hour',
     description: 'Transition to reception',
-    date: 'Saturday, June 15'
+    date: 'Saturday, June 15',
   },
   {
     id: 'reception',
@@ -128,7 +128,7 @@ export const siteNavigationData: CulturalEvent[] = [
     culture: 'Fusion',
     duration: '4 hours',
     description: 'Dinner and dancing',
-    date: 'Saturday, June 15'
+    date: 'Saturday, June 15',
   },
   {
     id: 'after-party',
@@ -137,9 +137,9 @@ export const siteNavigationData: CulturalEvent[] = [
     culture: 'American',
     duration: '3 hours',
     description: 'Late night celebration',
-    date: 'Saturday, June 15'
+    date: 'Saturday, June 15',
   },
-  
+
   // Other Site Sections
   {
     id: 'definitions',
@@ -148,7 +148,7 @@ export const siteNavigationData: CulturalEvent[] = [
     culture: 'Fusion',
     duration: '',
     description: 'Understanding Indian and Western wedding customs',
-    date: ''
+    date: '',
   },
   {
     id: 'attire',
@@ -157,7 +157,7 @@ export const siteNavigationData: CulturalEvent[] = [
     culture: 'Fusion',
     duration: '',
     description: 'What to wear for each event',
-    date: ''
+    date: '',
   },
   {
     id: 'registry',
@@ -166,7 +166,7 @@ export const siteNavigationData: CulturalEvent[] = [
     culture: 'American',
     duration: '',
     description: 'Registry information and honeymoon fund',
-    date: ''
+    date: '',
   },
   {
     id: 'faq',
@@ -175,16 +175,16 @@ export const siteNavigationData: CulturalEvent[] = [
     culture: 'American',
     duration: '',
     description: 'Frequently asked questions',
-    date: ''
-  }
+    date: '',
+  },
 ];
 
 // Helper function to get only main sections (non-event items)
 export const getMainSections = () => {
-  return siteNavigationData.filter(item => !item.time);
+  return siteNavigationData.filter((item) => !item.time);
 };
 
 // Helper function to get only events
 export const getEventsSections = () => {
-  return siteNavigationData.filter(item => item.time);
+  return siteNavigationData.filter((item) => item.time);
 };

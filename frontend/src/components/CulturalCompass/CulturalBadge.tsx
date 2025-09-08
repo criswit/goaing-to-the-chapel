@@ -9,16 +9,16 @@ interface CulturalBadgeProps {
   showLabel?: boolean;
 }
 
-const CulturalBadge: React.FC<CulturalBadgeProps> = ({ 
-  culture, 
+const CulturalBadge: React.FC<CulturalBadgeProps> = ({
+  culture,
   isActive,
   size = 'medium',
-  showLabel = false
+  showLabel = false,
 }) => {
   const sizeMap = {
     small: 12,
     medium: 20,
-    large: 28
+    large: 28,
   };
 
   const badgeSize = sizeMap[size];
@@ -30,13 +30,11 @@ const CulturalBadge: React.FC<CulturalBadgeProps> = ({
       animate={{
         backgroundColor: color,
         scale: isActive ? 1.2 : 1.0,
-        boxShadow: isActive 
-          ? `0 0 20px ${color}40, 0 0 40px ${color}20` 
-          : `0 0 10px ${color}20`
+        boxShadow: isActive ? `0 0 20px ${color}40, 0 0 40px ${color}20` : `0 0 10px ${color}20`,
       }}
-      transition={{ 
+      transition={{
         duration: 0.3,
-        ease: 'easeInOut'
+        ease: 'easeInOut',
       }}
       style={{
         width: badgeSize,
@@ -45,7 +43,7 @@ const CulturalBadge: React.FC<CulturalBadgeProps> = ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        position: 'relative'
+        position: 'relative',
       }}
     >
       {showLabel && (
@@ -60,7 +58,7 @@ const CulturalBadge: React.FC<CulturalBadgeProps> = ({
             whiteSpace: 'nowrap',
             fontSize: '12px',
             fontWeight: 500,
-            color: color
+            color: color,
           }}
         >
           {culture}

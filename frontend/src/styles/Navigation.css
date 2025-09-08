@@ -3,9 +3,10 @@
   top: 0;
   left: 0;
   right: 0;
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.98);
   backdrop-filter: blur(10px);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 10px var(--shadow-color);
+  border-bottom: 2px solid var(--primary-color);
   z-index: 1000;
   padding: 1rem 0;
 }
@@ -38,7 +39,7 @@
 }
 
 .nav-logo h2 {
-  color: var(--primary-color);
+  color: var(--secondary-color);
   font-size: 1.5rem;
   font-weight: 400;
   letter-spacing: 2px;
@@ -55,7 +56,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--primary-color);
+  color: var(--secondary-color);
 }
 
 .nav-menu {
@@ -65,7 +66,8 @@
   align-items: center;
 }
 
-.nav-menu button {
+.nav-menu button,
+.nav-menu a {
   background: none;
   border: none;
   color: var(--text-dark);
@@ -74,32 +76,45 @@
   font-family: inherit;
   letter-spacing: 1px;
   text-transform: uppercase;
-  transition: color 0.3s ease;
+  text-decoration: none;
+  transition: all 0.3s ease;
   padding: 0.5rem 0;
   position: relative;
+  display: inline-block;
 }
 
-.nav-menu button::after {
+.nav-menu button::after,
+.nav-menu a::after {
   content: '';
   position: absolute;
   bottom: 0;
   left: 0;
   width: 0;
   height: 2px;
-  background: var(--secondary-color);
+  background: var(--primary-color);
   transition: width 0.3s ease;
 }
 
-.nav-menu button:hover {
+.nav-menu button:hover,
+.nav-menu a:hover {
   color: var(--secondary-color);
 }
 
-.nav-menu button:hover::after {
+.nav-menu button:hover::after,
+.nav-menu a:hover::after {
+  width: 100%;
+}
+
+.nav-menu a.active {
+  color: var(--secondary-color);
+}
+
+.nav-menu a.active::after {
   width: 100%;
 }
 
 .definitions-btn {
-  background: var(--secondary-color) !important;
+  background: linear-gradient(135deg, var(--cannabis), var(--jade)) !important;
   color: white !important;
   padding: 0.6rem 1rem !important;
   border-radius: 20px !important;
@@ -109,12 +124,19 @@
   gap: 0.5rem;
   transition: all 0.3s ease;
   text-transform: none !important;
+  box-shadow:
+    0 2px 8px rgba(46, 125, 50, 0.3),
+    0 0 15px rgba(57, 255, 20, 0.3);
+  border: 1px solid var(--lime);
 }
 
 .definitions-btn:hover {
-  background: var(--primary-color) !important;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(212, 165, 116, 0.3);
+  background: linear-gradient(135deg, var(--lime), var(--neon-green)) !important;
+  transform: translateY(-2px) scale(1.05);
+  box-shadow:
+    0 4px 20px rgba(46, 125, 50, 0.5),
+    0 0 25px var(--neon-green);
+  border-color: var(--neon-green);
 }
 
 .definitions-btn::after {
@@ -122,7 +144,7 @@
 }
 
 .rsvp-btn {
-  background: var(--primary-color) !important;
+  background: var(--crimson) !important;
   color: white !important;
   padding: 0.5rem 1.5rem !important;
   border-radius: 25px;
@@ -130,11 +152,13 @@
   text-decoration: line-through;
   text-decoration-color: rgba(255, 255, 255, 0.8);
   text-decoration-thickness: 2px;
+  box-shadow: 0 2px 8px rgba(220, 20, 60, 0.3);
 }
 
 .rsvp-btn:hover {
-  background: var(--secondary-color) !important;
-  transform: translateY(-2px);
+  background: var(--love-color) !important;
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 4px 15px rgba(220, 20, 60, 0.5);
 }
 
 /* Travel Dropdown Integration */
@@ -171,7 +195,8 @@
     left: 0;
   }
 
-  .nav-menu button {
+  .nav-menu button,
+  .nav-menu a {
     width: 100%;
     text-align: center;
     padding: 1rem;

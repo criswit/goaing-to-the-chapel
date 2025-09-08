@@ -1,8 +1,18 @@
 .rsvp {
-  background: var(--background);
-  min-height: 70vh;
-  display: flex;
-  align-items: center;
+  background: linear-gradient(135deg, var(--background), rgba(255, 193, 7, 0.1));
+  min-height: 100vh;
+  padding: 80px 0;
+  position: relative;
+}
+
+.rsvp::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--gradient-golden);
 }
 
 .rsvp-intro {
@@ -18,10 +28,11 @@
 .rsvp-form {
   max-width: 600px;
   margin: 0 auto;
-  background: white;
+  background: linear-gradient(135deg, white, rgba(255, 248, 243, 0.9));
   padding: 3rem;
   border-radius: 10px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 40px var(--shadow-color);
+  border: 3px solid var(--marigold);
 }
 
 .form-group {
@@ -42,18 +53,21 @@
 .form-group textarea {
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid var(--border);
+  border: 2px solid var(--border);
   border-radius: 5px;
   font-family: inherit;
   font-size: 1rem;
-  transition: border-color 0.3s ease;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.9);
 }
 
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: var(--secondary-color);
+  border-color: var(--saffron);
+  box-shadow: 0 0 10px rgba(255, 153, 51, 0.3);
+  transform: scale(1.02);
 }
 
 .form-group textarea {
@@ -64,7 +78,7 @@
 .submit-btn {
   width: 100%;
   padding: 1rem;
-  background: var(--primary-color);
+  background: var(--gradient-sunset);
   color: white;
   border: none;
   border-radius: 25px;
@@ -74,26 +88,33 @@
   text-transform: uppercase;
   cursor: pointer;
   transition: all 0.3s ease;
+  box-shadow: 0 4px 15px var(--shadow-color);
+  font-weight: 600;
 }
 
 .submit-btn:hover {
-  background: var(--secondary-color);
-  transform: translateY(-2px);
+  background: var(--gradient-celebration);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 6px 25px var(--shadow-color);
 }
 
 .rsvp-success {
-  background: white;
+  background: linear-gradient(135deg, white, rgba(255, 248, 243, 0.9));
   padding: 4rem 2rem;
   border-radius: 10px;
   text-align: center;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 40px var(--shadow-color);
+  border: 3px solid var(--emerald);
 }
 
 .rsvp-success h2 {
   font-size: 2.5rem;
-  color: var(--primary-color);
+  background: var(--gradient-golden);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   margin-bottom: 1rem;
-  font-weight: 300;
+  font-weight: 600;
 }
 
 .rsvp-success p {

@@ -38,5 +38,5 @@ export interface CulturalColors {
 export const CULTURAL_COLORS: CulturalColors = {
   Indian: '#DC143C',
   American: '#B22222',
-  Fusion: '#CD5C5C'
+  Fusion: '#CD5C5C',
 };

@@ -3,46 +3,49 @@ import * as cdk from 'aws-cdk-lib';
 import * as fs from 'fs';
 import * as path from 'path';
 import { WeddingWebsiteCdkStack } from '../lib/wedding-website-cdk-stack';
+import { RsvpBackendStack } from '../lib/rsvp-backend-stack';
 import { DnsConfig } from '../lib/dns-config';
 
 const app = new cdk.App();
 
-// Get environment from context or default to 'development'
-const environment = app.node.tryGetContext('environment') || 'development';
-
-// Load DNS configuration if available
+// Load DNS configuration
 let dnsConfig: DnsConfig | undefined;
 const dnsConfigPath = path.join(__dirname, '..', 'config', 'dns.json');
 
 if (fs.existsSync(dnsConfigPath)) {
   try {
     const dnsConfigFile = JSON.parse(fs.readFileSync(dnsConfigPath, 'utf8'));
-    const envConfig = dnsConfigFile[environment];
+    const prodConfig = dnsConfigFile.production;
 
-    if (envConfig && envConfig.enabled !== false) {
+    if (prodConfig && prodConfig.enabled !== false) {
       dnsConfig = {
-        domainName: envConfig.domainName,
-        hostedZoneId: envConfig.hostedZoneId,
-        certificateArn: envConfig.certificateArn,
-        includeWww: envConfig.includeWww || false,
+        domainName: prodConfig.domainName,
+        hostedZoneId: prodConfig.hostedZoneId,
+        certificateArn: prodConfig.certificateArn,
+        includeWww: prodConfig.includeWww || false,
       };
 
-      console.log(`Loading DNS configuration for ${environment}:`, {
+      // eslint-disable-next-line no-console
+      console.log('Loading DNS configuration:', {
         domainName: dnsConfig.domainName,
         hostedZoneId: dnsConfig.hostedZoneId,
         includeWww: dnsConfig.includeWww,
       });
     } else {
-      console.log(`DNS configuration disabled for ${environment}`);
+      // eslint-disable-next-line no-console
+      console.log('DNS configuration is disabled');
     }
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.warn('Failed to load DNS configuration:', error);
   }
 } else {
+  // eslint-disable-next-line no-console
   console.log('No DNS configuration file found at:', dnsConfigPath);
 }
 
-new WeddingWebsiteCdkStack(app, 'WeddingWebsiteCdkStack', {
+// Deploy the website stack
+const websiteStack = new WeddingWebsiteCdkStack(app, 'WeddingWebsiteCdkStack', {
   /* If you don't specify 'env', this stack will be environment-agnostic.
    * Account/Region-dependent features and context lookups will not work,
    * but a single synthesized template can be deployed anywhere. */
@@ -58,3 +61,20 @@ new WeddingWebsiteCdkStack(app, 'WeddingWebsiteCdkStack', {
 
   /* For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html */
 });
+
+// Deploy the RSVP backend stack
+const rsvpStack = new RsvpBackendStack(app, 'RsvpBackendStack', {
+  env: {
+    account: process.env.CDK_DEFAULT_ACCOUNT,
+    region: process.env.CDK_DEFAULT_REGION || 'us-east-1',
+  },
+
+  // Pass domain name for CORS configuration
+  domainName: dnsConfig?.domainName,
+
+  description: 'RSVP backend infrastructure for wedding website',
+});
+
+// Add dependency - backend can be deployed independently but if both are deployed,
+// website should be deployed first
+rsvpStack.addDependency(websiteStack);

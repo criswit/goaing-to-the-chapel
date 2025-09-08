@@ -5,7 +5,20 @@ import prettierConfig from 'eslint-config-prettier';
 
 export default tseslint.config(
   {
-    ignores: ['node_modules/**', 'dist/**', 'build/**', 'cdk.out/**', '**/*.js', '**/*.d.ts', 'coverage/**', '.taskmaster/**', '.claude/**', '~/**', 'eslint.config.mjs', 'frontend/**'],
+    ignores: [
+      'node_modules/**',
+      'dist/**',
+      'build/**',
+      'cdk.out/**',
+      '**/*.js',
+      '**/*.d.ts',
+      'coverage/**',
+      '.taskmaster/**',
+      '.claude/**',
+      '~/**',
+      'eslint.config.mjs',
+      'frontend/**',
+    ],
   },
   eslint.configs.recommended,
   ...tseslint.configs.recommended,

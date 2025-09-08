@@ -1,0 +1,218 @@
+.stay {
+  padding: 4rem 0;
+  min-height: 100vh;
+}
+
+.stay-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.stay-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+  padding: 2rem;
+  border-radius: 12px;
+  border-left: 4px solid var(--secondary-color);
+}
+
+.stay-icon {
+  color: var(--secondary-color);
+  flex-shrink: 0;
+  margin-top: 0.25rem;
+}
+
+.stay-header-content h3 {
+  color: var(--primary-color);
+  font-size: 1.5rem;
+  margin: 0 0 0.75rem 0;
+  font-weight: 300;
+}
+
+.stay-header-content p {
+  color: var(--text-light);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.hotel-highlights {
+  margin: 2rem 0;
+  padding: 2rem;
+  border-radius: 12px;
+}
+
+.hotel-highlights h4 {
+  color: var(--primary-color);
+  font-size: 1.4rem;
+  font-weight: 300;
+  margin: 0 0 1.5rem 0;
+  text-align: center;
+}
+
+.highlights-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.highlight-item {
+  padding: 1.25rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.highlight-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(212, 165, 116, 0.15);
+}
+
+.highlight-item strong {
+  display: block;
+  color: var(--secondary-color);
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.highlight-item p {
+  color: var(--text-light);
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.hotel-content-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  margin-top: 3rem;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.gallery-column,
+.details-column {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.hotel-gallery,
+.venue-map {
+  height: 600px;
+  width: 100%;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .stay {
+    padding: 2rem 0;
+  }
+
+  .stay-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .stay-header-content h3 {
+    font-size: 1.3rem;
+  }
+
+  .stay-header-content p {
+    font-size: 1rem;
+  }
+
+  .hotel-highlights {
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .hotel-highlights h4 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+
+  .highlights-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .highlight-item {
+    padding: 1rem;
+  }
+
+  .highlight-item strong {
+    font-size: 0.95rem;
+  }
+
+  .highlight-item p {
+    font-size: 0.85rem;
+  }
+
+  .hotel-content-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .hotel-gallery,
+  .venue-map {
+    height: 400px;
+  }
+}
+
+/* Tablet */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .highlights-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hotel-gallery,
+  .venue-map {
+    height: 500px;
+  }
+}
+
+/* Animation for content reveal */
+.stay-content > * {
+  opacity: 0;
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.stay-content > *:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.stay-content > *:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.stay-content > *:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.stay-content > *:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

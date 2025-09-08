@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
-import TravelDropdown from './TravelDropdown';
 import '../styles/Navigation.css';
 
 const Navigation: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
 
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+  const closeMenu = () => {
     setIsOpen(false);
   };
 
@@ -22,34 +19,82 @@ const Navigation: React.FC = () => {
   return (
     <nav className="navigation">
       <div className="nav-container">
-        <button className="nav-logo" onClick={scrollToTop} aria-label="Scroll to top of page">
-          <h2>MAPLE LEAF 4 LYFE</h2>
-        </button>
+        <Link to="/" className="nav-logo" onClick={closeMenu} aria-label="Go to home page">
+          <h2>goa'ing to the chapel</h2>
+        </Link>
 
         <button className="mobile-toggle" onClick={() => setIsOpen(!isOpen)}>
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
 
         <ul className={`nav-menu ${isOpen ? 'active' : ''}`}>
-          <li className="nav-dropdown-item">
-            <TravelDropdown onNavigate={() => setIsOpen(false)} />
+          <li>
+            <Link to="/" onClick={closeMenu} className={location.pathname === '/' ? 'active' : ''}>
+              Home
+            </Link>
           </li>
           <li>
-            <button onClick={() => scrollToSection('events')}>Events</button>
+            <Link
+              to="/travel"
+              onClick={closeMenu}
+              className={location.pathname === '/travel' ? 'active' : ''}
+            >
+              Travel
+            </Link>
           </li>
           <li>
-            <button onClick={() => scrollToSection('attire')}>Attire</button>
+            <Link
+              to="/stay"
+              onClick={closeMenu}
+              className={location.pathname === '/stay' ? 'active' : ''}
+            >
+              Stay
+            </Link>
           </li>
           <li>
-            <button onClick={() => scrollToSection('registry')}>Registry</button>
+            <Link
+              to="/events"
+              onClick={closeMenu}
+              className={location.pathname === '/events' ? 'active' : ''}
+            >
+              Events
+            </Link>
           </li>
           <li>
-            <button onClick={() => scrollToSection('faq')}>FAQ</button>
+            <Link
+              to="/attire"
+              onClick={closeMenu}
+              className={location.pathname === '/attire' ? 'active' : ''}
+            >
+              Attire
+            </Link>
           </li>
           <li>
-            <button onClick={() => scrollToSection('rsvp')} className="rsvp-btn">
+            <Link
+              to="/registry"
+              onClick={closeMenu}
+              className={location.pathname === '/registry' ? 'active' : ''}
+            >
+              Registry
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/faq"
+              onClick={closeMenu}
+              className={location.pathname === '/faq' ? 'active' : ''}
+            >
+              FAQ
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/rsvp"
+              onClick={closeMenu}
+              className={`rsvp-btn ${location.pathname === '/rsvp' ? 'active' : ''}`}
+            >
               RSVP
-            </button>
+            </Link>
           </li>
         </ul>
       </div>

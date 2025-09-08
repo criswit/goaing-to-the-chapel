@@ -77,3 +77,5 @@ A floating TOC that embodies the "wedding planner's clipboard" metaphor - an int
 - As an accessibility user, I want keyboard navigation and screen reader support
 - As any user, I want the TOC to feel helpful, not intrusive
 
+
+

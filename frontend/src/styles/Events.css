@@ -2,10 +2,33 @@
   background: var(--background);
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.events-layout {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  position: relative;
+  margin-left: -60px;
+}
+
+.events-sidebar-container {
+  flex-shrink: 0;
+}
+
 .events-timeline {
   position: relative;
+  flex: 1;
   max-width: 900px;
-  margin: 0 auto;
 }
 
 .events-timeline::before {
@@ -16,6 +39,7 @@
   width: 2px;
   height: 100%;
   background: var(--border);
+  width: 2px;
 }
 
 .event-card {
@@ -23,9 +47,17 @@
   padding: 2rem;
   margin: 2rem 0;
   border-radius: 10px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 5px 20px var(--shadow-color);
   position: relative;
   width: calc(50% - 30px);
+  border: 1px solid var(--border);
+  transition: all 0.3s ease;
+}
+
+.event-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px var(--shadow-color);
+  border-color: var(--primary-color);
 }
 
 .event-card:nth-child(odd) {
@@ -53,7 +85,7 @@
 
 .event-header h3 {
   font-size: 1.5rem;
-  color: var(--primary-color);
+  color: var(--secondary-color);
   margin-bottom: 1rem;
   font-weight: 400;
 }
@@ -74,7 +106,7 @@
 }
 
 .event-info svg {
-  color: var(--secondary-color);
+  color: var(--accent-green);
 }
 
 .event-description {
@@ -92,9 +124,22 @@
 
 .event-attire strong {
   color: var(--primary-color);
+  font-weight: 500;
 }
 
 @media (max-width: 768px) {
+  .events-layout {
+    flex-direction: column;
+  }
+
+  .events-sidebar-container {
+    display: none;
+  }
+
+  .events-timeline {
+    width: 100%;
+  }
+
   .events-timeline::before {
     left: 20px;
   }
