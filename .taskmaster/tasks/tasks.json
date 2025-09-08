@@ -9,7 +9,7 @@
         "testStrategy": "Deploy CDK stack to test environment, verify API Gateway endpoints respond correctly, test DynamoDB table creation and access patterns, validate Lambda function execution with sample data, confirm CORS configuration works with frontend domain",
         "priority": "high",
         "dependencies": [],
-        "status": "pending",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -17,7 +17,7 @@
             "description": "Set up a new CDK stack class extending existing infrastructure pattern with proper construct organization",
             "dependencies": [],
             "details": "Create new CDK stack class in the existing CDK project structure. Extend the current stack pattern used in the wedding website infrastructure. Set up proper construct organization with separate constructs for API, database, and compute resources. Configure stack props to accept environment-specific parameters. Ensure compatibility with existing aws-cdk-lib 2.211.0 version.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -28,7 +28,7 @@
               "1.1"
             ],
             "details": "Design and implement DynamoDB table using single-table design pattern. Set up partition key (PK) and sort key (SK) structure to support guests, events, and RSVP entities. Configure GSI for query patterns. Set up proper table attributes, billing mode, and encryption settings. Include data access patterns for efficient querying.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -39,7 +39,7 @@
               "1.1"
             ],
             "details": "Create API Gateway REST API construct with proper resource structure for RSVP endpoints. Configure CORS to allow requests from the wedding website frontend domain. Set up request/response models, validation, and proper HTTP methods. Configure API Gateway logging and throttling settings.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -51,7 +51,7 @@
               "1.3"
             ],
             "details": "Set up Lambda function constructs using Node.js 22.x runtime. Create base Lambda handler structure with proper error handling, logging, and response formatting. Set up Lambda layers for shared dependencies. Configure environment variables for DynamoDB table names and other configuration. Implement CloudWatch logging integration.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -62,7 +62,7 @@
               "1.4"
             ],
             "details": "Create IAM roles and policies following principle of least privilege. Set up Lambda execution role with DynamoDB read/write permissions for specific table and indexes. Configure API Gateway execution role for Lambda invocation. Set up CloudWatch logs permissions for all services. Implement proper resource-based policies for secure service integration.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           }
         ]
@@ -77,7 +77,7 @@
         "dependencies": [
           1
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -85,7 +85,7 @@
             "description": "Design the core entity structure for GUEST, EVENT, RSVP_RESPONSE, and INVITATION_CODE with optimized composite key patterns",
             "dependencies": [],
             "details": "Define primary key structure using PK='EVENT#{eventId}' and SK='GUEST#{email}' pattern. Map out entity relationships and data hierarchy. Design composite keys for efficient querying of guest information within events. Document key patterns for each entity type and their relationships. Establish naming conventions for partition and sort keys.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -96,7 +96,7 @@
               "2.1"
             ],
             "details": "Design GSI1 with PK='INVITATION#{code}' for guest lookup by invitation code. Create GSI2 with PK='EVENT#{eventId}#STATUS#{status}' for RSVP status filtering. Design GSI3 with PK='ADMIN' and SK='DATE#{date}#STATUS#{status}' for admin queries. Define projection attributes for each GSI to minimize query costs while supporting required access patterns.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -107,7 +107,7 @@
               "2.2"
             ],
             "details": "Define validation schemas for all attributes: guest_name, email, phone, rsvp_status, dietary_restrictions, plus_ones_count, invitation_code, created_at, updated_at. Establish consistent naming conventions using snake_case for attributes and camelCase for API responses. Create enum definitions for status fields and validation rules for email format, phone numbers, and invitation codes.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -118,7 +118,7 @@
               "2.3"
             ],
             "details": "Document primary access patterns: get guest by event and email, lookup by invitation code, filter by RSVP status, admin queries by date/status. Define performance requirements for each pattern (target latency, throughput). Create query examples and expected response times. Document single-table design benefits and trade-offs. Include capacity planning guidelines and scaling considerations.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           }
         ]
@@ -133,7 +133,7 @@
         "dependencies": [
           2
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -141,7 +141,7 @@
             "description": "Build AWS Lambda function to validate invitation codes against guest database and return guest information",
             "dependencies": [],
             "details": "Create Lambda function that accepts invitation code as input, queries DynamoDB to validate code exists and is active, returns guest details including email, event_id, and permissions. Implement proper error handling for invalid codes, database connection issues, and malformed requests. Include logging for security auditing.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -152,7 +152,7 @@
               "3.1"
             ],
             "details": "Implement JWT token generation using RS256 algorithm with 1-hour expiration. Create token payload containing guest_email, event_id, invite_code, role (GUEST/ADMIN), exp, and iat claims. Generate RSA key pair for signing and verification. Include token refresh logic for seamless user experience.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -161,7 +161,7 @@
             "description": "Set up secure storage and retrieval of JWT signing keys using AWS Systems Manager Parameter Store",
             "dependencies": [],
             "details": "Create secure parameters in AWS Systems Manager for RSA private and public keys. Configure proper IAM roles and policies for Lambda functions to access keys. Implement key rotation strategy and secure key retrieval functions. Set up parameter encryption using AWS KMS for additional security.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -173,7 +173,7 @@
               "3.3"
             ],
             "details": "Develop middleware that extracts JWT tokens from Authorization headers, validates tokens using public key from Parameter Store, verifies token expiration and signature. Implement role-based access control for GUEST/ADMIN permissions. Add request context enrichment with authenticated user information.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -186,7 +186,7 @@
               "3.4"
             ],
             "details": "Implement comprehensive error handling for invalid codes, expired tokens, malformed requests, and database errors. Add security logging for failed authentication attempts, suspicious activity patterns, and successful logins. Implement rate limiting for authentication endpoints, brute force protection, and secure error messages that don't leak sensitive information.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           }
         ]
@@ -201,7 +201,7 @@
         "dependencies": [
           3
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -209,7 +209,7 @@
             "description": "Create Lambda function to retrieve guest information and current RSVP status using invitation code",
             "dependencies": [],
             "details": "Build Lambda function that accepts invitation code parameter, validates the code against DynamoDB, retrieves guest data and current RSVP status. Implement proper error handling for invalid codes (404), server errors (500), and success responses (200). Include CORS headers and integrate with authentication middleware from task 3.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -220,7 +220,7 @@
               "4.1"
             ],
             "details": "Build POST endpoint that accepts RSVP data, validates request using Zod schemas, updates DynamoDB with guest responses. Implement proper HTTP status codes: 201 for new submissions, 200 for updates, 400 for validation errors, 401 for unauthorized access. Include request body validation for dietary restrictions, plus-one information, and special requests.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -231,7 +231,7 @@
               "4.2"
             ],
             "details": "Implement Lambda function that returns RSVP completion status, including whether guest has responded, submission timestamp, and any pending requirements. Use proper status codes and provide detailed response indicating completion percentage and missing fields if applicable.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -242,7 +242,7 @@
               "4.3"
             ],
             "details": "Integrate Zod schemas for request/response validation across all endpoints. Implement rate limiting using API Gateway throttling or custom Lambda logic to prevent abuse. Create standardized error response format with appropriate HTTP status codes. Add comprehensive logging for debugging and monitoring. Configure CORS for frontend domain access.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           }
         ]
@@ -257,7 +257,7 @@
         "dependencies": [
           4
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -265,7 +265,7 @@
             "description": "Install react-hook-form, @hookform/resolvers, and zod packages, then configure TypeScript types and basic form setup",
             "dependencies": [],
             "details": "Run npm install react-hook-form @hookform/resolvers zod. Update package.json with correct versions (react-hook-form 7.x, zod 3.x). Create types for form schemas and configure TypeScript imports. Set up basic form context and providers for multi-step form state management.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -276,7 +276,7 @@
               "5.1"
             ],
             "details": "Create StepOne component with invitation code input field using react-hook-form. Implement Zod schema for invitation code validation (UUID format). Add form submission handler that validates code and retrieves guest information. Style with consistent theme matching existing website design. Include loading states and error handling.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -287,7 +287,7 @@
               "5.2"
             ],
             "details": "Create StepTwo component with form fields for guest name confirmation, email, phone number, and attendance selection (attending/not attending). Implement Zod validation schemas for personal information fields. Add conditional rendering based on attendance choice. Include proper form state management and validation feedback.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -298,7 +298,7 @@
               "5.3"
             ],
             "details": "Create StepThree component with fields for dietary restrictions (checkboxes for common restrictions, custom text input), accessibility needs, and special requests textarea. Implement Zod validation for optional fields with character limits. Add conditional display based on attendance status from previous step.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -309,7 +309,7 @@
               "5.4"
             ],
             "details": "Create StepFour component displaying read-only summary of all form data from previous steps. Include edit buttons to navigate back to specific steps. Implement final form submission with loading states and success/error feedback. Add confirmation dialog before submission and thank you message after successful submission.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -320,7 +320,7 @@
               "5.5"
             ],
             "details": "Create ProgressIndicator component showing current step and completion status. Implement form persistence using localStorage to save form data between sessions. Add step validation logic preventing navigation to next step without completing current step. Integrate Framer Motion animations for smooth step transitions. Ensure mobile-responsive design with proper touch interactions.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           }
         ]
@@ -780,8 +780,244 @@
     ],
     "metadata": {
       "created": "2025-09-08T01:12:16.853Z",
-      "updated": "2025-09-08T01:12:16.853Z",
+      "updated": "2025-09-08T06:10:35.704Z",
       "description": "Tasks for rsvp-system context"
+    }
+  },
+  "website-improvements": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Refactor Home page to display only Hero section",
+        "description": "Modify the Home component in App.tsx to render only the Hero component instead of the current full-page layout that includes Travel, Events, Attire, Registry, and FAQ sections.",
+        "details": "1. Locate the Home component or main routing logic in App.tsx\n2. Identify where Travel, Events, Attire, Registry, and FAQ components are currently rendered on the home page\n3. Remove these components from the home page render logic while keeping them available for individual page routes\n4. Ensure the Hero component remains as the sole content on the home page\n5. Verify that navigation menu still provides access to the removed sections as separate pages\n6. Update any routing configuration to ensure Travel, Events, Attire, Registry, and FAQ are accessible via navigation\n7. Test that the home page no longer scrolls through all content and only displays the Hero section with couple's information, photos, and heartfelt message\n8. Ensure responsive design is maintained for the simplified home page layout",
+        "testStrategy": "1. Navigate to the home page and verify only the Hero section is displayed\n2. Confirm the page is no longer scrollable through multiple sections\n3. Test that the navigation menu still provides links to Travel, Events, Attire, Registry, and FAQ pages\n4. Click each navigation item to ensure the removed sections are still accessible as individual pages\n5. Verify the Hero section displays correctly with couple's information, photos, and heartfelt message\n6. Test responsive behavior on mobile and desktop to ensure the simplified layout works across devices\n7. Check that no broken links or missing content issues were introduced during the refactoring",
+        "status": "done",
+        "dependencies": [],
+        "priority": "medium",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Update Home component to render only Hero component",
+            "description": "Modify the Home function in App.tsx to render only the Hero component instead of the current layout that includes Travel, Events, Attire, Registry, and FAQ components",
+            "dependencies": [],
+            "details": "In App.tsx line 17-28, change the Home function to return only <Hero /> component instead of the current multiple components. Remove Travel, Events, Attire, Registry, and FAQ components from the Home component JSX while keeping the Hero component as the sole content.",
+            "status": "done",
+            "testStrategy": "Navigate to the home page (/) and verify only the Hero section is displayed with couple's information, photos, and heartfelt message. Confirm the page is no longer scrollable through multiple sections."
+          },
+          {
+            "id": 2,
+            "title": "Verify individual route accessibility for removed components",
+            "description": "Ensure that Travel, Events, Attire, Registry, and FAQ components are still accessible via their individual routes after being removed from the Home component",
+            "dependencies": [
+              "1.1"
+            ],
+            "details": "Test that the existing individual routes in App.tsx lines 38-43 (/travel, /events, /attire, /registry, /faq) still work correctly and render their respective components when accessed directly. Verify routing configuration remains intact for these separate pages.",
+            "status": "done",
+            "testStrategy": "Navigate to each individual route (/travel, /events, /attire, /registry, /faq) and verify each component renders correctly on its dedicated page. Test navigation between these individual pages."
+          },
+          {
+            "id": 3,
+            "title": "Test navigation menu functionality after home page refactor",
+            "description": "Verify that the Navigation component still provides proper access to all sections as separate pages after the Home component modification",
+            "dependencies": [
+              "1.1",
+              "1.2"
+            ],
+            "details": "Test the Navigation component links in frontend/src/components/Navigation.tsx lines 37-88 to ensure all navigation items (Travel, Stay, Events, Attire, Registry, FAQ, RSVP) still function correctly and direct users to the appropriate pages. Verify active state highlighting works properly.",
+            "status": "done",
+            "testStrategy": "Click each navigation menu item and verify it navigates to the correct page. Test both desktop and mobile navigation menus. Confirm active state styling is applied correctly for the current page."
+          },
+          {
+            "id": 4,
+            "title": "Validate Hero component standalone functionality",
+            "description": "Ensure the Hero component works correctly as the sole content on the home page and maintains its responsive design and animations",
+            "dependencies": [
+              "1.1"
+            ],
+            "details": "Test that the Hero component in frontend/src/components/Hero.tsx maintains its full functionality when rendered alone on the home page. Verify all animations (framer-motion), images, styling, and responsive behavior work correctly without the other components present.",
+            "status": "done",
+            "testStrategy": "Test Hero component on various screen sizes to ensure responsive design is maintained. Verify all animations play correctly, images load properly, and the heartfelt message content displays as expected on the simplified home page layout."
+          },
+          {
+            "id": 5,
+            "title": "Perform comprehensive testing of refactored home page layout",
+            "description": "Conduct thorough testing to ensure the refactored home page meets all requirements and maintains website functionality",
+            "dependencies": [
+              "1.1",
+              "1.2",
+              "1.3",
+              "1.4"
+            ],
+            "details": "Perform end-to-end testing of the refactored application to ensure: home page displays only Hero section, navigation works correctly to all other sections, removed components are accessible via direct routes, responsive design is maintained, and overall user experience is preserved.",
+            "status": "done",
+            "testStrategy": "Execute full regression testing including: home page load test, navigation functionality test, direct URL access test for all routes, mobile responsiveness test, and user journey testing from home page to other sections via navigation menu."
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Update Airport & Transportation section with accurate Goa transport information",
+        "description": "Update the Transportation section in Travel.tsx to remove outdated Uber/Ola information and provide accurate guidance on current transportation options in Goa, emphasizing prepaid taxi counters and local alternatives.",
+        "details": "1. Locate and modify lines 290-297 in Travel.tsx that contain the Uber/Ola transport option\n2. Remove or replace the Uber/Ola grid item with updated information about app-based cab restrictions\n3. Add a prominent warning message about government restrictions on Uber/Ola services in Goa\n4. Update the prepaid taxi counter option to emphasize it as the most reliable choice\n5. Research and update current pricing for prepaid taxis from Goa airport (verify if ₹1,800-2,500 range is still accurate)\n6. Add new transport option for hotel-arranged transfers with contact information if available\n7. Include local taxi service recommendations as alternatives\n8. Update the 'App-based booking' note to reflect current restrictions and recommend calling taxi services directly\n9. Ensure the transport options grid maintains consistent styling and responsive design\n10. Consider adding a last-updated timestamp for the transportation information",
+        "testStrategy": "1. Verify the Uber/Ola option has been removed or updated with restriction warnings\n2. Confirm prepaid taxi counters are prominently featured as the primary recommendation\n3. Check that pricing information is current and clearly displayed\n4. Test responsive design across different screen sizes to ensure the updated transport grid displays correctly\n5. Validate that warning messages about app-based restrictions are visible and prominent\n6. Ensure all new transport options have consistent formatting with existing options\n7. Test that any contact information or booking instructions are accurate and functional\n8. Cross-reference updated information with recent travel guides or official Goa transport websites",
+        "status": "done",
+        "dependencies": [
+          1
+        ],
+        "priority": "high",
+        "subtasks": []
+      },
+      {
+        "id": 3,
+        "title": "Implement event map sidebar navigation for Events page",
+        "description": "Create a fixed sidebar navigation on the left side of the Events page with clickable event links, active state indicators, and responsive behavior to improve navigation between wedding events.",
+        "details": "1. Modify the Events.tsx component to implement a two-column layout with sidebar navigation and main content area\n2. Extract event titles and IDs from the existing 11 events data (Guest Arrival to After Party) to populate navigation links\n3. Create a fixed sidebar component with:\n   - List of all event titles as clickable navigation links\n   - Sticky positioning to remain visible during scrolling\n   - Active state styling to highlight the currently viewed event\n4. Implement smooth scrolling functionality using scrollIntoView() or similar when navigation links are clicked\n5. Add Intersection Observer API to detect which event card is currently in the viewport and update the active state in the sidebar accordingly\n6. Ensure the existing timeline layout is preserved in the main content area while accommodating the new sidebar\n7. Implement responsive behavior:\n   - Show full sidebar on desktop screens\n   - Collapse to a dropdown menu or toggle button on mobile devices\n   - Maintain proper spacing and layout across different screen sizes\n8. Style the sidebar to match the existing design system colors, typography, and spacing\n9. Utilize the existing data-event-id attributes on event cards for navigation targeting\n10. Test smooth scrolling performance and intersection observer accuracy across different browsers",
+        "testStrategy": "1. Verify the sidebar appears on the left side of the Events page with all 11 event titles listed\n2. Click each navigation link to confirm smooth scrolling to the corresponding event card\n3. Scroll through the Events page manually and verify the active state indicator updates correctly in the sidebar\n4. Test responsive behavior by resizing the browser window to mobile dimensions and confirm the sidebar collapses appropriately\n5. Verify the sidebar maintains sticky positioning and remains visible during scrolling\n6. Check that the main content area timeline layout is preserved and properly spaced with the new sidebar\n7. Test on multiple browsers (Chrome, Firefox, Safari) to ensure cross-browser compatibility\n8. Validate that the sidebar styling matches the existing design system\n9. Confirm smooth scrolling works correctly with the existing data-event-id attributes on event cards\n10. Test accessibility features including keyboard navigation and screen reader compatibility",
+        "status": "done",
+        "dependencies": [],
+        "priority": "medium",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create sidebar navigation component structure",
+            "description": "Create a new EventsSidebar component with the basic structure for displaying navigation links and implement the two-column layout modification in Events.tsx",
+            "dependencies": [],
+            "details": "1. Create a new file frontend/src/components/EventsSidebar.tsx with React component structure\n2. Define props interface for EventsSidebar accepting events array and activeEventId\n3. Modify Events.tsx to implement two-column layout using CSS Grid or Flexbox\n4. Add container div with sidebar and main content areas\n5. Import and place EventsSidebar component in the left column\n6. Move existing events-timeline into the main content area (right column)\n7. Update Events.css to support the new layout structure with proper spacing",
+            "status": "done",
+            "testStrategy": "Verify the Events page displays with two-column layout, sidebar appears on left side, and existing timeline content remains in the main area without visual regression"
+          },
+          {
+            "id": 2,
+            "title": "Implement sidebar navigation links and styling",
+            "description": "Build the clickable navigation links list in the sidebar using the existing events data and style it to match the design system",
+            "dependencies": [
+              "3.1"
+            ],
+            "details": "1. Extract event titles and IDs from the events array passed as props\n2. Render a list of navigation links using event.title and event.id\n3. Add CSS classes for sidebar styling (sticky positioning, background, padding)\n4. Style navigation links with proper typography, spacing, and hover states\n5. Match existing design system colors from Events.css variables (--primary-color, --secondary-color, etc.)\n6. Implement responsive behavior - full sidebar on desktop, hidden/collapsed on mobile\n7. Add proper semantic HTML structure using nav and ul elements",
+            "status": "done",
+            "testStrategy": "Verify all 11 event titles appear as clickable links in the sidebar, styling matches the existing design system, and sidebar maintains proper positioning during page scroll"
+          },
+          {
+            "id": 3,
+            "title": "Add smooth scrolling functionality for navigation clicks",
+            "description": "Implement click handlers for sidebar navigation links that smoothly scroll to the corresponding event cards using the existing data-event-id attributes",
+            "dependencies": [
+              "3.2"
+            ],
+            "details": "1. Add onClick handlers to each navigation link in the sidebar\n2. Implement scrollToEvent function that uses document.querySelector to find target event card by data-event-id\n3. Use scrollIntoView({ behavior: 'smooth', block: 'start' }) to smoothly scroll to the target event\n4. Follow the existing scrollIntoView pattern used in CulturalCompass.tsx (line 67)\n5. Add proper error handling for cases where event element is not found\n6. Ensure smooth scrolling works with the existing timeline layout and doesn't interfere with other scroll behavior",
+            "status": "done",
+            "testStrategy": "Click each sidebar navigation link and verify smooth scrolling to the corresponding event card, confirm scrolling positioning places the event card appropriately in the viewport"
+          },
+          {
+            "id": 4,
+            "title": "Implement active state detection using Intersection Observer",
+            "description": "Add Intersection Observer API to detect which event card is currently in the viewport and update the active state in the sidebar accordingly",
+            "dependencies": [
+              "3.3"
+            ],
+            "details": "1. Create useIntersectionObserver custom hook similar to existing ScrollSpy functionality\n2. Set up Intersection Observer to watch all elements with data-event-id attributes\n3. Configure observer with appropriate threshold (e.g., 0.3) and rootMargin for optimal detection\n4. Implement state management to track the currently active event ID\n5. Pass activeEventId to EventsSidebar component to highlight the active navigation link\n6. Add CSS styling for active state (different background color, border, or text color)\n7. Ensure proper cleanup of observer when component unmounts",
+            "status": "done",
+            "testStrategy": "Scroll through the Events page manually and verify the active state indicator in the sidebar updates correctly to highlight the currently visible event card in the viewport"
+          },
+          {
+            "id": 5,
+            "title": "Implement responsive behavior and mobile optimizations",
+            "description": "Add responsive behavior for mobile devices, converting the sidebar to a dropdown menu or toggle button while maintaining all navigation functionality",
+            "dependencies": [
+              "3.4"
+            ],
+            "details": "1. Add CSS media queries for mobile breakpoints (matching existing @media (max-width: 768px) pattern)\n2. On mobile, hide the fixed sidebar and show a dropdown menu or toggle button instead\n3. Implement mobile navigation state management (open/closed) using useState\n4. Create mobile dropdown/toggle component with same navigation links\n5. Style mobile navigation to match existing design system and ensure proper z-index layering\n6. Test smooth scrolling functionality works correctly on mobile devices\n7. Ensure proper touch interactions and accessibility for mobile navigation\n8. Maintain proper spacing and layout across different screen sizes",
+            "status": "done",
+            "testStrategy": "Test on mobile viewport sizes (< 768px) to verify sidebar converts to dropdown/toggle, all navigation links remain functional, smooth scrolling works on mobile, and layout maintains proper spacing across different screen sizes"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Add comprehensive flight options analysis to Travel page",
+        "description": "Replace basic airline cards with detailed flight options table including pricing, routing, class information, and interactive filtering for all major airlines serving GOI from SFO and SEA.",
+        "details": "1. Create FlightOption interface with origin, destination, airline, route, duration, class, and priceRange properties\n2. Replace existing airline cards section (lines 154-233 in Travel.tsx) with comprehensive flight data structure\n3. Implement flight data for all major airlines (Emirates, Qatar Airways, Air India, Turkish Airlines, Singapore Airlines, Lufthansa, British Airways) from both SFO and SEA origins\n4. Build interactive filtering system allowing users to filter by:\n   - Origin city (SFO vs SEA)\n   - Airline selection\n   - Class type (Economy $900-$1,500, Business $3,900-$7,000, First $12,000-$19,000)\n   - Price range sliders\n5. Create sortable table/card interface with columns for airline, route, duration, and class-specific pricing\n6. Implement responsive design that transforms table to card layout on mobile devices\n7. Add visual indicators for best value options and shortest routes with color coding\n8. Include route visualization showing layover cities and total duration ranges\n9. Integrate booking recommendations and timing advice section\n10. Maintain existing accordion functionality and section structure within Travel page",
+        "testStrategy": "1. Verify all 7 airlines display with accurate route information from both SFO and SEA origins\n2. Test filtering functionality for each filter type (origin, airline, class, price range)\n3. Confirm sorting works correctly for price, duration, and airline columns\n4. Validate price ranges display accurately for all three class types\n5. Test responsive behavior by resizing browser window and confirming table transforms to card layout on mobile\n6. Verify visual highlighting works for best value and shortest duration options\n7. Check that existing accordion functionality remains intact\n8. Test booking recommendations section displays properly\n9. Confirm route visualization shows layover cities clearly\n10. Validate that the enhanced section integrates smoothly with existing Travel page layout",
+        "status": "done",
+        "dependencies": [
+          2
+        ],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 5,
+        "title": "Consolidate visa-related sections into unified Travel.tsx panel",
+        "description": "Merge the separate 'Required Documentation' and 'E-Visa Application Process' sections in Travel.tsx into a single comprehensive visa panel that eliminates redundancy and provides a streamlined visa guide for wedding guests.",
+        "details": "1. Locate and analyze the two existing visa sections in Travel.tsx:\n   - Required Documentation section (lines 251-319)\n   - E-Visa Application Process section (lines 321-364)\n2. Create a new unified 'Visa Guide' section that combines:\n   - Visa timeline and application deadlines\n   - Complete documentation requirements list\n   - Step-by-step application process\n   - Pro tips and common pitfalls\n   - Processing timeframes and costs\n3. Reorganize content into logical subsections:\n   - Application Timeline & Deadlines\n   - Required Documents Checklist\n   - Application Process Steps\n   - Important Tips & Considerations\n4. Remove the two existing separate sections (lines 251-364) and replace with the consolidated panel\n5. Ensure consistent styling and formatting with other Travel.tsx panels\n6. Maintain all existing visa information while eliminating duplicate content\n7. Add clear headings and improved visual hierarchy for better readability\n8. Verify all links and references are preserved in the consolidated section",
+        "testStrategy": "1. Verify the two original visa sections (lines 251-319 and 321-364) have been completely removed from Travel.tsx\n2. Confirm the new consolidated visa panel appears in their place with all content properly merged\n3. Check that no visa-related information has been lost in the consolidation process\n4. Test that the new section maintains consistent styling with other panels on the Travel page\n5. Verify all external links and references within the visa content still function correctly\n6. Confirm the consolidated section provides a logical flow from timeline to documentation to application steps\n7. Test responsive design to ensure the consolidated content displays properly on mobile and desktop\n8. Validate that the section reduces cognitive load by eliminating redundant information while maintaining completeness",
+        "status": "done",
+        "dependencies": [
+          2
+        ],
+        "priority": "medium",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Analyze existing visa sections and extract all content",
+            "description": "Examine the current 'E-Visa Application Process' panel (lines 252-319) and 'Required Documentation' panel (lines 322-364) in Travel.tsx to catalog all existing content including timeline information, application details, documentation requirements, pro tips, and warning messages.",
+            "dependencies": [],
+            "details": "Read through Travel.tsx lines 252-364 to identify: visa timeline with application deadlines (120 days before, 2-3 weeks recommended, 4 days minimum), application details (website, processing time, cost, entry restrictions), pro tips (multiple-entry recommendation, screenshot approval, print copies), documentation requirements (passport requirements, photos, confirmations), and all warning messages. Create a comprehensive inventory of all content elements to ensure nothing is lost during consolidation.",
+            "status": "done",
+            "testStrategy": "Document all content elements found in both sections and verify completeness by cross-referencing with the original sections line by line."
+          },
+          {
+            "id": 2,
+            "title": "Design unified visa guide structure with logical subsections",
+            "description": "Create a new consolidated visa panel structure with organized subsections: Application Timeline & Deadlines, Required Documents Checklist, Application Process Steps, and Important Tips & Considerations, ensuring improved visual hierarchy and logical content flow.",
+            "dependencies": [
+              "5.1"
+            ],
+            "details": "Design the new 'Visa Guide' panel structure using existing Travel.tsx panel patterns. Organize content into 4 main subsections: 1) Application Timeline & Deadlines (combining timeline from lines 259-284), 2) Required Documents Checklist (merging documentation from lines 329-351), 3) Application Process Steps (incorporating application details from lines 286-306), 4) Important Tips & Considerations (consolidating pro tips from lines 307-316 and warnings). Maintain consistent CSS classes like 'travel-panel', 'panel-header', and existing styling patterns found in other Travel.tsx panels.",
+            "status": "done",
+            "testStrategy": "Verify the new structure maintains visual consistency with other Travel.tsx panels and logically organizes all visa-related information without content gaps."
+          },
+          {
+            "id": 3,
+            "title": "Implement consolidated visa guide panel with merged content",
+            "description": "Create the new unified 'Visa Guide' panel by combining all content from both existing visa sections into the designed structure, ensuring no information is lost and maintaining all links, styling, and interactive elements.",
+            "dependencies": [
+              "5.2"
+            ],
+            "details": "Implement the new consolidated panel in Travel.tsx by combining content from lines 252-364. Preserve all existing elements: Shield icon, visa timeline with timeline-items, application website link (indianvisaonline.gov.in), processing details, cost information, pro tips list, documentation requirements grid, and warning cards. Ensure all CSS classes (visa-content, visa-timeline, timeline-items, visa-details-grid, doc-requirements, doc-grid, warning-card) are maintained for proper styling. Keep all lucide-react icons (Shield, Globe, Info, Briefcase, AlertCircle) and their associated styling.",
+            "status": "done",
+            "testStrategy": "Compare the new consolidated panel against both original sections to ensure all content, links, styling classes, and interactive elements are preserved and properly functioning."
+          },
+          {
+            "id": 4,
+            "title": "Remove original visa sections and integrate consolidated panel",
+            "description": "Remove the two separate visa sections (lines 252-319 and 322-364) from Travel.tsx and replace them with the new consolidated visa guide panel in the appropriate location within the travel layout.",
+            "dependencies": [
+              "5.3"
+            ],
+            "details": "Delete lines 252-364 in Travel.tsx which contain both the 'E-Visa Application Process' panel and 'Required Documentation' panel. Insert the new consolidated 'Visa Guide' panel in the same location to maintain the travel page flow. Ensure the new panel is properly positioned within the travel-content div structure and maintains proper spacing with surrounding elements. Verify that the data-section attribute and any section-specific functionality continues to work correctly.",
+            "status": "done",
+            "testStrategy": "Confirm the original two visa sections (lines 252-319 and 322-364) are completely removed and verify the new consolidated panel appears in the correct location within the travel page layout."
+          },
+          {
+            "id": 5,
+            "title": "Verify content integrity and test consolidated visa panel functionality",
+            "description": "Conduct comprehensive testing to ensure the consolidated visa guide panel displays correctly, maintains all original functionality, preserves responsive design, and provides improved user experience with no missing information or broken styling.",
+            "dependencies": [
+              "5.4"
+            ],
+            "details": "Test the consolidated visa panel across different screen sizes to ensure responsive design is maintained. Verify all interactive elements work: hover effects, warning cards, timeline styling, and external links (indianvisaonline.gov.in). Check that all content from both original sections is present and easily accessible. Validate that CSS animations and motion effects from framer-motion continue to work. Ensure the new panel integrates seamlessly with the overall Travel.tsx page flow and maintains consistent visual hierarchy with other travel panels.",
+            "status": "done",
+            "testStrategy": "Test the consolidated panel on desktop and mobile viewports, verify all external links open correctly, confirm all original content is accessible and properly styled, and validate that no console errors or styling issues are present."
+          }
+        ]
+      }
+    ],
+    "metadata": {
+      "created": "2025-09-08T08:55:12.331Z",
+      "updated": "2025-09-08T10:38:01.178Z",
+      "description": "General website improvements and fixes"
     }
   }
 }

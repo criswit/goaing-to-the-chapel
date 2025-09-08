@@ -9,20 +9,14 @@ import Attire from './components/Attire';
 import Registry from './components/Registry';
 import FAQ from './components/FAQ';
 import RSVP from './components/RSVP';
-import CulturalCompass from './components/CulturalCompass/CulturalCompass';
 import FloatingTraditionsButton from './components/FloatingTraditionsButton';
 import './App.css';
 
-// Home page component that displays all sections
+// Home page component that displays only the Hero section
 function Home() {
   return (
     <>
       <Hero />
-      <Travel />
-      <Events />
-      <Attire />
-      <Registry />
-      <FAQ />
     </>
   );
 }
@@ -42,7 +36,6 @@ function App() {
           <Route path="/registry" element={<Registry />} />
           <Route path="/faq" element={<FAQ />} />
         </Routes>
-        <CulturalCompass />
         <FloatingTraditionsButton />
       </div>
     </Router>

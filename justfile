@@ -43,9 +43,9 @@ test:
 test-watch:
     npm test -- --watch
 
-# Run linter (if configured)
+# Run linter
 lint:
-    @echo "Linting not configured yet"
+    npm run lint
 
 # Utility Commands
 # Clean and reinstall dependencies (CDK only, use clean-all for both)
@@ -144,7 +144,7 @@ frontend-test-watch:
 
 # Run frontend linter
 frontend-lint:
-    @echo "Frontend linting not configured yet"
+    cd frontend && npm run lint
 
 # Format frontend code
 frontend-format:
@@ -168,8 +168,10 @@ build-all: build frontend-build
 test-all: test frontend-test
     @echo "✅ All tests completed"
 
-# Run all linters
-lint-all: lint frontend-lint
+# Run all linters (report issues but don't fail)
+lint-all:
+    -npm run lint
+    -cd frontend && npm run lint
     @echo "✅ All linting completed"
 
 # Format all code
@@ -195,7 +197,7 @@ dev: frontend-dev
 # Full deployment workflow
 # Build everything and deploy to AWS
 deploy-full: build-all
-    npx cdk deploy --require-approval never --profile wedding-website
+    npx cdk deploy --all --require-approval never --profile wedding-website
     @echo "✅ Full deployment completed"
 
 # Deploy with manual approval

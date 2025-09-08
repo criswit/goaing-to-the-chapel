@@ -296,40 +296,40 @@
     padding: 1rem 0.5rem;
     align-items: flex-start;
   }
-  
+
   .definitions-popup-modal {
     max-height: calc(100vh - 2rem);
     border-radius: 12px;
     margin-top: 0;
   }
-  
+
   .definitions-popup-header {
     padding: 1rem 1.5rem;
   }
-  
+
   .definitions-popup-title h2 {
     font-size: 1.25rem;
   }
-  
+
   .definitions-filters {
     padding: 1rem 1.5rem;
     grid-template-columns: 1fr;
     gap: 1rem;
   }
-  
+
   .definitions-results {
     padding: 1rem 1.5rem 1.5rem;
   }
-  
+
   .definitions-grid {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
-  
+
   .definition-card {
     padding: 1.25rem;
   }
-  
+
   .definition-term {
     font-size: 1.1rem;
   }
@@ -339,23 +339,23 @@
   .definitions-popup-header {
     padding: 1rem;
   }
-  
+
   .definitions-popup-title {
     gap: 0.5rem;
   }
-  
+
   .definitions-popup-title h2 {
     font-size: 1.1rem;
   }
-  
+
   .definitions-filters {
     padding: 1rem;
   }
-  
+
   .definitions-results {
     padding: 1rem;
   }
-  
+
   .definition-card {
     padding: 1rem;
   }
@@ -366,7 +366,7 @@
   .definitions-popup-modal {
     transition: none;
   }
-  
+
   .definition-card {
     transition: none;
   }
@@ -377,11 +377,11 @@
   .definitions-popup-modal {
     border: 2px solid var(--text-color);
   }
-  
+
   .definition-card {
     border-width: 2px;
   }
-  
+
   .origin-badge,
   .category-badge {
     border-width: 2px;

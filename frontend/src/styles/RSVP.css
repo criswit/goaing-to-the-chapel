@@ -1,8 +1,7 @@
 .rsvp {
   background: linear-gradient(135deg, var(--background), rgba(255, 193, 7, 0.1));
-  min-height: 70vh;
-  display: flex;
-  align-items: center;
+  min-height: 100vh;
+  padding: 80px 0;
   position: relative;
 }
 

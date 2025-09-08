@@ -163,3 +163,5 @@ Implement a comprehensive RSVP system for the wedding website that allows guests
 - Photo sharing capabilities
 - Wedding day logistics coordination
 - Post-wedding thank you system
+
+

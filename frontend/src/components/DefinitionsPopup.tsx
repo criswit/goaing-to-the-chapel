@@ -97,7 +97,7 @@ const weddingTerms: WeddingTerm[] = [
     term: 'Mangalsutra',
     pronunciation: 'MAN-gul-soo-tra',
     definition:
-      'A sacred necklace tied around the bride\'s neck by the groom, symbolizing their marital bond.',
+      "A sacred necklace tied around the bride's neck by the groom, symbolizing their marital bond.",
     culturalSignificance:
       'Considered the most important piece of jewelry for a married Hindu woman, representing love, respect, and commitment.',
     origin: 'Indian',
@@ -110,7 +110,7 @@ const weddingTerms: WeddingTerm[] = [
     definition:
       "A playful tradition where the bride's sisters and female cousins steal the groom's shoes and demand a ransom for their return.",
     culturalSignificance:
-      'A fun ice-breaker between the two families, symbolizing the playful relationship between the bride and groom\'s families.',
+      "A fun ice-breaker between the two families, symbolizing the playful relationship between the bride and groom's families.",
     origin: 'Indian',
     category: 'Wedding Traditions',
   },
@@ -121,7 +121,7 @@ const weddingTerms: WeddingTerm[] = [
     definition:
       'The emotional farewell ceremony where the bride leaves her parental home to start her new life with her husband.',
     culturalSignificance:
-      'A bittersweet moment symbolizing the bride\'s transition from daughter to wife, often accompanied by tears and blessings.',
+      "A bittersweet moment symbolizing the bride's transition from daughter to wife, often accompanied by tears and blessings.",
     origin: 'Indian',
     category: 'Post-Wedding',
   },
@@ -157,7 +157,7 @@ const weddingTerms: WeddingTerm[] = [
     definition:
       'The traditional first dance between the newly married couple, often to a meaningful song.',
     culturalSignificance:
-      'Symbolizes the couple\'s first act as a married pair and their unity in front of family and friends.',
+      "Symbolizes the couple's first act as a married pair and their unity in front of family and friends.",
     origin: 'Western',
     category: 'Reception',
   },
@@ -172,18 +172,15 @@ const weddingTerms: WeddingTerm[] = [
   {
     id: 'mother-son-dance',
     term: 'Mother-Son Dance',
-    definition:
-      'A dance between the groom and his mother, honoring their special relationship.',
+    definition: 'A dance between the groom and his mother, honoring their special relationship.',
     origin: 'Western',
     category: 'Reception',
   },
   {
     id: 'bouquet-toss',
     term: 'Bouquet Toss',
-    definition:
-      'A tradition where the bride throws her bouquet to unmarried female guests.',
-    culturalSignificance:
-      'Legend says whoever catches the bouquet will be the next to marry.',
+    definition: 'A tradition where the bride throws her bouquet to unmarried female guests.',
+    culturalSignificance: 'Legend says whoever catches the bouquet will be the next to marry.',
     origin: 'Western',
     category: 'Reception',
   },
@@ -191,17 +188,16 @@ const weddingTerms: WeddingTerm[] = [
     id: 'garter-toss',
     term: 'Garter Toss',
     definition:
-      'A tradition where the groom removes and tosses the bride\'s garter to unmarried male guests.',
+      "A tradition where the groom removes and tosses the bride's garter to unmarried male guests.",
     origin: 'Western',
     category: 'Reception',
   },
   {
     id: 'cake-cutting',
     term: 'Cake Cutting',
-    definition:
-      'The ceremonial cutting of the wedding cake by the bride and groom together.',
+    definition: 'The ceremonial cutting of the wedding cake by the bride and groom together.',
     culturalSignificance:
-      'Represents the couple\'s first joint task as a married pair and sharing their first meal together.',
+      "Represents the couple's first joint task as a married pair and sharing their first meal together.",
     origin: 'Western',
     category: 'Reception',
   },
@@ -229,7 +225,7 @@ const weddingTerms: WeddingTerm[] = [
     id: 'destination-wedding',
     term: 'Destination Wedding',
     definition:
-      'A wedding held in a location away from the couple\'s hometown, often in a scenic or exotic location.',
+      "A wedding held in a location away from the couple's hometown, often in a scenic or exotic location.",
     origin: 'Western',
     category: 'Modern Concepts',
   },
@@ -299,14 +295,15 @@ const DefinitionsPopup: React.FC<DefinitionsPopupProps> = ({ isOpen, onClose }) 
   }, [isOpen, onClose]);
 
   const categories = useMemo(() => {
-    const cats = Array.from(new Set(weddingTerms.map(term => term.category))).sort();
+    const cats = Array.from(new Set(weddingTerms.map((term) => term.category))).sort();
     return ['All', ...cats];
   }, []);
 
   const filteredTerms = useMemo(() => {
-    return weddingTerms.filter(term => {
-      const matchesSearch = term.term.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           term.definition.toLowerCase().includes(searchTerm.toLowerCase());
+    return weddingTerms.filter((term) => {
+      const matchesSearch =
+        term.term.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        term.definition.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesCategory = selectedCategory === 'All' || term.category === selectedCategory;
       const matchesOrigin = selectedOrigin === 'All' || term.origin === selectedOrigin;
       return matchesSearch && matchesCategory && matchesOrigin;
@@ -317,14 +314,19 @@ const DefinitionsPopup: React.FC<DefinitionsPopupProps> = ({ isOpen, onClose }) 
 
   return (
     <AnimatePresence>
-      <div className="definitions-popup-overlay" role="dialog" aria-modal="true" aria-labelledby="definitions-title">
+      <div
+        className="definitions-popup-overlay"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="definitions-title"
+      >
         <motion.div
           ref={modalRef}
           className="definitions-popup-modal"
           initial={{ opacity: 0, scale: 0.9, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.9, y: 20 }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
+          transition={{ duration: 0.3, ease: 'easeOut' }}
         >
           <div className="definitions-popup-header">
             <div className="definitions-popup-title">
@@ -345,7 +347,9 @@ const DefinitionsPopup: React.FC<DefinitionsPopupProps> = ({ isOpen, onClose }) 
           <div className="definitions-popup-content">
             <div className="definitions-filters">
               <div className="filter-group">
-                <label htmlFor="search-input" className="filter-label">Search Terms:</label>
+                <label htmlFor="search-input" className="filter-label">
+                  Search Terms:
+                </label>
                 <input
                   id="search-input"
                   type="text"
@@ -357,21 +361,27 @@ const DefinitionsPopup: React.FC<DefinitionsPopupProps> = ({ isOpen, onClose }) 
               </div>
 
               <div className="filter-group">
-                <label htmlFor="category-filter" className="filter-label">Category:</label>
+                <label htmlFor="category-filter" className="filter-label">
+                  Category:
+                </label>
                 <select
                   id="category-filter"
                   value={selectedCategory}
                   onChange={(e) => setSelectedCategory(e.target.value)}
                   className="filter-select"
                 >
-                  {categories.map(category => (
-                    <option key={category} value={category}>{category}</option>
+                  {categories.map((category) => (
+                    <option key={category} value={category}>
+                      {category}
+                    </option>
                   ))}
                 </select>
               </div>
 
               <div className="filter-group">
-                <label htmlFor="origin-filter" className="filter-label">Origin:</label>
+                <label htmlFor="origin-filter" className="filter-label">
+                  Origin:
+                </label>
                 <select
                   id="origin-filter"
                   value={selectedOrigin}
@@ -427,7 +437,7 @@ const DefinitionsPopup: React.FC<DefinitionsPopupProps> = ({ isOpen, onClose }) 
               {filteredTerms.length === 0 && (
                 <div className="no-results">
                   <p>No terms found matching your search criteria.</p>
-                  <button 
+                  <button
                     onClick={() => {
                       setSearchTerm('');
                       setSelectedCategory('All');

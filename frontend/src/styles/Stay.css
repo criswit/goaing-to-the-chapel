@@ -1,5 +1,4 @@
 .stay {
-  background: var(--white);
   padding: 4rem 0;
   min-height: 100vh;
 }
@@ -15,7 +14,6 @@
   gap: 1.5rem;
   margin-bottom: 3rem;
   padding: 2rem;
-  background: rgba(212, 165, 116, 0.05);
   border-radius: 12px;
   border-left: 4px solid var(--secondary-color);
 }
@@ -43,7 +41,6 @@
 .hotel-highlights {
   margin: 2rem 0;
   padding: 2rem;
-  background: linear-gradient(135deg, rgba(42, 54, 69, 0.02) 0%, rgba(212, 165, 116, 0.04) 100%);
   border-radius: 12px;
 }
 
@@ -66,7 +63,9 @@
   background: white;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .highlight-item:hover {
@@ -91,9 +90,12 @@
 
 .hotel-content-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  margin-top: 2rem;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  margin-top: 3rem;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .gallery-column,
@@ -105,7 +107,7 @@
 
 .hotel-gallery,
 .venue-map {
-  height: 450px;
+  height: 600px;
   width: 100%;
 }
 
@@ -166,7 +168,7 @@
 
   .hotel-gallery,
   .venue-map {
-    height: 300px;
+    height: 400px;
   }
 }
 
@@ -178,7 +180,7 @@
 
   .hotel-gallery,
   .venue-map {
-    height: 350px;
+    height: 500px;
   }
 }
 
@@ -200,6 +202,10 @@
   animation-delay: 0.3s;
 }
 
+.stay-content > *:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -210,4 +216,3 @@
     transform: translateY(0);
   }
 }
-

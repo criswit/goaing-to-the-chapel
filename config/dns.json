@@ -1,15 +1,9 @@
 {
   "production": {
+    "enabled": true,
     "domainName": "wedding.himnher.dev",
     "hostedZoneId": "Z08237002D3AKVKPC3U13",
-    "includeWww": false
-  },
-  "staging": {
-    "domainName": "staging.wedding.himnher.dev",
-    "hostedZoneId": "Z08237002D3AKVKPC3U13",
-    "includeWww": false
-  },
-  "development": {
-    "enabled": false
+    "certificateArn": "",
+    "includeWww": true
   }
 }

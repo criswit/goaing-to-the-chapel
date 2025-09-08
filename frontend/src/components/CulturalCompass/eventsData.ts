@@ -8,7 +8,7 @@ export const eventsData: CulturalEvent[] = [
     culture: 'American',
     duration: '30 min',
     description: 'Welcome drinks and greetings as guests arrive',
-    date: 'Friday, June 14, 2024'
+    date: 'Friday, June 14, 2024',
   },
   {
     id: 'haldi',
@@ -17,7 +17,7 @@ export const eventsData: CulturalEvent[] = [
     culture: 'Indian',
     duration: '1 hour',
     description: 'Traditional turmeric ceremony with music and celebration',
-    date: 'Friday, June 14, 2024'
+    date: 'Friday, June 14, 2024',
   },
   {
     id: 'cocktails',
@@ -26,7 +26,7 @@ export const eventsData: CulturalEvent[] = [
     culture: 'Fusion',
     duration: '1 hour',
     description: 'Drinks and appetizers with a mix of Indian and American flavors',
-    date: 'Friday, June 14, 2024'
+    date: 'Friday, June 14, 2024',
   },
   {
     id: 'sangeet',
@@ -35,7 +35,7 @@ export const eventsData: CulturalEvent[] = [
     culture: 'Indian',
     duration: '4 hours',
     description: 'Evening of music, dance performances, and celebration',
-    date: 'Friday, June 14, 2024'
+    date: 'Friday, June 14, 2024',
   },
   {
     id: 'baraat',
@@ -44,7 +44,7 @@ export const eventsData: CulturalEvent[] = [
     culture: 'Indian',
     duration: '30 min',
     description: "Groom's festive procession with music and dancing",
-    date: 'Saturday, June 15, 2024'
+    date: 'Saturday, June 15, 2024',
   },
   {
     id: 'jaimala',
@@ -53,7 +53,7 @@ export const eventsData: CulturalEvent[] = [
     culture: 'Indian',
     duration: '15 min',
     description: 'Traditional exchange of flower garlands',
-    date: 'Saturday, June 15, 2024'
+    date: 'Saturday, June 15, 2024',
   },
   {
     id: 'ceremony-intermission',
@@ -62,7 +62,7 @@ export const eventsData: CulturalEvent[] = [
     culture: 'Fusion',
     duration: '30 min',
     description: 'Break for refreshments and mingling',
-    date: 'Saturday, June 15, 2024'
+    date: 'Saturday, June 15, 2024',
   },
   {
     id: 'mandap',
@@ -71,7 +71,7 @@ export const eventsData: CulturalEvent[] = [
     culture: 'Indian',
     duration: '1.5 hours',
     description: 'Sacred wedding ceremony under the mandap',
-    date: 'Saturday, June 15, 2024'
+    date: 'Saturday, June 15, 2024',
   },
   {
     id: 'cocktail-hour-2',
@@ -80,7 +80,7 @@ export const eventsData: CulturalEvent[] = [
     culture: 'American',
     duration: '1 hour',
     description: 'Transition to reception with drinks and appetizers',
-    date: 'Saturday, June 15, 2024'
+    date: 'Saturday, June 15, 2024',
   },
   {
     id: 'reception',
@@ -89,7 +89,7 @@ export const eventsData: CulturalEvent[] = [
     culture: 'Fusion',
     duration: '4 hours',
     description: 'Dinner, speeches, and dancing under the stars',
-    date: 'Saturday, June 15, 2024'
+    date: 'Saturday, June 15, 2024',
   },
   {
     id: 'after-party',
@@ -98,6 +98,6 @@ export const eventsData: CulturalEvent[] = [
     culture: 'American',
     duration: '3 hours',
     description: 'Late night celebration and dancing',
-    date: 'Saturday, June 15, 2024'
-  }
+    date: 'Saturday, June 15, 2024',
+  },
 ];

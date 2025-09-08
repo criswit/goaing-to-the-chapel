@@ -21,32 +21,32 @@ const travelSections: TravelSection[] = [
     id: 'getting-to-goa',
     label: 'Getting to Goa',
     icon: Plane,
-    targetId: 'getting-to-goa-section'
+    targetId: 'getting-to-goa-section',
   },
   {
     id: 'booking-strategy',
     label: 'Booking Strategy',
     icon: DollarSign,
-    targetId: 'booking-strategy-section'
+    targetId: 'booking-strategy-section',
   },
   {
     id: 'visa-documentation',
     label: 'Visa & Documentation',
     icon: Shield,
-    targetId: 'visa-documentation-section'
+    targetId: 'visa-documentation-section',
   },
   {
     id: 'accommodations',
     label: 'Accommodations',
     icon: Hotel,
-    targetId: 'accommodations-section'
+    targetId: 'accommodations-section',
   },
   {
     id: 'being-here',
     label: 'Being Here',
     icon: MapPin,
-    targetId: 'being-here-section'
-  }
+    targetId: 'being-here-section',
+  },
 ];
 
 const TravelDropdown: React.FC<TravelDropdownProps> = ({ isMobile = false, onNavigate }) => {

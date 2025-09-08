@@ -1,6 +1,7 @@
-import React from 'react';
-import { Calendar, Clock, MapPin } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Calendar, Clock, MapPin, List } from 'lucide-react';
 import { motion } from 'framer-motion';
+import EventsSidebar from './EventsSidebar';
 import '../styles/Events.css';
 
 interface Event {
@@ -15,6 +16,39 @@ interface Event {
 }
 
 const Events: React.FC = () => {
+  const [activeEventId, setActiveEventId] = useState<string | null>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
+  const observerRef = useRef<IntersectionObserver | null>(null);
+
+  const tooltips: { [key: string]: { title: string; description: string } } = {
+    haldi: {
+      title: 'Haldi Ceremony (हल्दी)',
+      description:
+        "The Haldi ceremony is a sacred pre-wedding ritual where turmeric paste is applied to the bride and groom's face, neck, hands, and feet. This golden spice is believed to bless the couple, ward off evil spirits, and give them a natural glow for their wedding day. It's a joyful celebration filled with music, laughter, and playful turmeric application by family and friends. Wear yellow or bright colors - and clothes you don't mind getting a bit messy!",
+    },
+    sangeet: {
+      title: 'Sangeet Night (संगीत)',
+      description:
+        "The Sangeet is a vibrant musical celebration where both families come together for an evening of song, dance, and performances. Traditionally, family members prepare choreographed dances, sing folk songs, and celebrate the upcoming union. It's a time for both families to bond, share stories about the couple, and showcase their dancing skills. Expect Bollywood music, traditional folk dances, and maybe even a friendly dance-off between the two families!",
+    },
+    jaimala: {
+      title: 'Jaimala (जयमाला)',
+      description:
+        "The Jaimala or Varmala is the exchange of flower garlands between the bride and groom, symbolizing their acceptance of one another. This playful ceremony often involves the bride and groom's friends lifting them up to make it challenging for the other to place the garland, adding fun and laughter to the moment. The garland exchange represents the couple choosing each other as life partners and their mutual respect and love.",
+    },
+    baraat: {
+      title: 'Baraat Procession (बारात)',
+      description:
+        "The Baraat is the groom's grand entrance procession, traditionally arriving on a decorated horse (or in modern times, a luxury car). Accompanied by family, friends, music, and dancing, the groom makes his way to the wedding venue. The dhol (drums) play energetic beats while everyone dances in celebration. The bride's family welcomes the Baraat at the entrance with aarti and tilak, marking the formal acceptance of the groom.",
+    },
+    mandap: {
+      title: 'Mandap Ceremony (मंडप)',
+      description:
+        'The Mandap is the sacred wedding pavilion where the actual marriage ceremony takes place. Under a beautifully decorated canopy, the couple performs the Saat Phere (seven vows) around a holy fire, with each circle representing a promise they make to each other. The ceremony includes various rituals like Kanyadaan (giving away of the bride), Mangalsutra (sacred necklace), and Sindoor (vermillion) application. This is the most sacred part of the Hindu wedding where the couple officially becomes husband and wife.',
+    },
+  };
+
   const events: Event[] = [
     {
       id: 'guest-arrival',
@@ -128,6 +162,50 @@ const Events: React.FC = () => {
     },
   ];
 
+  // Handle smooth scrolling to event
+  const handleEventClick = (eventId: string) => {
+    const element = document.querySelector(`[data-event-id="${eventId}"]`);
+    if (element) {
+      const yOffset = -100; // Account for fixed header
+      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+      setIsMobileMenuOpen(false); // Close mobile menu after selection
+    }
+  };
+
+  // Setup Intersection Observer for active state detection
+  useEffect(() => {
+    const options = {
+      root: null,
+      rootMargin: '-20% 0px -60% 0px', // Trigger when event is in upper portion of viewport
+      threshold: 0,
+    };
+
+    observerRef.current = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const eventId = entry.target.getAttribute('data-event-id');
+          if (eventId) {
+            setActiveEventId(eventId);
+          }
+        }
+      });
+    }, options);
+
+    // Observe all event cards
+    const eventCards = document.querySelectorAll('[data-event-id]');
+    eventCards.forEach((card) => {
+      observerRef.current?.observe(card);
+    });
+
+    // Cleanup
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
+    };
+  }, []);
+
   return (
     <section className="events" id="events">
       <div className="container">
@@ -141,56 +219,172 @@ const Events: React.FC = () => {
           Wedding Events
         </motion.h2>
 
-        <div className="events-timeline">
-          {events.map((event, index) => (
-            <motion.div
-              key={index}
-              className="event-card"
-              data-event-id={event.id}
-              initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1, duration: 0.6 }}
-            >
-              <div className="event-header">
-                <h3>{event.title}</h3>
-                {event.culture && (
-                  <span 
-                    className={`event-culture event-culture--${event.culture.toLowerCase()}`}
-                    style={{
-                      fontSize: '11px',
-                      padding: '2px 8px',
-                      borderRadius: '12px',
-                      background: event.culture === 'Indian' ? '#FF6B3520' : 
-                                 event.culture === 'American' ? '#4A90E220' : '#8B5CF620',
-                      color: event.culture === 'Indian' ? '#FF6B35' : 
-                             event.culture === 'American' ? '#4A90E2' : '#8B5CF6',
-                    }}
+        <div className="events-layout">
+          {/* Desktop Sidebar */}
+          <div className="events-sidebar-container">
+            <EventsSidebar
+              events={events}
+              activeEventId={activeEventId}
+              onEventClick={handleEventClick}
+            />
+          </div>
+
+          {/* Mobile Toggle Button */}
+          <button
+            className="events-sidebar-mobile-toggle"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle event navigation"
+          >
+            <List size={24} />
+          </button>
+
+          {/* Mobile Dropdown Menu */}
+          {isMobileMenuOpen && (
+            <div className="events-sidebar-mobile-dropdown open">
+              <EventsSidebar
+                events={events}
+                activeEventId={activeEventId}
+                onEventClick={handleEventClick}
+              />
+            </div>
+          )}
+
+          {/* Main Timeline Content */}
+          <div className="events-timeline">
+            {events.map((event, index) => (
+              <motion.div
+                key={index}
+                className="event-card"
+                data-event-id={event.id}
+                initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1, duration: 0.6 }}
+              >
+                <div className="event-header">
+                  <h3
+                    style={
+                      tooltips[event.id || '']
+                        ? {
+                            cursor: 'help',
+                            position: 'relative',
+                            display: 'inline-block',
+                          }
+                        : {}
+                    }
+                    onMouseEnter={() =>
+                      tooltips[event.id || ''] && setActiveTooltip(event.id || null)
+                    }
+                    onMouseLeave={() => setActiveTooltip(null)}
                   >
-                    {event.culture}
-                  </span>
-                )}
-              </div>
-              <div className="event-details">
-                <div className="event-info">
-                  <Calendar size={16} />
-                  <span>{event.date}</span>
+                    {event.title}
+                    {tooltips[event.id || ''] && (
+                      <span
+                        style={{
+                          display: 'inline-block',
+                          marginLeft: '6px',
+                          width: '16px',
+                          height: '16px',
+                          borderRadius: '50%',
+                          backgroundColor: 'var(--secondary-color)',
+                          color: 'white',
+                          fontSize: '11px',
+                          fontWeight: 'bold',
+                          textAlign: 'center',
+                          lineHeight: '16px',
+                          cursor: 'help',
+                          verticalAlign: 'middle',
+                        }}
+                      >
+                        ?
+                      </span>
+                    )}
+                    {activeTooltip === event.id && tooltips[event.id || ''] && (
+                      <div
+                        style={{
+                          position: 'absolute',
+                          bottom: '100%',
+                          left: '50%',
+                          transform: 'translateX(-50%)',
+                          marginBottom: '10px',
+                          padding: '12px 16px',
+                          backgroundColor: 'rgba(42, 54, 69, 0.95)',
+                          color: 'white',
+                          borderRadius: '8px',
+                          fontSize: '14px',
+                          lineHeight: '1.5',
+                          width: '320px',
+                          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                          zIndex: 1000,
+                          animation: 'fadeIn 0.3s ease-in-out',
+                        }}
+                      >
+                        <strong style={{ display: 'block', marginBottom: '8px', color: '#FFD700' }}>
+                          {tooltips[event.id].title}
+                        </strong>
+                        {tooltips[event.id].description}
+                        <div
+                          style={{
+                            position: 'absolute',
+                            top: '100%',
+                            left: '50%',
+                            transform: 'translateX(-50%)',
+                            width: '0',
+                            height: '0',
+                            borderLeft: '8px solid transparent',
+                            borderRight: '8px solid transparent',
+                            borderTop: '8px solid rgba(42, 54, 69, 0.95)',
+                          }}
+                        ></div>
+                      </div>
+                    )}
+                  </h3>
+                  {event.culture && (
+                    <span
+                      className={`event-culture event-culture--${event.culture.toLowerCase()}`}
+                      style={{
+                        fontSize: '11px',
+                        padding: '2px 8px',
+                        borderRadius: '12px',
+                        background:
+                          event.culture === 'Indian'
+                            ? '#FF6B3520'
+                            : event.culture === 'American'
+                              ? '#4A90E220'
+                              : '#8B5CF620',
+                        color:
+                          event.culture === 'Indian'
+                            ? '#FF6B35'
+                            : event.culture === 'American'
+                              ? '#4A90E2'
+                              : '#8B5CF6',
+                      }}
+                    >
+                      {event.culture}
+                    </span>
+                  )}
                 </div>
-                <div className="event-info">
-                  <Clock size={16} />
-                  <span>{event.time}</span>
+                <div className="event-details">
+                  <div className="event-info">
+                    <Calendar size={16} />
+                    <span>{event.date}</span>
+                  </div>
+                  <div className="event-info">
+                    <Clock size={16} />
+                    <span>{event.time}</span>
+                  </div>
+                  <div className="event-info">
+                    <MapPin size={16} />
+                    <span>{event.location}</span>
+                  </div>
                 </div>
-                <div className="event-info">
-                  <MapPin size={16} />
-                  <span>{event.location}</span>
+                <p className="event-description">{event.description}</p>
+                <div className="event-attire">
+                  <strong>Attire:</strong> {event.attire}
                 </div>
-              </div>
-              <p className="event-description">{event.description}</p>
-              <div className="event-attire">
-                <strong>Attire:</strong> {event.attire}
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

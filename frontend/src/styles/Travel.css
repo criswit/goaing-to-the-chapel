@@ -2,22 +2,6 @@
   position: relative;
 }
 
-.travel::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: url('../../public/indian_flowers.png');
-  background-size: 50%;
-  background-position: center;
-  background-repeat: repeat;
-  opacity: 0.15;
-  z-index: -1; /* Behind the content */
-  pointer-events: none; /* Don'Pt interfere with interactions */
-}
-
 .travel-intro {
   text-align: center;
   max-width: 800px;
@@ -482,6 +466,12 @@
   color: var(--text-dark);
 }
 
+/* Flight Options Panel */
+.flight-options-panel {
+  grid-column: 1 / -1; /* Span full width */
+  margin-bottom: 2rem;
+}
+
 /* Transport Options Grid */
 .transport-options-grid {
   display: grid;
@@ -497,6 +487,13 @@
   display: flex;
   gap: 0.75rem;
   align-items: start;
+  border: 2px solid transparent;
+  transition: border-color 0.3s ease;
+}
+
+.transport-option.recommended {
+  border-color: var(--accent-color);
+  background: linear-gradient(135deg, rgba(255, 152, 0, 0.05) 0%, rgba(255, 87, 34, 0.05) 100%);
 }
 
 .transport-option h5 {

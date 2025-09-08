@@ -13,7 +13,7 @@ const FloatingTraditionsButton: React.FC = () => {
       // Only trigger if no input is focused
       if (e.key === 't' && !['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName || '')) {
         e.preventDefault();
-        setIsOpen(prev => !prev);
+        setIsOpen((prev) => !prev);
       }
     };
 
@@ -39,11 +39,8 @@ const FloatingTraditionsButton: React.FC = () => {
           <span className="floating-traditions-label">Traditions</span>
         </button>
       )}
-      
-      <DefinitionsPopup 
-        isOpen={isOpen} 
-        onClose={() => setIsOpen(false)} 
-      />
+
+      <DefinitionsPopup isOpen={isOpen} onClose={() => setIsOpen(false)} />
     </>
   );
 };

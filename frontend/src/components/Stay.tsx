@@ -33,8 +33,8 @@ const Stay: React.FC = () => {
             <div className="stay-header-content">
               <h3>Your Accommodations Are Arranged</h3>
               <p>
-                We've taken care of your stay at the beautiful Zuri White Sands resort. No
-                booking required – just arrive and enjoy!
+                We've taken care of your stay at the beautiful Zuri White Sands resort. No booking
+                required – just arrive and enjoy!
               </p>
             </div>
           </div>
@@ -86,4 +86,3 @@ const Stay: React.FC = () => {
 };
 
 export default Stay;
-

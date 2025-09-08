@@ -43,26 +43,6 @@ const Registry: React.FC = () => {
               viewport={{ once: true }}
               transition={{ delay: 0.3, duration: 0.6 }}
             >
-              <Home className="registry-icon" />
-              <h3>Crate & Barrel</h3>
-              <p>Home essentials and decor</p>
-              <a
-                href="https://www.crateandbarrel.com"
-                className="registry-link"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                View Registry
-              </a>
-            </motion.div>
-
-            <motion.div
-              className="registry-card"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.4, duration: 0.6 }}
-            >
               <Gift className="registry-icon" />
               <h3>relentless.com</h3>
               <p>help me help my employer</p>
@@ -81,7 +61,7 @@ const Registry: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.5, duration: 0.6 }}
+              transition={{ delay: 0.4, duration: 0.6 }}
             >
               <Heart className="registry-icon" />
               <h3>We are so poor!</h3>
@@ -101,10 +81,8 @@ const Registry: React.FC = () => {
             <p>
               <strong>For our friends traveling from afar:</strong>
               <br />
-              Please don't feel obligated to bring a gift. Your willingness to go half way across the world to celebrate with us is the greatest gift of all.
-              <br/>
-              Syyyyke !!!! We need your money. GoFundMe (link above) or GTFO.
-              <br/>
+              Please don't feel obligated to bring a gift. Your willingness to go half way across
+              the world to celebrate with us is the greatest gift of all.
             </p>
           </div>
         </motion.div>

@@ -7,14 +7,17 @@ This workflow automatically builds and deploys the wedding website React applica
 Configure the following secrets in your GitHub repository settings (Settings > Secrets and variables > Actions):
 
 ### AWS Credentials
+
 - `AWS_ACCESS_KEY_ID`: AWS access key with permissions for S3 and CloudFront operations
 - `AWS_SECRET_ACCESS_KEY`: Corresponding AWS secret key
 
 ### Deployment Configuration
+
 - `BUCKET_NAME`: The name of your S3 bucket (e.g., `wedding-website-frontend`)
 - `DISTRIBUTION_ID`: Your CloudFront distribution ID
 
 ### Optional Notifications
+
 - `SLACK_WEBHOOK`: Slack webhook URL for deployment notifications (optional)
 
 ## GitHub Variables (Optional)
@@ -38,16 +41,11 @@ The AWS IAM user associated with the access key needs the following permissions:
         "s3:DeleteObject",
         "s3:GetBucketLocation"
       ],
-      "Resource": [
-        "arn:aws:s3:::YOUR_BUCKET_NAME",
-        "arn:aws:s3:::YOUR_BUCKET_NAME/*"
-      ]
+      "Resource": ["arn:aws:s3:::YOUR_BUCKET_NAME", "arn:aws:s3:::YOUR_BUCKET_NAME/*"]
     },
     {
       "Effect": "Allow",
-      "Action": [
-        "cloudfront:CreateInvalidation"
-      ],
+      "Action": ["cloudfront:CreateInvalidation"],
       "Resource": "arn:aws:cloudfront::YOUR_ACCOUNT_ID:distribution/YOUR_DISTRIBUTION_ID"
     }
   ]

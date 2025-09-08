@@ -9,11 +9,11 @@ interface TimelineIndicatorProps {
   currentEventIndex: number;
 }
 
-const TimelineIndicator: React.FC<TimelineIndicatorProps> = ({ 
-  progress, 
+const TimelineIndicator: React.FC<TimelineIndicatorProps> = ({
+  progress,
   currentCulture,
   totalEvents,
-  currentEventIndex
+  currentEventIndex,
 }) => {
   const radius = 45;
   const strokeWidth = 3;
@@ -23,12 +23,11 @@ const TimelineIndicator: React.FC<TimelineIndicatorProps> = ({
   const currentColor = CULTURAL_COLORS[currentCulture];
 
   return (
-    <div className="timeline-indicator" style={{ position: 'relative', width: radius * 2, height: radius * 2 }}>
-      <svg
-        height={radius * 2}
-        width={radius * 2}
-        style={{ transform: 'rotate(-90deg)' }}
-      >
+    <div
+      className="timeline-indicator"
+      style={{ position: 'relative', width: radius * 2, height: radius * 2 }}
+    >
+      <svg height={radius * 2} width={radius * 2} style={{ transform: 'rotate(-90deg)' }}>
         {/* Background circle */}
         <circle
           stroke="rgba(255, 255, 255, 0.1)"
@@ -38,7 +37,7 @@ const TimelineIndicator: React.FC<TimelineIndicatorProps> = ({
           cx={radius}
           cy={radius}
         />
-        
+
         {/* Progress circle */}
         <motion.circle
           stroke={currentColor}
@@ -51,11 +50,11 @@ const TimelineIndicator: React.FC<TimelineIndicatorProps> = ({
           cx={radius}
           cy={radius}
           style={{
-            filter: `drop-shadow(0 0 6px ${currentColor}40)`
+            filter: `drop-shadow(0 0 6px ${currentColor}40)`,
           }}
         />
       </svg>
-      
+
       {/* Center content */}
       <div
         style={{
@@ -63,7 +62,7 @@ const TimelineIndicator: React.FC<TimelineIndicatorProps> = ({
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          textAlign: 'center'
+          textAlign: 'center',
         }}
       >
         <motion.div
@@ -72,7 +71,7 @@ const TimelineIndicator: React.FC<TimelineIndicatorProps> = ({
           style={{
             fontSize: '18px',
             fontWeight: 'bold',
-            lineHeight: 1
+            lineHeight: 1,
           }}
         >
           {currentEventIndex + 1}
@@ -81,7 +80,7 @@ const TimelineIndicator: React.FC<TimelineIndicatorProps> = ({
           style={{
             fontSize: '10px',
             opacity: 0.7,
-            marginTop: '2px'
+            marginTop: '2px',
           }}
         >
           of {totalEvents}

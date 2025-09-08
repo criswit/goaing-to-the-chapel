@@ -34,37 +34,65 @@ const Navigation: React.FC = () => {
             </Link>
           </li>
           <li>
-            <Link to="/travel" onClick={closeMenu} className={location.pathname === '/travel' ? 'active' : ''}>
+            <Link
+              to="/travel"
+              onClick={closeMenu}
+              className={location.pathname === '/travel' ? 'active' : ''}
+            >
               Travel
             </Link>
           </li>
           <li>
-            <Link to="/stay" onClick={closeMenu} className={location.pathname === '/stay' ? 'active' : ''}>
+            <Link
+              to="/stay"
+              onClick={closeMenu}
+              className={location.pathname === '/stay' ? 'active' : ''}
+            >
               Stay
             </Link>
           </li>
           <li>
-            <Link to="/events" onClick={closeMenu} className={location.pathname === '/events' ? 'active' : ''}>
+            <Link
+              to="/events"
+              onClick={closeMenu}
+              className={location.pathname === '/events' ? 'active' : ''}
+            >
               Events
             </Link>
           </li>
           <li>
-            <Link to="/attire" onClick={closeMenu} className={location.pathname === '/attire' ? 'active' : ''}>
+            <Link
+              to="/attire"
+              onClick={closeMenu}
+              className={location.pathname === '/attire' ? 'active' : ''}
+            >
               Attire
             </Link>
           </li>
           <li>
-            <Link to="/registry" onClick={closeMenu} className={location.pathname === '/registry' ? 'active' : ''}>
+            <Link
+              to="/registry"
+              onClick={closeMenu}
+              className={location.pathname === '/registry' ? 'active' : ''}
+            >
               Registry
             </Link>
           </li>
           <li>
-            <Link to="/faq" onClick={closeMenu} className={location.pathname === '/faq' ? 'active' : ''}>
+            <Link
+              to="/faq"
+              onClick={closeMenu}
+              className={location.pathname === '/faq' ? 'active' : ''}
+            >
               FAQ
             </Link>
           </li>
           <li>
-            <Link to="/rsvp" onClick={closeMenu} className={`rsvp-btn ${location.pathname === '/rsvp' ? 'active' : ''}`}>
+            <Link
+              to="/rsvp"
+              onClick={closeMenu}
+              className={`rsvp-btn ${location.pathname === '/rsvp' ? 'active' : ''}`}
+            >
               RSVP
             </Link>
           </li>
