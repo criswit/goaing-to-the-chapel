@@ -167,14 +167,13 @@ const batchPartyRsvpHandler = async (
       });
     }
 
-    // Verify invitation code exists
-    const invitationKey = KeyBuilder.buildInvitationGSI(validatedData.invitationCode);
+    // Verify invitation code exists by querying guest profile
     const invitationQuery = new QueryCommand({
       TableName: TABLE_NAME,
-      IndexName: 'InvitationCodeIndex',
-      KeyConditionExpression: 'InvitationCode = :code',
+      KeyConditionExpression: 'PK = :pk AND SK = :sk',
       ExpressionAttributeValues: {
-        ':code': invitationKey,
+        ':pk': `GUEST#${validatedData.invitationCode}`,
+        ':sk': 'PROFILE',
       },
       Limit: 1,
     });
@@ -222,103 +221,55 @@ const batchPartyRsvpHandler = async (
     confirmationNumbers.primary = primaryConfirmation;
 
     const primaryRsvpItem = {
-      PK: KeyBuilder.buildEventPK(invitationData.event_id),
-      SK: KeyBuilder.buildRsvpSK(validatedData.primaryGuest.email, timestamp),
-      EntityType: 'RSVP_RESPONSE',
+      PK: `GUEST#${validatedData.invitationCode}`,
+      SK: 'RSVP',
+      item_type: 'RSVP_RESPONSE',
+      invitation_code: validatedData.invitationCode,
       rsvp_id: primaryRsvpId,
+      confirmationNumber: primaryConfirmation,
       guest_email: validatedData.primaryGuest.email,
       guest_name: validatedData.primaryGuest.name,
+      email: validatedData.primaryGuest.email,
       event_id: invitationData.event_id,
       party_id: partyId,
       is_primary_in_party: true,
-      rsvp_status: validatedData.primaryGuest.rsvpStatus,
-      attendee_count: 1 + plusOnesCount,
-      dietary_restrictions: validatedData.primaryGuest.dietaryRestrictions,
-      special_requests: validatedData.primaryGuest.specialRequests,
-      needs_transportation: validatedData.primaryGuest.needsTransportation,
-      needs_accommodation: validatedData.primaryGuest.needsAccommodation,
-      song_requests: validatedData.songRequests,
-      party_notes: validatedData.partyNotes,
-      plus_ones_details: validatedData.plusOnes,
-      created_at: timestamp,
-      updated_at: timestamp,
+      rsvpStatus: validatedData.primaryGuest.rsvpStatus,
+      attendeeCount: 1 + plusOnesCount,
+      dietaryRestrictions: validatedData.primaryGuest.dietaryRestrictions || [],
+      dietaryNotes: validatedData.partyNotes || '',
+      specialRequests: validatedData.primaryGuest.specialRequests || '',
+      phoneNumber: validatedData.primaryGuest.phoneNumber || '',
+      needsTransportation: validatedData.primaryGuest.needsTransportation || false,
+      needsAccommodation: validatedData.primaryGuest.needsAccommodation || false,
+      songRequests: validatedData.songRequests || '',
+      plusOnes: validatedData.plusOnes || [],
+      submittedAt: timestamp,
+      updatedAt: timestamp,
       ip_address: clientIp,
       user_agent: event.headers['User-Agent'] || event.headers['user-agent'],
-      EventId: invitationData.event_id,
-      RSVPStatus: `${validatedData.primaryGuest.rsvpStatus}#${timestamp}`,
     };
 
     batchWriteItems.push({
       PutRequest: { Item: primaryRsvpItem },
     });
 
-    // 2. Create RSVP entries for each plus-one
-    if (validatedData.plusOnes && validatedData.plusOnes.length > 0) {
-      for (const plusOne of validatedData.plusOnes) {
-        const plusOneId = plusOne.id || `po_${generateId()}`;
-        const plusOneConfirmation = `WED${plusOneId.substring(0, 8).toUpperCase()}`;
-        confirmationNumbers[plusOne.name] = plusOneConfirmation;
+    // Plus-ones are stored in the main RSVP record, not as separate items
 
-        const plusOneRsvpItem = {
-          PK: KeyBuilder.buildEventPK(invitationData.event_id),
-          SK: `RSVP#${partyId}#${plusOneId}#${timestamp}`,
-          EntityType: 'RSVP_PLUS_ONE',
-          rsvp_id: plusOneId,
-          party_id: partyId,
-          primary_guest_email: validatedData.primaryGuest.email,
-          plus_one_name: plusOne.name,
-          age_group: plusOne.ageGroup,
-          dietary_restrictions: plusOne.dietaryRestrictions,
-          special_needs: plusOne.specialNeeds,
-          meal_preference: plusOne.mealPreference,
-          event_id: invitationData.event_id,
-          rsvp_status: validatedData.primaryGuest.rsvpStatus,
-          created_at: timestamp,
-          updated_at: timestamp,
-          EventId: invitationData.event_id,
-        };
-
-        batchWriteItems.push({
-          PutRequest: { Item: plusOneRsvpItem },
-        });
-      }
-    }
-
-    // 3. Update primary guest record with party information
+    // 3. Update primary guest profile record with RSVP status
     const updateGuestCommand = new UpdateCommand({
       TableName: TABLE_NAME,
       Key: {
-        PK: KeyBuilder.buildEventPK(invitationData.event_id),
-        SK: KeyBuilder.buildGuestSK(validatedData.primaryGuest.email),
+        PK: `GUEST#${validatedData.invitationCode}`,
+        SK: 'PROFILE',
       },
       UpdateExpression: `
-        SET rsvp_status = :status,
-            party_id = :partyId,
-            plus_ones_count = :count,
-            plus_ones = :plusOnesDetails,
-            dietary_restrictions = :dietary,
-            special_requests = :requests,
-            last_rsvp_update = :timestamp,
-            updated_at = :timestamp,
-            EventStatus = :eventStatus,
-            AdminDate = :adminDate
+        SET rsvpStatus = :status,
+            lastRsvpUpdate = :timestamp,
+            updatedAt = :timestamp
       `,
       ExpressionAttributeValues: {
         ':status': validatedData.primaryGuest.rsvpStatus,
-        ':partyId': partyId,
-        ':count': plusOnesCount,
-        ':plusOnesDetails': validatedData.plusOnes || [],
-        ':dietary': validatedData.primaryGuest.dietaryRestrictions || [],
-        ':requests': validatedData.primaryGuest.specialRequests || null,
         ':timestamp': timestamp,
-        ':eventStatus': KeyBuilder.buildEventStatusGSI(
-          invitationData.event_id,
-          validatedData.primaryGuest.rsvpStatus
-        ),
-        ':adminDate': KeyBuilder.buildAdminDateGSI(
-          timestamp.split('T')[0],
-          validatedData.primaryGuest.rsvpStatus
-        ),
       },
     });
 
