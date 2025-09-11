@@ -48,10 +48,14 @@ export class AuthInfrastructureSimple extends Construct implements IAuthInfrastr
 
     // Simply reference existing parameters - don't create them
     // This assumes keys are already in SSM (created manually or by scripts)
-    this.jwtPrivateKeyParameter = ssm.StringParameter.fromStringParameterName(
+    // Private key is stored as SecureString, so use fromSecureStringParameterAttributes
+    this.jwtPrivateKeyParameter = ssm.StringParameter.fromSecureStringParameterAttributes(
       this,
       'JWTPrivateKey',
-      `/wedding-rsvp/${environment}/jwt/private-key`
+      {
+        parameterName: `/wedding-rsvp/${environment}/jwt/private-key`,
+        version: 1,
+      }
     );
 
     this.jwtPublicKeyParameter = ssm.StringParameter.fromStringParameterName(

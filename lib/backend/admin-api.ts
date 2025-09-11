@@ -83,7 +83,7 @@ export class AdminApi extends Construct {
         loggingLevel: apigateway.MethodLoggingLevel.INFO,
       },
       defaultCorsPreflightOptions: {
-        allowOrigins: apigateway.Cors.ALL_ORIGINS,
+        allowOrigins: ['https://wedding.himnher.dev', 'http://localhost:3000'],
         allowMethods: apigateway.Cors.ALL_METHODS,
         allowHeaders: [
           'Content-Type',
@@ -92,13 +92,13 @@ export class AdminApi extends Construct {
           'X-Api-Key',
           'X-Amz-Security-Token',
         ],
-        allowCredentials: false, // Can't use credentials with ALL_ORIGINS
+        allowCredentials: true, // Enable credentials with specific origins
       },
     });
 
     // Add Gateway Responses for proper CORS on errors (like 401 Unauthorized)
     const corsHeaders = {
-      'gatewayresponse.header.Access-Control-Allow-Origin': "'*'",
+      'gatewayresponse.header.Access-Control-Allow-Origin': "'https://wedding.himnher.dev'",
       'gatewayresponse.header.Access-Control-Allow-Headers':
         "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Auth-Token'",
       'gatewayresponse.header.Access-Control-Allow-Methods': "'GET,POST,PUT,DELETE,OPTIONS'",

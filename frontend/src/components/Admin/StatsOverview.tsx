@@ -42,7 +42,9 @@ const StatsOverview: React.FC = () => {
       }
 
       const config = await loadConfig();
-      const response = await fetch(`${config.adminApiUrl}/admin/protected/stats`, {
+      // Remove any trailing slash from adminApiUrl before appending the path
+      const adminApiUrl = config.adminApiUrl.replace(/\/$/, '');
+      const response = await fetch(`${adminApiUrl}/admin/protected/stats`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -84,7 +84,9 @@ const GuestList: React.FC = () => {
       }
 
       const config = await loadConfig();
-      const response = await fetch(`${config.adminApiUrl}/admin/protected/guests`, {
+      // Remove any trailing slash from adminApiUrl before appending the path
+      const adminApiUrl = config.adminApiUrl.replace(/\/$/, '');
+      const response = await fetch(`${adminApiUrl}/admin/protected/guests`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -198,8 +200,10 @@ const GuestList: React.FC = () => {
       }
 
       const config = await loadConfig();
+      // Remove any trailing slash from adminApiUrl before appending the path
+      const adminApiUrl = config.adminApiUrl.replace(/\/$/, '');
       const response = await fetch(
-        `${config.adminApiUrl}/admin/protected/guests/${editingGuest.invitationCode}`,
+        `${adminApiUrl}/admin/protected/guests/${editingGuest.invitationCode}`,
         {
           method: 'PUT',
           headers: {

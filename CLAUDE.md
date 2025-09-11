@@ -178,31 +178,44 @@ npm start
 # - adminApiUrl: '/prod'
 ```
 
-**Test Admin Credentials:**
-- **Email**: `auth-test@wedding.dev`
-- **Password**: `TestPassword123!`
-- **Role**: ADMIN
+**Admin Access Instructions:**
+- **Admin Console URL**: `https://wedding.himnher.dev/admin/login` (production) or `http://localhost:3000/admin/login` (local)
+- **Authentication**: JWT-based with DynamoDB user storage
+- **Required**: Admin user must exist in `WeddingAdmins` DynamoDB table
 
-**Alternative Test Credentials (if available):**
-- **Email**: `admin@wedding.himnher.dev`  
-- **Password**: Contact system administrator
-- **Role**: SUPER_ADMIN
-
-**Creating a Test Admin User:**
+**Retrieving Admin Credentials:**
 ```bash
-# Using AWS CLI directly
-aws dynamodb put-item \
-  --table-name WeddingAdmins \
-  --item '{
-    "email": {"S": "test-admin@wedding.dev"},
-    "name": {"S": "Test Admin"},
-    "passwordHash": {"S": "$2a$10$RskdVUPK4IlB04ALCL7x6OHTD6joIXuW2AxJoPYbTujv8KPVfZdHm"},
-    "role": {"S": "ADMIN"},
-    "createdAt": {"S": "'$(date -u +"%Y-%m-%dT%H:%M:%S.000Z")'"}
-  }' \
-  --profile wedding-website
+# Fetch admin credentials from AWS Secrets Manager
+aws secretsmanager get-secret-value \
+  --secret-id "wedding-admin" \
+  --profile wedding-website \
+  --query SecretString --output text | jq -r '.email, .password'
 
-# The passwordHash above corresponds to: TestPassword123!
+# Or get the full JSON secret
+aws secretsmanager get-secret-value \
+  --secret-id "wedding-admin" \
+  --profile wedding-website
+```
+
+**Creating Admin Users:**
+```bash
+# Interactive admin creation (recommended)
+node scripts/create-admin-user.js
+
+# Follow prompts for:
+# - Email address (used for login)
+# - Name (display name)  
+# - Password (min 8 characters)
+# - Role (ADMIN or SUPER_ADMIN)
+```
+
+**Verifying Admin Users:**
+```bash
+# Check existing admin users in DynamoDB
+aws dynamodb scan --table-name WeddingAdmins --profile wedding-website
+
+# Reset admin password if needed
+just reset-admin
 ```
 
 **Testing Workflow:**
@@ -236,8 +249,11 @@ aws dynamodb put-item \
    - Test: `curl -X OPTIONS https://admin.wedding.himnher.dev/prod/admin/protected/stats -H "Origin: http://localhost:3000"`
 
    **Issue: Login fails with "Invalid credentials"**
-   - Solution: Verify admin user exists in DynamoDB
-   - Check: `aws dynamodb scan --table-name WeddingAdmins --profile wedding-website`
+   - Solution: Verify admin user exists in DynamoDB and credentials are correct
+   - Get Credentials: `aws secretsmanager get-secret-value --secret-id "wedding-admin" --profile wedding-website`
+   - Check Users: `aws dynamodb scan --table-name WeddingAdmins --profile wedding-website`
+   - Create User: `node scripts/create-admin-user.js` if no admin exists
+   - Reset Password: `just reset-admin` if credentials are forgotten
 
 5. **Debugging Tips:**
    - Open browser DevTools to monitor network requests
@@ -586,6 +602,26 @@ just validate-guests
 - **CDK Stacks**: `WeddingWebsiteCdkStack` (frontend), `RsvpBackendStack` (API)
 - **API Endpoints**: Main API and separate Admin API with different base paths
 
+## Frontend Deployment & Manual Redeployment
+
+**Manual Frontend Deployment Process:**
+```bash
+# Method 1: Using justfile (recommended)
+just frontend-sync
+
+# Method 2: Manual steps
+cd frontend
+npm run build
+aws s3 sync ./build s3://wedding-website-986718858331-us-east-1 --delete --profile wedding-website
+aws cloudfront create-invalidation --distribution-id E3N0RW2MNAQ4KG --paths "/*" --profile wedding-website
+```
+
+**Important Notes:**
+- The CDK deployment regenerates `frontend/public/config.json` with trailing slashes
+- Frontend code must handle trailing slashes by removing them before appending paths
+- CloudFront cache must be invalidated after S3 sync for changes to take effect
+- Wait 10-30 seconds after invalidation for global propagation
+
 ## Common Issues & Troubleshooting
 
 **1. CORS 403 Errors:**
@@ -631,6 +667,19 @@ just validate-guests
 - **Prevention**: Always use `npm run deploy:backend` instead of raw CDK commands
 - **Recovery**: If keys were regenerated, run `npm run init:jwt-keys` to set stable keys
 
+**9. Double-Slash URL Issues in Admin API Calls:**
+- **Cause**: CDK generates config.json with trailing slashes, frontend code appends paths with leading slashes
+- **Solution**: Frontend code must strip trailing slashes: `config.adminApiUrl.replace(/\/$/, '')`
+- **Files to Fix**: `AdminLogin.tsx`, `StatsOverview.tsx`, `GuestList.tsx`
+- **Test**: Check browser console for URLs like `//admin/auth` (double slash)
+- **Prevention**: Always handle trailing slashes in frontend API utility functions
+
+**10. SSM Parameter Store SecureString Issues:**
+- **Cause**: CDK using `fromStringParameterName()` for SecureString parameters
+- **Solution**: Use `fromSecureStringParameterAttributes()` for JWT private key
+- **File**: `lib/backend/auth-infrastructure-simple.ts`
+- **Error**: "Parameters referenced by template have types not supported by CloudFormation"
+
 ## Justfile Commands Reference
 
 **Setup & Deployment:**
@@ -657,6 +706,13 @@ just test-email-flow      # Validate email system
 just validate-guests      # Check guest data integrity
 ```
 
+**Frontend Operations:**
+```bash
+just frontend-sync        # Build and deploy frontend to S3 + CloudFront invalidation
+just frontend-build       # Build frontend only (no deployment)
+just frontend-deploy      # Deploy built frontend to S3 only
+```
+
 **Troubleshooting:**
 ```bash
 just update-cors          # Apply CORS fixes
@@ -665,3 +721,5 @@ just reset-admin          # Reset admin password
 ```
 
 This project requires careful attention to post-deployment setup steps that are unique to wedding/event management systems. The CORS configuration, admin user creation, and guest list import are critical steps that are often overlooked but essential for a functional system.
+- NEVER USE THE DIRECT API GATEWAY URL - ALWAYS USE CUSTOM DOMAINS AND ENSURE CORS ROUTING IS WORKING THERE
+- ALWAYS MAKE CHANGES TO THE CDK AND THEN PERFORM A RE-DEPLOY, NEVER USE AWS CLI TO DIRECTLY MODIFY INFRASTRUCTURE THAT WE MANAGE IN CODE
