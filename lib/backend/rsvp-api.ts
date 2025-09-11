@@ -77,6 +77,8 @@ export class RsvpApi extends Construct {
       REGION: cdk.Stack.of(this).region,
       STAGE: environment,
       LOG_LEVEL: 'INFO',
+      CORS_ORIGIN:
+        props.allowedOrigins && props.allowedOrigins.length === 1 ? props.allowedOrigins[0] : '*',
     };
 
     // Create Lambda functions
@@ -228,7 +230,9 @@ export class RsvpApi extends Construct {
           'Authorization',
           'X-Api-Key',
           'X-Amz-Security-Token',
+          'X-Auth-Token',
         ],
+        allowCredentials: true,
       },
       deployOptions: {
         stageName: environment,
