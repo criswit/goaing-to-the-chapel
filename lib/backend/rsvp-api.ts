@@ -233,6 +233,7 @@ export class RsvpApi extends Construct {
           'X-Auth-Token',
         ],
         allowCredentials: true,
+        maxAge: cdk.Duration.hours(1),
       },
       deployOptions: {
         stageName: environment,
@@ -248,6 +249,27 @@ export class RsvpApi extends Construct {
         },
       },
       cloudWatchRole: true,
+    });
+
+    // Add Gateway Responses for proper CORS on errors
+    const corsHeaders = {
+      'gatewayresponse.header.Access-Control-Allow-Origin': "'*'",
+      'gatewayresponse.header.Access-Control-Allow-Headers':
+        "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Auth-Token'",
+      'gatewayresponse.header.Access-Control-Allow-Methods': "'GET,POST,PUT,DELETE,OPTIONS'",
+      'gatewayresponse.header.Access-Control-Allow-Credentials': "'true'",
+    };
+
+    // Add CORS headers to 4XX responses
+    this.api.addGatewayResponse('Default4XX', {
+      type: apigateway.ResponseType.DEFAULT_4XX,
+      responseHeaders: corsHeaders,
+    });
+
+    // Add CORS headers to 5XX responses
+    this.api.addGatewayResponse('Default5XX', {
+      type: apigateway.ResponseType.DEFAULT_5XX,
+      responseHeaders: corsHeaders,
     });
 
     // API Gateway resources and methods

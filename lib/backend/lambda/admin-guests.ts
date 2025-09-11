@@ -97,8 +97,9 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
       const mergedGuests = guests.map((guest: Record<string, unknown>) => {
         const rsvp = rsvpMap.get(guest.invitationCode);
 
-        // Ensure guest has a name with proper fallback
-        const guestName = guest.name || (rsvp && rsvp.name) || 'Unknown Guest';
+        // Guest name should always come from the guest record in the GUESTS table
+        // The RSVP table doesn't store the guest name
+        const guestName = guest.name || guest.guestName || 'Unknown Guest';
 
         if (rsvp) {
           return {
@@ -126,8 +127,8 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
 
       // Sort by name (handle missing names)
       mergedGuests.sort((a, b) => {
-        const nameA = a.name || '';
-        const nameB = b.name || '';
+        const nameA = (a.name as string) || '';
+        const nameB = (b.name as string) || '';
         return nameA.localeCompare(nameB);
       });
 

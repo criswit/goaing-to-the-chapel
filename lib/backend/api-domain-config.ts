@@ -50,28 +50,28 @@ export class ApiDomainConfig extends Construct {
     const hostedZone = props.hostedZone || this.getOrCreateHostedZone();
 
     // Create or use provided certificate
-    // For EDGE endpoints, certificate must be in us-east-1
     this.certificate =
       props.certificate ||
-      new acm.DnsValidatedCertificate(this, 'ApiCertificate', {
+      new acm.Certificate(this, 'ApiCertificate', {
         domainName: props.domainName,
-        hostedZone: hostedZone!,
-        region: 'us-east-1', // Required for CloudFront/EDGE endpoints
+        certificateName: `wedding-api-cert-${environment}`,
+        validation: acm.CertificateValidation.fromDns(hostedZone),
       });
 
-    // Create custom domain for API Gateway with EDGE endpoint for better CORS handling
+    // Create custom domain for API Gateway
     this.domainName = new apigateway.DomainName(this, 'ApiDomainName', {
       domainName: props.domainName,
       certificate: this.certificate,
-      endpointType: apigateway.EndpointType.EDGE,
+      endpointType: apigateway.EndpointType.REGIONAL,
       securityPolicy: apigateway.SecurityPolicy.TLS_1_2,
     });
 
-    // Create base path mapping with production stage
+    // Create base path mapping
     new apigateway.BasePathMapping(this, 'ApiBasePathMapping', {
       domainName: this.domainName,
       restApi: props.api,
-      basePath: 'production', // Map to production stage path
+      basePath: '', // Map to root path
+      stage: props.api.deploymentStage,
     });
 
     // Create Route53 A record if hosted zone is available

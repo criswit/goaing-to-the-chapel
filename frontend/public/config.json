@@ -1,5 +1,5 @@
 {
-  "apiUrl": "https://api.wedding.himnher.dev/production/",
+  "apiUrl": "https://api.wedding.himnher.dev/",
   "adminApiUrl": "https://t7w8s73kf3.execute-api.us-east-1.amazonaws.com/prod/",
   "environment": "production"
 }

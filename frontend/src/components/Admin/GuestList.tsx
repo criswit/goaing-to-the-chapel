@@ -257,7 +257,7 @@ const GuestList: React.FC = () => {
                 </td>
                 <td>
                   <div className="guest-name-cell">
-                    <div>{guest.name}</div>
+                    <div>{guest.name || 'Unknown Guest'}</div>
                     {guest.plusOneName && (
                       <div className="plus-one-name">+ {guest.plusOneName}</div>
                     )}

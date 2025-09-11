@@ -5,13 +5,14 @@
 ### CDK Infrastructure Changes
 
 1. **API Domain Configuration** (`lib/backend/api-domain-config.ts`):
-   - Changed endpoint type from `REGIONAL` to `EDGE` for better CORS handling
-   - Updated certificate to use `DnsValidatedCertificate` with `us-east-1` region (required for EDGE endpoints)
+   - Kept `REGIONAL` endpoint type (cannot change from REGIONAL to EDGE in one update)
    - Changed base path mapping to include `production` stage path
+   - Certificate configuration for the custom domain
 
 2. **RSVP API Configuration** (`lib/backend/rsvp-api.ts`):
    - Added tracing and method options to deployment configuration
-   - CORS headers already properly configured with `allowCredentials: true`
+   - Added `maxAge` to CORS preflight options for caching
+   - **Added Gateway Responses for 4XX and 5XX errors with CORS headers**
    - Lambda functions have `CORS_ORIGIN` environment variable
 
 ### Frontend Changes
@@ -52,10 +53,11 @@ aws cloudfront create-invalidation --distribution-id YOUR_DISTRIBUTION_ID --path
 
 ## What This Fixes
 
-The EDGE endpoint type for API Gateway custom domains:
-- Uses CloudFront for the custom domain, which properly handles CORS preflight requests
-- Ensures OPTIONS requests are correctly forwarded to API Gateway
-- Provides better global distribution and caching capabilities
+The Gateway Response configuration ensures:
+- CORS headers are returned even for 4XX errors (including 403 Forbidden)
+- OPTIONS requests that hit errors still return proper CORS headers
+- Custom domain properly handles preflight requests
+- Base path mapping correctly routes to the production stage
 
 ## Verification
 
@@ -79,9 +81,9 @@ curl -X OPTIONS https://api.wedding.himnher.dev/production/rsvp/validate \
 
 ## Important Notes
 
-1. **Certificate Creation**: The first deployment may take longer as it needs to create and validate the SSL certificate in us-east-1
+1. **Certificate Creation**: The first deployment may take longer as it needs to create and validate the SSL certificate
 2. **DNS Propagation**: After deployment, it may take a few minutes for DNS changes to propagate
-3. **CloudFront Distribution**: The EDGE endpoint creates a CloudFront distribution which can take 15-40 minutes to fully deploy
+3. **Gateway Responses**: The new Gateway Response configuration ensures CORS headers are returned even when API Gateway returns error responses
 
 ## Rollback Plan
 

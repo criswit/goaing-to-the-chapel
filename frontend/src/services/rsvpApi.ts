@@ -4,8 +4,8 @@ import { InvitationValidationResponse, RSVPFormData, RSVPSubmissionResponse } fr
 const API_BASE_URL =
   process.env.REACT_APP_API_URL ||
   (window.location.hostname === 'localhost'
-    ? 'https://api.wedding.himnher.dev/production' // Use custom domain for local development
-    : 'https://api.wedding.himnher.dev/production');
+    ? 'https://api.wedding.himnher.dev' // Use custom domain for local development
+    : 'https://api.wedding.himnher.dev');
 
 export class RSVPApiService {
   static async validateInvitation(invitationCode: string): Promise<InvitationValidationResponse> {
