@@ -303,7 +303,7 @@ aws ses verify-email-identity --email-address espoused@wedding.himnher.dev --pro
 | **wedding-process-complaint-production**                            | Handles SES complaint notifications and manages suppressions                       | `RsvpBackendStack-EmailLambdasProcessComplaintLogsB87A6220-JKL9FTkreerI`      | Node.js 20.x | 256 MB  | 60s     |
 | **RsvpBackendStack-AdminApiAdminAuthFunction6010FF14-Tk9VgwxAL4DY** | Handles admin authentication (login/logout)                                        | `/aws/lambda/RsvpBackendStack-AdminApiAdminAuthFunction6010FF14-Tk9VgwxAL4DY` | Node.js 20.x | 512 MB  | 30s     |
 | **RsvpBackendStack-AdminApiAdminAuthorizerFunction8B-4IANa8yhy1W4** | JWT token validation for admin API endpoints                                       | `/aws/lambda/RsvpBackendStack-AdminApiAdminAuthorizerFunction8B-4IANa8yhy1W4` | Node.js 20.x | 256 MB  | 10s     |
-| **RsvpBackendStack-AdminApiAdminGuestsFunctionFBBF80-LyvuiuDbmHHD** | Admin API for guest management (CRUD operations)                                   | `/aws/lambda/RsvpBackendStack-AdminApiAdminGuestsFunctionFBBF80-LyvuiuDbmHHD` | Node.js 20.x | 512 MB  | 30s     |
+| **RsvpBackendStack-AdminApiAdminGuestsFunctionFBBF80-LyvuiuDbmHHD** | Admin API for guest management (CRUD operations including individual guest updates via path parameters) | `/aws/lambda/RsvpBackendStack-AdminApiAdminGuestsFunctionFBBF80-LyvuiuDbmHHD` | Node.js 20.x | 512 MB  | 30s     |
 | **RsvpBackendStack-AdminApiAdminStatsFunction9FB9CF3-xU8uH06Ph5hO** | Generates admin dashboard statistics and reports                                   | `/aws/lambda/RsvpBackendStack-AdminApiAdminStatsFunction9FB9CF3-xU8uH06Ph5hO` | Node.js 20.x | 512 MB  | 30s     |
 | **WeddingWebsiteCdkStack-CustomS3AutoDeleteObjectsCu-rssHph0bpVzs** | CloudFormation custom resource for S3 bucket cleanup on stack deletion             | `/aws/lambda/WeddingWebsiteCdkStack-CustomS3AutoDeleteObjectsCu-rssHph0bpVzs` | Node.js 22.x | 128 MB  | 900s    |
 | **RsvpBackendStack-CustomS3AutoDeleteObjectsCustomRe-kIUTjP6xOTIT** | CloudFormation custom resource for email S3 bucket cleanup                         | `/aws/lambda/RsvpBackendStack-CustomS3AutoDeleteObjectsCustomRe-kIUTjP6xOTIT` | Node.js 22.x | 128 MB  | 900s    |
@@ -324,11 +324,22 @@ aws ses verify-email-identity --email-address espoused@wedding.himnher.dev --pro
 **Admin Panel Functions:**
 - **Authentication**: Login/logout and JWT token management
 - **Authorization**: API Gateway authorizer for protected endpoints
-- **Guest Management**: Full CRUD operations on guest records
+- **Guest Management**: Full CRUD operations on guest records including:
+  - GET `/admin/guests` - List all guests with filtering
+  - GET `/admin/guests/{invitationCode}` - Get single guest details
+  - PUT `/admin/guests/{invitationCode}` - Update single guest
+  - DELETE `/admin/guests/{invitationCode}` - Delete single guest
 - **Statistics**: Dashboard metrics and reporting
 
 **Infrastructure Functions:**
 - **S3 Cleanup**: CloudFormation custom resources for bucket deletion
+
+### Lambda Layer Dependencies
+
+**Admin Common Layer** (`layers/admin-common/nodejs/`):
+- `jsonwebtoken`: JWT token handling
+- `bcryptjs`: Password hashing
+- `zod`: Schema validation for admin operations
 
 ### Lambda Environment Variables
 
@@ -466,6 +477,12 @@ just validate-guests
 - **Cause**: CloudFront distribution blocking API requests
 - **Solution**: Update config to use direct API Gateway URLs
 - **Fallback**: `https://dx489wk9ik.execute-api.us-east-1.amazonaws.com/production/`
+
+**6. DynamoDB Undefined Values Error (500):**
+- **Cause**: DynamoDBDocumentClient not configured to handle undefined values
+- **Solution**: Add `marshallOptions: { removeUndefinedValues: true }` to DynamoDBDocumentClient.from()
+- **Files**: Update all Lambda functions using DynamoDB (admin-guests.ts, admin-stats.ts, etc.)
+- **Test**: Verify guest edit/save functionality in admin panel works without errors
 
 ## Justfile Commands Reference
 

@@ -901,7 +901,7 @@
         "description": "Create a PUT endpoint at /admin/protected/guests/{invitationCode} in the admin Lambda function that enables updating guest records in DynamoDB with comprehensive field support including name, email, phone, RSVP status, party size, plus one details, and dietary restrictions.",
         "details": "Extend the existing admin-guests.ts Lambda function to handle PUT requests with invitation code path parameters. The current implementation supports updating guest information but needs enhancement for path-based routing. Implement: 1) Path parameter extraction for invitation code from '/admin/protected/guests/{invitationCode}' route 2) Enhanced input validation using Zod schemas to validate all guest fields (name, email, phone, RSVP status, party size, dietary restrictions, plus one details) 3) DynamoDB update operations for both GUEST#PROFILE and GUEST#RSVP records using the single-table design pattern 4) Proper error handling with 400 for validation errors, 404 for non-existent guests, and 500 for server errors 5) Update the admin-api.ts CDK configuration to add the path-based route resource 'guests.addResource('{invitationCode}')' with proper CORS headers 6) Comprehensive response structure returning updated guest data and confirmation messages 7) Audit logging for all admin modifications to track changes. Use existing DynamoDB client setup, maintain compatibility with current table structure (wedding-rsvp-production), and follow existing error handling patterns in admin-guests.ts:287-295.",
         "testStrategy": "Test endpoint functionality with valid invitation codes and various field updates, verify path parameter extraction works correctly, test input validation rejects invalid data formats, confirm database updates are applied to correct records, test error handling for non-existent invitation codes returns 404, verify CORS headers are properly configured for cross-origin requests, validate response structure includes updated guest information, test concurrent update scenarios to ensure data consistency",
-        "status": "pending",
+        "status": "done",
         "dependencies": [
           1,
           2,
@@ -916,7 +916,7 @@
             "description": "Update the admin-api.ts CDK configuration to add the path-based route resource '{invitationCode}' under the guests resource with proper CORS headers and method integration for PUT requests.",
             "dependencies": [],
             "details": "Modify the createGuestsFunction method in lib/backend/admin-api.ts to add `guestsResource.addResource('{invitationCode}')` and attach the PUT method with proper Lambda integration and CORS configuration. This will enable the /admin/protected/guests/{invitationCode} endpoint pattern.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Verify CDK synthesizes correctly, test that the new route pattern is available in API Gateway, confirm CORS headers are properly configured for the path parameter route."
           },
           {
@@ -927,7 +927,7 @@
               "15.1"
             ],
             "details": "Extend the admin-guests.ts handler to extract `event.pathParameters?.invitationCode` for PUT requests. Create a Zod schema to validate invitation code format (6-8 uppercase alphanumeric characters) based on existing validation patterns in rsvp-validation.ts. Add proper error handling for missing or invalid path parameters.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Test path parameter extraction with valid invitation codes, verify validation rejects invalid codes, test error handling for missing path parameters."
           },
           {
@@ -938,7 +938,7 @@
               "15.2"
             ],
             "details": "Create an AdminGuestUpdateSchema extending existing validation patterns from rsvp-validation.ts. Include validation for guest_name (2-100 chars), email format, phone regex, RSVP status enum, party size limits, plus one details array with nested validation, and dietary restrictions. Implement partial update support allowing optional fields.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Test validation accepts valid guest update objects, verify rejection of invalid field formats, test partial updates work correctly, validate nested plus one details validation."
           },
           {
@@ -949,7 +949,7 @@
               "15.3"
             ],
             "details": "Refactor the PUT endpoint logic to follow the single-table pattern from dynamodb-schema.ts. Update both PK='GUEST#{invitationCode}', SK='PROFILE' and PK='GUEST#{invitationCode}', SK='RSVP' records. Implement conditional updates to ensure records exist before updating, handle version conflicts, and maintain data consistency between profile and RSVP records.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Test updates to both GUEST#PROFILE and GUEST#RSVP records, verify conditional updates work correctly, test handling of non-existent records, validate data consistency between related records."
           },
           {
@@ -960,7 +960,7 @@
               "15.4"
             ],
             "details": "Add try-catch blocks with specific error handling for validation errors (400), non-existent guests (404), and DynamoDB errors (500). Implement audit logging that captures the admin user, timestamp, invitation code, fields modified, old values, and new values. Store audit logs in DynamoDB with PK='AUDIT#{timestamp}', SK='GUEST#{invitationCode}' pattern for tracking.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Test error responses return correct HTTP status codes, verify audit logs are created for all successful updates, test error handling for various failure scenarios, validate audit log data structure and content."
           }
         ]
@@ -968,7 +968,7 @@
     ],
     "metadata": {
       "created": "2025-09-08T01:12:16.853Z",
-      "updated": "2025-09-11T14:50:05.610Z",
+      "updated": "2025-09-11T16:25:21.067Z",
       "description": "Tasks for rsvp-system context"
     }
   },

@@ -7,10 +7,23 @@ import {
   ScanCommand,
   UpdateCommand,
   QueryCommand,
+  GetCommand,
+  TransactWriteCommand,
 } from '@aws-sdk/lib-dynamodb';
+import {
+  validateInvitationCode,
+  validateAdminGuestUpdate,
+  transformAdminUpdateToDbFormat,
+  createAuditLogEntry,
+  formatValidationErrors,
+} from './admin-guest-validation';
 
 const dynamoDBClient = new DynamoDBClient({});
-const docClient = DynamoDBDocumentClient.from(dynamoDBClient);
+const docClient = DynamoDBDocumentClient.from(dynamoDBClient, {
+  marshallOptions: {
+    removeUndefinedValues: true,
+  },
+});
 
 const TABLE_NAME = process.env.TABLE_NAME || 'wedding-rsvp-production';
 
@@ -31,12 +44,13 @@ interface Guest {
 }
 
 export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-  console.log('Admin guests request received:', event.httpMethod);
+  console.log('Admin guests request received:', event.httpMethod, event.path);
+  console.log('Path parameters:', event.pathParameters);
 
   const headers = {
     'Access-Control-Allow-Origin': process.env.CORS_ORIGIN || '*',
     'Access-Control-Allow-Headers': 'Content-Type,Authorization',
-    'Access-Control-Allow-Methods': 'GET,PUT,OPTIONS',
+    'Access-Control-Allow-Methods': 'GET,PUT,DELETE,OPTIONS',
     'Content-Type': 'application/json',
   };
 
@@ -172,7 +186,15 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
     }
 
     if (event.httpMethod === 'PUT') {
-      // Update guest information
+      // Check if this is a path parameter update (single guest)
+      const invitationCodeFromPath = event.pathParameters?.invitationCode;
+
+      if (invitationCodeFromPath) {
+        // Single guest update via path parameter
+        return handleSingleGuestUpdate(invitationCodeFromPath, event, headers);
+      }
+
+      // Legacy bulk update support
       if (!event.body) {
         return {
           statusCode: 400,
@@ -279,6 +301,16 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
       };
     }
 
+    // Handle GET for single guest
+    if (event.httpMethod === 'GET' && event.pathParameters?.invitationCode) {
+      return handleGetSingleGuest(event.pathParameters.invitationCode, headers);
+    }
+
+    // Handle DELETE for single guest
+    if (event.httpMethod === 'DELETE' && event.pathParameters?.invitationCode) {
+      return handleDeleteGuest(event.pathParameters.invitationCode, event, headers);
+    }
+
     return {
       statusCode: 405,
       headers,
@@ -294,3 +326,486 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
     };
   }
 };
+
+// Handle single guest update with comprehensive validation and single-table design
+async function handleSingleGuestUpdate(
+  invitationCode: string,
+  event: APIGatewayProxyEvent,
+  headers: Record<string, string>
+): Promise<APIGatewayProxyResult> {
+  try {
+    // Validate invitation code format
+    const codeValidation = validateInvitationCode(invitationCode);
+    if (!codeValidation.success) {
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({
+          error: 'Invalid invitation code format',
+          details: formatValidationErrors(codeValidation.error),
+        }),
+      };
+    }
+
+    const validatedCode = codeValidation.data;
+
+    // Parse and validate request body
+    if (!event.body) {
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({ error: 'Missing request body' }),
+      };
+    }
+
+    const updateData = JSON.parse(event.body);
+    const validation = validateAdminGuestUpdate(updateData);
+
+    if (!validation.success) {
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({
+          error: 'Validation failed',
+          details: formatValidationErrors(validation.error),
+        }),
+      };
+    }
+
+    const validatedData = validation.data;
+
+    // Check if guest exists (PROFILE record)
+    const profileKey = {
+      PK: `GUEST#${validatedCode}`,
+      SK: 'PROFILE',
+    };
+
+    const existingProfile = await docClient.send(
+      new GetCommand({
+        TableName: TABLE_NAME,
+        Key: profileKey,
+      })
+    );
+
+    if (!existingProfile.Item) {
+      return {
+        statusCode: 404,
+        headers,
+        body: JSON.stringify({
+          error: 'Guest not found',
+          invitationCode: validatedCode,
+        }),
+      };
+    }
+
+    // Transform update data to database format
+    const { profileUpdate, rsvpUpdate, hasProfileChanges, hasRsvpChanges } =
+      transformAdminUpdateToDbFormat(validatedData, validatedCode);
+
+    // Prepare transaction items for atomic updates
+    const transactItems = [];
+
+    // Update PROFILE record if there are profile changes
+    if (hasProfileChanges) {
+      const profileUpdateExpression = [];
+      const profileExpressionAttributeNames: Record<string, string> = {};
+      const profileExpressionAttributeValues: Record<string, unknown> = {};
+
+      for (const [key, value] of Object.entries(profileUpdate)) {
+        const attrName = `#${key.replace(/[^a-zA-Z0-9]/g, '')}`;
+        const attrValue = `:${key.replace(/[^a-zA-Z0-9]/g, '')}`;
+        profileUpdateExpression.push(`${attrName} = ${attrValue}`);
+        profileExpressionAttributeNames[attrName] = key;
+        profileExpressionAttributeValues[attrValue] = value;
+      }
+
+      // Add updated timestamp
+      profileUpdateExpression.push('#updated_at = :updated_at');
+      profileExpressionAttributeNames['#updated_at'] = 'updated_at';
+      profileExpressionAttributeValues[':updated_at'] = new Date().toISOString();
+
+      // Add admin modification flag
+      profileUpdateExpression.push('#admin_modified = :admin_modified');
+      profileExpressionAttributeNames['#admin_modified'] = 'admin_modified';
+      profileExpressionAttributeValues[':admin_modified'] = true;
+
+      transactItems.push({
+        Update: {
+          TableName: TABLE_NAME,
+          Key: profileKey,
+          UpdateExpression: `SET ${profileUpdateExpression.join(', ')}`,
+          ExpressionAttributeNames: profileExpressionAttributeNames,
+          ExpressionAttributeValues: profileExpressionAttributeValues,
+          ConditionExpression: 'attribute_exists(PK)',
+        },
+      });
+    }
+
+    // Update or create RSVP record if there are RSVP changes
+    if (hasRsvpChanges) {
+      const rsvpKey = {
+        PK: `GUEST#${validatedCode}`,
+        SK: 'RSVP',
+      };
+
+      // Check if RSVP record exists
+      const existingRsvp = await docClient.send(
+        new GetCommand({
+          TableName: TABLE_NAME,
+          Key: rsvpKey,
+        })
+      );
+
+      if (existingRsvp.Item) {
+        // Update existing RSVP
+        const rsvpUpdateExpression = [];
+        const rsvpExpressionAttributeNames: Record<string, string> = {};
+        const rsvpExpressionAttributeValues: Record<string, unknown> = {};
+
+        for (const [key, value] of Object.entries(rsvpUpdate)) {
+          const attrName = `#${key.replace(/[^a-zA-Z0-9]/g, '')}`;
+          const attrValue = `:${key.replace(/[^a-zA-Z0-9]/g, '')}`;
+          rsvpUpdateExpression.push(`${attrName} = ${attrValue}`);
+          rsvpExpressionAttributeNames[attrName] = key;
+          rsvpExpressionAttributeValues[attrValue] = value;
+        }
+
+        // Add timestamps
+        rsvpUpdateExpression.push('#updated_at = :updated_at');
+        rsvpExpressionAttributeNames['#updated_at'] = 'updated_at';
+        rsvpExpressionAttributeValues[':updated_at'] = new Date().toISOString();
+
+        rsvpUpdateExpression.push('#admin_modified = :admin_modified');
+        rsvpExpressionAttributeNames['#admin_modified'] = 'admin_modified';
+        rsvpExpressionAttributeValues[':admin_modified'] = true;
+
+        transactItems.push({
+          Update: {
+            TableName: TABLE_NAME,
+            Key: rsvpKey,
+            UpdateExpression: `SET ${rsvpUpdateExpression.join(', ')}`,
+            ExpressionAttributeNames: rsvpExpressionAttributeNames,
+            ExpressionAttributeValues: rsvpExpressionAttributeValues,
+          },
+        });
+      } else if (validatedData.rsvpStatus && validatedData.rsvpStatus !== 'pending') {
+        // Create new RSVP record if status is being set to non-pending
+        const newRsvpItem = {
+          PK: `GUEST#${validatedCode}`,
+          SK: 'RSVP',
+          invitation_code: validatedCode,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+          responded_at: new Date().toISOString(),
+          admin_created: true,
+          admin_modified: true,
+          ...rsvpUpdate,
+        };
+
+        transactItems.push({
+          Put: {
+            TableName: TABLE_NAME,
+            Item: newRsvpItem,
+          },
+        });
+      }
+    }
+
+    // Create audit log entry
+    const adminUser = (event.requestContext?.authorizer as { email: string; name: string }) || {
+      email: 'admin@wedding.dev',
+      name: 'Admin',
+    };
+    const changes = [];
+
+    for (const [key, value] of Object.entries({ ...profileUpdate, ...rsvpUpdate })) {
+      changes.push({
+        field: key,
+        oldValue: existingProfile.Item[key],
+        newValue: value,
+      });
+    }
+
+    const auditEntry = createAuditLogEntry(adminUser, 'UPDATE', 'GUEST', validatedCode, changes, {
+      sourceIp: event.requestContext?.identity?.sourceIp,
+      userAgent: event.headers['User-Agent'],
+    });
+
+    transactItems.push({
+      Put: {
+        TableName: TABLE_NAME,
+        Item: auditEntry,
+      },
+    });
+
+    // Execute transaction
+    if (transactItems.length > 0) {
+      await docClient.send(
+        new TransactWriteCommand({
+          TransactItems: transactItems,
+        })
+      );
+    }
+
+    // Fetch updated guest data
+    const updatedProfile = await docClient.send(
+      new GetCommand({
+        TableName: TABLE_NAME,
+        Key: profileKey,
+      })
+    );
+
+    const rsvpKey = {
+      PK: `GUEST#${validatedCode}`,
+      SK: 'RSVP',
+    };
+
+    const updatedRsvp = await docClient.send(
+      new GetCommand({
+        TableName: TABLE_NAME,
+        Key: rsvpKey,
+      })
+    );
+
+    // Merge profile and RSVP data for response
+    const mergedGuest = {
+      ...updatedProfile.Item,
+      ...(updatedRsvp.Item || {}),
+      invitationCode: validatedCode,
+    };
+
+    console.log(`Guest updated successfully via path parameter: ${validatedCode}`);
+
+    return {
+      statusCode: 200,
+      headers,
+      body: JSON.stringify({
+        success: true,
+        message: 'Guest updated successfully',
+        guest: mergedGuest,
+      }),
+    };
+  } catch (error) {
+    console.error('Error updating guest:', error);
+
+    if (error instanceof Error && error.name === 'ConditionalCheckFailedException') {
+      return {
+        statusCode: 404,
+        headers,
+        body: JSON.stringify({
+          error: 'Guest not found',
+          invitationCode,
+        }),
+      };
+    }
+
+    return {
+      statusCode: 500,
+      headers,
+      body: JSON.stringify({
+        error: 'Failed to update guest',
+        details: error instanceof Error ? error.message : 'Unknown error',
+      }),
+    };
+  }
+}
+
+// Handle GET for single guest
+async function handleGetSingleGuest(
+  invitationCode: string,
+  headers: Record<string, string>
+): Promise<APIGatewayProxyResult> {
+  try {
+    // Validate invitation code
+    const codeValidation = validateInvitationCode(invitationCode);
+    if (!codeValidation.success) {
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({
+          error: 'Invalid invitation code format',
+          details: formatValidationErrors(codeValidation.error),
+        }),
+      };
+    }
+
+    const validatedCode = codeValidation.data;
+
+    // Fetch profile
+    const profileKey = {
+      PK: `GUEST#${validatedCode}`,
+      SK: 'PROFILE',
+    };
+
+    const profile = await docClient.send(
+      new GetCommand({
+        TableName: TABLE_NAME,
+        Key: profileKey,
+      })
+    );
+
+    if (!profile.Item) {
+      return {
+        statusCode: 404,
+        headers,
+        body: JSON.stringify({
+          error: 'Guest not found',
+          invitationCode: validatedCode,
+        }),
+      };
+    }
+
+    // Fetch RSVP
+    const rsvpKey = {
+      PK: `GUEST#${validatedCode}`,
+      SK: 'RSVP',
+    };
+
+    const rsvp = await docClient.send(
+      new GetCommand({
+        TableName: TABLE_NAME,
+        Key: rsvpKey,
+      })
+    );
+
+    // Merge data
+    const mergedGuest = {
+      ...profile.Item,
+      ...(rsvp.Item || {}),
+      invitationCode: validatedCode,
+      rsvpStatus: rsvp.Item?.rsvp_status || rsvp.Item?.rsvpStatus || 'pending',
+    };
+
+    return {
+      statusCode: 200,
+      headers,
+      body: JSON.stringify({
+        success: true,
+        guest: mergedGuest,
+      }),
+    };
+  } catch (error) {
+    console.error('Error fetching guest:', error);
+
+    return {
+      statusCode: 500,
+      headers,
+      body: JSON.stringify({
+        error: 'Failed to fetch guest',
+        details: error instanceof Error ? error.message : 'Unknown error',
+      }),
+    };
+  }
+}
+
+// Handle DELETE for single guest
+async function handleDeleteGuest(
+  invitationCode: string,
+  event: APIGatewayProxyEvent,
+  headers: Record<string, string>
+): Promise<APIGatewayProxyResult> {
+  try {
+    // Validate invitation code
+    const codeValidation = validateInvitationCode(invitationCode);
+    if (!codeValidation.success) {
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({
+          error: 'Invalid invitation code format',
+          details: formatValidationErrors(codeValidation.error),
+        }),
+      };
+    }
+
+    const validatedCode = codeValidation.data;
+
+    // Check if guest exists
+    const profileKey = {
+      PK: `GUEST#${validatedCode}`,
+      SK: 'PROFILE',
+    };
+
+    const existingProfile = await docClient.send(
+      new GetCommand({
+        TableName: TABLE_NAME,
+        Key: profileKey,
+      })
+    );
+
+    if (!existingProfile.Item) {
+      return {
+        statusCode: 404,
+        headers,
+        body: JSON.stringify({
+          error: 'Guest not found',
+          invitationCode: validatedCode,
+        }),
+      };
+    }
+
+    // Create audit log entry
+    const adminUser = (event.requestContext?.authorizer as { email: string; name: string }) || {
+      email: 'admin@wedding.dev',
+      name: 'Admin',
+    };
+    const auditEntry = createAuditLogEntry(adminUser, 'DELETE', 'GUEST', validatedCode, undefined, {
+      sourceIp: event.requestContext?.identity?.sourceIp,
+      userAgent: event.headers['User-Agent'],
+    });
+
+    // Delete all records for this guest (PROFILE and RSVP)
+    const transactItems = [
+      {
+        Delete: {
+          TableName: TABLE_NAME,
+          Key: profileKey,
+        },
+      },
+      {
+        Delete: {
+          TableName: TABLE_NAME,
+          Key: {
+            PK: `GUEST#${validatedCode}`,
+            SK: 'RSVP',
+          },
+        },
+      },
+      {
+        Put: {
+          TableName: TABLE_NAME,
+          Item: auditEntry,
+        },
+      },
+    ];
+
+    await docClient.send(
+      new TransactWriteCommand({
+        TransactItems: transactItems,
+      })
+    );
+
+    console.log(`Guest deleted successfully: ${validatedCode}`);
+
+    return {
+      statusCode: 200,
+      headers,
+      body: JSON.stringify({
+        success: true,
+        message: 'Guest deleted successfully',
+        invitationCode: validatedCode,
+      }),
+    };
+  } catch (error) {
+    console.error('Error deleting guest:', error);
+
+    return {
+      statusCode: 500,
+      headers,
+      body: JSON.stringify({
+        error: 'Failed to delete guest',
+        details: error instanceof Error ? error.message : 'Unknown error',
+      }),
+    };
+  }
+}

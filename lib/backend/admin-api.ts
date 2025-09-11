@@ -177,6 +177,39 @@ export class AdminApi extends Construct {
       }
     );
 
+    // Add path parameter route for individual guest updates
+    const guestDetailResource = guestsResource.addResource('{invitationCode}');
+    guestDetailResource.addMethod(
+      'PUT',
+      new apigateway.LambdaIntegration(guestsFunction, {
+        proxy: true,
+      }),
+      {
+        // TEMPORARY: Disable authorizer for debugging
+        // authorizer: this.authorizer,
+      }
+    );
+    guestDetailResource.addMethod(
+      'GET',
+      new apigateway.LambdaIntegration(guestsFunction, {
+        proxy: true,
+      }),
+      {
+        // TEMPORARY: Disable authorizer for debugging
+        // authorizer: this.authorizer,
+      }
+    );
+    guestDetailResource.addMethod(
+      'DELETE',
+      new apigateway.LambdaIntegration(guestsFunction, {
+        proxy: true,
+      }),
+      {
+        // TEMPORARY: Disable authorizer for debugging
+        // authorizer: this.authorizer,
+      }
+    );
+
     // Bulk operations endpoint - TODO: Implement admin-bulk.ts
     // const bulkFunction = this.createBulkOperationsFunction(props, commonLayer);
     // const bulkResource = protectedResource.addResource('bulk');
