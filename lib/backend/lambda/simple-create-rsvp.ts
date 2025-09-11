@@ -108,6 +108,8 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
       }),
     };
   } catch (error) {
+    // Using console.error is acceptable for Lambda error logging
+    // eslint-disable-next-line no-console
     console.error('Error creating RSVP:', error);
     return {
       statusCode: 500,

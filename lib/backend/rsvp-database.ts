@@ -26,7 +26,8 @@ export class RsvpDatabase extends Construct {
     super(scope, id);
 
     const environment = props?.environment || 'dev';
-    const removalPolicy = props?.removalPolicy || cdk.RemovalPolicy.RETAIN;
+    // Removal policy is not used currently as we're importing an existing table
+    // const removalPolicy = props?.removalPolicy || cdk.RemovalPolicy.RETAIN;
 
     // Import existing DynamoDB table
     this.table = dynamodb.Table.fromTableAttributes(this, 'RsvpTable', {
@@ -37,7 +38,7 @@ export class RsvpDatabase extends Construct {
     // Note: GSIs are already configured on the existing table
     // The existing table has the following GSIs:
     // - InvitationCodeIndex
-    // - EventStatusIndex  
+    // - EventStatusIndex
     // - AdminDateIndex
 
     // Add tags

@@ -9,7 +9,6 @@ import {
 } from '@aws-sdk/lib-dynamodb';
 import { withAuth, AuthenticatedEvent, getClientIp } from './auth-middleware';
 import { createResponse, logger, generateId, getCurrentTimestamp } from './utils';
-import { KeyBuilder } from '../dynamodb-schema';
 import { z } from 'zod';
 import {
   DietaryRestrictionSchema,

@@ -102,7 +102,7 @@ export class EmailInfrastructure extends Construct {
 
     // Create domain identity with DKIM enabled
     // If hosted zone is provided, pass it to automatically create DNS records
-    // NOTE: Commented out as this domain identity already exists  
+    // NOTE: Commented out as this domain identity already exists
     // this.domainIdentity = new ses.EmailIdentity(this, 'DomainIdentity', {
     //   identity: ses.Identity.domain(props.domainName),
     //   dkimSigning: true,
@@ -133,7 +133,7 @@ export class EmailInfrastructure extends Construct {
 
     if (props.hostedZone) {
       const hostedZone = props.hostedZone;
-      
+
       // Add MX record for mail.domain (for Mail FROM)
       new route53.MxRecord(this, 'MailFromMxRecord', {
         zone: hostedZone,

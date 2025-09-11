@@ -58,7 +58,7 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
   try {
     console.log('Fetching real statistics from DynamoDB');
     console.log('Using table:', TABLE_NAME);
-    
+
     // Scan for PROFILE records (guests)
     const guestsResponse = await docClient.send(
       new ScanCommand({
@@ -73,7 +73,7 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
     const guests = guestsResponse.Items || [];
     console.log(`Found ${guests.length} guests in database`);
 
-    // Scan for RSVP records  
+    // Scan for RSVP records
     const rsvpsResponse = await docClient.send(
       new ScanCommand({
         TableName: TABLE_NAME,
@@ -92,7 +92,7 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
       (acc: Record<string, unknown>, rsvp: Record<string, unknown>) => {
         // Extract invitation code from PK (format: GUEST#invitation-code)
         const pk = rsvp.PK as string;
-        const invitationCode = pk ? pk.replace('GUEST#', '') : rsvp.invitation_code as string;
+        const invitationCode = pk ? pk.replace('GUEST#', '') : (rsvp.invitation_code as string);
         const existing = acc[invitationCode];
         const rsvpTimestamp = new Date(
           (rsvp.responded_at || rsvp.submittedAt || rsvp.createdAt || 0) as string | number
@@ -151,12 +151,36 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
         // Count dietary restrictions from the dietary_restrictions field
         const dietaryRestrictionsStr = (rsvp.dietary_restrictions || '') as string;
         if (dietaryRestrictionsStr) {
-          const dietaryRestrictions = dietaryRestrictionsStr.toLowerCase().split(',').map(d => d.trim());
+          const dietaryRestrictions = dietaryRestrictionsStr
+            .toLowerCase()
+            .split(',')
+            .map((d) => d.trim());
           if (dietaryRestrictions.includes('vegetarian')) stats.dietaryRestrictions.vegetarian++;
           if (dietaryRestrictions.includes('vegan')) stats.dietaryRestrictions.vegan++;
-          if (dietaryRestrictions.includes('gluten-free') || dietaryRestrictions.includes('gluten free')) stats.dietaryRestrictions.glutenFree++;
-          if (dietaryRestrictions.includes('nut-allergy') || dietaryRestrictions.includes('nut allergy')) stats.dietaryRestrictions.nutAllergy++;
-          if (dietaryRestrictions.some(d => d && !['vegetarian', 'vegan', 'gluten-free', 'gluten free', 'nut-allergy', 'nut allergy'].includes(d))) {
+          if (
+            dietaryRestrictions.includes('gluten-free') ||
+            dietaryRestrictions.includes('gluten free')
+          )
+            stats.dietaryRestrictions.glutenFree++;
+          if (
+            dietaryRestrictions.includes('nut-allergy') ||
+            dietaryRestrictions.includes('nut allergy')
+          )
+            stats.dietaryRestrictions.nutAllergy++;
+          if (
+            dietaryRestrictions.some(
+              (d) =>
+                d &&
+                ![
+                  'vegetarian',
+                  'vegan',
+                  'gluten-free',
+                  'gluten free',
+                  'nut-allergy',
+                  'nut allergy',
+                ].includes(d)
+            )
+          ) {
             stats.dietaryRestrictions.other++;
           }
         }
@@ -180,8 +204,12 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
     // Get recent responses (last 10)
     const sortedRsvps = uniqueRsvps
       .sort((a: Record<string, unknown>, b: Record<string, unknown>) => {
-        const dateA = new Date((a.responded_at || a.submittedAt || a.createdAt || 0) as string | number).getTime();
-        const dateB = new Date((b.responded_at || b.submittedAt || b.createdAt || 0) as string | number).getTime();
+        const dateA = new Date(
+          (a.responded_at || a.submittedAt || a.createdAt || 0) as string | number
+        ).getTime();
+        const dateB = new Date(
+          (b.responded_at || b.submittedAt || b.createdAt || 0) as string | number
+        ).getTime();
         return dateB - dateA;
       })
       .slice(0, 10);
@@ -190,14 +218,12 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
       // Extract invitation code from PK
       const pk = rsvp.PK as string;
       const invitationCode = pk ? pk.replace('GUEST#', '') : (rsvp.invitation_code as string);
-      
-      const guest = guests.find(
-        (g: Record<string, unknown>) => {
-          const guestPK = g.PK as string;
-          const guestCode = guestPK ? guestPK.replace('GUEST#', '') : (g.invitation_code as string);
-          return guestCode === invitationCode;
-        }
-      );
+
+      const guest = guests.find((g: Record<string, unknown>) => {
+        const guestPK = g.PK as string;
+        const guestCode = guestPK ? guestPK.replace('GUEST#', '') : (g.invitation_code as string);
+        return guestCode === invitationCode;
+      });
       return {
         name: (guest?.guest_name || 'Unknown Guest') as string,
         email: (guest?.email || '') as string,

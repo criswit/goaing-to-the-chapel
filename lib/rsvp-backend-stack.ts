@@ -197,8 +197,10 @@ export class RsvpBackendStack extends cdk.Stack {
 
     // Generate frontend configuration files
     const mainApiUrl = props?.domainName ? 'https://api.wedding.himnher.dev/' : this.api.api.url;
-    const adminApiUrl = props?.domainName ? 'https://admin.wedding.himnher.dev/' : this.adminApi.api.url;
-    
+    const adminApiUrl = props?.domainName
+      ? 'https://admin.wedding.himnher.dev/'
+      : this.adminApi.api.url;
+
     new FrontendConfig(this, 'FrontendConfig', {
       mainApiUrl: mainApiUrl,
       adminApiUrl: adminApiUrl,

@@ -68,7 +68,7 @@ export const ValidationRules = {
 
   // Invitation code validation
   invitation_code: {
-    pattern: /^[A-Za-z0-9\-]{3,50}$/,
+    pattern: /^[A-Za-z0-9-]{3,50}$/,
     minLength: 3,
     maxLength: 50,
     required: true,

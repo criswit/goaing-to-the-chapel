@@ -52,7 +52,7 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
     if (event.httpMethod === 'GET') {
       console.log('Fetching real guest data from DynamoDB');
       console.log('Using table:', TABLE_NAME);
-      
+
       // Fetch all guest profiles (SK=PROFILE)
       const guestsResponse = await docClient.send(
         new ScanCommand({
@@ -85,13 +85,15 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
         // Extract invitation code from PK (format: GUEST#invitation-code)
         const pk = rsvp.PK as string;
         const invitationCode = pk ? pk.replace('GUEST#', '') : rsvp.invitation_code;
-        
+
         const existing = rsvpMap.get(invitationCode);
         const rsvpTimestamp = new Date(
           (rsvp.responded_at || rsvp.submittedAt || rsvp.createdAt || 0) as string | number
         ).getTime();
         const existingTimestamp = existing
-          ? new Date(existing.responded_at || existing.submittedAt || existing.createdAt || 0).getTime()
+          ? new Date(
+              existing.responded_at || existing.submittedAt || existing.createdAt || 0
+            ).getTime()
           : 0;
 
         if (!existing || rsvpTimestamp > existingTimestamp) {
@@ -108,20 +110,23 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
         const guestName = guest.guest_name || guest.name || 'Unknown Guest';
 
         // Remove any existing rsvp-related fields to avoid conflicts
-        const { 
-          rsvpStatus: existingRsvpStatus, 
-          rsvp_status: existingRsvpStatusUnderscore,
-          name: existingName,
-          guest_name: existingGuestName,
-          ...guestClean 
-        } = guest;
+        // We destructure these to exclude them from guestClean
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { rsvpStatus, rsvp_status, name, guest_name, ...guestClean } = guest;
 
         if (rsvp) {
           // Extract plus-one names from plusOnes array
           const plusOnes = rsvp.plusOnes || [];
-          const plusOneNames = plusOnes.map((po: any) => po.name || po).filter(Boolean);
+          const plusOneNames = plusOnes
+            .map((po: unknown) => {
+              if (typeof po === 'object' && po !== null && 'name' in po) {
+                return (po as { name: string }).name;
+              }
+              return po;
+            })
+            .filter(Boolean);
           const plusOneName = plusOneNames.join(', ');
-          
+
           // Use RSVP data when available
           return {
             ...guestClean,
@@ -135,7 +140,7 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
             otherDietary: rsvp.otherDietary,
             plusOneOtherDietary: rsvp.plusOneOtherDietary,
             notes: rsvp.notes || rsvp.specialRequests,
-            partySize: rsvp.attendeeCount || rsvp.guests || (1 + plusOnes.length),
+            partySize: rsvp.attendeeCount || rsvp.guests || 1 + plusOnes.length,
           };
         }
 

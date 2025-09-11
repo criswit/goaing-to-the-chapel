@@ -63,7 +63,6 @@ interface ImportOptions {
 const TABLE_NAME = 'wedding-rsvp-production';
 const REGION = 'us-east-1';
 const PROFILE = 'wedding-website';
-const EVENT_ID = 'aakanchha-christopher-2026';
 
 // Debug logging helper
 function debugLog(message: string, options?: ImportOptions) {

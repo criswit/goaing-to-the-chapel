@@ -85,7 +85,13 @@ export class AdminApi extends Construct {
       defaultCorsPreflightOptions: {
         allowOrigins: apigateway.Cors.ALL_ORIGINS,
         allowMethods: apigateway.Cors.ALL_METHODS,
-        allowHeaders: ['Content-Type', 'Authorization', 'X-Amz-Date', 'X-Api-Key', 'X-Amz-Security-Token'],
+        allowHeaders: [
+          'Content-Type',
+          'Authorization',
+          'X-Amz-Date',
+          'X-Api-Key',
+          'X-Amz-Security-Token',
+        ],
         allowCredentials: false, // Can't use credentials with ALL_ORIGINS
       },
     });
@@ -204,20 +210,20 @@ export class AdminApi extends Construct {
       layers: [layer],
     });
 
-    // Grant access to the correct table directly  
+    // Grant access to the correct table directly
     fn.addToRolePolicy(
       new iam.PolicyStatement({
         actions: [
           'dynamodb:BatchGetItem',
-          'dynamodb:ConditionCheckItem', 
+          'dynamodb:ConditionCheckItem',
           'dynamodb:DescribeTable',
           'dynamodb:GetItem',
           'dynamodb:GetRecords',
           'dynamodb:GetShardIterator',
           'dynamodb:Query',
-          'dynamodb:Scan'
+          'dynamodb:Scan',
         ],
-        resources: [`arn:aws:dynamodb:us-east-1:986718858331:table/wedding-rsvp-production`]
+        resources: [`arn:aws:dynamodb:us-east-1:986718858331:table/wedding-rsvp-production`],
       })
     );
 
@@ -244,7 +250,7 @@ export class AdminApi extends Construct {
         actions: [
           'dynamodb:BatchGetItem',
           'dynamodb:BatchWriteItem',
-          'dynamodb:ConditionCheckItem', 
+          'dynamodb:ConditionCheckItem',
           'dynamodb:DeleteItem',
           'dynamodb:DescribeTable',
           'dynamodb:GetItem',
@@ -253,9 +259,9 @@ export class AdminApi extends Construct {
           'dynamodb:PutItem',
           'dynamodb:Query',
           'dynamodb:Scan',
-          'dynamodb:UpdateItem'
+          'dynamodb:UpdateItem',
         ],
-        resources: [`arn:aws:dynamodb:us-east-1:986718858331:table/wedding-rsvp-production`]
+        resources: [`arn:aws:dynamodb:us-east-1:986718858331:table/wedding-rsvp-production`],
       })
     );
 
