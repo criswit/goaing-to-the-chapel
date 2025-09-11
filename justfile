@@ -226,6 +226,36 @@ setup-prod:
     just deploy-prod
     @echo "✅ Production environment setup completed"
 
+# Guest Management Commands
+# Add sample guests to the database (dry run - preview only)
+add-guests-dry:
+    npm run add-guests sample-guests.csv -- --dry-run
+
+# Add sample guests to the database (actually imports them)
+add-guests:
+    npm run add-guests sample-guests.csv
+
+# Add sample guests and generate invitation codes report
+add-guests-report:
+    npm run add-guests sample-guests.csv -- --generate-report
+    @echo "✅ Guests added and invitation codes saved to invitation-codes.csv"
+
+# Add custom guest list from CSV file
+add-guests-custom csv-file:
+    npm run add-guests {{csv-file}}
+
+# Add custom guest list with dry run
+add-guests-custom-dry csv-file:
+    npm run add-guests {{csv-file}} -- --dry-run
+
+# Create admin user
+create-admin:
+    npm run create-admin
+
+# Quick admin setup (creates admin user with default credentials)
+quick-admin:
+    ./scripts/quick-admin-setup.sh
+
 # Help Commands
 # Show detailed help for a command
 help command:

@@ -6,7 +6,7 @@ export const InvitationCodeSchema = z.object({
     .string()
     .min(3, 'Invitation code must be at least 3 characters')
     .max(50, 'Invitation code must be at most 50 characters')
-    .regex(/^[A-Za-z0-9\-]+$/, 'Invitation code must be alphanumeric (hyphens allowed)')
+    .regex(/^[A-Za-z0-9-]+$/, 'Invitation code must be alphanumeric (hyphens allowed)')
     .transform((val) => val.toLowerCase()),
 });
 
