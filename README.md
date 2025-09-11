@@ -177,3 +177,44 @@ For issues or questions:
 - Check the error messages in console
 - Review the sample CSV file
 - Run with `--debug` flag for detailed errors
+
+<!-- TASKMASTER_EXPORT_START -->
+> 🎯 **Taskmaster Export** - 2025-09-11 15:58:15 UTC
+> 📋 Export: without subtasks • Status filter: none
+> 🔗 Powered by [Task Master](https://task-master.dev?utm_source=github-readme&utm_medium=readme-export&utm_campaign=goaing-to-the-chapel&utm_content=task-export-link)
+
+| Project Dashboard |  |
+| :-                |:-|
+| Task Progress     | ████████████░░░░░░░░ 60% |
+| Done | 9 |
+| In Progress | 1 |
+| Pending | 5 |
+| Deferred | 0 |
+| Cancelled | 0 |
+|-|-|
+| Subtask Progress | ██████████████░░░░░░ 69% |
+| Completed | 46 |
+| In Progress | 0 |
+| Pending | 21 |
+
+
+| ID | Title | Status | Priority | Dependencies | Complexity |
+| :- | :-    | :-     | :-       | :-           | :-         |
+| 1 | Setup Backend Infrastructure with AWS CDK | ✓&nbsp;done | high | None | N/A |
+| 2 | Design DynamoDB Data Model and Access Patterns | ✓&nbsp;done | high | 1 | N/A |
+| 3 | Implement Guest Lookup and Authentication System | ✓&nbsp;done | high | 2 | N/A |
+| 4 | Create Core RSVP API Endpoints | ✓&nbsp;done | high | 3 | N/A |
+| 5 | Build Multi-Step RSVP Form Frontend | ✓&nbsp;done | high | 4 | N/A |
+| 6 | Implement Plus-One and Party Management | ✓&nbsp;done | medium | 5 | N/A |
+| 7 | Setup Email Confirmation System with AWS SES | ✓&nbsp;done | medium | 4 | N/A |
+| 8 | Create Admin Dashboard for Guest Management | ○&nbsp;pending | medium | 6, 7 | N/A |
+| 9 | Add Event-Specific RSVP Options | ►&nbsp;in-progress | medium | 5 | N/A |
+| 10 | Implement Data Export and Vendor Integration | ○&nbsp;pending | medium | 8 | N/A |
+| 11 | Add Advanced Security and Performance Features | ○&nbsp;pending | high | 9, 10 | N/A |
+| 12 | Implement Mobile Optimization and PWA Features | ○&nbsp;pending | medium | 11 | N/A |
+| 13 | Fix admin dashboard data counting and display issues | ✓&nbsp;done | high | 2, 8 | N/A |
+| 14 | Fix admin dashboard RSVP status mapping | ✓&nbsp;done | high | None | N/A |
+| 15 | Implement Backend API Endpoint for Updating Guest Information | ○&nbsp;pending | high | 1, 2, 4, 8 | N/A |
+
+> 📋 **End of Taskmaster Export** - Tasks are synced from your project using the `sync-readme` command.
+<!-- TASKMASTER_EXPORT_END -->
