@@ -117,6 +117,11 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
         } = guest;
 
         if (rsvp) {
+          // Extract plus-one names from plusOnes array
+          const plusOnes = rsvp.plusOnes || [];
+          const plusOneNames = plusOnes.map((po: any) => po.name || po).filter(Boolean);
+          const plusOneName = plusOneNames.join(', ');
+          
           // Use RSVP data when available
           return {
             ...guestClean,
@@ -124,13 +129,13 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
             name: guestName,
             rsvpStatus: rsvp.rsvpStatus || rsvp.rsvp_status || 'pending',
             dietaryRestrictions: rsvp.dietary_restrictions || rsvp.dietaryRestrictions,
-            plusOneName: rsvp.plusOneName,
+            plusOneName: plusOneName || rsvp.plusOneName,
             plusOneDietaryRestrictions: rsvp.plusOneDietaryRestrictions,
             submittedAt: rsvp.responded_at || rsvp.submittedAt || rsvp.createdAt,
             otherDietary: rsvp.otherDietary,
             plusOneOtherDietary: rsvp.plusOneOtherDietary,
-            notes: rsvp.notes,
-            partySize: rsvp.guests || (1 + (rsvp.plusOneName ? 1 : 0)),
+            notes: rsvp.notes || rsvp.specialRequests,
+            partySize: rsvp.attendeeCount || rsvp.guests || (1 + plusOnes.length),
           };
         }
 
