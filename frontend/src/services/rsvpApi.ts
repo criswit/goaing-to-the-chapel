@@ -1,11 +1,15 @@
 import { InvitationValidationResponse, RSVPFormData, RSVPSubmissionResponse } from '../types/rsvp';
+import { loadConfig } from '../config';
 
-// Use environment variable or the deployed API URL
-const API_BASE_URL =
-  process.env.REACT_APP_API_URL ||
-  (window.location.hostname === 'localhost'
-    ? 'https://api.wedding.himnher.dev' // Use custom domain for local development
-    : 'https://api.wedding.himnher.dev');
+// API URL will be loaded from config
+let API_BASE_URL = '';
+
+// Load config on module initialization
+loadConfig().then(config => {
+  API_BASE_URL = config.apiUrl.endsWith('/') 
+    ? config.apiUrl.slice(0, -1)  // Remove trailing slash if present
+    : config.apiUrl;
+});
 
 export class RSVPApiService {
   static async validateInvitation(invitationCode: string): Promise<InvitationValidationResponse> {

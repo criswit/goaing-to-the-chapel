@@ -96,6 +96,7 @@ export class AuthInfrastructure extends Construct {
 
   /**
    * Generate RSA key pair for JWT signing
+   * Force key regeneration - 2025-09-11
    */
   private generateRSAKeyPair(): { publicKey: string; privateKey: string } {
     const { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', {

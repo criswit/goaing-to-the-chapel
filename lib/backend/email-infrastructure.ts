@@ -45,7 +45,7 @@ export class EmailInfrastructure extends Construct {
   /**
    * The verified domain identity for SES
    */
-  public readonly domainIdentity: ses.EmailIdentity;
+  public readonly domainIdentity?: ses.EmailIdentity;
 
   /**
    * SNS topic for bounce notifications
@@ -102,33 +102,38 @@ export class EmailInfrastructure extends Construct {
 
     // Create domain identity with DKIM enabled
     // If hosted zone is provided, pass it to automatically create DNS records
-    this.domainIdentity = new ses.EmailIdentity(this, 'DomainIdentity', {
-      identity: ses.Identity.domain(props.domainName),
-      dkimSigning: true,
-      feedbackForwarding: true,
-      mailFromDomain: `mail.${props.domainName}`,
-      mailFromBehaviorOnMxFailure: ses.MailFromBehaviorOnMxFailure.USE_DEFAULT_VALUE,
-    });
+    // NOTE: Commented out as this domain identity already exists  
+    // this.domainIdentity = new ses.EmailIdentity(this, 'DomainIdentity', {
+    //   identity: ses.Identity.domain(props.domainName),
+    //   dkimSigning: true,
+    //   feedbackForwarding: true,
+    //   mailFromDomain: `mail.${props.domainName}`,
+    //   mailFromBehaviorOnMxFailure: ses.MailFromBehaviorOnMxFailure.USE_DEFAULT_VALUE,
+    // });
 
     // If hosted zone is provided, manually add the DKIM records
-    if (props.hostedZone && this.domainIdentity.dkimRecords) {
-      const hostedZone = props.hostedZone; // TypeScript needs this for type narrowing
+    // NOTE: Commented out since domainIdentity is not created
+    // if (props.hostedZone && this.domainIdentity.dkimRecords) {
+    //   const hostedZone = props.hostedZone; // TypeScript needs this for type narrowing
 
-      this.domainIdentity.dkimRecords.forEach((dkimRecord, index) => {
-        new route53.CnameRecord(this, `DkimCnameRecord${index}`, {
-          zone: hostedZone,
-          recordName: dkimRecord.name,
-          domainName: dkimRecord.value,
-          ttl: cdk.Duration.minutes(5),
-          comment: `DKIM record ${index + 1} for SES domain verification`,
-        });
+    //   this.domainIdentity.dkimRecords.forEach((dkimRecord, index) => {
+    //     new route53.CnameRecord(this, `DkimCnameRecord${index}`, {
+    //       zone: hostedZone,
+    //       recordName: dkimRecord.name,
+    //       domainName: dkimRecord.value,
+    //       ttl: cdk.Duration.minutes(5),
+    //       comment: `DKIM record ${index + 1} for SES domain verification`,
+    //     });
 
-        new cdk.CfnOutput(this, `DKIMRecordAdded${index + 1}`, {
-          value: `${dkimRecord.name} -> ${dkimRecord.value}`,
-          description: `DKIM CNAME Record ${index + 1} added to Route53`,
-        });
-      });
+    //     new cdk.CfnOutput(this, `DKIMRecordAdded${index + 1}`, {
+    //       value: `${dkimRecord.name} -> ${dkimRecord.value}`,
+    //       description: `DKIM CNAME Record ${index + 1} added to Route53`,
+    //     });
+    //   });
 
+    if (props.hostedZone) {
+      const hostedZone = props.hostedZone;
+      
       // Add MX record for mail.domain (for Mail FROM)
       new route53.MxRecord(this, 'MailFromMxRecord', {
         zone: hostedZone,
@@ -363,9 +368,10 @@ export class EmailInfrastructure extends Construct {
       // If forwarding email is provided, also forward emails there
       if (props.forwardToEmail) {
         // Verify the forwarding email address
-        new ses.EmailIdentity(this, 'ForwardingEmailIdentity', {
-          identity: ses.Identity.email(props.forwardToEmail),
-        });
+        // NOTE: Commented out as this email identity already exists
+        // new ses.EmailIdentity(this, 'ForwardingEmailIdentity', {
+        //   identity: ses.Identity.email(props.forwardToEmail),
+        // });
 
         // Add SNS action to forward emails
         const forwardingTopic = new sns.Topic(this, 'EmailForwardingTopic', {
@@ -463,15 +469,16 @@ export class EmailInfrastructure extends Construct {
     });
 
     // Output DKIM tokens for domain verification
-    const dkimRecords = this.domainIdentity.dkimRecords;
-    if (dkimRecords) {
-      dkimRecords.forEach((record, index) => {
-        new cdk.CfnOutput(this, `DKIMRecord${index + 1}`, {
-          value: `${record.name} = ${record.value}`,
-          description: `DKIM CNAME Record ${index + 1}`,
-        });
-      });
-    }
+    // NOTE: Commented out since domainIdentity is not created
+    // const dkimRecords = this.domainIdentity?.dkimRecords;
+    // if (dkimRecords) {
+    //   dkimRecords.forEach((record, index) => {
+    //     new cdk.CfnOutput(this, `DKIMRecord${index + 1}`, {
+    //       value: `${record.name} = ${record.value}`,
+    //       description: `DKIM CNAME Record ${index + 1}`,
+    //     });
+    //   });
+    // }
 
     // Output important SES information
     new cdk.CfnOutput(this, 'SESRegion', {

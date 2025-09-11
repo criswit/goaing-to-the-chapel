@@ -185,12 +185,23 @@ export class RsvpBackendStack extends cdk.Stack {
         domainName: 'api.wedding.himnher.dev',
         environment: 'production',
       });
+
+      // Configure custom domain for Admin API
+      // Admin API will be available at admin.wedding.himnher.dev
+      new ApiDomainConfig(this, 'AdminApiDomain', {
+        api: this.adminApi.api,
+        domainName: 'admin.wedding.himnher.dev',
+        environment: 'production',
+      });
     }
 
     // Generate frontend configuration files
+    const mainApiUrl = props?.domainName ? 'https://api.wedding.himnher.dev/' : this.api.api.url;
+    const adminApiUrl = props?.domainName ? 'https://admin.wedding.himnher.dev/' : this.adminApi.api.url;
+    
     new FrontendConfig(this, 'FrontendConfig', {
-      mainApiUrl: this.api.api.url,
-      adminApiUrl: this.adminApi.api.url,
+      mainApiUrl: mainApiUrl,
+      adminApiUrl: adminApiUrl,
       environment: 'production',
     });
 

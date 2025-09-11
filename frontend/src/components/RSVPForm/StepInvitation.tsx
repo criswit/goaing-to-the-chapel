@@ -74,7 +74,7 @@ export const StepInvitation: React.FC = () => {
             {...register('invitationCode')}
             id="invitationCode"
             type="text"
-            placeholder="Enter your 6-8 character code"
+            placeholder="Enter your invitation code"
             className={`form-input ${errors.invitationCode ? 'error' : ''}`}
             disabled={isLoading}
             autoComplete="off"

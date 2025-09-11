@@ -68,12 +68,12 @@ export const ValidationRules = {
 
   // Invitation code validation
   invitation_code: {
-    pattern: /^[A-Z0-9]{6,8}$/,
-    minLength: 6,
-    maxLength: 8,
+    pattern: /^[A-Za-z0-9\-]{3,50}$/,
+    minLength: 3,
+    maxLength: 50,
     required: true,
-    transform: (value: string) => value.toUpperCase().trim(),
-    errorMessage: 'Invitation code must be 6-8 uppercase alphanumeric characters',
+    transform: (value: string) => value.toLowerCase().trim(),
+    errorMessage: 'Invitation code must be 3-50 alphanumeric characters (hyphens allowed)',
   },
 
   // Plus ones count validation

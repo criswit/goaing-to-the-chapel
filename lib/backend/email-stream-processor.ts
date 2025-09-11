@@ -16,7 +16,7 @@ export interface EmailStreamProcessorProps {
   /**
    * The DynamoDB table with streams enabled
    */
-  table: dynamodb.Table;
+  table: dynamodb.ITable;
 
   /**
    * The SQS queue to send email messages to

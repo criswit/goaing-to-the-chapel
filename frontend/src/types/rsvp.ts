@@ -4,10 +4,10 @@ import { z } from 'zod';
 export const InvitationCodeSchema = z.object({
   invitationCode: z
     .string()
-    .min(6, 'Invitation code must be at least 6 characters')
-    .max(8, 'Invitation code must be at most 8 characters')
-    .regex(/^[A-Za-z0-9]+$/, 'Invitation code must be alphanumeric')
-    .transform((val) => val.toUpperCase()),
+    .min(3, 'Invitation code must be at least 3 characters')
+    .max(50, 'Invitation code must be at most 50 characters')
+    .regex(/^[A-Za-z0-9\-]+$/, 'Invitation code must be alphanumeric (hyphens allowed)')
+    .transform((val) => val.toLowerCase()),
 });
 
 export const PersonalInfoSchema = z.object({

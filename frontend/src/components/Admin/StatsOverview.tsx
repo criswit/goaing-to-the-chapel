@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../../styles/StatsOverview.css';
-import { getConfig } from '../../config';
+import { loadConfig } from '../../config';
 
 interface RSVPStats {
   totalInvited: number;
@@ -41,7 +41,7 @@ const StatsOverview: React.FC = () => {
         throw new Error('No authentication token found');
       }
 
-      const config = getConfig();
+      const config = await loadConfig();
       const response = await fetch(`${config.adminApiUrl}admin/protected/stats`, {
         headers: {
           Authorization: `Bearer ${token}`,

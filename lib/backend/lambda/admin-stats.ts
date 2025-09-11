@@ -7,8 +7,7 @@ import { DynamoDBDocumentClient, ScanCommand } from '@aws-sdk/lib-dynamodb';
 const dynamoDBClient = new DynamoDBClient({});
 const docClient = DynamoDBDocumentClient.from(dynamoDBClient);
 
-const GUESTS_TABLE_NAME = process.env.GUESTS_TABLE_NAME || 'WeddingGuests';
-const RSVPS_TABLE_NAME = process.env.RSVPS_TABLE_NAME || 'WeddingRSVPs';
+const TABLE_NAME = process.env.TABLE_NAME || 'wedding-rsvp-production';
 
 interface RSVPStats {
   totalInvited: number;
@@ -38,6 +37,8 @@ interface RSVPStats {
 
 export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   console.log('Admin stats request received');
+  console.log('TABLE_NAME environment variable:', process.env.TABLE_NAME);
+  console.log('Using table name:', TABLE_NAME);
 
   const headers = {
     'Access-Control-Allow-Origin': process.env.CORS_ORIGIN || '*',
@@ -55,43 +56,51 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
   }
 
   try {
-    // Scan guests table - filter for GUEST entities only
+    console.log('Fetching real statistics from DynamoDB');
+    console.log('Using table:', TABLE_NAME);
+    
+    // Scan for PROFILE records (guests)
     const guestsResponse = await docClient.send(
       new ScanCommand({
-        TableName: GUESTS_TABLE_NAME,
-        FilterExpression: 'EntityType = :entityType',
+        TableName: TABLE_NAME,
+        FilterExpression: 'SK = :sk',
         ExpressionAttributeValues: {
-          ':entityType': 'GUEST',
+          ':sk': 'PROFILE',
         },
       })
     );
 
     const guests = guestsResponse.Items || [];
+    console.log(`Found ${guests.length} guests in database`);
 
-    // Scan RSVPs table - filter for RSVP_RESPONSE entities only
+    // Scan for RSVP records  
     const rsvpsResponse = await docClient.send(
       new ScanCommand({
-        TableName: RSVPS_TABLE_NAME,
-        FilterExpression: 'EntityType = :entityType',
+        TableName: TABLE_NAME,
+        FilterExpression: 'SK = :sk',
         ExpressionAttributeValues: {
-          ':entityType': 'RSVP_RESPONSE',
+          ':sk': 'RSVP',
         },
       })
     );
 
     const rsvps = rsvpsResponse.Items || [];
+    console.log(`Found ${rsvps.length} RSVP records in database`);
 
     // Deduplicate RSVPs - keep only the latest response per invitation code
     const latestRsvps = rsvps.reduce(
       (acc: Record<string, unknown>, rsvp: Record<string, unknown>) => {
-        const invitationCode = rsvp.invitationCode as string;
+        // Extract invitation code from PK (format: GUEST#invitation-code)
+        const pk = rsvp.PK as string;
+        const invitationCode = pk ? pk.replace('GUEST#', '') : rsvp.invitation_code as string;
         const existing = acc[invitationCode];
         const rsvpTimestamp = new Date(
-          (rsvp.submittedAt || rsvp.createdAt || 0) as string | number
+          (rsvp.responded_at || rsvp.submittedAt || rsvp.createdAt || 0) as string | number
         ).getTime();
         const existingTimestamp = existing
           ? new Date(
-              ((existing as Record<string, unknown>).submittedAt ||
+              ((existing as Record<string, unknown>).responded_at ||
+                (existing as Record<string, unknown>).submittedAt ||
                 (existing as Record<string, unknown>).createdAt ||
                 0) as string | number
             ).getTime()
@@ -132,34 +141,24 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
     const attendingParties: number[] = [];
 
     uniqueRsvps.forEach((rsvp: Record<string, unknown>) => {
-      const rsvpStatus = rsvp.rsvp_status as string;
+      const rsvpStatus = (rsvp.rsvpStatus || rsvp.rsvp_status) as string;
       if (rsvpStatus === 'attending') {
         stats.totalAttending++;
-        const partySize = 1 + (rsvp.plusOneName ? 1 : 0);
+        const partySize = (rsvp.guests as number) || 1;
         attendingParties.push(partySize);
         stats.totalGuests += partySize;
 
-        // Count dietary restrictions
-        const dietaryRestrictions = rsvp.dietaryRestrictions as string[] | undefined;
-        if (dietaryRestrictions) {
+        // Count dietary restrictions from the dietary_restrictions field
+        const dietaryRestrictionsStr = (rsvp.dietary_restrictions || '') as string;
+        if (dietaryRestrictionsStr) {
+          const dietaryRestrictions = dietaryRestrictionsStr.toLowerCase().split(',').map(d => d.trim());
           if (dietaryRestrictions.includes('vegetarian')) stats.dietaryRestrictions.vegetarian++;
           if (dietaryRestrictions.includes('vegan')) stats.dietaryRestrictions.vegan++;
-          if (dietaryRestrictions.includes('gluten-free')) stats.dietaryRestrictions.glutenFree++;
-          if (dietaryRestrictions.includes('nut-allergy')) stats.dietaryRestrictions.nutAllergy++;
-          if (rsvp.otherDietary) stats.dietaryRestrictions.other++;
-        }
-
-        // Count plus one dietary restrictions
-        const plusOneDietaryRestrictions = rsvp.plusOneDietaryRestrictions as string[] | undefined;
-        if (plusOneDietaryRestrictions) {
-          if (plusOneDietaryRestrictions.includes('vegetarian'))
-            stats.dietaryRestrictions.vegetarian++;
-          if (plusOneDietaryRestrictions.includes('vegan')) stats.dietaryRestrictions.vegan++;
-          if (plusOneDietaryRestrictions.includes('gluten-free'))
-            stats.dietaryRestrictions.glutenFree++;
-          if (plusOneDietaryRestrictions.includes('nut-allergy'))
-            stats.dietaryRestrictions.nutAllergy++;
-          if (rsvp.plusOneOtherDietary) stats.dietaryRestrictions.other++;
+          if (dietaryRestrictions.includes('gluten-free') || dietaryRestrictions.includes('gluten free')) stats.dietaryRestrictions.glutenFree++;
+          if (dietaryRestrictions.includes('nut-allergy') || dietaryRestrictions.includes('nut allergy')) stats.dietaryRestrictions.nutAllergy++;
+          if (dietaryRestrictions.some(d => d && !['vegetarian', 'vegan', 'gluten-free', 'gluten free', 'nut-allergy', 'nut allergy'].includes(d))) {
+            stats.dietaryRestrictions.other++;
+          }
         }
       } else if (rsvpStatus === 'not_attending') {
         stats.totalDeclined++;
@@ -181,22 +180,30 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
     // Get recent responses (last 10)
     const sortedRsvps = uniqueRsvps
       .sort((a: Record<string, unknown>, b: Record<string, unknown>) => {
-        const dateA = new Date((a.submittedAt || a.createdAt || 0) as string | number).getTime();
-        const dateB = new Date((b.submittedAt || b.createdAt || 0) as string | number).getTime();
+        const dateA = new Date((a.responded_at || a.submittedAt || a.createdAt || 0) as string | number).getTime();
+        const dateB = new Date((b.responded_at || b.submittedAt || b.createdAt || 0) as string | number).getTime();
         return dateB - dateA;
       })
       .slice(0, 10);
 
     stats.recentResponses = sortedRsvps.map((rsvp: Record<string, unknown>) => {
+      // Extract invitation code from PK
+      const pk = rsvp.PK as string;
+      const invitationCode = pk ? pk.replace('GUEST#', '') : (rsvp.invitation_code as string);
+      
       const guest = guests.find(
-        (g: Record<string, unknown>) => g.invitationCode === rsvp.invitationCode
+        (g: Record<string, unknown>) => {
+          const guestPK = g.PK as string;
+          const guestCode = guestPK ? guestPK.replace('GUEST#', '') : (g.invitation_code as string);
+          return guestCode === invitationCode;
+        }
       );
       return {
-        name: (guest?.name || rsvp.name || 'Unknown') as string,
-        email: (guest?.email || rsvp.email || '') as string,
-        respondedAt: (rsvp.submittedAt || rsvp.createdAt) as string,
-        status: (rsvp.rsvp_status || 'pending') as string,
-        partySize: 1 + (rsvp.plusOneName ? 1 : 0),
+        name: (guest?.guest_name || 'Unknown Guest') as string,
+        email: (guest?.email || '') as string,
+        respondedAt: (rsvp.responded_at || rsvp.created_at) as string,
+        status: (rsvp.rsvpStatus || 'pending') as string,
+        partySize: (rsvp.guests as number) || 1,
       };
     });
 

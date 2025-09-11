@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import '../../styles/GuestList.css';
-import { getConfig } from '../../config';
+import { loadConfig } from '../../config';
 
 interface Guest {
   invitationCode: string;
@@ -42,7 +42,7 @@ const GuestList: React.FC = () => {
         throw new Error('No authentication token found');
       }
 
-      const config = getConfig();
+      const config = await loadConfig();
       const response = await fetch(`${config.adminApiUrl}admin/protected/guests`, {
         headers: {
           Authorization: `Bearer ${token}`,

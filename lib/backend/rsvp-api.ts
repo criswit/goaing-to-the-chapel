@@ -12,7 +12,7 @@ export interface RsvpApiProps {
   /**
    * The DynamoDB table for RSVP data
    */
-  table: dynamodb.Table;
+  table: dynamodb.ITable;
 
   /**
    * Environment name for resource naming
@@ -87,7 +87,7 @@ export class RsvpApi extends Construct {
         functionName: `wedding-create-rsvp-${environment}`,
         runtime: lambda.Runtime.NODEJS_20_X, // Using 20.x as 22.x might not be available in all regions
         handler: 'handler',
-        entry: path.join(__dirname, 'lambda/create-rsvp.ts'),
+        entry: path.join(__dirname, 'lambda/simple-create-rsvp.ts'),
         timeout: cdk.Duration.seconds(30),
         memorySize: 256,
         role: lambdaRole,
@@ -163,7 +163,7 @@ export class RsvpApi extends Construct {
         functionName: `wedding-validate-invitation-${environment}`,
         runtime: lambda.Runtime.NODEJS_20_X,
         handler: 'handler',
-        entry: path.join(__dirname, 'lambda/validate-invitation.ts'),
+        entry: path.join(__dirname, 'lambda/simple-validate-invitation.ts'),
         timeout: cdk.Duration.seconds(30),
         memorySize: 256,
         role: lambdaRole,

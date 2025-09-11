@@ -14,7 +14,7 @@ echo ""
 # Default values
 DEFAULT_EMAIL="admin@wedding.himnher.dev"
 DEFAULT_NAME="Admin"
-DEFAULT_PASSWORD="TempPass123!"
+DEFAULT_PASSWORD="admin"
 TABLE_NAME="WeddingAdmins"
 REGION="${AWS_REGION:-us-east-1}"
 

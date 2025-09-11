@@ -18,7 +18,7 @@ export interface EmailLambdasProps {
   /**
    * The DynamoDB table for RSVP data
    */
-  table: dynamodb.Table;
+  table: dynamodb.ITable;
 
   /**
    * Environment name for resource naming

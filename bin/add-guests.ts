@@ -40,53 +40,18 @@ interface GuestCSVRecord {
 interface GuestItem {
   PK: string;
   SK: string;
-  EntityType: 'GUEST';
+  item_type: 'GUEST';
   guest_name: string;
+  name: string; // Added for compatibility
   email: string;
-  guest_email: string;
   phone: string;
-  rsvp_status: string;
-  plus_ones_count: number;
   invitation_code: string;
-  invitation_sent_at: string | null;
-  group_id: string | null;
-  group_name: string | null;
-  is_primary_contact: boolean;
-  InvitationCode: string;
-  EventStatus: string;
-  AdminDate: string;
+  max_guests: number;
   created_at: string;
   updated_at: string;
-  version: number;
-  event_id: string;
-  valid_until: string;
-  is_active: boolean;
-  max_uses: number;
-  current_uses: number;
-  table_number: string | null;
-  dietary_restrictions: string[];
-  notes: string | null;
 }
 
-interface GroupItem {
-  PK: string;
-  SK: string;
-  EntityType: 'GUEST_GROUP';
-  group_id: string;
-  group_name: string;
-  event_id: string;
-  max_party_size: number;
-  current_party_size: number;
-  primary_contact_email: string;
-  primary_contact_name: string;
-  member_emails: string[];
-  group_rsvp_status: string;
-  created_at: string;
-  updated_at: string;
-  version: number;
-}
-
-type DynamoDBItem = GuestItem | GroupItem;
+type DynamoDBItem = GuestItem;
 
 interface ImportOptions {
   dryRun?: boolean;
@@ -116,16 +81,7 @@ const dynamoClient = new DynamoDBClient({
 
 const docClient = DynamoDBDocumentClient.from(dynamoClient);
 
-// Helper functions
-const KeyBuilder = {
-  buildEventPK: (eventId: string): string => `EVENT#${eventId}`,
-  buildGuestSK: (email: string): string => `GUEST#${email}`,
-  buildInvitationGSI: (code: string): string => `INVITATION#${code}`,
-  buildEventStatusGSI: (eventId: string, status: string): string =>
-    `EVENT#${eventId}#STATUS#${status}`,
-  buildAdminDateGSI: (date: string, status: string): string => `DATE#${date}#STATUS#${status}`,
-  buildGroupSK: (groupId: string): string => `GROUP#${groupId}`,
-};
+// Helper functions removed - using simplified composite key structure
 
 /**
  * Generate a unique invitation code
@@ -283,57 +239,31 @@ function createGuestItems(
 
   debugLog(`Creating guest items`, options);
 
-  // Second pass: create guest items
+  // Second pass: create guest items with new composite key structure
   guests.forEach((guest) => {
     const email = guest.email.toLowerCase().trim();
-    const invitationCode = generateNameBasedCode(guest.name, existingCodes);
+    const invitationCode = generateNameBasedCode(guest.name, existingCodes).toLowerCase();
 
     // Use safeParsePlusOnesAllowed to ensure valid number
     const plusOnesCount = safeParsePlusOnesAllowed(guest.plusOnesAllowed);
 
     const guestItem: GuestItem = {
-      PK: KeyBuilder.buildEventPK(EVENT_ID),
-      SK: KeyBuilder.buildGuestSK(email),
-      EntityType: 'GUEST',
+      // New composite key structure: PK is GUEST#code, SK is PROFILE
+      PK: `GUEST#${invitationCode}`,
+      SK: 'PROFILE',
+      item_type: 'GUEST',
 
       // Core guest information
       guest_name: guest.name,
+      name: guest.name, // Added for compatibility
       email: email,
-      guest_email: email, // Lambda expects this field
       phone: guest.phone || '',
-
-      // RSVP related fields
-      rsvp_status: 'pending',
-      plus_ones_count: plusOnesCount,
-
-      // Invitation management
       invitation_code: invitationCode,
-      invitation_sent_at: null,
-
-      // Group management
-      group_id: guest.groupId || null,
-      group_name: guest.groupName || null,
-      is_primary_contact: guest.isPrimaryContact === true,
-
-      // GSI attributes
-      InvitationCode: KeyBuilder.buildInvitationGSI(invitationCode),
-      EventStatus: KeyBuilder.buildEventStatusGSI(EVENT_ID, 'pending'),
-      AdminDate: KeyBuilder.buildAdminDateGSI(timestamp.split('T')[0], 'pending'),
+      max_guests: plusOnesCount + 1, // Total including the guest themselves
 
       // Metadata
       created_at: timestamp,
       updated_at: timestamp,
-      version: 1,
-      event_id: EVENT_ID,
-      valid_until: '2026-02-28T00:00:00.000Z',
-      is_active: true,
-      max_uses: 5,
-      current_uses: 0,
-
-      // Additional custom fields (set to null/empty)
-      table_number: null,
-      dietary_restrictions: [],
-      notes: null,
     };
 
     debugLog(
@@ -346,51 +276,7 @@ function createGuestItems(
     items.push(guestItem);
   });
 
-  debugLog(`Creating group items`, options);
-
-  // Third pass: create group entities
-  groups.forEach((members, groupId) => {
-    const primaryContact = members.find((m) => m.isPrimaryContact === true) || members[0];
-
-    // Use safeParsePlusOnesAllowed for each member
-    const maxPartySize = members.reduce(
-      (sum, m) => sum + safeParsePlusOnesAllowed(m.plusOnesAllowed) + 1,
-      0
-    );
-
-    const groupItem: GroupItem = {
-      PK: KeyBuilder.buildEventPK(EVENT_ID),
-      SK: KeyBuilder.buildGroupSK(groupId),
-      EntityType: 'GUEST_GROUP',
-
-      group_id: groupId,
-      group_name: members[0].groupName || groupId,
-      event_id: EVENT_ID,
-
-      // Group configuration
-      max_party_size: maxPartySize,
-      current_party_size: members.length,
-
-      // Primary contact
-      primary_contact_email: primaryContact.email,
-      primary_contact_name: primaryContact.name,
-
-      // Member tracking
-      member_emails: members.map((m) => m.email),
-
-      // Group RSVP status
-      group_rsvp_status: 'pending',
-
-      // Metadata
-      created_at: timestamp,
-      updated_at: timestamp,
-      version: 1,
-    };
-
-    debugLog(`Created GroupItem for groupId=${groupId}: ${JSON.stringify(groupItem)}`, options);
-
-    items.push(groupItem);
-  });
+  // Groups are no longer created as separate items in the new structure
 
   return items;
 }
@@ -468,7 +354,7 @@ async function importGuests(csvPath: string, options: ImportOptions = {}): Promi
       if (options.generateReport) {
         const reportPath = path.join(path.dirname(csvPath), 'invitation-codes.csv');
         const reportContent = items
-          .filter((i): i is GuestItem => i.EntityType === 'GUEST')
+          .filter((i): i is GuestItem => i.item_type === 'GUEST')
           .map((i) => `${i.guest_name},${i.email},${i.invitation_code}`)
           .join('\n');
 
@@ -482,7 +368,7 @@ async function importGuests(csvPath: string, options: ImportOptions = {}): Promi
     // Print sample invitation codes
     debugLog('Sample Invitation Codes:', options);
     items
-      .filter((i): i is GuestItem => i.EntityType === 'GUEST')
+      .filter((i): i is GuestItem => i.item_type === 'GUEST')
       .slice(0, 5)
       .forEach((guest) => {
         debugLog(

@@ -12,8 +12,7 @@ import {
 const dynamoDBClient = new DynamoDBClient({});
 const docClient = DynamoDBDocumentClient.from(dynamoDBClient);
 
-const GUESTS_TABLE_NAME = process.env.GUESTS_TABLE_NAME || 'WeddingGuests';
-const RSVPS_TABLE_NAME = process.env.RSVPS_TABLE_NAME || 'WeddingRSVPs';
+const TABLE_NAME = process.env.TABLE_NAME || 'wedding-rsvp-production';
 
 interface Guest {
   invitationCode: string;
@@ -51,26 +50,29 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
 
   try {
     if (event.httpMethod === 'GET') {
-      // Fetch all guests with their RSVP status - filter for GUEST entities only
+      console.log('Fetching real guest data from DynamoDB');
+      console.log('Using table:', TABLE_NAME);
+      
+      // Fetch all guest profiles (SK=PROFILE)
       const guestsResponse = await docClient.send(
         new ScanCommand({
-          TableName: GUESTS_TABLE_NAME,
-          FilterExpression: 'EntityType = :entityType',
+          TableName: TABLE_NAME,
+          FilterExpression: 'SK = :sk',
           ExpressionAttributeValues: {
-            ':entityType': 'GUEST',
+            ':sk': 'PROFILE',
           },
         })
       );
 
       const guests = guestsResponse.Items || [];
 
-      // Fetch all RSVPs - filter for RSVP_RESPONSE entities only
+      // Fetch all RSVPs (SK=RSVP)
       const rsvpsResponse = await docClient.send(
         new ScanCommand({
-          TableName: RSVPS_TABLE_NAME,
-          FilterExpression: 'EntityType = :entityType',
+          TableName: TABLE_NAME,
+          FilterExpression: 'SK = :sk',
           ExpressionAttributeValues: {
-            ':entityType': 'RSVP_RESPONSE',
+            ':sk': 'RSVP',
           },
         })
       );
@@ -80,45 +82,62 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
       // Create a map of RSVPs by invitation code - keep only latest per guest
       const rsvpMap = new Map();
       rsvps.forEach((rsvp: Record<string, unknown>) => {
-        const existing = rsvpMap.get(rsvp.invitationCode);
+        // Extract invitation code from PK (format: GUEST#invitation-code)
+        const pk = rsvp.PK as string;
+        const invitationCode = pk ? pk.replace('GUEST#', '') : rsvp.invitation_code;
+        
+        const existing = rsvpMap.get(invitationCode);
         const rsvpTimestamp = new Date(
-          (rsvp.submittedAt || rsvp.createdAt || 0) as string | number
+          (rsvp.responded_at || rsvp.submittedAt || rsvp.createdAt || 0) as string | number
         ).getTime();
         const existingTimestamp = existing
-          ? new Date(existing.submittedAt || existing.createdAt || 0).getTime()
+          ? new Date(existing.responded_at || existing.submittedAt || existing.createdAt || 0).getTime()
           : 0;
 
         if (!existing || rsvpTimestamp > existingTimestamp) {
-          rsvpMap.set(rsvp.invitationCode, rsvp);
+          rsvpMap.set(invitationCode, rsvp);
         }
       });
 
       // Merge guest and RSVP data with improved name fallback
       const mergedGuests = guests.map((guest: Record<string, unknown>) => {
-        const rsvp = rsvpMap.get(guest.invitationCode);
+        const invitationCode = guest.invitation_code || guest.invitationCode;
+        const rsvp = rsvpMap.get(invitationCode);
 
-        // Guest name should always come from the guest record in the GUESTS table
-        // The RSVP table doesn't store the guest name
-        const guestName = guest.name || guest.guestName || 'Unknown Guest';
+        // Guest name should come from guest_name or name field
+        const guestName = guest.guest_name || guest.name || 'Unknown Guest';
+
+        // Remove any existing rsvp-related fields to avoid conflicts
+        const { 
+          rsvpStatus: existingRsvpStatus, 
+          rsvp_status: existingRsvpStatusUnderscore,
+          name: existingName,
+          guest_name: existingGuestName,
+          ...guestClean 
+        } = guest;
 
         if (rsvp) {
+          // Use RSVP data when available
           return {
-            ...guest,
+            ...guestClean,
+            invitationCode,
             name: guestName,
-            rsvpStatus: rsvp.rsvp_status || 'pending',
-            dietaryRestrictions: rsvp.dietaryRestrictions,
+            rsvpStatus: rsvp.rsvpStatus || rsvp.rsvp_status || 'pending',
+            dietaryRestrictions: rsvp.dietary_restrictions || rsvp.dietaryRestrictions,
             plusOneName: rsvp.plusOneName,
             plusOneDietaryRestrictions: rsvp.plusOneDietaryRestrictions,
-            submittedAt: rsvp.submittedAt || rsvp.createdAt,
+            submittedAt: rsvp.responded_at || rsvp.submittedAt || rsvp.createdAt,
             otherDietary: rsvp.otherDietary,
             plusOneOtherDietary: rsvp.plusOneOtherDietary,
             notes: rsvp.notes,
-            partySize: 1 + (rsvp.plusOneName ? 1 : 0),
+            partySize: rsvp.guests || (1 + (rsvp.plusOneName ? 1 : 0)),
           };
         }
 
+        // NO RSVP = PENDING. Period. Don't use the guest's stored status.
         return {
-          ...guest,
+          ...guestClean,
+          invitationCode,
           name: guestName,
           rsvpStatus: 'pending',
           partySize: 1,
@@ -195,7 +214,7 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
       if (updateExpression.length > 0) {
         await docClient.send(
           new UpdateCommand({
-            TableName: GUESTS_TABLE_NAME,
+            TableName: TABLE_NAME,
             Key: { invitationCode: guestUpdate.invitationCode },
             UpdateExpression: `SET ${updateExpression.join(', ')}`,
             ExpressionAttributeNames:
@@ -212,7 +231,7 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
         // Check if RSVP exists
         const existingRsvp = await docClient.send(
           new QueryCommand({
-            TableName: RSVPS_TABLE_NAME,
+            TableName: TABLE_NAME,
             KeyConditionExpression: 'invitationCode = :code',
             ExpressionAttributeValues: {
               ':code': guestUpdate.invitationCode,
@@ -224,7 +243,7 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
           // Update existing RSVP
           await docClient.send(
             new UpdateCommand({
-              TableName: RSVPS_TABLE_NAME,
+              TableName: TABLE_NAME,
               Key: { invitationCode: guestUpdate.invitationCode },
               UpdateExpression:
                 'SET rsvp_status = :status, updatedAt = :updatedAt, adminModified = :adminModified',

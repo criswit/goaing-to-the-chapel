@@ -7,12 +7,15 @@ import { logger } from './utils';
 const WEBSITE_URL = process.env.WEBSITE_URL || 'https://wedding.himnher.dev';
 
 interface EmailMessage {
+  type: 'single';
   templateType: 'confirmation' | 'update' | 'reminder';
-  recipientEmail: string;
-  recipientName: string;
-  templateData: Record<string, unknown>;
-  guestId?: string;
-  eventId?: string;
+  recipients: Array<{
+    email: string;
+    name: string;
+    templateData: Record<string, unknown>;
+    guestId?: string;
+    eventId?: string;
+  }>;
 }
 
 /**
@@ -82,9 +85,11 @@ export const handler = async (event: any): Promise<any[]> => {
 
       // Check if this is an RSVP record
       const keys = streamRecord.Keys;
-      if (!keys?.SK?.S?.startsWith('RSVP#')) {
+      // Check for both 'RSVP' and records starting with 'RSVP#'
+      const skValue = keys?.SK?.S;
+      if (skValue !== 'RSVP' && !skValue?.startsWith('RSVP#')) {
         logger.info('⏭️ Not an RSVP record, skipping', {
-          SK: keys?.SK?.S,
+          SK: skValue,
           PK: keys?.PK?.S,
           recordIndex: i,
         });
@@ -115,19 +120,19 @@ export const handler = async (event: any): Promise<any[]> => {
       logger.info('✅ Record unmarshalled successfully', {
         recordIndex: i,
         itemKeys: Object.keys(item),
-        guestEmail: item.guest_email,
-        guestName: item.guest_name,
-        rsvpStatus: item.rsvp_status,
-        confirmationNumber: item.confirmation_number,
+        guestEmail: item.guest_email || item.email,
+        guestName: item.guest_name || item.name,
+        rsvpStatus: item.rsvp_status || item.rsvpStatus,
+        confirmationNumber: item.confirmation_number || item.confirmationNumber,
       });
 
-      // Extract relevant fields
-      const guestEmail = item.guest_email;
-      const guestName = item.guest_name;
-      const eventId = item.event_id;
-      const rsvpStatus = item.rsvp_status;
-      const attendeeCount = item.attendee_count || 1;
-      const confirmationNumber = item.confirmation_number;
+      // Extract relevant fields - handle both field naming conventions
+      const guestEmail = item.guest_email || item.email;
+      const guestName = item.guest_name || item.name;
+      const eventId = item.event_id || item.eventId;
+      const rsvpStatus = item.rsvp_status || item.rsvpStatus;
+      const attendeeCount = item.attendee_count || item.attendeeCount || item.guests || 1;
+      const confirmationNumber = item.confirmation_number || item.confirmationNumber;
       const eventName = item.event_name || 'Our Wedding';
       const eventDate = item.event_date;
       const eventLocation = item.event_location || '';
@@ -192,25 +197,30 @@ export const handler = async (event: any): Promise<any[]> => {
 
       if (shouldSendEmail && guestEmail && guestName) {
         const emailMessage: EmailMessage = {
+          type: 'single',
           templateType,
-          recipientEmail: guestEmail,
-          recipientName: guestName,
-          templateData: {
-            guestName,
-            eventName,
-            eventDate,
-            eventLocation,
-            rsvpStatus,
-            attendeeCount,
-            confirmationNumber,
-            plusOnes,
-            dietaryRestrictions,
-            specialRequests,
-            websiteUrl: WEBSITE_URL,
-            email: guestEmail,
-          },
-          guestId: guestEmail,
-          eventId,
+          recipients: [
+            {
+              email: guestEmail,
+              name: guestName,
+              templateData: {
+                guestName,
+                eventName,
+                eventDate,
+                eventLocation,
+                rsvpStatus,
+                attendeeCount,
+                confirmationNumber,
+                plusOnes,
+                dietaryRestrictions,
+                specialRequests,
+                websiteUrl: WEBSITE_URL,
+                email: guestEmail,
+              },
+              guestId: guestEmail,
+              eventId,
+            },
+          ],
         };
 
         // For EventBridge Pipes to SQS, each element in the returned array
@@ -220,6 +230,7 @@ export const handler = async (event: any): Promise<any[]> => {
         logger.info('✅ Email message prepared and added to queue', {
           recordIndex: i,
           messageIndex: sqsMessages.length - 1,
+          type: 'single',
           templateType,
           recipientEmail: guestEmail,
           eventId,
@@ -258,9 +269,10 @@ export const handler = async (event: any): Promise<any[]> => {
     messageCount: sqsMessages.length,
     messages: sqsMessages.map((msg, idx) => ({
       index: idx,
+      type: msg.type,
       templateType: msg.templateType,
-      recipientEmail: msg.recipientEmail,
-      eventId: msg.eventId,
+      recipientCount: msg.recipients.length,
+      recipientEmail: msg.recipients[0]?.email,
     })),
     totalRecordsProcessed: records.length,
   });

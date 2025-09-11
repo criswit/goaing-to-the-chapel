@@ -55,9 +55,9 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
     }
 
     // Sanitize and format invitation code
-    const formattedCode = body.invitationCode.toUpperCase().trim();
+    const formattedCode = body.invitationCode.toLowerCase().trim();
 
-    if (!/^[A-Z0-9]{6,8}$/.test(formattedCode)) {
+    if (!/^[a-z0-9\-]{3,50}$/.test(formattedCode)) {
       logger.warn('Invalid invitation code format', { code: formattedCode });
       return createResponse(400, {
         valid: false,

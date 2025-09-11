@@ -33,10 +33,8 @@ const TABLE_NAME = process.env.TABLE_NAME || 'wedding-rsvp-dev';
 const BatchPartyRsvpSchema = z.object({
   invitationCode: z
     .string()
-    .min(6, 'Invitation code must be at least 6 characters')
-    .max(8, 'Invitation code must be at most 8 characters')
-    .regex(/^[A-Z0-9]+$/, 'Invitation code must be uppercase alphanumeric')
-    .transform((val) => val.toUpperCase()),
+    .min(1, 'Invitation code is required')
+    .transform((val) => val.toLowerCase().trim()),
 
   partyId: z.string().optional(),
 

@@ -18,18 +18,19 @@
 
 .refresh-button {
   padding: 10px 20px;
-  background: #667eea;
-  color: white;
-  border: none;
+  background: #ffffff;
+  color: #1f2937;
+  border: 1px solid #d1d5db;
   border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
-  transition: background-color 0.2s;
+  transition: all 0.2s;
 }
 
 .refresh-button:hover:not(:disabled) {
-  background: #5a67d8;
+  background: #f9fafb;
+  border-color: #9ca3af;
 }
 
 .refresh-button:disabled {
@@ -60,34 +61,40 @@
 }
 
 .stat-card.primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: #f9fafb;
+  color: #1f2937;
+  border: 1px solid #e5e7eb;
 }
 
 .stat-card.success {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  color: white;
+  background: #ffffff;
+  color: #1f2937;
+  border: 2px solid #1f2937;
 }
 
 .stat-card.warning {
-  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-  color: white;
+  background: #f9fafb;
+  color: #1f2937;
+  border: 1px solid #d1d5db;
 }
 
 .stat-card.danger {
-  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-  color: white;
+  background: #ffffff;
+  color: #1f2937;
+  border: 1px solid #e5e7eb;
 }
 
 .stat-card.maybe {
-  background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%);
-  color: white;
-  box-shadow: 0 8px 16px rgba(139, 92, 246, 0.2);
+  background: #f3f4f6;
+  color: #1f2937;
+  border: 1px solid #d1d5db;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .stat-card.info {
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-  color: white;
+  background: #ffffff;
+  color: #1f2937;
+  border: 1px solid #e5e7eb;
 }
 
 .stat-value {
@@ -141,12 +148,13 @@
 }
 
 .dietary-count {
-  background: #eef2ff;
-  color: #667eea;
+  background: #f3f4f6;
+  color: #1f2937;
   padding: 4px 12px;
   border-radius: 20px;
   font-weight: 600;
   font-size: 14px;
+  border: 1px solid #d1d5db;
 }
 
 .dietary-label {
@@ -204,13 +212,15 @@
 }
 
 .status-badge.attending {
-  background: #d1fae5;
-  color: #065f46;
+  background: #f9fafb;
+  color: #1f2937;
+  border: 1px solid #1f2937;
 }
 
 .status-badge.declined {
-  background: #fee2e2;
-  color: #991b1b;
+  background: #ffffff;
+  color: #4b5563;
+  border: 1px solid #d1d5db;
 }
 
 .response-chart {
@@ -250,15 +260,16 @@
 }
 
 .bar-segment.attending {
-  background: #10b981;
+  background: #1f2937;
 }
 
 .bar-segment.declined {
-  background: #ef4444;
+  background: #9ca3af;
 }
 
 .bar-segment.pending {
-  background: #f59e0b;
+  background: #e5e7eb;
+  color: #1f2937;
 }
 
 .chart-legend {
@@ -280,15 +291,16 @@
 }
 
 .legend-color.attending {
-  background: #10b981;
+  background: #1f2937;
 }
 
 .legend-color.declined {
-  background: #ef4444;
+  background: #9ca3af;
 }
 
 .legend-color.pending {
-  background: #f59e0b;
+  background: #e5e7eb;
+  border: 1px solid #d1d5db;
 }
 
 .stats-loading,
