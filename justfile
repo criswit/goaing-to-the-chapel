@@ -229,11 +229,11 @@ setup-prod:
 # Guest Management Commands
 # Add sample guests to the database (dry run - preview only)
 add-guests-dry:
-    npm run add-guests sample-guests.csv -- --dry-run
+    npm run add-guests data/sample-guests.csv -- --dry-run
 
 # Add sample guests to the database (actually imports them)
 add-guests:
-    npm run add-guests sample-guests.csv
+    npm run add-guests data/sample-guests.csv
 
 # Add sample guests and generate invitation codes report
 add-guests-report:

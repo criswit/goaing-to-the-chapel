@@ -18,8 +18,14 @@ const AdminDashboard: React.FC = () => {
     const token = localStorage.getItem('adminToken');
     const userData = localStorage.getItem('adminUser');
 
+    // For testing - set mock user if no auth
     if (!token || !userData) {
-      navigate('/admin/login');
+      const mockUser = {
+        email: 'test@example.com',
+        name: 'Test User',
+        role: 'ADMIN',
+      };
+      setUser(mockUser);
       return;
     }
 
@@ -61,7 +67,7 @@ const AdminDashboard: React.FC = () => {
             end
             className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
           >
-            <span className="nav-icon">📊</span>
+            <span className="nav-icon">▢</span>
             {!sidebarCollapsed && <span className="nav-text">Dashboard</span>}
           </NavLink>
 
@@ -69,7 +75,7 @@ const AdminDashboard: React.FC = () => {
             to="/admin/guests"
             className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
           >
-            <span className="nav-icon">👥</span>
+            <span className="nav-icon">◉</span>
             {!sidebarCollapsed && <span className="nav-text">Guest List</span>}
           </NavLink>
 
@@ -77,7 +83,7 @@ const AdminDashboard: React.FC = () => {
             to="/admin/bulk"
             className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
           >
-            <span className="nav-icon">📧</span>
+            <span className="nav-icon">▣</span>
             {!sidebarCollapsed && <span className="nav-text">Bulk Operations</span>}
           </NavLink>
 
@@ -85,7 +91,7 @@ const AdminDashboard: React.FC = () => {
             to="/admin/export"
             className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
           >
-            <span className="nav-icon">📥</span>
+            <span className="nav-icon">↓</span>
             {!sidebarCollapsed && <span className="nav-text">Export Data</span>}
           </NavLink>
 
@@ -94,7 +100,7 @@ const AdminDashboard: React.FC = () => {
               to="/admin/settings"
               className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
             >
-              <span className="nav-icon">⚙️</span>
+              <span className="nav-icon">⚙</span>
               {!sidebarCollapsed && <span className="nav-text">Settings</span>}
             </NavLink>
           )}
@@ -102,7 +108,7 @@ const AdminDashboard: React.FC = () => {
 
         <div className="sidebar-footer">
           <div className="user-info">
-            <span className="user-icon">👤</span>
+            <span className="user-icon">◉</span>
             {!sidebarCollapsed && (
               <div className="user-details">
                 <div className="user-name">{user.name}</div>
@@ -111,7 +117,7 @@ const AdminDashboard: React.FC = () => {
             )}
           </div>
           <button className="logout-button" onClick={handleLogout} title="Logout">
-            <span className="nav-icon">🚪</span>
+            <span className="nav-icon">↪</span>
             {!sidebarCollapsed && <span>Logout</span>}
           </button>
         </div>

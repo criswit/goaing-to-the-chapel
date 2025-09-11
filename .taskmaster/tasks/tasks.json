@@ -894,11 +894,27 @@
         "dependencies": [],
         "priority": "high",
         "subtasks": []
+      },
+      {
+        "id": 15,
+        "title": "Implement Backend API Endpoint for Updating Guest Information",
+        "description": "Create a PUT endpoint at /admin/protected/guests/{invitationCode} in the admin Lambda function that enables updating guest records in DynamoDB with comprehensive field support including name, email, phone, RSVP status, party size, plus one details, and dietary restrictions.",
+        "details": "Extend the existing admin-guests.ts Lambda function to handle PUT requests with invitation code path parameters. The current implementation supports updating guest information but needs enhancement for path-based routing. Implement: 1) Path parameter extraction for invitation code from '/admin/protected/guests/{invitationCode}' route 2) Enhanced input validation using Zod schemas to validate all guest fields (name, email, phone, RSVP status, party size, dietary restrictions, plus one details) 3) DynamoDB update operations for both GUEST#PROFILE and GUEST#RSVP records using the single-table design pattern 4) Proper error handling with 400 for validation errors, 404 for non-existent guests, and 500 for server errors 5) Update the admin-api.ts CDK configuration to add the path-based route resource 'guests.addResource('{invitationCode}')' with proper CORS headers 6) Comprehensive response structure returning updated guest data and confirmation messages 7) Audit logging for all admin modifications to track changes. Use existing DynamoDB client setup, maintain compatibility with current table structure (wedding-rsvp-production), and follow existing error handling patterns in admin-guests.ts:287-295.",
+        "testStrategy": "Test endpoint functionality with valid invitation codes and various field updates, verify path parameter extraction works correctly, test input validation rejects invalid data formats, confirm database updates are applied to correct records, test error handling for non-existent invitation codes returns 404, verify CORS headers are properly configured for cross-origin requests, validate response structure includes updated guest information, test concurrent update scenarios to ensure data consistency",
+        "status": "pending",
+        "dependencies": [
+          1,
+          2,
+          4,
+          8
+        ],
+        "priority": "high",
+        "subtasks": []
       }
     ],
     "metadata": {
       "created": "2025-09-08T01:12:16.853Z",
-      "updated": "2025-09-11T03:48:14.314Z",
+      "updated": "2025-09-11T14:50:05.610Z",
       "description": "Tasks for rsvp-system context"
     }
   },

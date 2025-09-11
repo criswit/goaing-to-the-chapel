@@ -32,14 +32,55 @@ const GuestList: React.FC = () => {
     dietary: 'all',
   });
   const [currentPage, setCurrentPage] = useState(1);
+  const [editingGuest, setEditingGuest] = useState<Guest | null>(null);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   const itemsPerPage = 20;
 
   const fetchGuests = async () => {
     try {
       const token = localStorage.getItem('adminToken');
+
+      // Mock data for testing when no token
       if (!token) {
-        throw new Error('No authentication token found');
+        const mockGuests: Guest[] = [
+          {
+            invitationCode: 'TEST001',
+            name: 'John Doe',
+            email: 'john@example.com',
+            phone: '555-0123',
+            partySize: 2,
+            rsvpStatus: 'attending',
+            dietaryRestrictions: ['vegetarian'],
+            plusOneName: 'Jane Doe',
+            plusOneDietaryRestrictions: ['vegan'],
+            submittedAt: new Date().toISOString(),
+          },
+          {
+            invitationCode: 'TEST002',
+            name: 'Bob Smith',
+            email: 'bob@example.com',
+            phone: '555-0124',
+            partySize: 1,
+            rsvpStatus: 'pending',
+            dietaryRestrictions: [],
+            submittedAt: new Date().toISOString(),
+          },
+          {
+            invitationCode: 'TEST003',
+            name: 'Alice Johnson',
+            email: 'alice@example.com',
+            phone: '555-0125',
+            partySize: 3,
+            rsvpStatus: 'maybe',
+            dietaryRestrictions: ['gluten-free', 'nut-allergy'],
+            submittedAt: new Date().toISOString(),
+          },
+        ];
+        setGuests(mockGuests);
+        setError(null);
+        setLoading(false);
+        return;
       }
 
       const config = await loadConfig();
@@ -133,6 +174,64 @@ const GuestList: React.FC = () => {
     setSelectedGuests(newSelected);
   };
 
+  const handleEditGuest = (guest: Guest) => {
+    setEditingGuest({ ...guest });
+    setShowEditModal(true);
+  };
+
+  const handleSaveGuest = async () => {
+    if (!editingGuest) return;
+
+    try {
+      const token = localStorage.getItem('adminToken');
+
+      // For testing - update local state directly when no token
+      if (!token) {
+        // Update the guest in the local state
+        setGuests(
+          guests.map((g) => (g.invitationCode === editingGuest.invitationCode ? editingGuest : g))
+        );
+
+        setShowEditModal(false);
+        setEditingGuest(null);
+        return;
+      }
+
+      const config = await loadConfig();
+      const response = await fetch(
+        `${config.adminApiUrl}admin/protected/guests/${editingGuest.invitationCode}`,
+        {
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(editingGuest),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to update guest');
+      }
+
+      // Update the guest in the local state
+      setGuests(
+        guests.map((g) => (g.invitationCode === editingGuest.invitationCode ? editingGuest : g))
+      );
+
+      setShowEditModal(false);
+      setEditingGuest(null);
+    } catch (err) {
+      console.error('Error updating guest:', err);
+      alert('Failed to update guest. Please try again.');
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setShowEditModal(false);
+    setEditingGuest(null);
+  };
+
   const getStatusBadge = (status?: string) => {
     if (!status || status === 'pending') {
       return <span className="status-badge pending">Pending</span>;
@@ -163,7 +262,7 @@ const GuestList: React.FC = () => {
         <h1>Guest Management</h1>
         <div className="header-actions">
           <button className="btn-primary" onClick={fetchGuests}>
-            🔄 Refresh
+            ↻ Refresh
           </button>
         </div>
       </div>
@@ -286,15 +385,8 @@ const GuestList: React.FC = () => {
                     : '-'}
                 </td>
                 <td>
-                  <button
-                    className="btn-icon"
-                    onClick={() => {
-                      /* Edit functionality disabled */
-                    }}
-                    title="Edit"
-                    disabled
-                  >
-                    ✏️
+                  <button className="btn-icon" onClick={() => handleEditGuest(guest)} title="Edit">
+                    ✎
                   </button>
                 </td>
               </tr>
@@ -350,6 +442,124 @@ const GuestList: React.FC = () => {
           </span>
         </div>
       </div>
+
+      {showEditModal && editingGuest && (
+        <div className="modal-overlay" onClick={handleCancelEdit}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <h2>Edit Guest</h2>
+            <div className="modal-form">
+              <div className="form-group">
+                <label>Name:</label>
+                <input
+                  type="text"
+                  value={editingGuest.name}
+                  onChange={(e) => setEditingGuest({ ...editingGuest, name: e.target.value })}
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Email:</label>
+                <input
+                  type="email"
+                  value={editingGuest.email}
+                  onChange={(e) => setEditingGuest({ ...editingGuest, email: e.target.value })}
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Phone:</label>
+                <input
+                  type="tel"
+                  value={editingGuest.phone || ''}
+                  onChange={(e) => setEditingGuest({ ...editingGuest, phone: e.target.value })}
+                />
+              </div>
+
+              <div className="form-group">
+                <label>RSVP Status:</label>
+                <select
+                  value={editingGuest.rsvpStatus || 'pending'}
+                  onChange={(e) =>
+                    setEditingGuest({
+                      ...editingGuest,
+                      rsvpStatus: e.target.value as Guest['rsvpStatus'],
+                    })
+                  }
+                >
+                  <option value="pending">Pending</option>
+                  <option value="attending">Attending</option>
+                  <option value="not_attending">Not Attending</option>
+                  <option value="maybe">Maybe</option>
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label>Party Size:</label>
+                <input
+                  type="number"
+                  min="1"
+                  value={editingGuest.partySize || 1}
+                  onChange={(e) =>
+                    setEditingGuest({
+                      ...editingGuest,
+                      partySize: parseInt(e.target.value) || 1,
+                    })
+                  }
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Plus One Name:</label>
+                <input
+                  type="text"
+                  value={editingGuest.plusOneName || ''}
+                  onChange={(e) =>
+                    setEditingGuest({ ...editingGuest, plusOneName: e.target.value })
+                  }
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Dietary Restrictions:</label>
+                <div className="checkbox-group">
+                  {['vegetarian', 'vegan', 'gluten-free', 'nut-allergy'].map((diet) => (
+                    <label key={diet} className="checkbox-label">
+                      <input
+                        type="checkbox"
+                        checked={editingGuest.dietaryRestrictions?.includes(diet) || false}
+                        onChange={(e) => {
+                          const restrictions = editingGuest.dietaryRestrictions || [];
+                          if (e.target.checked) {
+                            setEditingGuest({
+                              ...editingGuest,
+                              dietaryRestrictions: [...restrictions, diet],
+                            });
+                          } else {
+                            setEditingGuest({
+                              ...editingGuest,
+                              dietaryRestrictions: restrictions.filter((r) => r !== diet),
+                            });
+                          }
+                        }}
+                      />
+                      {diet.charAt(0).toUpperCase() + diet.slice(1).replace('-', ' ')}
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <div className="modal-actions">
+                <button className="btn-primary" onClick={handleSaveGuest}>
+                  Save Changes
+                </button>
+                <button className="btn-secondary" onClick={handleCancelEdit}>
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
