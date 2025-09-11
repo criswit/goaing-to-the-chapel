@@ -5,9 +5,9 @@ import { loadConfig } from '../config';
 let API_BASE_URL = '';
 
 // Load config on module initialization
-loadConfig().then(config => {
-  API_BASE_URL = config.apiUrl.endsWith('/') 
-    ? config.apiUrl.slice(0, -1)  // Remove trailing slash if present
+loadConfig().then((config) => {
+  API_BASE_URL = config.apiUrl.endsWith('/')
+    ? config.apiUrl.slice(0, -1) // Remove trailing slash if present
     : config.apiUrl;
 });
 
