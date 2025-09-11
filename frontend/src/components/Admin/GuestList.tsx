@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import '../../styles/GuestList.css';
+import { getConfig } from '../../config';
 
 interface Guest {
   invitationCode: string;
@@ -7,7 +8,7 @@ interface Guest {
   email: string;
   phone?: string;
   partySize?: number;
-  rsvpStatus?: 'pending' | 'attending' | 'declined';
+  rsvpStatus?: 'pending' | 'attending' | 'not_attending' | 'maybe';
   dietaryRestrictions?: string[];
   plusOneName?: string;
   plusOneDietaryRestrictions?: string[];
@@ -15,7 +16,7 @@ interface Guest {
 }
 
 interface FilterOptions {
-  status: 'all' | 'pending' | 'attending' | 'declined';
+  status: 'all' | 'pending' | 'attending' | 'not_attending' | 'maybe';
   search: string;
   dietary: 'all' | 'vegetarian' | 'vegan' | 'gluten-free' | 'nut-allergy' | 'other';
 }
@@ -41,14 +42,12 @@ const GuestList: React.FC = () => {
         throw new Error('No authentication token found');
       }
 
-      const response = await fetch(
-        `${process.env.REACT_APP_ADMIN_API_URL}/admin/protected/guests`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const config = getConfig();
+      const response = await fetch(`${config.adminApiUrl}admin/protected/guests`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (!response.ok) {
         if (response.status === 401) {
@@ -141,7 +140,13 @@ const GuestList: React.FC = () => {
     if (status === 'attending') {
       return <span className="status-badge attending">Attending</span>;
     }
-    return <span className="status-badge declined">Declined</span>;
+    if (status === 'not_attending') {
+      return <span className="status-badge declined">Not Attending</span>;
+    }
+    if (status === 'maybe') {
+      return <span className="status-badge maybe">Maybe</span>;
+    }
+    return <span className="status-badge declined">Unknown</span>;
   };
 
   if (loading) {
@@ -173,7 +178,8 @@ const GuestList: React.FC = () => {
             <option value="all">All</option>
             <option value="pending">Pending</option>
             <option value="attending">Attending</option>
-            <option value="declined">Declined</option>
+            <option value="not_attending">Not Attending</option>
+            <option value="maybe">Maybe</option>
           </select>
         </div>
 
@@ -332,9 +338,15 @@ const GuestList: React.FC = () => {
           </span>
         </div>
         <div className="stat">
-          <span className="stat-label">Declined:</span>
+          <span className="stat-label">Not Attending:</span>
           <span className="stat-value">
-            {filteredGuests.filter((g) => g.rsvpStatus === 'declined').length}
+            {filteredGuests.filter((g) => g.rsvpStatus === 'not_attending').length}
+          </span>
+        </div>
+        <div className="stat">
+          <span className="stat-label">Maybe:</span>
+          <span className="stat-value">
+            {filteredGuests.filter((g) => g.rsvpStatus === 'maybe').length}
           </span>
         </div>
       </div>

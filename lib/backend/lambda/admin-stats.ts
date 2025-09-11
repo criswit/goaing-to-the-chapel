@@ -16,6 +16,7 @@ interface RSVPStats {
   totalAttending: number;
   totalDeclined: number;
   totalPending: number;
+  totalMaybe: number;
   totalGuests: number; // Including plus ones
   dietaryRestrictions: {
     vegetarian: number;
@@ -30,7 +31,7 @@ interface RSVPStats {
     name: string;
     email: string;
     respondedAt: string;
-    attending: boolean;
+    status: string;
     partySize: number;
   }>;
 }
@@ -112,7 +113,8 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
       totalResponded: uniqueRsvps.length,
       totalAttending: 0,
       totalDeclined: 0,
-      totalPending: guests.length - rsvps.length,
+      totalPending: guests.length - uniqueRsvps.length,
+      totalMaybe: 0,
       totalGuests: 0,
       dietaryRestrictions: {
         vegetarian: 0,
@@ -130,7 +132,8 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
     const attendingParties: number[] = [];
 
     uniqueRsvps.forEach((rsvp: Record<string, unknown>) => {
-      if (rsvp.attending) {
+      const rsvpStatus = rsvp.rsvp_status as string;
+      if (rsvpStatus === 'attending') {
         stats.totalAttending++;
         const partySize = 1 + (rsvp.plusOneName ? 1 : 0);
         attendingParties.push(partySize);
@@ -158,8 +161,10 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
             stats.dietaryRestrictions.nutAllergy++;
           if (rsvp.plusOneOtherDietary) stats.dietaryRestrictions.other++;
         }
-      } else {
+      } else if (rsvpStatus === 'not_attending') {
         stats.totalDeclined++;
+      } else if (rsvpStatus === 'maybe') {
+        stats.totalMaybe++;
       }
     });
 
@@ -190,7 +195,7 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
         name: (guest?.name || rsvp.name || 'Unknown') as string,
         email: (guest?.email || rsvp.email || '') as string,
         respondedAt: (rsvp.submittedAt || rsvp.createdAt) as string,
-        attending: rsvp.attending as boolean,
+        status: (rsvp.rsvp_status || 'pending') as string,
         partySize: 1 + (rsvp.plusOneName ? 1 : 0),
       };
     });

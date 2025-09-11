@@ -883,11 +883,22 @@
             "testStrategy": "Test with guests having missing names, RSVP records without corresponding guest records, and various combinations of missing data. Verify all scenarios display appropriate names without errors."
           }
         ]
+      },
+      {
+        "id": 14,
+        "title": "Fix admin dashboard RSVP status mapping",
+        "description": "The admin-guests Lambda function incorrectly maps RSVP status using boolean logic (rsvp.attending ? 'attending' : 'declined') instead of using the actual rsvp_status field values ('attending', 'not_attending', 'maybe', 'pending'). This causes all non-attending guests to show as 'Declined' instead of their actual status.",
+        "details": "Problem identified at line 107 in /lib/backend/lambda/admin-guests.ts. The function uses a boolean 'attending' field that doesn't exist in the actual RSVP data structure. Need to update both admin-guests.ts and admin-stats.ts to use the proper rsvp_status field with correct string values. Also need to fix the update logic at line 231 that incorrectly converts status to boolean.",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [],
+        "priority": "high",
+        "subtasks": []
       }
     ],
     "metadata": {
       "created": "2025-09-08T01:12:16.853Z",
-      "updated": "2025-09-11T01:02:20.773Z",
+      "updated": "2025-09-11T03:48:14.314Z",
       "description": "Tasks for rsvp-system context"
     }
   },

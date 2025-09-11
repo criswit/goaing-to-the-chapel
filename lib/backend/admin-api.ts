@@ -2,7 +2,6 @@ import * as cdk from 'aws-cdk-lib';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
-import * as iam from 'aws-cdk-lib/aws-iam';
 import { Construct } from 'constructs';
 import * as path from 'path';
 import { AuthInfrastructure } from './auth-infrastructure';
@@ -106,7 +105,12 @@ export class AdminApi extends Construct {
 
     // Auth endpoint (public)
     const authResource = adminResource.addResource('auth');
-    authResource.addMethod('POST', new apigateway.LambdaIntegration(this.authFunction));
+    authResource.addMethod(
+      'POST',
+      new apigateway.LambdaIntegration(this.authFunction, {
+        proxy: true,
+      })
+    );
 
     // Protected endpoints
     const protectedResource = adminResource.addResource('protected');
@@ -114,33 +118,55 @@ export class AdminApi extends Construct {
     // Dashboard stats endpoint
     const statsFunction = this.createStatsFunction(props, commonLayer);
     const statsResource = protectedResource.addResource('stats');
-    statsResource.addMethod('GET', new apigateway.LambdaIntegration(statsFunction), {
-      authorizer: this.authorizer,
-    });
+    statsResource.addMethod(
+      'GET',
+      new apigateway.LambdaIntegration(statsFunction, {
+        proxy: true,
+      }),
+      {
+        authorizer: this.authorizer,
+      }
+    );
 
     // Guest list endpoint
     const guestsFunction = this.createGuestsFunction(props, commonLayer);
     const guestsResource = protectedResource.addResource('guests');
-    guestsResource.addMethod('GET', new apigateway.LambdaIntegration(guestsFunction), {
-      authorizer: this.authorizer,
-    });
-    guestsResource.addMethod('PUT', new apigateway.LambdaIntegration(guestsFunction), {
-      authorizer: this.authorizer,
-    });
+    guestsResource.addMethod(
+      'GET',
+      new apigateway.LambdaIntegration(guestsFunction, {
+        proxy: true,
+      }),
+      {
+        authorizer: this.authorizer,
+      }
+    );
+    guestsResource.addMethod(
+      'PUT',
+      new apigateway.LambdaIntegration(guestsFunction, {
+        proxy: true,
+      }),
+      {
+        authorizer: this.authorizer,
+      }
+    );
 
-    // Bulk operations endpoint
-    const bulkFunction = this.createBulkOperationsFunction(props, commonLayer);
-    const bulkResource = protectedResource.addResource('bulk');
-    bulkResource.addMethod('POST', new apigateway.LambdaIntegration(bulkFunction), {
-      authorizer: this.authorizer,
-    });
+    // Bulk operations endpoint - TODO: Implement admin-bulk.ts
+    // const bulkFunction = this.createBulkOperationsFunction(props, commonLayer);
+    // const bulkResource = protectedResource.addResource('bulk');
+    // bulkResource.addMethod('POST', new apigateway.LambdaIntegration(bulkFunction, {
+    //   proxy: true,
+    // }), {
+    //   authorizer: this.authorizer,
+    // });
 
-    // Export endpoint
-    const exportFunction = this.createExportFunction(props, commonLayer);
-    const exportResource = protectedResource.addResource('export');
-    exportResource.addMethod('POST', new apigateway.LambdaIntegration(exportFunction), {
-      authorizer: this.authorizer,
-    });
+    // Export endpoint - TODO: Implement admin-export.ts
+    // const exportFunction = this.createExportFunction(props, commonLayer);
+    // const exportResource = protectedResource.addResource('export');
+    // exportResource.addMethod('POST', new apigateway.LambdaIntegration(exportFunction, {
+    //   proxy: true,
+    // }), {
+    //   authorizer: this.authorizer,
+    // });
   }
 
   private createStatsFunction(props: AdminApiProps, layer: lambda.LayerVersion): lambda.Function {
@@ -185,64 +211,65 @@ export class AdminApi extends Construct {
     return fn;
   }
 
-  private createBulkOperationsFunction(
-    props: AdminApiProps,
-    layer: lambda.LayerVersion
-  ): lambda.Function {
-    const fn = new lambda.Function(this, 'AdminBulkFunction', {
-      runtime: lambda.Runtime.NODEJS_20_X,
-      handler: 'admin-bulk.handler',
-      code: lambda.Code.fromAsset(path.join(__dirname, 'lambda')),
-      environment: {
-        GUESTS_TABLE_NAME: props.guestsTable.tableName,
-        RSVPS_TABLE_NAME: props.rsvpsTable.tableName,
-        CORS_ORIGIN: props.corsOrigin || '*',
-      },
-      timeout: cdk.Duration.minutes(5),
-      memorySize: 1024,
-      layers: [layer],
-    });
+  // TODO: Implement these functions when admin-bulk.ts and admin-export.ts are created
+  // private createBulkOperationsFunction(
+  //   props: AdminApiProps,
+  //   layer: lambda.LayerVersion
+  // ): lambda.Function {
+  //   const fn = new lambda.Function(this, 'AdminBulkFunction', {
+  //     runtime: lambda.Runtime.NODEJS_20_X,
+  //     handler: 'admin-bulk.handler',
+  //     code: lambda.Code.fromAsset(path.join(__dirname, 'lambda')),
+  //     environment: {
+  //       GUESTS_TABLE_NAME: props.guestsTable.tableName,
+  //       RSVPS_TABLE_NAME: props.rsvpsTable.tableName,
+  //       CORS_ORIGIN: props.corsOrigin || '*',
+  //     },
+  //     timeout: cdk.Duration.minutes(5),
+  //     memorySize: 1024,
+  //     layers: [layer],
+  //   });
 
-    props.guestsTable.grantReadWriteData(fn);
-    props.rsvpsTable.grantReadWriteData(fn);
+  //   props.guestsTable.grantReadWriteData(fn);
+  //   props.rsvpsTable.grantReadWriteData(fn);
 
-    // Grant SES permissions for sending emails
-    fn.addToRolePolicy(
-      new iam.PolicyStatement({
-        actions: ['ses:SendEmail', 'ses:SendRawEmail'],
-        resources: ['*'],
-      })
-    );
+  //   // Grant SES permissions for sending emails
+  //   fn.addToRolePolicy(
+  //     new iam.PolicyStatement({
+  //       actions: ['ses:SendEmail', 'ses:SendRawEmail'],
+  //       resources: ['*'],
+  //     })
+  //   );
 
-    return fn;
-  }
+  //   return fn;
+  // }
 
-  private createExportFunction(props: AdminApiProps, layer: lambda.LayerVersion): lambda.Function {
-    const fn = new lambda.Function(this, 'AdminExportFunction', {
-      runtime: lambda.Runtime.NODEJS_20_X,
-      handler: 'admin-export.handler',
-      code: lambda.Code.fromAsset(path.join(__dirname, 'lambda')),
-      environment: {
-        GUESTS_TABLE_NAME: props.guestsTable.tableName,
-        RSVPS_TABLE_NAME: props.rsvpsTable.tableName,
-        CORS_ORIGIN: props.corsOrigin || '*',
-      },
-      timeout: cdk.Duration.minutes(2),
-      memorySize: 1024,
-      layers: [layer],
-    });
+  // private createExportFunction(props: AdminApiProps, layer: lambda.LayerVersion): lambda.Function {
+  //   const fn = new lambda.Function(this, 'AdminExportFunction', {
+  //     runtime: lambda.Runtime.NODEJS_20_X,
+  //     handler: 'admin-export.handler',
+  //     code: lambda.Code.fromAsset(path.join(__dirname, 'lambda')),
+  //     environment: {
+  //       GUESTS_TABLE_NAME: props.guestsTable.tableName,
+  //       RSVPS_TABLE_NAME: props.rsvpsTable.tableName,
+  //       CORS_ORIGIN: props.corsOrigin || '*',
+  //     },
+  //     timeout: cdk.Duration.minutes(2),
+  //     memorySize: 1024,
+  //     layers: [layer],
+  //   });
 
-    props.guestsTable.grantReadData(fn);
-    props.rsvpsTable.grantReadData(fn);
+  //   props.guestsTable.grantReadData(fn);
+  //   props.rsvpsTable.grantReadData(fn);
 
-    // Grant S3 permissions for storing exports
-    fn.addToRolePolicy(
-      new iam.PolicyStatement({
-        actions: ['s3:PutObject', 's3:GetObject'],
-        resources: ['arn:aws:s3:::wedding-rsvp-exports/*'],
-      })
-    );
+  //   // Grant S3 permissions for storing exports
+  //   fn.addToRolePolicy(
+  //     new iam.PolicyStatement({
+  //       actions: ['s3:PutObject', 's3:GetObject'],
+  //       resources: ['arn:aws:s3:::wedding-rsvp-exports/*'],
+  //     })
+  //   );
 
-    return fn;
-  }
+  //   return fn;
+  // }
 }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../../styles/StatsOverview.css';
+import { getConfig } from '../../config';
 
 interface RSVPStats {
   totalInvited: number;
@@ -7,6 +8,7 @@ interface RSVPStats {
   totalAttending: number;
   totalDeclined: number;
   totalPending: number;
+  totalMaybe: number;
   totalGuests: number;
   dietaryRestrictions: {
     vegetarian: number;
@@ -21,7 +23,7 @@ interface RSVPStats {
     name: string;
     email: string;
     respondedAt: string;
-    attending: boolean;
+    status: string;
     partySize: number;
   }>;
 }
@@ -39,7 +41,8 @@ const StatsOverview: React.FC = () => {
         throw new Error('No authentication token found');
       }
 
-      const response = await fetch(`${process.env.REACT_APP_ADMIN_API_URL}/admin/protected/stats`, {
+      const config = getConfig();
+      const response = await fetch(`${config.adminApiUrl}admin/protected/stats`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -133,7 +136,12 @@ const StatsOverview: React.FC = () => {
 
         <div className="stat-card danger">
           <div className="stat-value">{stats.totalDeclined}</div>
-          <div className="stat-label">Declined</div>
+          <div className="stat-label">Not Attending</div>
+        </div>
+
+        <div className="stat-card maybe">
+          <div className="stat-value">{stats.totalMaybe || 0}</div>
+          <div className="stat-label">Maybe</div>
         </div>
 
         <div className="stat-card info">
@@ -208,9 +216,15 @@ const StatsOverview: React.FC = () => {
                       </td>
                       <td>
                         <span
-                          className={`status-badge ${response.attending ? 'attending' : 'declined'}`}
+                          className={`status-badge ${response.status === 'attending' ? 'attending' : response.status === 'not_attending' ? 'declined' : response.status === 'maybe' ? 'maybe' : 'pending'}`}
                         >
-                          {response.attending ? 'Attending' : 'Declined'}
+                          {response.status === 'attending'
+                            ? 'Attending'
+                            : response.status === 'not_attending'
+                              ? 'Not Attending'
+                              : response.status === 'maybe'
+                                ? 'Maybe'
+                                : 'Pending'}
                         </span>
                       </td>
                       <td>{response.partySize}</td>
@@ -241,6 +255,12 @@ const StatsOverview: React.FC = () => {
               {stats.totalDeclined > 0 && `${stats.totalDeclined}`}
             </div>
             <div
+              className="bar-segment maybe"
+              style={{ width: `${((stats.totalMaybe || 0) / stats.totalInvited) * 100}%` }}
+            >
+              {(stats.totalMaybe || 0) > 0 && `${stats.totalMaybe}`}
+            </div>
+            <div
               className="bar-segment pending"
               style={{ width: `${(stats.totalPending / stats.totalInvited) * 100}%` }}
             >
@@ -254,7 +274,11 @@ const StatsOverview: React.FC = () => {
             </div>
             <div className="legend-item">
               <span className="legend-color declined"></span>
-              <span>Declined</span>
+              <span>Not Attending</span>
+            </div>
+            <div className="legend-item">
+              <span className="legend-color maybe"></span>
+              <span>Maybe</span>
             </div>
             <div className="legend-item">
               <span className="legend-color pending"></span>

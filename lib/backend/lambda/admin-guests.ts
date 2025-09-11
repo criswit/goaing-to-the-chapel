@@ -21,7 +21,7 @@ interface Guest {
   email: string;
   phone?: string;
   partySize?: number;
-  rsvpStatus?: 'pending' | 'attending' | 'declined';
+  rsvpStatus?: 'pending' | 'attending' | 'not_attending' | 'maybe';
   dietaryRestrictions?: string[];
   plusOneName?: string;
   plusOneDietaryRestrictions?: string[];
@@ -104,7 +104,7 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
           return {
             ...guest,
             name: guestName,
-            rsvpStatus: rsvp.attending ? 'attending' : 'declined',
+            rsvpStatus: rsvp.rsvp_status || 'pending',
             dietaryRestrictions: rsvp.dietaryRestrictions,
             plusOneName: rsvp.plusOneName,
             plusOneDietaryRestrictions: rsvp.plusOneDietaryRestrictions,
@@ -226,9 +226,9 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
               TableName: RSVPS_TABLE_NAME,
               Key: { invitationCode: guestUpdate.invitationCode },
               UpdateExpression:
-                'SET attending = :attending, updatedAt = :updatedAt, adminModified = :adminModified',
+                'SET rsvp_status = :status, updatedAt = :updatedAt, adminModified = :adminModified',
               ExpressionAttributeValues: {
-                ':attending': guestUpdate.rsvpStatus === 'attending',
+                ':status': guestUpdate.rsvpStatus,
                 ':updatedAt': new Date().toISOString(),
                 ':adminModified': true,
               },
