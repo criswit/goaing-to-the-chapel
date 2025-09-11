@@ -909,7 +909,61 @@
           8
         ],
         "priority": "high",
-        "subtasks": []
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Add Path Parameter Route Configuration to CDK",
+            "description": "Update the admin-api.ts CDK configuration to add the path-based route resource '{invitationCode}' under the guests resource with proper CORS headers and method integration for PUT requests.",
+            "dependencies": [],
+            "details": "Modify the createGuestsFunction method in lib/backend/admin-api.ts to add `guestsResource.addResource('{invitationCode}')` and attach the PUT method with proper Lambda integration and CORS configuration. This will enable the /admin/protected/guests/{invitationCode} endpoint pattern.",
+            "status": "pending",
+            "testStrategy": "Verify CDK synthesizes correctly, test that the new route pattern is available in API Gateway, confirm CORS headers are properly configured for the path parameter route."
+          },
+          {
+            "id": 2,
+            "title": "Implement Path Parameter Extraction and Validation",
+            "description": "Add logic to extract invitation code from the path parameters in the admin-guests.ts Lambda function and validate the invitation code format using Zod schemas.",
+            "dependencies": [
+              "15.1"
+            ],
+            "details": "Extend the admin-guests.ts handler to extract `event.pathParameters?.invitationCode` for PUT requests. Create a Zod schema to validate invitation code format (6-8 uppercase alphanumeric characters) based on existing validation patterns in rsvp-validation.ts. Add proper error handling for missing or invalid path parameters.",
+            "status": "pending",
+            "testStrategy": "Test path parameter extraction with valid invitation codes, verify validation rejects invalid codes, test error handling for missing path parameters."
+          },
+          {
+            "id": 3,
+            "title": "Create Comprehensive Guest Update Zod Schema",
+            "description": "Design and implement a Zod validation schema for guest update requests that supports all guest fields including name, email, phone, RSVP status, party size, plus one details, and dietary restrictions.",
+            "dependencies": [
+              "15.2"
+            ],
+            "details": "Create an AdminGuestUpdateSchema extending existing validation patterns from rsvp-validation.ts. Include validation for guest_name (2-100 chars), email format, phone regex, RSVP status enum, party size limits, plus one details array with nested validation, and dietary restrictions. Implement partial update support allowing optional fields.",
+            "status": "pending",
+            "testStrategy": "Test validation accepts valid guest update objects, verify rejection of invalid field formats, test partial updates work correctly, validate nested plus one details validation."
+          },
+          {
+            "id": 4,
+            "title": "Implement Single-Table DynamoDB Update Operations",
+            "description": "Update the DynamoDB operations to use the single-table design pattern for updating both GUEST#PROFILE and GUEST#RSVP records with proper composite keys and conditional updates.",
+            "dependencies": [
+              "15.3"
+            ],
+            "details": "Refactor the PUT endpoint logic to follow the single-table pattern from dynamodb-schema.ts. Update both PK='GUEST#{invitationCode}', SK='PROFILE' and PK='GUEST#{invitationCode}', SK='RSVP' records. Implement conditional updates to ensure records exist before updating, handle version conflicts, and maintain data consistency between profile and RSVP records.",
+            "status": "pending",
+            "testStrategy": "Test updates to both GUEST#PROFILE and GUEST#RSVP records, verify conditional updates work correctly, test handling of non-existent records, validate data consistency between related records."
+          },
+          {
+            "id": 5,
+            "title": "Add Comprehensive Error Handling and Audit Logging",
+            "description": "Implement robust error handling with proper HTTP status codes (400, 404, 500) and add audit logging for all admin modifications to track changes made to guest records.",
+            "dependencies": [
+              "15.4"
+            ],
+            "details": "Add try-catch blocks with specific error handling for validation errors (400), non-existent guests (404), and DynamoDB errors (500). Implement audit logging that captures the admin user, timestamp, invitation code, fields modified, old values, and new values. Store audit logs in DynamoDB with PK='AUDIT#{timestamp}', SK='GUEST#{invitationCode}' pattern for tracking.",
+            "status": "pending",
+            "testStrategy": "Test error responses return correct HTTP status codes, verify audit logs are created for all successful updates, test error handling for various failure scenarios, validate audit log data structure and content."
+          }
+        ]
       }
     ],
     "metadata": {
