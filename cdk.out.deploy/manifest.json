@@ -1,0 +1,4413 @@
+{
+  "version": "48.0.0",
+  "artifacts": {
+    "WeddingWebsiteCdkStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "WeddingWebsiteCdkStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "WeddingWebsiteCdkStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/us-east-1",
+      "properties": {
+        "templateFile": "WeddingWebsiteCdkStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-us-east-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-us-east-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1/583025c0b3947838c14011d3bb312b57a473a557ca0d57dc5e8d4de2d4d48c0c.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "WeddingWebsiteCdkStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-us-east-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "WeddingWebsiteCdkStack.assets"
+      ],
+      "metadata": {
+        "/WeddingWebsiteCdkStack/WeddingWebsite/WebsiteBucket": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "bucketName": "*",
+              "publicReadAccess": false,
+              "blockPublicAccess": "*",
+              "versioned": true,
+              "removalPolicy": "destroy",
+              "autoDeleteObjects": true,
+              "lifecycleRules": [
+                {
+                  "id": "*",
+                  "enabled": true,
+                  "noncurrentVersionTransitions": [
+                    {
+                      "storageClass": "*"
+                    }
+                  ]
+                },
+                {
+                  "id": "*",
+                  "enabled": true,
+                  "abortIncompleteMultipartUploadAfter": "*"
+                }
+              ],
+              "cors": [
+                {
+                  "allowedMethods": [
+                    "GET",
+                    "HEAD"
+                  ],
+                  "allowedOrigins": "*",
+                  "allowedHeaders": "*",
+                  "maxAge": "*"
+                }
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addCorsRule": [
+                {
+                  "allowedMethods": [
+                    "GET",
+                    "HEAD"
+                  ],
+                  "allowedOrigins": "*",
+                  "allowedHeaders": "*",
+                  "maxAge": "*"
+                },
+                "*",
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addLifecycleRule": [
+                {
+                  "id": "*",
+                  "enabled": true,
+                  "noncurrentVersionTransitions": [
+                    {
+                      "storageClass": "*"
+                    }
+                  ]
+                },
+                "*",
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addLifecycleRule": [
+                {
+                  "id": "*",
+                  "enabled": true,
+                  "abortIncompleteMultipartUploadAfter": "*"
+                },
+                "*",
+                "*"
+              ]
+            }
+          }
+        ],
+        "/WeddingWebsiteCdkStack/WeddingWebsite/WebsiteBucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WeddingWebsiteWebsiteBucketFC675D05"
+          }
+        ],
+        "/WeddingWebsiteCdkStack/WeddingWebsite/WebsiteBucket/Policy": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "bucket": "*"
+            }
+          }
+        ],
+        "/WeddingWebsiteCdkStack/WeddingWebsite/WebsiteBucket/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WeddingWebsiteWebsiteBucketPolicy34A44B42"
+          }
+        ],
+        "/WeddingWebsiteCdkStack/WeddingWebsite/WebsiteBucket/AutoDeleteObjectsCustomResource": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/WeddingWebsiteCdkStack/WeddingWebsite/WebsiteBucket/AutoDeleteObjectsCustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WeddingWebsiteWebsiteBucketAutoDeleteObjectsCustomResource89A1D54F"
+          }
+        ],
+        "/WeddingWebsiteCdkStack/WeddingWebsite/BucketName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WeddingWebsiteBucketName8D95022D"
+          }
+        ],
+        "/WeddingWebsiteCdkStack/WeddingWebsite/WebsiteEndpointUrl": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WeddingWebsiteWebsiteEndpointUrl61CD4A74"
+          }
+        ],
+        "/WeddingWebsiteCdkStack/WeddingWebsite/BucketArn": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WeddingWebsiteBucketArnFCD42E2A"
+          }
+        ],
+        "/WeddingWebsiteCdkStack/WeddingWebsite/BucketDomainName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WeddingWebsiteBucketDomainName2B77C6FB"
+          }
+        ],
+        "/WeddingWebsiteCdkStack/Custom::S3AutoDeleteObjectsCustomResourceProvider": [
+          {
+            "type": "aws:cdk:is-custom-resource-handler-customResourceProvider",
+            "data": true
+          }
+        ],
+        "/WeddingWebsiteCdkStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+          }
+        ],
+        "/WeddingWebsiteCdkStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F"
+          }
+        ],
+        "/WeddingWebsiteCdkStack/Certificate": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "domainName": "*",
+              "subjectAlternativeNames": "*",
+              "validation": "*"
+            }
+          }
+        ],
+        "/WeddingWebsiteCdkStack/Certificate/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Certificate4E7ABB08"
+          }
+        ],
+        "/WeddingWebsiteCdkStack/CloudFront/CloudFrontLogsBucket": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "removalPolicy": "destroy",
+              "autoDeleteObjects": true,
+              "objectOwnership": "BucketOwnerPreferred",
+              "blockPublicAccess": "*",
+              "encryption": "S3_MANAGED",
+              "enforceSSL": true,
+              "lifecycleRules": [
+                {
+                  "id": "*",
+                  "enabled": true
+                }
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addLifecycleRule": [
+                {
+                  "id": "*",
+                  "enabled": true
+                },
+                "*",
+                "*"
+              ]
+            }
+          }
+        ],
+        "/WeddingWebsiteCdkStack/CloudFront/CloudFrontLogsBucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CloudFrontCloudFrontLogsBucketCA6FAFB4"
+          }
+        ],
+        "/WeddingWebsiteCdkStack/CloudFront/CloudFrontLogsBucket/Policy": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "bucket": "*"
+            }
+          }
+        ],
+        "/WeddingWebsiteCdkStack/CloudFront/CloudFrontLogsBucket/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CloudFrontCloudFrontLogsBucketPolicy87012553"
+          }
+        ],
+        "/WeddingWebsiteCdkStack/CloudFront/CloudFrontLogsBucket/AutoDeleteObjectsCustomResource": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/WeddingWebsiteCdkStack/CloudFront/CloudFrontLogsBucket/AutoDeleteObjectsCustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CloudFrontCloudFrontLogsBucketAutoDeleteObjectsCustomResourceA362B4C7"
+          }
+        ],
+        "/WeddingWebsiteCdkStack/CloudFront/SecurityHeadersPolicy": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "comment": "*",
+              "securityHeadersBehavior": {
+                "contentTypeOptions": {
+                  "override": true
+                },
+                "frameOptions": {
+                  "frameOption": "DENY",
+                  "override": true
+                },
+                "referrerPolicy": {
+                  "referrerPolicy": "strict-origin-when-cross-origin",
+                  "override": true
+                },
+                "strictTransportSecurity": {
+                  "accessControlMaxAge": "*",
+                  "includeSubdomains": true,
+                  "preload": true,
+                  "override": true
+                },
+                "xssProtection": {
+                  "protection": true,
+                  "modeBlock": true,
+                  "override": true
+                }
+              }
+            }
+          }
+        ],
+        "/WeddingWebsiteCdkStack/CloudFront/SecurityHeadersPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CloudFrontSecurityHeadersPolicy00F9CE44"
+          }
+        ],
+        "/WeddingWebsiteCdkStack/CloudFront/StaticAssetsCachePolicy": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "comment": "*",
+              "defaultTtl": "*",
+              "maxTtl": "*",
+              "minTtl": "*",
+              "cookieBehavior": "*",
+              "headerBehavior": "*",
+              "queryStringBehavior": "*",
+              "enableAcceptEncodingGzip": true,
+              "enableAcceptEncodingBrotli": true
+            }
+          }
+        ],
+        "/WeddingWebsiteCdkStack/CloudFront/StaticAssetsCachePolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CloudFrontStaticAssetsCachePolicyC18639E5"
+          }
+        ],
+        "/WeddingWebsiteCdkStack/CloudFront/ImagesCachePolicy": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "comment": "*",
+              "defaultTtl": "*",
+              "maxTtl": "*",
+              "minTtl": "*",
+              "cookieBehavior": "*",
+              "headerBehavior": "*",
+              "queryStringBehavior": "*",
+              "enableAcceptEncodingGzip": true,
+              "enableAcceptEncodingBrotli": true
+            }
+          }
+        ],
+        "/WeddingWebsiteCdkStack/CloudFront/ImagesCachePolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CloudFrontImagesCachePolicy768E0319"
+          }
+        ],
+        "/WeddingWebsiteCdkStack/CloudFront/Distribution": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "comment": "*",
+              "domainNames": "*",
+              "certificate": "*",
+              "defaultBehavior": {
+                "origin": "*",
+                "viewerProtocolPolicy": "redirect-to-https",
+                "cachePolicy": {
+                  "cachePolicyId": "*"
+                },
+                "responseHeadersPolicy": "*",
+                "allowedMethods": "*",
+                "cachedMethods": "*",
+                "compress": true
+              },
+              "additionalBehaviors": "*",
+              "errorResponses": [
+                {
+                  "httpStatus": "*",
+                  "responseHttpStatus": "*",
+                  "responsePagePath": "*",
+                  "ttl": "*"
+                },
+                {
+                  "httpStatus": "*",
+                  "responseHttpStatus": "*",
+                  "responsePagePath": "*",
+                  "ttl": "*"
+                }
+              ],
+              "defaultRootObject": "*",
+              "minimumProtocolVersion": "TLSv1.2_2021",
+              "geoRestriction": "*",
+              "enableLogging": true,
+              "logBucket": "*",
+              "logFilePrefix": "*",
+              "logIncludesCookies": false,
+              "priceClass": "PriceClass_100",
+              "enableIpv6": true
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addBehavior": [
+                "*",
+                {},
+                {
+                  "viewerProtocolPolicy": "redirect-to-https",
+                  "cachePolicy": "*",
+                  "responseHeadersPolicy": "*",
+                  "compress": true
+                }
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addBehavior": [
+                "*",
+                {},
+                {
+                  "viewerProtocolPolicy": "redirect-to-https",
+                  "cachePolicy": "*",
+                  "responseHeadersPolicy": "*",
+                  "compress": true
+                }
+              ]
+            }
+          }
+        ],
+        "/WeddingWebsiteCdkStack/CloudFront/Distribution/Origin1/S3OriginAccessControl": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/WeddingWebsiteCdkStack/CloudFront/Distribution/Origin1/S3OriginAccessControl/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CloudFrontDistributionOrigin1S3OriginAccessControl3ECDEEE4"
+          }
+        ],
+        "/WeddingWebsiteCdkStack/CloudFront/Distribution/Origin2/S3OriginAccessControl": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/WeddingWebsiteCdkStack/CloudFront/Distribution/Origin2/S3OriginAccessControl/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CloudFrontDistributionOrigin2S3OriginAccessControlFE6ABE0D"
+          }
+        ],
+        "/WeddingWebsiteCdkStack/CloudFront/Distribution/Origin3/S3OriginAccessControl": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/WeddingWebsiteCdkStack/CloudFront/Distribution/Origin3/S3OriginAccessControl/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CloudFrontDistributionOrigin3S3OriginAccessControl108BB65E"
+          }
+        ],
+        "/WeddingWebsiteCdkStack/CloudFront/Distribution/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CloudFrontDistributionEAB06B35"
+          }
+        ],
+        "/WeddingWebsiteCdkStack/DnsSetup/ARecord": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "zone": "*",
+              "recordName": "*",
+              "target": "*",
+              "comment": "*"
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "zone": "*",
+              "recordName": "*",
+              "target": "*",
+              "comment": "*"
+            }
+          }
+        ],
+        "/WeddingWebsiteCdkStack/DnsSetup/ARecord/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DnsSetupARecord8B02CF26"
+          }
+        ],
+        "/WeddingWebsiteCdkStack/DnsSetup/AAAARecord": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "zone": "*",
+              "recordName": "*",
+              "target": "*",
+              "comment": "*"
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "zone": "*",
+              "recordName": "*",
+              "target": "*",
+              "comment": "*"
+            }
+          }
+        ],
+        "/WeddingWebsiteCdkStack/DnsSetup/AAAARecord/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DnsSetupAAAARecord5ED15128"
+          }
+        ],
+        "/WeddingWebsiteCdkStack/DnsSetup/WwwARecord": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "zone": "*",
+              "recordName": "*",
+              "target": "*",
+              "comment": "*"
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "zone": "*",
+              "recordName": "*",
+              "target": "*",
+              "comment": "*"
+            }
+          }
+        ],
+        "/WeddingWebsiteCdkStack/DnsSetup/WwwARecord/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DnsSetupWwwARecord793DFCB6"
+          }
+        ],
+        "/WeddingWebsiteCdkStack/DnsSetup/WwwAAAARecord": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "zone": "*",
+              "recordName": "*",
+              "target": "*",
+              "comment": "*"
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "zone": "*",
+              "recordName": "*",
+              "target": "*",
+              "comment": "*"
+            }
+          }
+        ],
+        "/WeddingWebsiteCdkStack/DnsSetup/WwwAAAARecord/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DnsSetupWwwAAAARecord5D1FBAF6"
+          }
+        ],
+        "/WeddingWebsiteCdkStack/AWSCloudFrontPartitionHostedZoneIdMap": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AWSCloudFrontPartitionHostedZoneIdMap"
+          }
+        ],
+        "/WeddingWebsiteCdkStack/WebsiteBucketName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WebsiteBucketName"
+          }
+        ],
+        "/WeddingWebsiteCdkStack/CloudFrontDistributionId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CloudFrontDistributionId"
+          }
+        ],
+        "/WeddingWebsiteCdkStack/CloudFrontDomainName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CloudFrontDomainName"
+          }
+        ],
+        "/WeddingWebsiteCdkStack/WebsiteURL": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WebsiteURL"
+          }
+        ],
+        "/WeddingWebsiteCdkStack/CustomDomain": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomDomain"
+          }
+        ],
+        "/WeddingWebsiteCdkStack/CloudFrontLogsBucket": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CloudFrontLogsBucket"
+          }
+        ],
+        "/WeddingWebsiteCdkStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/WeddingWebsiteCdkStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/WeddingWebsiteCdkStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "WeddingWebsiteCdkStack"
+    },
+    "RsvpBackendStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "RsvpBackendStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "RsvpBackendStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/us-east-1",
+      "properties": {
+        "templateFile": "RsvpBackendStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-us-east-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-us-east-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1/b01ca5ead10b75850ec8e942c75fc0c9768330709e4a211b2500531f9c09ac4a.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "RsvpBackendStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-us-east-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "WeddingWebsiteCdkStack",
+        "RsvpBackendStack.assets"
+      ],
+      "metadata": {
+        "/RsvpBackendStack/AuthInfrastructure/AuthParameterKey": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "description": "*",
+              "enableKeyRotation": true,
+              "alias": "*",
+              "removalPolicy": "retain"
+            }
+          }
+        ],
+        "/RsvpBackendStack/AuthInfrastructure/AuthParameterKey/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AuthInfrastructureAuthParameterKeyC648EFAB"
+          }
+        ],
+        "/RsvpBackendStack/AuthInfrastructure/AuthParameterKey/Alias": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "aliasName": "*",
+              "targetKey": "*"
+            }
+          }
+        ],
+        "/RsvpBackendStack/AuthInfrastructure/AuthParameterKey/Alias/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AuthInfrastructureAuthParameterKeyAlias6DFA75F6"
+          }
+        ],
+        "/RsvpBackendStack/AuthInfrastructure/JWTPrivateKey": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "parameterName": "*",
+              "stringValue": "*",
+              "description": "*",
+              "tier": "Standard"
+            }
+          }
+        ],
+        "/RsvpBackendStack/AuthInfrastructure/JWTPrivateKey/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AuthInfrastructureJWTPrivateKey4134C097"
+          }
+        ],
+        "/RsvpBackendStack/AuthInfrastructure/JWTPublicKey": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "parameterName": "*",
+              "stringValue": "*",
+              "description": "*",
+              "tier": "Standard"
+            }
+          }
+        ],
+        "/RsvpBackendStack/AuthInfrastructure/JWTPublicKey/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AuthInfrastructureJWTPublicKey86A54DEC"
+          }
+        ],
+        "/RsvpBackendStack/AuthInfrastructure/JWTConfig": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "parameterName": "*",
+              "stringValue": "*",
+              "description": "*",
+              "tier": "Standard"
+            }
+          }
+        ],
+        "/RsvpBackendStack/AuthInfrastructure/JWTConfig/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AuthInfrastructureJWTConfigD7520B59"
+          }
+        ],
+        "/RsvpBackendStack/Database/RsvpTable": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "tableName": "*",
+              "partitionKey": {
+                "name": "*",
+                "type": "S"
+              },
+              "sortKey": {
+                "name": "*",
+                "type": "S"
+              },
+              "billingMode": "PAY_PER_REQUEST",
+              "encryption": "AWS_MANAGED",
+              "pointInTimeRecoverySpecification": {
+                "pointInTimeRecoveryEnabled": true
+              },
+              "removalPolicy": "retain",
+              "stream": "NEW_AND_OLD_IMAGES"
+            }
+          },
+          {
+            "type": "aws:cdk:hasPhysicalName",
+            "data": {
+              "Ref": "DatabaseRsvpTableA1E8C671"
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addGlobalSecondaryIndex": [
+                {
+                  "indexName": "*",
+                  "partitionKey": {
+                    "name": "*",
+                    "type": "S"
+                  },
+                  "projectionType": "ALL"
+                }
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addGlobalSecondaryIndex": [
+                {
+                  "indexName": "*",
+                  "partitionKey": {
+                    "name": "*",
+                    "type": "S"
+                  },
+                  "projectionType": "ALL"
+                }
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addGlobalSecondaryIndex": [
+                {
+                  "indexName": "*",
+                  "partitionKey": {
+                    "name": "*",
+                    "type": "S"
+                  },
+                  "projectionType": "INCLUDE",
+                  "nonKeyAttributes": "*"
+                }
+              ]
+            }
+          }
+        ],
+        "/RsvpBackendStack/Database/RsvpTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DatabaseRsvpTableA1E8C671"
+          }
+        ],
+        "/RsvpBackendStack/Database/RsvpTable/ScalingRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/DomainIdentity": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "identity": "*",
+              "dkimSigning": true,
+              "feedbackForwarding": true
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/DomainIdentity/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailInfrastructureDomainIdentity62470D7F"
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/ConfigurationSet": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "configurationSetName": "*",
+              "sendingEnabled": true
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/ConfigurationSet/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailInfrastructureConfigurationSet32710208"
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/BounceNotificationTopic": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "topicName": "*",
+              "displayName": "*"
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/BounceNotificationTopic/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailInfrastructureBounceNotificationTopicB9461738"
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/BounceNotificationTopic/wedding@himnher.dev": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "topic": "*",
+              "endpoint": "*",
+              "protocol": "email",
+              "filterPolicy": "*",
+              "filterPolicyWithMessageBody": "*",
+              "deadLetterQueue": "*"
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/BounceNotificationTopic/wedding@himnher.dev/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailInfrastructureBounceNotificationTopicweddinghimnherdev687E9101"
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/BounceNotificationTopic/Policy": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "topics": [
+                "*"
+              ]
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/BounceNotificationTopic/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailInfrastructureBounceNotificationTopicPolicy0C4AD01B"
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/ComplaintNotificationTopic": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "topicName": "*",
+              "displayName": "*"
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/ComplaintNotificationTopic/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailInfrastructureComplaintNotificationTopicB0E65C04"
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/ComplaintNotificationTopic/wedding@himnher.dev": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "topic": "*",
+              "endpoint": "*",
+              "protocol": "email",
+              "filterPolicy": "*",
+              "filterPolicyWithMessageBody": "*",
+              "deadLetterQueue": "*"
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/ComplaintNotificationTopic/wedding@himnher.dev/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailInfrastructureComplaintNotificationTopicweddinghimnherdev19CE24A1"
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/ComplaintNotificationTopic/Policy": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "topics": [
+                "*"
+              ]
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/ComplaintNotificationTopic/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailInfrastructureComplaintNotificationTopicPolicy7B01A9D8"
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/BounceDLQ": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "queueName": "*",
+              "retentionPeriod": "*"
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/BounceDLQ/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailInfrastructureBounceDLQ80EC0262"
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/ComplaintDLQ": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "queueName": "*",
+              "retentionPeriod": "*"
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/ComplaintDLQ/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailInfrastructureComplaintDLQ93A54850"
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/EmailDLQ": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "queueName": "*",
+              "retentionPeriod": "*"
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/EmailDLQ/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailInfrastructureEmailDLQA3355330"
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/BounceQueue": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "queueName": "*",
+              "visibilityTimeout": "*",
+              "retentionPeriod": "*",
+              "deadLetterQueue": {
+                "queue": "*",
+                "maxReceiveCount": "*"
+              }
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/BounceQueue/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailInfrastructureBounceQueueF3B4CA39"
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/BounceQueue/Policy": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "queues": [
+                "*"
+              ]
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/BounceQueue/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailInfrastructureBounceQueuePolicyBB4BB02D"
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/BounceQueue/RsvpBackendStackEmailInfrastructureBounceNotificationTopicE5D376D2": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "topic": "*",
+              "endpoint": "*",
+              "protocol": "sqs",
+              "rawMessageDelivery": true,
+              "filterPolicy": "*",
+              "filterPolicyWithMessageBody": "*",
+              "region": "*",
+              "deadLetterQueue": "*"
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/BounceQueue/RsvpBackendStackEmailInfrastructureBounceNotificationTopicE5D376D2/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailInfrastructureBounceQueueRsvpBackendStackEmailInfrastructureBounceNotificationTopicE5D376D20B543D2E"
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/ComplaintQueue": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "queueName": "*",
+              "visibilityTimeout": "*",
+              "retentionPeriod": "*",
+              "deadLetterQueue": {
+                "queue": "*",
+                "maxReceiveCount": "*"
+              }
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/ComplaintQueue/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailInfrastructureComplaintQueue1972F484"
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/ComplaintQueue/Policy": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "queues": [
+                "*"
+              ]
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/ComplaintQueue/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailInfrastructureComplaintQueuePolicyC292B03A"
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/ComplaintQueue/RsvpBackendStackEmailInfrastructureComplaintNotificationTopic1025EE3F": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "topic": "*",
+              "endpoint": "*",
+              "protocol": "sqs",
+              "rawMessageDelivery": true,
+              "filterPolicy": "*",
+              "filterPolicyWithMessageBody": "*",
+              "region": "*",
+              "deadLetterQueue": "*"
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/ComplaintQueue/RsvpBackendStackEmailInfrastructureComplaintNotificationTopic1025EE3F/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailInfrastructureComplaintQueueRsvpBackendStackEmailInfrastructureComplaintNotificationTopic1025EE3F83D78242"
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/EmailQueue": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "queueName": "*",
+              "visibilityTimeout": "*",
+              "retentionPeriod": "*",
+              "deadLetterQueue": {
+                "queue": "*",
+                "maxReceiveCount": "*"
+              }
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/EmailQueue/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailInfrastructureEmailQueue5311AA87"
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/BounceEventDestination": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "configurationSet": "*",
+              "destination": "*",
+              "events": [
+                "bounce",
+                "reject"
+              ],
+              "configurationSetEventDestinationName": "*"
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/BounceEventDestination/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailInfrastructureBounceEventDestinationEA0B0DF8"
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/ComplaintEventDestination": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "configurationSet": "*",
+              "destination": "*",
+              "events": [
+                "complaint"
+              ],
+              "configurationSetEventDestinationName": "*"
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/ComplaintEventDestination/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailInfrastructureComplaintEventDestination19D43554"
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/SESRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "assumedBy": {
+                "principalAccount": "*",
+                "assumeRoleAction": "*"
+              },
+              "roleName": "*",
+              "managedPolicies": [
+                {
+                  "managedPolicyArn": "*"
+                }
+              ],
+              "inlinePolicies": "*"
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/SESRole/ImportSESRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/SESRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailInfrastructureSESRoleF81B7B69"
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/ConfigurationSetName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailInfrastructureConfigurationSetNameC3CDD85B"
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/VerifiedDomain": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailInfrastructureVerifiedDomainB20A8B6B"
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/DKIMRecord1": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailInfrastructureDKIMRecord1473384A7"
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/DKIMRecord2": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailInfrastructureDKIMRecord243A79DB4"
+          }
+        ],
+        "/RsvpBackendStack/EmailInfrastructure/DKIMRecord3": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailInfrastructureDKIMRecord3E0254688"
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas": [
+          {
+            "type": "aws:cdk:warning",
+            "data": "If you are relying on AWS SDK v2 to be present in the Lambda environment already, please explicitly configure a NodeJS runtime of Node 16 or lower. [ack: @aws-cdk/aws-lambda-nodejs:sdkV2NotInRuntime]",
+            "trace": [
+              "Annotations.addMessage (/home/christopher/workplace/goaing-to-the-chapel/node_modules/aws-cdk-lib/core/lib/annotations.js:1:1978)",
+              "Annotations.addWarningV2 (/home/christopher/workplace/goaing-to-the-chapel/node_modules/aws-cdk-lib/core/lib/annotations.js:1:896)",
+              "new Bundling (/home/christopher/workplace/goaing-to-the-chapel/node_modules/aws-cdk-lib/aws-lambda-nodejs/lib/bundling.js:1:3909)",
+              "Function.bundle (/home/christopher/workplace/goaing-to-the-chapel/node_modules/aws-cdk-lib/aws-lambda-nodejs/lib/bundling.js:1:1135)",
+              "new NodejsFunction (/home/christopher/workplace/goaing-to-the-chapel/node_modules/aws-cdk-lib/aws-lambda-nodejs/lib/function.js:1:2352)",
+              "new EmailLambdas (/home/christopher/workplace/goaing-to-the-chapel/lib/backend/email-lambdas.ts:75:30)",
+              "new RsvpBackendStack (/home/christopher/workplace/goaing-to-the-chapel/lib/rsvp-backend-stack.ts:91:25)",
+              "Object.<anonymous> (/home/christopher/workplace/goaing-to-the-chapel/bin/wedding-website-cdk.ts:66:19)",
+              "Module._compile (node:internal/modules/cjs/loader:1688:14)",
+              "Module.m._compile (/home/christopher/workplace/goaing-to-the-chapel/node_modules/ts-node/src/index.ts:1618:23)",
+              "node:internal/modules/cjs/loader:1820:10",
+              "Object.require.extensions.<computed> [as .ts] (/home/christopher/workplace/goaing-to-the-chapel/node_modules/ts-node/src/index.ts:1621:12)",
+              "Module.load (node:internal/modules/cjs/loader:1423:32)",
+              "Function._load (node:internal/modules/cjs/loader:1246:12)",
+              "TracingChannel.traceSync (node:diagnostics_channel:322:14)",
+              "wrapModuleLoad (node:internal/modules/cjs/loader:235:24)",
+              "Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:171:5)",
+              "phase4 (/home/christopher/workplace/goaing-to-the-chapel/node_modules/ts-node/src/bin.ts:649:14)",
+              "bootstrap (/home/christopher/workplace/goaing-to-the-chapel/node_modules/ts-node/src/bin.ts:95:10)",
+              "main (/home/christopher/workplace/goaing-to-the-chapel/node_modules/ts-node/src/bin.ts:55:10)",
+              "Object.<anonymous> (/home/christopher/workplace/goaing-to-the-chapel/node_modules/ts-node/src/bin.ts:800:3)",
+              "Module._compile (node:internal/modules/cjs/loader:1688:14)",
+              "Object.<anonymous> (node:internal/modules/cjs/loader:1820:10)",
+              "Module.load (node:internal/modules/cjs/loader:1423:32)",
+              "Function._load (node:internal/modules/cjs/loader:1246:12)",
+              "TracingChannel.traceSync (node:diagnostics_channel:322:14)",
+              "wrapModuleLoad (node:internal/modules/cjs/loader:235:24)",
+              "Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:171:5)",
+              "node:internal/main/run_main_module:36:49"
+            ]
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/SendEmailLogs": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "retention": 30,
+              "removalPolicy": "destroy"
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/SendEmailLogs/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailLambdasSendEmailLogsA3521483"
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/SendEmailFunction": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "functionName": "*",
+              "runtime": "*",
+              "handler": "*",
+              "entry": "*",
+              "timeout": "*",
+              "memorySize": "*",
+              "environment": "*",
+              "logGroup": "*",
+              "bundling": {
+                "externalModules": "*",
+                "minify": true,
+                "sourceMap": true
+              },
+              "code": "*"
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "functionName": "*",
+              "runtime": "*",
+              "handler": "*",
+              "entry": "*",
+              "timeout": "*",
+              "memorySize": "*",
+              "environment": "*",
+              "logGroup": "*",
+              "bundling": {
+                "externalModules": "*",
+                "minify": true,
+                "sourceMap": true
+              }
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/SendEmailFunction/ServiceRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "assumedBy": {
+                "principalAccount": "*",
+                "assumeRoleAction": "*"
+              },
+              "managedPolicies": [
+                {
+                  "managedPolicyArn": "*"
+                }
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachInlinePolicy": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachInlinePolicy": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/SendEmailFunction/ServiceRole/ImportServiceRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/SendEmailFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailLambdasSendEmailFunctionServiceRole7F470561"
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/SendEmailFunction/ServiceRole/DefaultPolicy": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachToRole": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachToRole": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/SendEmailFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailLambdasSendEmailFunctionServiceRoleDefaultPolicy1725AA6D"
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/SendEmailFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailLambdasSendEmailFunctionB67F7821"
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/SendEmailFunction/SqsEventSource:RsvpBackendStackEmailInfrastructureEmailQueue71EE5443": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "target": "*",
+              "batchSize": "*",
+              "maxBatchingWindow": "*",
+              "maxConcurrency": "*",
+              "reportBatchItemFailures": true,
+              "enabled": "*",
+              "eventSourceArn": "*",
+              "filters": "*",
+              "filterEncryption": "*",
+              "metricsConfig": "*"
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/SendEmailFunction/SqsEventSource:RsvpBackendStackEmailInfrastructureEmailQueue71EE5443/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailLambdasSendEmailFunctionSqsEventSourceRsvpBackendStackEmailInfrastructureEmailQueue71EE54438B4BFFAD"
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/ProcessEmailQueueLogs": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "retention": 30,
+              "removalPolicy": "destroy"
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/ProcessEmailQueueLogs/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailLambdasProcessEmailQueueLogs7FB80DCE"
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/ProcessEmailQueueFunction": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "functionName": "*",
+              "runtime": "*",
+              "handler": "*",
+              "entry": "*",
+              "timeout": "*",
+              "memorySize": "*",
+              "environment": "*",
+              "logGroup": "*",
+              "bundling": {
+                "externalModules": "*",
+                "minify": true,
+                "sourceMap": true
+              },
+              "code": "*"
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "functionName": "*",
+              "runtime": "*",
+              "handler": "*",
+              "entry": "*",
+              "timeout": "*",
+              "memorySize": "*",
+              "environment": "*",
+              "logGroup": "*",
+              "bundling": {
+                "externalModules": "*",
+                "minify": true,
+                "sourceMap": true
+              }
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/ProcessEmailQueueFunction/ServiceRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "assumedBy": {
+                "principalAccount": "*",
+                "assumeRoleAction": "*"
+              },
+              "managedPolicies": [
+                {
+                  "managedPolicyArn": "*"
+                }
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachInlinePolicy": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachInlinePolicy": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/ProcessEmailQueueFunction/ServiceRole/ImportServiceRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/ProcessEmailQueueFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailLambdasProcessEmailQueueFunctionServiceRoleA5E3FF84"
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/ProcessEmailQueueFunction/ServiceRole/DefaultPolicy": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachToRole": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachToRole": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/ProcessEmailQueueFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailLambdasProcessEmailQueueFunctionServiceRoleDefaultPolicy5792DB0F"
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/ProcessEmailQueueFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailLambdasProcessEmailQueueFunctionED1A6970"
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/ProcessBounceLogs": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "retention": 30,
+              "removalPolicy": "destroy"
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/ProcessBounceLogs/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailLambdasProcessBounceLogsF09D0EF3"
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/ProcessBounceFunction": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "functionName": "*",
+              "runtime": "*",
+              "handler": "*",
+              "entry": "*",
+              "timeout": "*",
+              "memorySize": "*",
+              "environment": "*",
+              "logGroup": "*",
+              "bundling": {
+                "externalModules": "*",
+                "minify": true,
+                "sourceMap": true
+              },
+              "code": "*"
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "functionName": "*",
+              "runtime": "*",
+              "handler": "*",
+              "entry": "*",
+              "timeout": "*",
+              "memorySize": "*",
+              "environment": "*",
+              "logGroup": "*",
+              "bundling": {
+                "externalModules": "*",
+                "minify": true,
+                "sourceMap": true
+              }
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/ProcessBounceFunction/ServiceRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "assumedBy": {
+                "principalAccount": "*",
+                "assumeRoleAction": "*"
+              },
+              "managedPolicies": [
+                {
+                  "managedPolicyArn": "*"
+                }
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachInlinePolicy": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachInlinePolicy": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/ProcessBounceFunction/ServiceRole/ImportServiceRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/ProcessBounceFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailLambdasProcessBounceFunctionServiceRole2A2B4617"
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/ProcessBounceFunction/ServiceRole/DefaultPolicy": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachToRole": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachToRole": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/ProcessBounceFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailLambdasProcessBounceFunctionServiceRoleDefaultPolicyFC4E65B8"
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/ProcessBounceFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailLambdasProcessBounceFunction3D0401F2"
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/ProcessBounceFunction/SqsEventSource:RsvpBackendStackEmailInfrastructureBounceQueue5F02AF66": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "target": "*",
+              "batchSize": "*",
+              "maxBatchingWindow": "*",
+              "maxConcurrency": "*",
+              "reportBatchItemFailures": true,
+              "enabled": "*",
+              "eventSourceArn": "*",
+              "filters": "*",
+              "filterEncryption": "*",
+              "metricsConfig": "*"
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/ProcessBounceFunction/SqsEventSource:RsvpBackendStackEmailInfrastructureBounceQueue5F02AF66/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailLambdasProcessBounceFunctionSqsEventSourceRsvpBackendStackEmailInfrastructureBounceQueue5F02AF6681505CCD"
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/ProcessComplaintLogs": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "retention": 30,
+              "removalPolicy": "destroy"
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/ProcessComplaintLogs/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailLambdasProcessComplaintLogsB87A6220"
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/ProcessComplaintFunction": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "functionName": "*",
+              "runtime": "*",
+              "handler": "*",
+              "entry": "*",
+              "timeout": "*",
+              "memorySize": "*",
+              "environment": "*",
+              "logGroup": "*",
+              "bundling": {
+                "externalModules": "*",
+                "minify": true,
+                "sourceMap": true
+              },
+              "code": "*"
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "functionName": "*",
+              "runtime": "*",
+              "handler": "*",
+              "entry": "*",
+              "timeout": "*",
+              "memorySize": "*",
+              "environment": "*",
+              "logGroup": "*",
+              "bundling": {
+                "externalModules": "*",
+                "minify": true,
+                "sourceMap": true
+              }
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/ProcessComplaintFunction/ServiceRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "assumedBy": {
+                "principalAccount": "*",
+                "assumeRoleAction": "*"
+              },
+              "managedPolicies": [
+                {
+                  "managedPolicyArn": "*"
+                }
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachInlinePolicy": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachInlinePolicy": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/ProcessComplaintFunction/ServiceRole/ImportServiceRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/ProcessComplaintFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailLambdasProcessComplaintFunctionServiceRoleF45357CF"
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/ProcessComplaintFunction/ServiceRole/DefaultPolicy": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachToRole": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachToRole": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/ProcessComplaintFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailLambdasProcessComplaintFunctionServiceRoleDefaultPolicy6A5431EF"
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/ProcessComplaintFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailLambdasProcessComplaintFunction6DE1A6E7"
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/ProcessComplaintFunction/SqsEventSource:RsvpBackendStackEmailInfrastructureComplaintQueueB1DDA508": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "target": "*",
+              "batchSize": "*",
+              "maxBatchingWindow": "*",
+              "maxConcurrency": "*",
+              "reportBatchItemFailures": true,
+              "enabled": "*",
+              "eventSourceArn": "*",
+              "filters": "*",
+              "filterEncryption": "*",
+              "metricsConfig": "*"
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/ProcessComplaintFunction/SqsEventSource:RsvpBackendStackEmailInfrastructureComplaintQueueB1DDA508/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailLambdasProcessComplaintFunctionSqsEventSourceRsvpBackendStackEmailInfrastructureComplaintQueueB1DDA508D3FBA703"
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/SendEmailFunctionArn": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailLambdasSendEmailFunctionArnCE0E3D1E"
+          }
+        ],
+        "/RsvpBackendStack/EmailLambdas/ProcessEmailQueueFunctionArn": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailLambdasProcessEmailQueueFunctionArn5291CA30"
+          }
+        ],
+        "/RsvpBackendStack/EmailStreamProcessor": [
+          {
+            "type": "aws:cdk:warning",
+            "data": "If you are relying on AWS SDK v2 to be present in the Lambda environment already, please explicitly configure a NodeJS runtime of Node 16 or lower. [ack: @aws-cdk/aws-lambda-nodejs:sdkV2NotInRuntime]",
+            "trace": [
+              "Annotations.addMessage (/home/christopher/workplace/goaing-to-the-chapel/node_modules/aws-cdk-lib/core/lib/annotations.js:1:1978)",
+              "Annotations.addWarningV2 (/home/christopher/workplace/goaing-to-the-chapel/node_modules/aws-cdk-lib/core/lib/annotations.js:1:896)",
+              "new Bundling (/home/christopher/workplace/goaing-to-the-chapel/node_modules/aws-cdk-lib/aws-lambda-nodejs/lib/bundling.js:1:3909)",
+              "Function.bundle (/home/christopher/workplace/goaing-to-the-chapel/node_modules/aws-cdk-lib/aws-lambda-nodejs/lib/bundling.js:1:1135)",
+              "new NodejsFunction (/home/christopher/workplace/goaing-to-the-chapel/node_modules/aws-cdk-lib/aws-lambda-nodejs/lib/function.js:1:2352)",
+              "new EmailStreamProcessor (/home/christopher/workplace/goaing-to-the-chapel/lib/backend/email-stream-processor.ts:54:28)",
+              "new RsvpBackendStack (/home/christopher/workplace/goaing-to-the-chapel/lib/rsvp-backend-stack.ts:100:33)",
+              "Object.<anonymous> (/home/christopher/workplace/goaing-to-the-chapel/bin/wedding-website-cdk.ts:66:19)",
+              "Module._compile (node:internal/modules/cjs/loader:1688:14)",
+              "Module.m._compile (/home/christopher/workplace/goaing-to-the-chapel/node_modules/ts-node/src/index.ts:1618:23)",
+              "node:internal/modules/cjs/loader:1820:10",
+              "Object.require.extensions.<computed> [as .ts] (/home/christopher/workplace/goaing-to-the-chapel/node_modules/ts-node/src/index.ts:1621:12)",
+              "Module.load (node:internal/modules/cjs/loader:1423:32)",
+              "Function._load (node:internal/modules/cjs/loader:1246:12)",
+              "TracingChannel.traceSync (node:diagnostics_channel:322:14)",
+              "wrapModuleLoad (node:internal/modules/cjs/loader:235:24)",
+              "Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:171:5)",
+              "phase4 (/home/christopher/workplace/goaing-to-the-chapel/node_modules/ts-node/src/bin.ts:649:14)",
+              "bootstrap (/home/christopher/workplace/goaing-to-the-chapel/node_modules/ts-node/src/bin.ts:95:10)",
+              "main (/home/christopher/workplace/goaing-to-the-chapel/node_modules/ts-node/src/bin.ts:55:10)",
+              "Object.<anonymous> (/home/christopher/workplace/goaing-to-the-chapel/node_modules/ts-node/src/bin.ts:800:3)",
+              "Module._compile (node:internal/modules/cjs/loader:1688:14)",
+              "Object.<anonymous> (node:internal/modules/cjs/loader:1820:10)",
+              "Module.load (node:internal/modules/cjs/loader:1423:32)",
+              "Function._load (node:internal/modules/cjs/loader:1246:12)",
+              "TracingChannel.traceSync (node:diagnostics_channel:322:14)",
+              "wrapModuleLoad (node:internal/modules/cjs/loader:235:24)",
+              "Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:171:5)",
+              "node:internal/main/run_main_module:36:49"
+            ]
+          }
+        ],
+        "/RsvpBackendStack/EmailStreamProcessor/StreamProcessorLogs": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "retention": 30,
+              "removalPolicy": "destroy"
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailStreamProcessor/StreamProcessorLogs/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailStreamProcessorStreamProcessorLogs034917B3"
+          }
+        ],
+        "/RsvpBackendStack/EmailStreamProcessor/StreamProcessorFunction": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "functionName": "*",
+              "runtime": "*",
+              "handler": "*",
+              "entry": "*",
+              "timeout": "*",
+              "memorySize": "*",
+              "environment": "*",
+              "logGroup": "*",
+              "bundling": {
+                "externalModules": "*",
+                "minify": true,
+                "sourceMap": true
+              },
+              "code": "*"
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "functionName": "*",
+              "runtime": "*",
+              "handler": "*",
+              "entry": "*",
+              "timeout": "*",
+              "memorySize": "*",
+              "environment": "*",
+              "logGroup": "*",
+              "bundling": {
+                "externalModules": "*",
+                "minify": true,
+                "sourceMap": true
+              }
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailStreamProcessor/StreamProcessorFunction/ServiceRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "assumedBy": {
+                "principalAccount": "*",
+                "assumeRoleAction": "*"
+              },
+              "managedPolicies": [
+                {
+                  "managedPolicyArn": "*"
+                }
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachInlinePolicy": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachInlinePolicy": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailStreamProcessor/StreamProcessorFunction/ServiceRole/ImportServiceRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/RsvpBackendStack/EmailStreamProcessor/StreamProcessorFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailStreamProcessorStreamProcessorFunctionServiceRole4F5FCF10"
+          }
+        ],
+        "/RsvpBackendStack/EmailStreamProcessor/StreamProcessorFunction/ServiceRole/DefaultPolicy": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachToRole": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachToRole": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailStreamProcessor/StreamProcessorFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailStreamProcessorStreamProcessorFunctionServiceRoleDefaultPolicyD3BB43B5"
+          }
+        ],
+        "/RsvpBackendStack/EmailStreamProcessor/StreamProcessorFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailStreamProcessorStreamProcessorFunctionDA449B9F"
+          }
+        ],
+        "/RsvpBackendStack/EmailStreamProcessor/PipeRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "assumedBy": {
+                "principalAccount": "*",
+                "assumeRoleAction": "*"
+              },
+              "inlinePolicies": "*"
+            }
+          }
+        ],
+        "/RsvpBackendStack/EmailStreamProcessor/PipeRole/ImportPipeRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/RsvpBackendStack/EmailStreamProcessor/PipeRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailStreamProcessorPipeRole6A3C62F9"
+          }
+        ],
+        "/RsvpBackendStack/EmailStreamProcessor/EmailPipe": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailStreamProcessorEmailPipe506E654E"
+          }
+        ],
+        "/RsvpBackendStack/EmailStreamProcessor/PipeArn": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailStreamProcessorPipeArn02124ACE"
+          }
+        ],
+        "/RsvpBackendStack/Api/LambdaExecutionRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "assumedBy": {
+                "principalAccount": "*",
+                "assumeRoleAction": "*"
+              },
+              "managedPolicies": [
+                {
+                  "managedPolicyArn": "*"
+                }
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachInlinePolicy": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachInlinePolicy": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          }
+        ],
+        "/RsvpBackendStack/Api/LambdaExecutionRole/ImportLambdaExecutionRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/RsvpBackendStack/Api/LambdaExecutionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaExecutionRole807E4FD5"
+          }
+        ],
+        "/RsvpBackendStack/Api/LambdaExecutionRole/DefaultPolicy": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachToRole": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachToRole": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          }
+        ],
+        "/RsvpBackendStack/Api/LambdaExecutionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaExecutionRoleDefaultPolicy51F2E455"
+          }
+        ],
+        "/RsvpBackendStack/Api/CreateRSVPLogs": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "retention": 30,
+              "removalPolicy": "destroy"
+            }
+          }
+        ],
+        "/RsvpBackendStack/Api/CreateRSVPLogs/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiCreateRSVPLogsA7B5D752"
+          }
+        ],
+        "/RsvpBackendStack/Api/CreateRSVPFunction": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "functionName": "*",
+              "runtime": "*",
+              "handler": "*",
+              "entry": "*",
+              "timeout": "*",
+              "memorySize": "*",
+              "role": "*",
+              "environment": "*",
+              "logGroup": "*",
+              "tracing": "Active",
+              "bundling": {
+                "externalModules": "*"
+              },
+              "code": "*"
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "functionName": "*",
+              "runtime": "*",
+              "handler": "*",
+              "entry": "*",
+              "timeout": "*",
+              "memorySize": "*",
+              "role": "*",
+              "environment": "*",
+              "logGroup": "*",
+              "tracing": "Active",
+              "bundling": {
+                "externalModules": "*"
+              }
+            }
+          }
+        ],
+        "/RsvpBackendStack/Api/CreateRSVPFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiCreateRSVPFunctionD291B05C"
+          }
+        ],
+        "/RsvpBackendStack/Api/GetRSVPLogs": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "retention": 30,
+              "removalPolicy": "destroy"
+            }
+          }
+        ],
+        "/RsvpBackendStack/Api/GetRSVPLogs/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiGetRSVPLogs5876A655"
+          }
+        ],
+        "/RsvpBackendStack/Api/GetRSVPFunction": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "functionName": "*",
+              "runtime": "*",
+              "handler": "*",
+              "entry": "*",
+              "timeout": "*",
+              "memorySize": "*",
+              "role": "*",
+              "environment": "*",
+              "logGroup": "*",
+              "tracing": "Active",
+              "bundling": {
+                "externalModules": "*"
+              },
+              "code": "*"
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "functionName": "*",
+              "runtime": "*",
+              "handler": "*",
+              "entry": "*",
+              "timeout": "*",
+              "memorySize": "*",
+              "role": "*",
+              "environment": "*",
+              "logGroup": "*",
+              "tracing": "Active",
+              "bundling": {
+                "externalModules": "*"
+              }
+            }
+          }
+        ],
+        "/RsvpBackendStack/Api/GetRSVPFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiGetRSVPFunction4A628E81"
+          }
+        ],
+        "/RsvpBackendStack/Api/UpdateRSVPLogs": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "retention": 30,
+              "removalPolicy": "destroy"
+            }
+          }
+        ],
+        "/RsvpBackendStack/Api/UpdateRSVPLogs/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiUpdateRSVPLogsD7823710"
+          }
+        ],
+        "/RsvpBackendStack/Api/UpdateRSVPFunction": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "functionName": "*",
+              "runtime": "*",
+              "handler": "*",
+              "entry": "*",
+              "timeout": "*",
+              "memorySize": "*",
+              "role": "*",
+              "environment": "*",
+              "logGroup": "*",
+              "tracing": "Active",
+              "bundling": {
+                "externalModules": "*"
+              },
+              "code": "*"
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "functionName": "*",
+              "runtime": "*",
+              "handler": "*",
+              "entry": "*",
+              "timeout": "*",
+              "memorySize": "*",
+              "role": "*",
+              "environment": "*",
+              "logGroup": "*",
+              "tracing": "Active",
+              "bundling": {
+                "externalModules": "*"
+              }
+            }
+          }
+        ],
+        "/RsvpBackendStack/Api/UpdateRSVPFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiUpdateRSVPFunction1593C95E"
+          }
+        ],
+        "/RsvpBackendStack/Api/ListRSVPsLogs": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "retention": 30,
+              "removalPolicy": "destroy"
+            }
+          }
+        ],
+        "/RsvpBackendStack/Api/ListRSVPsLogs/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiListRSVPsLogs595876DE"
+          }
+        ],
+        "/RsvpBackendStack/Api/ListRSVPsFunction": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "functionName": "*",
+              "runtime": "*",
+              "handler": "*",
+              "entry": "*",
+              "timeout": "*",
+              "memorySize": "*",
+              "role": "*",
+              "environment": "*",
+              "logGroup": "*",
+              "tracing": "Active",
+              "bundling": {
+                "externalModules": "*"
+              },
+              "code": "*"
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "functionName": "*",
+              "runtime": "*",
+              "handler": "*",
+              "entry": "*",
+              "timeout": "*",
+              "memorySize": "*",
+              "role": "*",
+              "environment": "*",
+              "logGroup": "*",
+              "tracing": "Active",
+              "bundling": {
+                "externalModules": "*"
+              }
+            }
+          }
+        ],
+        "/RsvpBackendStack/Api/ListRSVPsFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiListRSVPsFunction7050ABE0"
+          }
+        ],
+        "/RsvpBackendStack/Api/ValidateInvitationLogs": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "retention": 30,
+              "removalPolicy": "destroy"
+            }
+          }
+        ],
+        "/RsvpBackendStack/Api/ValidateInvitationLogs/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiValidateInvitationLogsF76E078B"
+          }
+        ],
+        "/RsvpBackendStack/Api/ValidateInvitationFunction": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "functionName": "*",
+              "runtime": "*",
+              "handler": "*",
+              "entry": "*",
+              "timeout": "*",
+              "memorySize": "*",
+              "role": "*",
+              "environment": "*",
+              "logGroup": "*",
+              "tracing": "Active",
+              "bundling": {
+                "externalModules": "*"
+              },
+              "code": "*"
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "functionName": "*",
+              "runtime": "*",
+              "handler": "*",
+              "entry": "*",
+              "timeout": "*",
+              "memorySize": "*",
+              "role": "*",
+              "environment": "*",
+              "logGroup": "*",
+              "tracing": "Active",
+              "bundling": {
+                "externalModules": "*"
+              }
+            }
+          }
+        ],
+        "/RsvpBackendStack/Api/ValidateInvitationFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiValidateInvitationFunction2611D1F2"
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "restApiName": "*",
+              "description": "*",
+              "defaultCorsPreflightOptions": {
+                "allowOrigins": "*",
+                "allowMethods": "*",
+                "allowHeaders": "*"
+              },
+              "deployOptions": {
+                "stageName": "*",
+                "loggingLevel": "INFO",
+                "dataTraceEnabled": true,
+                "metricsEnabled": true
+              },
+              "cloudWatchRole": true
+            }
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRsvpApi6D08E9BA"
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/CloudWatchRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "assumedBy": {
+                "principalAccount": "*",
+                "assumeRoleAction": "*"
+              },
+              "managedPolicies": [
+                {
+                  "managedPolicyArn": "*"
+                }
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "applyRemovalPolicy": [
+                "retain"
+              ]
+            }
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/CloudWatchRole/ImportCloudWatchRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/CloudWatchRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRsvpApiCloudWatchRole554BDB75"
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Account": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRsvpApiAccountD270AA97"
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Deployment": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "description": "*",
+              "api": "*",
+              "retainDeployments": "*"
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToLogicalId": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToLogicalId": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToLogicalId": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToLogicalId": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToLogicalId": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToLogicalId": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToLogicalId": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToLogicalId": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToLogicalId": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToLogicalId": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToLogicalId": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToLogicalId": [
+                {}
+              ]
+            }
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Deployment/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRsvpApiDeploymentDDA67C6B0001a071b4769002c17774ecbc5e6e55"
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/DeploymentStage.production": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "deployment": "*",
+              "stageName": "*",
+              "loggingLevel": "INFO",
+              "dataTraceEnabled": true,
+              "metricsEnabled": true
+            }
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/DeploymentStage.production/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRsvpApiDeploymentStageproduction8243A767"
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Endpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRsvpApiEndpoint827A183A"
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Default": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Default/OPTIONS": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "resource": "*",
+              "httpMethod": "*",
+              "integration": "*",
+              "options": {
+                "authorizer": {
+                  "authorizerId": "*",
+                  "authorizationType": "*"
+                },
+                "apiKeyRequired": false,
+                "authorizationType": "*",
+                "methodResponses": [
+                  {
+                    "statusCode": "*",
+                    "responseParameters": "*"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addMethodResponse": [
+                {
+                  "statusCode": "*",
+                  "responseParameters": "*"
+                }
+              ]
+            }
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Default/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRsvpApiOPTIONS1EA5DF75"
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Default/rsvp": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "parent": "*",
+              "pathPart": "*"
+            }
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Default/rsvp/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRsvpApirsvpC75ABA40"
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Default/rsvp/OPTIONS": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "resource": "*",
+              "httpMethod": "*",
+              "integration": "*",
+              "options": {
+                "authorizer": {
+                  "authorizerId": "*",
+                  "authorizationType": "*"
+                },
+                "apiKeyRequired": false,
+                "authorizationType": "*",
+                "methodResponses": [
+                  {
+                    "statusCode": "*",
+                    "responseParameters": "*"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addMethodResponse": [
+                {
+                  "statusCode": "*",
+                  "responseParameters": "*"
+                }
+              ]
+            }
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Default/rsvp/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRsvpApirsvpOPTIONSC2C071E3"
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Default/rsvp/POST": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "resource": "*",
+              "httpMethod": "*",
+              "integration": "*",
+              "options": "*"
+            }
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Default/rsvp/POST/ApiPermission.RsvpBackendStackApiRsvpApi94F5ACF9.POST..rsvp": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRsvpApirsvpPOSTApiPermissionRsvpBackendStackApiRsvpApi94F5ACF9POSTrsvp566AF2D8"
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Default/rsvp/POST/ApiPermission.Test.RsvpBackendStackApiRsvpApi94F5ACF9.POST..rsvp": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRsvpApirsvpPOSTApiPermissionTestRsvpBackendStackApiRsvpApi94F5ACF9POSTrsvp52134BA1"
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Default/rsvp/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRsvpApirsvpPOST620C9B30"
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Default/rsvp/GET": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "resource": "*",
+              "httpMethod": "*",
+              "integration": "*",
+              "options": "*"
+            }
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Default/rsvp/GET/ApiPermission.RsvpBackendStackApiRsvpApi94F5ACF9.GET..rsvp": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRsvpApirsvpGETApiPermissionRsvpBackendStackApiRsvpApi94F5ACF9GETrsvp898AFE04"
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Default/rsvp/GET/ApiPermission.Test.RsvpBackendStackApiRsvpApi94F5ACF9.GET..rsvp": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRsvpApirsvpGETApiPermissionTestRsvpBackendStackApiRsvpApi94F5ACF9GETrsvp3166A8CB"
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Default/rsvp/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRsvpApirsvpGET45A89407"
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Default/rsvp/validate": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "parent": "*",
+              "pathPart": "*"
+            }
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Default/rsvp/validate/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRsvpApirsvpvalidateC1264089"
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Default/rsvp/validate/OPTIONS": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "resource": "*",
+              "httpMethod": "*",
+              "integration": "*",
+              "options": {
+                "authorizer": {
+                  "authorizerId": "*",
+                  "authorizationType": "*"
+                },
+                "apiKeyRequired": false,
+                "authorizationType": "*",
+                "methodResponses": [
+                  {
+                    "statusCode": "*",
+                    "responseParameters": "*"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addMethodResponse": [
+                {
+                  "statusCode": "*",
+                  "responseParameters": "*"
+                }
+              ]
+            }
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Default/rsvp/validate/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRsvpApirsvpvalidateOPTIONSADB344B9"
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Default/rsvp/validate/POST": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "resource": "*",
+              "httpMethod": "*",
+              "integration": "*",
+              "options": "*"
+            }
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Default/rsvp/validate/POST/ApiPermission.RsvpBackendStackApiRsvpApi94F5ACF9.POST..rsvp.validate": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRsvpApirsvpvalidatePOSTApiPermissionRsvpBackendStackApiRsvpApi94F5ACF9POSTrsvpvalidate485F9608"
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Default/rsvp/validate/POST/ApiPermission.Test.RsvpBackendStackApiRsvpApi94F5ACF9.POST..rsvp.validate": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRsvpApirsvpvalidatePOSTApiPermissionTestRsvpBackendStackApiRsvpApi94F5ACF9POSTrsvpvalidate108E82FA"
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Default/rsvp/validate/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRsvpApirsvpvalidatePOST6E7F7CAF"
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Default/rsvp/{rsvpId}": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "parent": "*",
+              "pathPart": "*"
+            }
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Default/rsvp/{rsvpId}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRsvpApirsvprsvpIdE87DAB1D"
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Default/rsvp/{rsvpId}/OPTIONS": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "resource": "*",
+              "httpMethod": "*",
+              "integration": "*",
+              "options": {
+                "authorizer": {
+                  "authorizerId": "*",
+                  "authorizationType": "*"
+                },
+                "apiKeyRequired": false,
+                "authorizationType": "*",
+                "methodResponses": [
+                  {
+                    "statusCode": "*",
+                    "responseParameters": "*"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addMethodResponse": [
+                {
+                  "statusCode": "*",
+                  "responseParameters": "*"
+                }
+              ]
+            }
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Default/rsvp/{rsvpId}/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRsvpApirsvprsvpIdOPTIONSB5013AB7"
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Default/rsvp/{rsvpId}/GET": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "resource": "*",
+              "httpMethod": "*",
+              "integration": "*",
+              "options": "*"
+            }
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Default/rsvp/{rsvpId}/GET/ApiPermission.RsvpBackendStackApiRsvpApi94F5ACF9.GET..rsvp.{rsvpId}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRsvpApirsvprsvpIdGETApiPermissionRsvpBackendStackApiRsvpApi94F5ACF9GETrsvprsvpIdABDE55C9"
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Default/rsvp/{rsvpId}/GET/ApiPermission.Test.RsvpBackendStackApiRsvpApi94F5ACF9.GET..rsvp.{rsvpId}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRsvpApirsvprsvpIdGETApiPermissionTestRsvpBackendStackApiRsvpApi94F5ACF9GETrsvprsvpId8EA7CF73"
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Default/rsvp/{rsvpId}/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRsvpApirsvprsvpIdGETF08DDA04"
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Default/rsvp/{rsvpId}/PUT": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "resource": "*",
+              "httpMethod": "*",
+              "integration": "*",
+              "options": "*"
+            }
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Default/rsvp/{rsvpId}/PUT/ApiPermission.RsvpBackendStackApiRsvpApi94F5ACF9.PUT..rsvp.{rsvpId}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRsvpApirsvprsvpIdPUTApiPermissionRsvpBackendStackApiRsvpApi94F5ACF9PUTrsvprsvpIdBB2FF1E2"
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Default/rsvp/{rsvpId}/PUT/ApiPermission.Test.RsvpBackendStackApiRsvpApi94F5ACF9.PUT..rsvp.{rsvpId}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRsvpApirsvprsvpIdPUTApiPermissionTestRsvpBackendStackApiRsvpApi94F5ACF9PUTrsvprsvpIdD0C61F8E"
+          }
+        ],
+        "/RsvpBackendStack/Api/RsvpApi/Default/rsvp/{rsvpId}/PUT/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRsvpApirsvprsvpIdPUT62D713E7"
+          }
+        ],
+        "/RsvpBackendStack/ApiDomain/ApiCertificate": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "domainName": "*",
+              "certificateName": "*",
+              "validation": "*"
+            }
+          }
+        ],
+        "/RsvpBackendStack/ApiDomain/ApiCertificate/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiDomainApiCertificateF40FCEA1"
+          }
+        ],
+        "/RsvpBackendStack/ApiDomain/ApiDomainName": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "domainName": "*",
+              "certificate": "*",
+              "endpointType": "REGIONAL",
+              "securityPolicy": "TLS_1_2"
+            }
+          }
+        ],
+        "/RsvpBackendStack/ApiDomain/ApiDomainName/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiDomainApiDomainNameF0B5160F"
+          }
+        ],
+        "/RsvpBackendStack/ApiDomain/ApiBasePathMapping": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "domainName": "*",
+              "restApi": "*",
+              "basePath": "*"
+            }
+          }
+        ],
+        "/RsvpBackendStack/ApiDomain/ApiBasePathMapping/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiDomainApiBasePathMapping31BBE887"
+          }
+        ],
+        "/RsvpBackendStack/ApiDomain/ApiAliasRecord": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "zone": "*",
+              "recordName": "*",
+              "target": "*",
+              "comment": "*"
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "zone": "*",
+              "recordName": "*",
+              "target": "*",
+              "comment": "*"
+            }
+          }
+        ],
+        "/RsvpBackendStack/ApiDomain/ApiAliasRecord/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiDomainApiAliasRecordC4E1B074"
+          }
+        ],
+        "/RsvpBackendStack/ApiDomain/ApiDomainUrl": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiDomainApiDomainUrl95FC6132"
+          }
+        ],
+        "/RsvpBackendStack/ApiDomain/ApiGatewayDomainName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiDomainApiGatewayDomainName05F6207C"
+          }
+        ],
+        "/RsvpBackendStack/ApiEndpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiEndpoint"
+          }
+        ],
+        "/RsvpBackendStack/TableName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TableName"
+          }
+        ],
+        "/RsvpBackendStack/TableArn": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TableArn"
+          }
+        ],
+        "/RsvpBackendStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/RsvpBackendStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/RsvpBackendStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "RsvpBackendStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    },
+    "aws-cdk-lib/feature-flag-report": {
+      "type": "cdk:feature-flag-report",
+      "properties": {
+        "module": "aws-cdk-lib",
+        "flags": {
+          "@aws-cdk/core:enableStackNameDuplicates": {
+            "recommendedValue": true,
+            "explanation": "Allow multiple stacks with the same name",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "aws-cdk:enableDiffNoFail": {
+            "recommendedValue": true,
+            "explanation": "Make `cdk diff` not fail when there are differences",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/core:newStyleStackSynthesis": {
+            "recommendedValue": true,
+            "explanation": "Switch to new stack synthesis method which enables CI/CD",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/core:stackRelativeExports": {
+            "recommendedValue": true,
+            "explanation": "Name exports based on the construct paths relative to the stack, rather than the global construct path",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-ecr-assets:dockerIgnoreSupport": {
+            "recommendedValue": true,
+            "explanation": "DockerImageAsset properly supports `.dockerignore` files by default",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-secretsmanager:parseOwnedSecretName": {
+            "recommendedValue": true,
+            "explanation": "Fix the referencing of SecretsManager names from ARNs",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-kms:defaultKeyPolicies": {
+            "recommendedValue": true,
+            "explanation": "Tighten default KMS key policies",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-s3:grantWriteWithoutAcl": {
+            "recommendedValue": true,
+            "explanation": "Remove `PutObjectAcl` from Bucket.grantWrite",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-ecs-patterns:removeDefaultDesiredCount": {
+            "recommendedValue": true,
+            "explanation": "Do not specify a default DesiredCount for ECS services",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-rds:lowercaseDbIdentifier": {
+            "recommendedValue": true,
+            "explanation": "Force lowercasing of RDS Cluster names in CDK",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-apigateway:usagePlanKeyOrderInsensitiveId": {
+            "recommendedValue": true,
+            "explanation": "Allow adding/removing multiple UsagePlanKeys independently",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-efs:defaultEncryptionAtRest": {
+            "recommendedValue": true,
+            "explanation": "Enable this feature flag to have elastic file systems encrypted at rest by default.",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-lambda:recognizeVersionProps": {
+            "recommendedValue": true,
+            "explanation": "Enable this feature flag to opt in to the updated logical id calculation for Lambda Version created using the  `fn.currentVersion`.",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-lambda:recognizeLayerVersion": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Enable this feature flag to opt in to the updated logical id calculation for Lambda Version created using the `fn.currentVersion`."
+          },
+          "@aws-cdk/aws-cloudfront:defaultSecurityPolicyTLSv1.2_2021": {
+            "recommendedValue": true,
+            "explanation": "Enable this feature flag to have cloudfront distributions use the security policy TLSv1.2_2021 by default.",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/core:checkSecretUsage": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Enable this flag to make it impossible to accidentally use SecretValues in unsafe locations"
+          },
+          "@aws-cdk/core:target-partitions": {
+            "userValue": [
+              "aws",
+              "aws-cn"
+            ],
+            "recommendedValue": [
+              "aws",
+              "aws-cn"
+            ],
+            "explanation": "What regions to include in lookup tables of environment agnostic stacks"
+          },
+          "@aws-cdk-containers/ecs-service-extensions:enableDefaultLogDriver": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "ECS extensions will automatically add an `awslogs` driver if no logging is specified"
+          },
+          "@aws-cdk/aws-ec2:uniqueImdsv2TemplateName": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Enable this feature flag to have Launch Templates generated by the `InstanceRequireImdsv2Aspect` use unique names."
+          },
+          "@aws-cdk/aws-ecs:arnFormatIncludesClusterName": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "ARN format used by ECS. In the new ARN format, the cluster name is part of the resource ID."
+          },
+          "@aws-cdk/aws-iam:minimizePolicies": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Minimize IAM policies by combining Statements"
+          },
+          "@aws-cdk/core:validateSnapshotRemovalPolicy": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Error on snapshot removal policies on resources that do not support it."
+          },
+          "@aws-cdk/aws-codepipeline:crossAccountKeyAliasStackSafeResourceName": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Generate key aliases that include the stack name"
+          },
+          "@aws-cdk/aws-s3:createDefaultLoggingPolicy": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Enable this feature flag to create an S3 bucket policy by default in cases where an AWS service would automatically create the Policy if one does not exist."
+          },
+          "@aws-cdk/aws-sns-subscriptions:restrictSqsDescryption": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Restrict KMS key policy for encrypted Queues a bit more"
+          },
+          "@aws-cdk/aws-apigateway:disableCloudWatchRole": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Make default CloudWatch Role behavior safe for multiple API Gateways in one environment"
+          },
+          "@aws-cdk/core:enablePartitionLiterals": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Make ARNs concrete if AWS partition is known"
+          },
+          "@aws-cdk/aws-events:eventsTargetQueueSameAccount": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Event Rules may only push to encrypted SQS queues in the same account"
+          },
+          "@aws-cdk/aws-ecs:disableExplicitDeploymentControllerForCircuitBreaker": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Avoid setting the \"ECS\" deployment controller when adding a circuit breaker"
+          },
+          "@aws-cdk/aws-iam:importedRoleStackSafeDefaultPolicyName": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Enable this feature to by default create default policy names for imported roles that depend on the stack the role is in."
+          },
+          "@aws-cdk/aws-s3:serverAccessLogsUseBucketPolicy": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Use S3 Bucket Policy instead of ACLs for Server Access Logging"
+          },
+          "@aws-cdk/aws-route53-patters:useCertificate": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Use the official `Certificate` resource instead of `DnsValidatedCertificate`"
+          },
+          "@aws-cdk/customresources:installLatestAwsSdkDefault": {
+            "userValue": false,
+            "recommendedValue": false,
+            "explanation": "Whether to install the latest SDK by default in AwsCustomResource"
+          },
+          "@aws-cdk/aws-rds:databaseProxyUniqueResourceName": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Use unique resource name for Database Proxy"
+          },
+          "@aws-cdk/aws-codedeploy:removeAlarmsFromDeploymentGroup": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Remove CloudWatch alarms from deployment group"
+          },
+          "@aws-cdk/aws-apigateway:authorizerChangeDeploymentLogicalId": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Include authorizer configuration in the calculation of the API deployment logical ID."
+          },
+          "@aws-cdk/aws-ec2:launchTemplateDefaultUserData": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Define user data for a launch template by default when a machine image is provided."
+          },
+          "@aws-cdk/aws-secretsmanager:useAttachedSecretResourcePolicyForSecretTargetAttachments": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "SecretTargetAttachments uses the ResourcePolicy of the attached Secret."
+          },
+          "@aws-cdk/aws-redshift:columnId": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Whether to use an ID to track Redshift column changes"
+          },
+          "@aws-cdk/aws-stepfunctions-tasks:enableEmrServicePolicyV2": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Enable AmazonEMRServicePolicy_v2 managed policies"
+          },
+          "@aws-cdk/aws-ec2:restrictDefaultSecurityGroup": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Restrict access to the VPC default security group"
+          },
+          "@aws-cdk/aws-apigateway:requestValidatorUniqueId": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Generate a unique id for each RequestValidator added to a method"
+          },
+          "@aws-cdk/aws-kms:aliasNameRef": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "KMS Alias name and keyArn will have implicit reference to KMS Key"
+          },
+          "@aws-cdk/aws-kms:applyImportedAliasPermissionsToPrincipal": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Enable grant methods on Aliases imported by name to use kms:ResourceAliases condition"
+          },
+          "@aws-cdk/aws-autoscaling:generateLaunchTemplateInsteadOfLaunchConfig": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Generate a launch template when creating an AutoScalingGroup"
+          },
+          "@aws-cdk/core:includePrefixInUniqueNameGeneration": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Include the stack prefix in the stack name generation process"
+          },
+          "@aws-cdk/aws-efs:denyAnonymousAccess": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "EFS denies anonymous clients accesses"
+          },
+          "@aws-cdk/aws-opensearchservice:enableOpensearchMultiAzWithStandby": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Enables support for Multi-AZ with Standby deployment for opensearch domains"
+          },
+          "@aws-cdk/aws-lambda-nodejs:useLatestRuntimeVersion": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Enables aws-lambda-nodejs.Function to use the latest available NodeJs runtime as the default"
+          },
+          "@aws-cdk/aws-efs:mountTargetOrderInsensitiveLogicalId": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "When enabled, mount targets will have a stable logicalId that is linked to the associated subnet."
+          },
+          "@aws-cdk/aws-rds:auroraClusterChangeScopeOfInstanceParameterGroupWithEachParameters": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "When enabled, a scope of InstanceParameterGroup for AuroraClusterInstance with each parameters will change."
+          },
+          "@aws-cdk/aws-appsync:useArnForSourceApiAssociationIdentifier": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "When enabled, will always use the arn for identifiers for CfnSourceApiAssociation in the GraphqlApi construct rather than id."
+          },
+          "@aws-cdk/aws-rds:preventRenderingDeprecatedCredentials": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "When enabled, creating an RDS database cluster from a snapshot will only render credentials for snapshot credentials."
+          },
+          "@aws-cdk/aws-codepipeline-actions:useNewDefaultBranchForCodeCommitSource": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "When enabled, the CodeCommit source action is using the default branch name 'main'."
+          },
+          "@aws-cdk/aws-cloudwatch-actions:changeLambdaPermissionLogicalIdForLambdaAction": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "When enabled, the logical ID of a Lambda permission for a Lambda action includes an alarm ID."
+          },
+          "@aws-cdk/aws-codepipeline:crossAccountKeysDefaultValueToFalse": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Enables Pipeline to set the default value for crossAccountKeys to false."
+          },
+          "@aws-cdk/aws-codepipeline:defaultPipelineTypeToV2": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Enables Pipeline to set the default pipeline type to V2."
+          },
+          "@aws-cdk/aws-kms:reduceCrossAccountRegionPolicyScope": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "When enabled, IAM Policy created from KMS key grant will reduce the resource scope to this key only."
+          },
+          "@aws-cdk/pipelines:reduceAssetRoleTrustScope": {
+            "recommendedValue": true,
+            "explanation": "Remove the root account principal from PipelineAssetsFileRole trust policy",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-eks:nodegroupNameAttribute": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "When enabled, nodegroupName attribute of the provisioned EKS NodeGroup will not have the cluster name prefix."
+          },
+          "@aws-cdk/aws-ec2:ebsDefaultGp3Volume": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "When enabled, the default volume type of the EBS volume will be GP3"
+          },
+          "@aws-cdk/aws-ecs:removeDefaultDeploymentAlarm": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "When enabled, remove default deployment alarm settings"
+          },
+          "@aws-cdk/custom-resources:logApiResponseDataPropertyTrueDefault": {
+            "userValue": false,
+            "recommendedValue": false,
+            "explanation": "When enabled, the custom resource used for `AwsCustomResource` will configure the `logApiResponseData` property as true by default"
+          },
+          "@aws-cdk/aws-s3:keepNotificationInImportedBucket": {
+            "userValue": false,
+            "recommendedValue": false,
+            "explanation": "When enabled, Adding notifications to a bucket in the current stack will not remove notification from imported stack."
+          },
+          "@aws-cdk/aws-stepfunctions-tasks:useNewS3UriParametersForBedrockInvokeModelTask": {
+            "recommendedValue": true,
+            "explanation": "When enabled, use new props for S3 URI field in task definition of state machine for bedrock invoke model.",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/core:explicitStackTags": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "When enabled, stack tags need to be assigned explicitly on a Stack."
+          },
+          "@aws-cdk/aws-ecs:enableImdsBlockingDeprecatedFeature": {
+            "userValue": false,
+            "recommendedValue": false,
+            "explanation": "When set to true along with canContainersAccessInstanceRole=false in ECS cluster, new updated commands will be added to UserData to block container accessing IMDS. **Applicable to Linux only. IMPORTANT: See [details.](#aws-cdkaws-ecsenableImdsBlockingDeprecatedFeature)**"
+          },
+          "@aws-cdk/aws-ecs:disableEcsImdsBlocking": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "When set to true, CDK synth will throw exception if canContainersAccessInstanceRole is false. **IMPORTANT: See [details.](#aws-cdkaws-ecsdisableEcsImdsBlocking)**"
+          },
+          "@aws-cdk/aws-ecs:reduceEc2FargateCloudWatchPermissions": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "When enabled, we will only grant the necessary permissions when users specify cloudwatch log group through logConfiguration"
+          },
+          "@aws-cdk/aws-dynamodb:resourcePolicyPerReplica": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "When enabled will allow you to specify a resource policy per replica, and not copy the source table policy to all replicas"
+          },
+          "@aws-cdk/aws-ec2:ec2SumTImeoutEnabled": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "When enabled, initOptions.timeout and resourceSignalTimeout values will be summed together."
+          },
+          "@aws-cdk/aws-appsync:appSyncGraphQLAPIScopeLambdaPermission": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "When enabled, a Lambda authorizer Permission created when using GraphqlApi will be properly scoped with a SourceArn."
+          },
+          "@aws-cdk/aws-rds:setCorrectValueForDatabaseInstanceReadReplicaInstanceResourceId": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "When enabled, the value of property `instanceResourceId` in construct `DatabaseInstanceReadReplica` will be set to the correct value which is `DbiResourceId` instead of currently `DbInstanceArn`"
+          },
+          "@aws-cdk/core:cfnIncludeRejectComplexResourceUpdateCreatePolicyIntrinsics": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "When enabled, CFN templates added with `cfn-include` will error if the template contains Resource Update or Create policies with CFN Intrinsics that include non-primitive values."
+          },
+          "@aws-cdk/aws-lambda-nodejs:sdkV3ExcludeSmithyPackages": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "When enabled, both `@aws-sdk` and `@smithy` packages will be excluded from the Lambda Node.js 18.x runtime to prevent version mismatches in bundled applications."
+          },
+          "@aws-cdk/aws-stepfunctions-tasks:fixRunEcsTaskPolicy": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "When enabled, the resource of IAM Run Ecs policy generated by SFN EcsRunTask will reference the definition, instead of constructing ARN."
+          },
+          "@aws-cdk/aws-ec2:bastionHostUseAmazonLinux2023ByDefault": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "When enabled, the BastionHost construct will use the latest Amazon Linux 2023 AMI, instead of Amazon Linux 2."
+          },
+          "@aws-cdk/core:aspectStabilization": {
+            "recommendedValue": true,
+            "explanation": "When enabled, a stabilization loop will be run when invoking Aspects during synthesis.",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-route53-targets:userPoolDomainNameMethodWithoutCustomResource": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "When enabled, use a new method for DNS Name of user pool domain target without creating a custom resource."
+          },
+          "@aws-cdk/aws-elasticloadbalancingV2:albDualstackWithoutPublicIpv4SecurityGroupRulesDefault": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "When enabled, the default security group ingress rules will allow IPv6 ingress from anywhere"
+          },
+          "@aws-cdk/aws-iam:oidcRejectUnauthorizedConnections": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "When enabled, the default behaviour of OIDC provider will reject unauthorized connections"
+          },
+          "@aws-cdk/core:enableAdditionalMetadataCollection": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "When enabled, CDK will expand the scope of usage data collected to better inform CDK development and improve communication for security concerns and emerging issues."
+          },
+          "@aws-cdk/aws-lambda:createNewPoliciesWithAddToRolePolicy": {
+            "userValue": false,
+            "recommendedValue": false,
+            "explanation": "[Deprecated] When enabled, Lambda will create new inline policies with AddToRolePolicy instead of adding to the Default Policy Statement"
+          },
+          "@aws-cdk/aws-s3:setUniqueReplicationRoleName": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "When enabled, CDK will automatically generate a unique role name that is used for s3 object replication."
+          },
+          "@aws-cdk/pipelines:reduceStageRoleTrustScope": {
+            "recommendedValue": true,
+            "explanation": "Remove the root account principal from Stage addActions trust policy",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-events:requireEventBusPolicySid": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "When enabled, grantPutEventsTo() will use resource policies with Statement IDs for service principals."
+          },
+          "@aws-cdk/core:aspectPrioritiesMutating": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "When set to true, Aspects added by the construct library on your behalf will be given a priority of MUTATING."
+          },
+          "@aws-cdk/aws-dynamodb:retainTableReplica": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "When enabled, table replica will be default to the removal policy of source table unless specified otherwise."
+          },
+          "@aws-cdk/cognito:logUserPoolClientSecretValue": {
+            "recommendedValue": false,
+            "explanation": "When disabled, the value of the user pool client secret will not be logged in the custom resource lambda function logs.",
+            "unconfiguredBehavesLike": {
+              "v2": false
+            }
+          },
+          "@aws-cdk/pipelines:reduceCrossAccountActionRoleTrustScope": {
+            "recommendedValue": true,
+            "explanation": "When enabled, scopes down the trust policy for the cross-account action role",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-stepfunctions:useDistributedMapResultWriterV2": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "When enabled, the resultWriterV2 property of DistributedMap will be used insted of resultWriter"
+          },
+          "@aws-cdk/s3-notifications:addS3TrustKeyPolicyForSnsSubscriptions": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Add an S3 trust policy to a KMS key resource policy for SNS subscriptions."
+          },
+          "@aws-cdk/aws-ec2:requirePrivateSubnetsForEgressOnlyInternetGateway": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "When enabled, the EgressOnlyGateway resource is only created if private subnets are defined in the dual-stack VPC."
+          },
+          "@aws-cdk/aws-ec2-alpha:useResourceIdForVpcV2Migration": {
+            "recommendedValue": false,
+            "explanation": "When enabled, use resource IDs for VPC V2 migration",
+            "unconfiguredBehavesLike": {
+              "v2": false
+            }
+          },
+          "@aws-cdk/aws-s3:publicAccessBlockedByDefault": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "When enabled, setting any combination of options for BlockPublicAccess will automatically set true for any options not defined."
+          },
+          "@aws-cdk/aws-lambda:useCdkManagedLogGroup": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "When enabled, CDK creates and manages loggroup for the lambda function",
+            "unconfiguredBehavesLike": {
+              "v2": false
+            }
+          }
+        }
+      }
+    }
+  },
+  "minimumCliVersion": "2.1028.0"
+}

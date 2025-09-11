@@ -140,13 +140,37 @@ export const StepReview: React.FC = () => {
                 {formData.plusOnes && formData.plusOnes.length > 0 && (
                   <div className="review-item">
                     <span className="review-label">Additional Guests:</span>
-                    <ul className="review-list">
+                    <div className="plus-ones-review">
                       {formData.plusOnes.map((guest, index) => (
-                        <li key={index}>
-                          {guest.name} {guest.ageGroup && `(${guest.ageGroup})`}
-                        </li>
+                        <div key={index} className="plus-one-review-card">
+                          <div className="plus-one-name">
+                            {guest.name} {guest.ageGroup && `(${guest.ageGroup})`}
+                          </div>
+                          {guest.dietaryRestrictions && guest.dietaryRestrictions.length > 0 && (
+                            <div className="plus-one-dietary">
+                              <span className="dietary-label">Dietary:</span>
+                              {guest.dietaryRestrictions
+                                .map((r) =>
+                                  r.replace(/_/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase())
+                                )
+                                .join(', ')}
+                            </div>
+                          )}
+                          {guest.specialNeeds && (
+                            <div className="plus-one-special">
+                              <span className="special-label">Special needs:</span>
+                              {guest.specialNeeds}
+                            </div>
+                          )}
+                          {guest.mealPreference && (
+                            <div className="plus-one-meal">
+                              <span className="meal-label">Meal preference:</span>
+                              {guest.mealPreference}
+                            </div>
+                          )}
+                        </div>
                       ))}
-                    </ul>
+                    </div>
                   </div>
                 )}
               </>

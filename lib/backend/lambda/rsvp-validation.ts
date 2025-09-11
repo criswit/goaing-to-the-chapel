@@ -24,13 +24,19 @@ export const DietaryRestrictionSchema = z.enum([
 
 // Plus one details schema
 export const PlusOneDetailsSchema = z.object({
+  id: z.string().optional(),
   name: z
     .string()
     .min(2, 'Name must be at least 2 characters')
     .max(100, 'Name must be less than 100 characters')
     .regex(/^[a-zA-Z\s\-'.]+$/, 'Name contains invalid characters'),
-  dietaryRestrictions: z.array(DietaryRestrictionSchema).optional(),
   ageGroup: z.enum(['adult', 'child', 'infant']).optional(),
+  dietaryRestrictions: z.array(DietaryRestrictionSchema).optional(),
+  specialNeeds: z.string().max(500, 'Special needs must be less than 500 characters').optional(),
+  mealPreference: z
+    .string()
+    .max(100, 'Meal preference must be less than 100 characters')
+    .optional(),
 });
 
 // POST /api/rsvp request body schema
@@ -158,9 +164,12 @@ export function transformToDbFormat(validatedData: z.infer<typeof CreateRsvpRequ
     rsvp_status: validatedData.rsvpStatus,
     attendee_count: validatedData.attendeeCount,
     plus_ones_details: validatedData.plusOnes?.map((po) => ({
+      id: po.id || `po_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       name: po.name,
-      dietary_restrictions: po.dietaryRestrictions,
       age_group: po.ageGroup,
+      dietary_restrictions: po.dietaryRestrictions,
+      special_needs: po.specialNeeds,
+      meal_preference: po.mealPreference,
     })),
     plus_ones_names: validatedData.plusOnes?.map((po) => po.name),
     dietary_restrictions: validatedData.dietaryRestrictions,

@@ -1,0 +1,171 @@
+{
+  "version": "48.0.0",
+  "files": {
+    "137ea573ab1848274f0bb1aaf501bc171f6af7b1836651150f9582be9e59db31": {
+      "displayName": "EmailLambdas/SendEmailFunction/Code",
+      "source": {
+        "path": "asset.137ea573ab1848274f0bb1aaf501bc171f6af7b1836651150f9582be9e59db31",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "current_account-us-east-1-17f407e9": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1",
+          "objectKey": "137ea573ab1848274f0bb1aaf501bc171f6af7b1836651150f9582be9e59db31.zip",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-us-east-1"
+        }
+      }
+    },
+    "d61b87e27f97c239f70b59c1133166147e8bf7c5ca9de35b6a861e6dc0576107": {
+      "displayName": "EmailLambdas/ProcessEmailQueueFunction/Code",
+      "source": {
+        "path": "asset.d61b87e27f97c239f70b59c1133166147e8bf7c5ca9de35b6a861e6dc0576107",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "current_account-us-east-1-8585b2c8": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1",
+          "objectKey": "d61b87e27f97c239f70b59c1133166147e8bf7c5ca9de35b6a861e6dc0576107.zip",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-us-east-1"
+        }
+      }
+    },
+    "24b7a001d6dc2149b765f8b6edaa44fa44babe85fdebf3f3b1b909eb1ea411c7": {
+      "displayName": "EmailLambdas/ProcessBounceFunction/Code",
+      "source": {
+        "path": "asset.24b7a001d6dc2149b765f8b6edaa44fa44babe85fdebf3f3b1b909eb1ea411c7",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "current_account-us-east-1-803cf56e": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1",
+          "objectKey": "24b7a001d6dc2149b765f8b6edaa44fa44babe85fdebf3f3b1b909eb1ea411c7.zip",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-us-east-1"
+        }
+      }
+    },
+    "79a488f828d3a7ccb662b18ee6b828266f0828a69b437d93ed3ab40a1866dc37": {
+      "displayName": "EmailLambdas/ProcessComplaintFunction/Code",
+      "source": {
+        "path": "asset.79a488f828d3a7ccb662b18ee6b828266f0828a69b437d93ed3ab40a1866dc37",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "current_account-us-east-1-7050235c": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1",
+          "objectKey": "79a488f828d3a7ccb662b18ee6b828266f0828a69b437d93ed3ab40a1866dc37.zip",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-us-east-1"
+        }
+      }
+    },
+    "534a06823e60e1c9477992e21790739e1444fcca09d0a596e54aa6879985b879": {
+      "displayName": "EmailStreamProcessor/StreamProcessorFunction/Code",
+      "source": {
+        "path": "asset.534a06823e60e1c9477992e21790739e1444fcca09d0a596e54aa6879985b879",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "current_account-us-east-1-5454ae39": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1",
+          "objectKey": "534a06823e60e1c9477992e21790739e1444fcca09d0a596e54aa6879985b879.zip",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-us-east-1"
+        }
+      }
+    },
+    "bce0ac9d7bbc56f928c41e9776e51e086e1d1bee2a762b50d732fe1433bda7f3": {
+      "displayName": "Api/CreateRSVPFunction/Code",
+      "source": {
+        "path": "asset.bce0ac9d7bbc56f928c41e9776e51e086e1d1bee2a762b50d732fe1433bda7f3",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "current_account-us-east-1-b2348bc9": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1",
+          "objectKey": "bce0ac9d7bbc56f928c41e9776e51e086e1d1bee2a762b50d732fe1433bda7f3.zip",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-us-east-1"
+        }
+      }
+    },
+    "178dca137de80354749bccbad1be7c8f3efd106a919c62d7ba9d8243fc718bb4": {
+      "displayName": "Api/GetRSVPFunction/Code",
+      "source": {
+        "path": "asset.178dca137de80354749bccbad1be7c8f3efd106a919c62d7ba9d8243fc718bb4",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "current_account-us-east-1-25340413": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1",
+          "objectKey": "178dca137de80354749bccbad1be7c8f3efd106a919c62d7ba9d8243fc718bb4.zip",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-us-east-1"
+        }
+      }
+    },
+    "d24f5453b04307957d9c82934a1c98f1d83be5324e4931e0fa22b6eedd46b6c9": {
+      "displayName": "Api/UpdateRSVPFunction/Code",
+      "source": {
+        "path": "asset.d24f5453b04307957d9c82934a1c98f1d83be5324e4931e0fa22b6eedd46b6c9",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "current_account-us-east-1-a4f7c367": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1",
+          "objectKey": "d24f5453b04307957d9c82934a1c98f1d83be5324e4931e0fa22b6eedd46b6c9.zip",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-us-east-1"
+        }
+      }
+    },
+    "6dd71f22d1814c42c8d759b26caa176ecb665ebcdbfb93fb1ca5cb79106f45b2": {
+      "displayName": "Api/ListRSVPsFunction/Code",
+      "source": {
+        "path": "asset.6dd71f22d1814c42c8d759b26caa176ecb665ebcdbfb93fb1ca5cb79106f45b2",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "current_account-us-east-1-0a9fb517": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1",
+          "objectKey": "6dd71f22d1814c42c8d759b26caa176ecb665ebcdbfb93fb1ca5cb79106f45b2.zip",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-us-east-1"
+        }
+      }
+    },
+    "e59ad93b54218711fb644d67924c38636763dfce3838371424d580998f41967a": {
+      "displayName": "Api/ValidateInvitationFunction/Code",
+      "source": {
+        "path": "asset.e59ad93b54218711fb644d67924c38636763dfce3838371424d580998f41967a",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "current_account-us-east-1-aa2d1191": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1",
+          "objectKey": "e59ad93b54218711fb644d67924c38636763dfce3838371424d580998f41967a.zip",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-us-east-1"
+        }
+      }
+    },
+    "b01ca5ead10b75850ec8e942c75fc0c9768330709e4a211b2500531f9c09ac4a": {
+      "displayName": "RsvpBackendStack Template",
+      "source": {
+        "path": "RsvpBackendStack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-us-east-1-10fd3463": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1",
+          "objectKey": "b01ca5ead10b75850ec8e942c75fc0c9768330709e4a211b2500531f9c09ac4a.json",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-us-east-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

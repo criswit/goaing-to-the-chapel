@@ -35,11 +35,6 @@ interface GuestCSVRecord {
   groupName?: string;
   groupId?: string;
   isPrimaryContact?: string | boolean;
-  invitationCode?: string;
-  invitationSent?: boolean;
-  tableNumber?: string;
-  dietaryRestrictions?: string;
-  notes?: string;
 }
 
 interface GuestItem {
@@ -104,6 +99,14 @@ const TABLE_NAME = 'wedding-rsvp-production';
 const REGION = 'us-east-1';
 const PROFILE = 'wedding-website';
 const EVENT_ID = 'aakanchha-christopher-2026';
+
+// Debug logging helper
+function debugLog(message: string, options?: ImportOptions) {
+  if (options && options.debug) {
+    // eslint-disable-next-line no-console
+    console.log(`[DEBUG] ${message}`);
+  }
+}
 
 // Initialize DynamoDB client
 const dynamoClient = new DynamoDBClient({
@@ -185,16 +188,73 @@ function generateNameBasedCode(name: string, existingCodes: Set<string> = new Se
 
 /**
  * Process CSV file and prepare guest data
+ * Only allows: name, email, phone, plusOnesAllowed, groupName, groupId, isPrimaryContact
  */
-function processCSV(csvPath: string): GuestCSVRecord[] {
+function processCSV(csvPath: string, options?: ImportOptions): GuestCSVRecord[] {
+  debugLog(`Reading CSV file from: ${csvPath}`, options);
   const csvContent = fs.readFileSync(csvPath, 'utf-8');
   const records = parse(csvContent, {
     columns: true,
     skip_empty_lines: true,
     trim: true,
-  }) as GuestCSVRecord[];
+  }) as Record<string, string>[];
 
-  return records;
+  // Only allow the permitted keys
+  const allowedKeys = [
+    'name',
+    'email',
+    'phone',
+    'plusOnesAllowed',
+    'groupName',
+    'groupId',
+    'isPrimaryContact',
+  ];
+
+  const guests: GuestCSVRecord[] = records.map((row, idx) => {
+    const filtered: GuestCSVRecord = {} as GuestCSVRecord;
+    for (const key of allowedKeys) {
+      if (row[key] !== undefined) {
+        (filtered as unknown as Record<string, unknown>)[key] = row[key];
+      }
+    }
+    // Type conversion for isPrimaryContact
+    if (filtered.isPrimaryContact !== undefined) {
+      if (filtered.isPrimaryContact === true || filtered.isPrimaryContact === false) {
+        // already boolean
+      } else if (typeof filtered.isPrimaryContact === 'string') {
+        filtered.isPrimaryContact = filtered.isPrimaryContact.trim().toLowerCase() === 'true';
+      }
+    }
+    // Type conversion for plusOnesAllowed
+    if (filtered.plusOnesAllowed !== undefined) {
+      filtered.plusOnesAllowed = filtered.plusOnesAllowed.trim();
+    }
+    debugLog(`Parsed guest row ${idx + 1}: ${JSON.stringify(filtered)}`, options);
+    return filtered;
+  });
+
+  // Check for extra columns
+  for (const [idx, row] of records.entries()) {
+    const extraKeys = Object.keys(row).filter((k) => !allowedKeys.includes(k));
+    if (extraKeys.length > 0) {
+      debugLog(`Row ${idx + 1} contains unsupported columns: ${extraKeys.join(', ')}`, options);
+    }
+  }
+
+  return guests;
+}
+
+/**
+ * Helper to safely parse plusOnesAllowed to a valid integer >= 0.
+ * Returns 0 if value is missing, empty, not a number, or negative.
+ */
+function safeParsePlusOnesAllowed(value: string | undefined): number {
+  if (value === undefined || value === null) return 0;
+  const trimmed = value.trim();
+  if (trimmed === '') return 0;
+  const num = Number(trimmed);
+  if (isNaN(num) || !isFinite(num) || num < 0) return 0;
+  return Math.floor(num);
 }
 
 /**
@@ -202,11 +262,14 @@ function processCSV(csvPath: string): GuestCSVRecord[] {
  */
 function createGuestItems(
   guests: GuestCSVRecord[],
-  existingCodes: Set<string> = new Set()
+  existingCodes: Set<string> = new Set(),
+  options?: ImportOptions
 ): DynamoDBItem[] {
   const timestamp = new Date().toISOString();
   const items: DynamoDBItem[] = [];
   const groups = new Map<string, GuestCSVRecord[]>();
+
+  debugLog(`Organizing guests into groups`, options);
 
   // First pass: organize by groups
   guests.forEach((guest) => {
@@ -218,10 +281,15 @@ function createGuestItems(
     }
   });
 
+  debugLog(`Creating guest items`, options);
+
   // Second pass: create guest items
   guests.forEach((guest) => {
     const email = guest.email.toLowerCase().trim();
-    const invitationCode = guest.invitationCode || generateNameBasedCode(guest.name, existingCodes);
+    const invitationCode = generateNameBasedCode(guest.name, existingCodes);
+
+    // Use safeParsePlusOnesAllowed to ensure valid number
+    const plusOnesCount = safeParsePlusOnesAllowed(guest.plusOnesAllowed);
 
     const guestItem: GuestItem = {
       PK: KeyBuilder.buildEventPK(EVENT_ID),
@@ -236,16 +304,16 @@ function createGuestItems(
 
       // RSVP related fields
       rsvp_status: 'pending',
-      plus_ones_count: parseInt(guest.plusOnesAllowed || '0'),
+      plus_ones_count: plusOnesCount,
 
       // Invitation management
       invitation_code: invitationCode,
-      invitation_sent_at: guest.invitationSent ? timestamp : null,
+      invitation_sent_at: null,
 
       // Group management
       group_id: guest.groupId || null,
       group_name: guest.groupName || null,
-      is_primary_contact: guest.isPrimaryContact === 'true' || guest.isPrimaryContact === true,
+      is_primary_contact: guest.isPrimaryContact === true,
 
       // GSI attributes
       InvitationCode: KeyBuilder.buildInvitationGSI(invitationCode),
@@ -262,22 +330,33 @@ function createGuestItems(
       max_uses: 5,
       current_uses: 0,
 
-      // Additional custom fields
-      table_number: guest.tableNumber || null,
-      dietary_restrictions: guest.dietaryRestrictions
-        ? guest.dietaryRestrictions.split(',').map((d) => d.trim())
-        : [],
-      notes: guest.notes || null,
+      // Additional custom fields (set to null/empty)
+      table_number: null,
+      dietary_restrictions: [],
+      notes: null,
     };
+
+    debugLog(
+      `Created GuestItem for ${guestItem.guest_name} (${guestItem.email}): ${JSON.stringify(
+        guestItem
+      )}`,
+      options
+    );
 
     items.push(guestItem);
   });
 
+  debugLog(`Creating group items`, options);
+
   // Third pass: create group entities
   groups.forEach((members, groupId) => {
-    const primaryContact =
-      members.find((m) => m.isPrimaryContact === 'true' || m.isPrimaryContact === true) ||
-      members[0];
+    const primaryContact = members.find((m) => m.isPrimaryContact === true) || members[0];
+
+    // Use safeParsePlusOnesAllowed for each member
+    const maxPartySize = members.reduce(
+      (sum, m) => sum + safeParsePlusOnesAllowed(m.plusOnesAllowed) + 1,
+      0
+    );
 
     const groupItem: GroupItem = {
       PK: KeyBuilder.buildEventPK(EVENT_ID),
@@ -289,7 +368,7 @@ function createGuestItems(
       event_id: EVENT_ID,
 
       // Group configuration
-      max_party_size: members.reduce((sum, m) => sum + parseInt(m.plusOnesAllowed || '0') + 1, 0),
+      max_party_size: maxPartySize,
       current_party_size: members.length,
 
       // Primary contact
@@ -308,6 +387,8 @@ function createGuestItems(
       version: 1,
     };
 
+    debugLog(`Created GroupItem for groupId=${groupId}: ${JSON.stringify(groupItem)}`, options);
+
     items.push(groupItem);
   });
 
@@ -317,7 +398,7 @@ function createGuestItems(
 /**
  * Batch write items to DynamoDB
  */
-async function batchWriteToDynamoDB(items: DynamoDBItem[]): Promise<void> {
+async function batchWriteToDynamoDB(items: DynamoDBItem[], options?: ImportOptions): Promise<void> {
   const batches: DynamoDBItem[][] = [];
 
   // DynamoDB BatchWrite supports max 25 items per request
@@ -325,7 +406,7 @@ async function batchWriteToDynamoDB(items: DynamoDBItem[]): Promise<void> {
     batches.push(items.slice(i, i + 25));
   }
 
-  // Prepared batches for items
+  debugLog(`Prepared ${batches.length} batch(es) for DynamoDB write`, options);
 
   for (let i = 0; i < batches.length; i++) {
     const batch = batches[i];
@@ -337,12 +418,17 @@ async function batchWriteToDynamoDB(items: DynamoDBItem[]): Promise<void> {
       },
     };
 
+    debugLog(`Writing batch ${i + 1}/${batches.length} to DynamoDB`, options);
+
     const result = await docClient.send(new BatchWriteCommand(batchParams));
 
     if (result.UnprocessedItems && Object.keys(result.UnprocessedItems).length > 0) {
-      // Some items were not processed
+      debugLog(
+        `Batch ${i + 1} had unprocessed items: ${JSON.stringify(result.UnprocessedItems)}`,
+        options
+      );
     } else {
-      // Batch completed successfully
+      debugLog(`Batch ${i + 1} completed successfully`, options);
     }
   }
 }
@@ -352,7 +438,7 @@ async function batchWriteToDynamoDB(items: DynamoDBItem[]): Promise<void> {
  */
 async function importGuests(csvPath: string, options: ImportOptions = {}): Promise<void> {
   try {
-    // Starting guest list import
+    debugLog('Starting guest list import', options);
 
     // Check if CSV file exists
     if (!fs.existsSync(csvPath)) {
@@ -360,23 +446,23 @@ async function importGuests(csvPath: string, options: ImportOptions = {}): Promi
     }
 
     // Process CSV
-    // Reading CSV file
-    const guests = processCSV(csvPath);
-    // Found guests
+    debugLog('Processing CSV file', options);
+    const guests = processCSV(csvPath, options);
+    debugLog(`Found ${guests.length} guests in CSV`, options);
 
     // Create guest items
-    // Creating guest records
+    debugLog('Creating guest and group records', options);
     const existingCodes = new Set<string>();
-    const items = createGuestItems(guests, existingCodes);
+    const items = createGuestItems(guests, existingCodes, options);
 
-    // Created guest and group records
+    debugLog(`Created ${items.length} DynamoDB items (guests + groups)`, options);
 
     // Write to DynamoDB
     if (!options.dryRun) {
-      // Writing to DynamoDB
-      await batchWriteToDynamoDB(items);
+      debugLog('Writing items to DynamoDB', options);
+      await batchWriteToDynamoDB(items, options);
 
-      // Import completed successfully
+      debugLog('Import completed successfully', options);
 
       // Generate invitation codes report
       if (options.generateReport) {
@@ -387,24 +473,31 @@ async function importGuests(csvPath: string, options: ImportOptions = {}): Promi
           .join('\n');
 
         fs.writeFileSync(reportPath, 'name,email,invitation_code\n' + reportContent);
-        // Invitation codes report saved
+        debugLog(`Invitation codes report saved to ${reportPath}`, options);
       }
     } else {
-      // DRY RUN - No data was written to DynamoDB
+      debugLog('DRY RUN - No data was written to DynamoDB', options);
     }
 
     // Print sample invitation codes
-    // Sample Invitation Codes
+    debugLog('Sample Invitation Codes:', options);
     items
       .filter((i): i is GuestItem => i.EntityType === 'GUEST')
       .slice(0, 5)
-      .forEach((_guest) => {
-        // Guest invitation code generated
+      .forEach((guest) => {
+        debugLog(
+          `Sample: ${guest.guest_name} <${guest.email}> - Invitation Code: ${guest.invitation_code}`,
+          options
+        );
       });
   } catch (error) {
-    // Import failed
+    debugLog('Import failed', options);
     if ((error as Error).stack && options.debug) {
-      // Error stack trace available in debug mode
+      // eslint-disable-next-line no-console
+      console.error((error as Error).stack);
+    } else {
+      // eslint-disable-next-line no-console
+      console.error((error as Error).message);
     }
     process.exit(1);
   }
@@ -451,7 +544,11 @@ CSV Example:
     debug: args.includes('--debug'),
   };
 
-  importGuests(csvPath, options).catch(() => {
+  importGuests(csvPath, options).catch((err) => {
+    if (options.debug) {
+      // eslint-disable-next-line no-console
+      console.error('[DEBUG] Unhandled error in importGuests:', err);
+    }
     // Error handling in importGuests function
   });
 }

@@ -69,8 +69,9 @@ const rsvpStack = new RsvpBackendStack(app, 'RsvpBackendStack', {
     region: process.env.CDK_DEFAULT_REGION || 'us-east-1',
   },
 
-  // Pass domain name for CORS configuration
+  // Pass domain name and hosted zone for CORS and SES configuration
   domainName: dnsConfig?.domainName,
+  hostedZoneId: dnsConfig?.hostedZoneId,
 
   description: 'RSVP backend infrastructure for wedding website',
 });

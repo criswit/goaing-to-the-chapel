@@ -1,9 +1,15 @@
 import * as cdk from 'aws-cdk-lib';
+import * as route53 from 'aws-cdk-lib/aws-route53';
 import { Construct } from 'constructs';
 import { RsvpDatabase } from './backend/rsvp-database';
 import { RsvpApi } from './backend/rsvp-api';
 import { ApiDomainConfig } from './backend/api-domain-config';
 import { AuthInfrastructure } from './backend/auth-infrastructure';
+import { EmailInfrastructure } from './backend/email-infrastructure';
+import { EmailLambdas } from './backend/email-lambdas';
+import { EmailStreamProcessor } from './backend/email-stream-processor';
+import { AdminApi } from './backend/admin-api';
+import { FrontendConfig } from './backend/frontend-config';
 
 export interface RsvpBackendStackProps extends cdk.StackProps {
   /**
@@ -22,6 +28,11 @@ export interface RsvpBackendStackProps extends cdk.StackProps {
    * Custom domain name if available
    */
   domainName?: string;
+
+  /**
+   * Hosted zone ID for Route53 DNS records
+   */
+  hostedZoneId?: string;
 }
 
 export class RsvpBackendStack extends cdk.Stack {
@@ -45,6 +56,26 @@ export class RsvpBackendStack extends cdk.Stack {
    */
   public readonly apiDomain?: ApiDomainConfig;
 
+  /**
+   * The email infrastructure
+   */
+  public readonly emailInfrastructure: EmailInfrastructure;
+
+  /**
+   * The email Lambda functions
+   */
+  public readonly emailLambdas: EmailLambdas;
+
+  /**
+   * The email stream processor
+   */
+  public readonly emailStreamProcessor: EmailStreamProcessor;
+
+  /**
+   * The admin API
+   */
+  public readonly adminApi: AdminApi;
+
   constructor(scope: Construct, id: string, props?: RsvpBackendStackProps) {
     super(scope, id, props);
 
@@ -60,6 +91,48 @@ export class RsvpBackendStack extends cdk.Stack {
     this.database = new RsvpDatabase(this, 'Database', {
       environment,
       removalPolicy: cdk.RemovalPolicy.RETAIN, // Always retain in production
+    });
+
+    // Look up hosted zone if ID is provided
+    let hostedZone: route53.IHostedZone | undefined;
+    if (props?.hostedZoneId && props?.domainName) {
+      hostedZone = route53.HostedZone.fromHostedZoneAttributes(this, 'HostedZone', {
+        hostedZoneId: props.hostedZoneId,
+        zoneName: props.domainName,
+      });
+    }
+
+    // Create email infrastructure
+    this.emailInfrastructure = new EmailInfrastructure(this, 'EmailInfrastructure', {
+      domainName: props?.domainName || 'wedding.himnher.dev',
+      environment,
+      // notificationEmail: 'your-real-email@gmail.com', // Your actual email for bounce/complaint notifications
+      forwardToEmail: 'whitfiecbeta@gmail.com', // Where to forward emails sent to admin@wedding.himnher.dev
+      hostedZone, // Pass hosted zone for automatic DNS record creation
+      verifyEmails: [
+        // Add any test email addresses you want to verify here for testing
+        // Example: 'your-email@gmail.com',
+        // These will be automatically verified in SES for testing in sandbox mode
+      ],
+    });
+
+    // Create email Lambda functions
+    this.emailLambdas = new EmailLambdas(this, 'EmailLambdas', {
+      emailInfrastructure: this.emailInfrastructure,
+      table: this.database.table,
+      environment,
+      domainName: props?.domainName || 'wedding.himnher.dev',
+      websiteUrl: props?.domainName ? `https://${props.domainName}` : 'https://wedding.himnher.dev',
+    });
+
+    // Create stream processor for email notifications
+    this.emailStreamProcessor = new EmailStreamProcessor(this, 'EmailStreamProcessor', {
+      table: this.database.table,
+      emailQueue: this.emailInfrastructure.emailQueue,
+      environment,
+      domainName: props?.domainName || 'wedding.himnher.dev',
+      websiteUrl: props?.domainName ? `https://${props.domainName}` : 'https://wedding.himnher.dev',
+      alarmTopic: this.emailInfrastructure.bounceNotificationTopic, // Reuse the notification topic for alarms
     });
 
     // Determine CORS origins
@@ -91,6 +164,16 @@ export class RsvpBackendStack extends cdk.Stack {
     this.authInfrastructure.grantParameterAccess(this.api.functions.update);
     this.authInfrastructure.grantParameterAccess(this.api.functions.list);
     this.authInfrastructure.grantParameterAccess(this.api.functions.validate);
+    this.authInfrastructure.grantParameterAccess(this.api.functions.batchParty);
+    this.authInfrastructure.grantParameterAccess(this.api.functions.createGuest);
+
+    // Create Admin API
+    this.adminApi = new AdminApi(this, 'AdminApi', {
+      guestsTable: this.database.table,
+      rsvpsTable: this.database.table,
+      authInfrastructure: this.authInfrastructure,
+      corsOrigin: '*', // Allow all origins for development - you can restrict this in production
+    });
 
     // Configure custom domain for API
     // API will be available at api.wedding.himnher.dev
@@ -102,11 +185,24 @@ export class RsvpBackendStack extends cdk.Stack {
       });
     }
 
+    // Generate frontend configuration files
+    new FrontendConfig(this, 'FrontendConfig', {
+      mainApiUrl: this.api.api.url,
+      adminApiUrl: this.adminApi.api.url,
+      environment: 'production',
+    });
+
     // CloudFormation Outputs
     new cdk.CfnOutput(this, 'ApiEndpoint', {
       description: 'RSVP API Gateway endpoint URL',
       value: this.api.api.url,
       exportName: `${this.stackName}-ApiEndpoint`,
+    });
+
+    new cdk.CfnOutput(this, 'AdminApiEndpoint', {
+      description: 'Admin API Gateway endpoint URL',
+      value: this.adminApi.api.url,
+      exportName: `${this.stackName}-AdminApiEndpoint`,
     });
 
     new cdk.CfnOutput(this, 'TableName', {

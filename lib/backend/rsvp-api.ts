@@ -24,6 +24,16 @@ export interface RsvpApiProps {
    * The frontend domain for CORS configuration
    */
   allowedOrigins?: string[];
+
+  /**
+   * Admin table for authentication
+   */
+  adminTable?: dynamodb.Table;
+
+  /**
+   * Auth infrastructure for JWT keys
+   */
+  authInfrastructure?: unknown;
 }
 
 export class RsvpApi extends Construct {
@@ -41,6 +51,8 @@ export class RsvpApi extends Construct {
     update: NodejsFunction;
     list: NodejsFunction;
     validate: NodejsFunction;
+    batchParty: NodejsFunction;
+    createGuest: NodejsFunction;
   };
 
   constructor(scope: Construct, id: string, props: RsvpApiProps) {
@@ -163,6 +175,44 @@ export class RsvpApi extends Construct {
           externalModules: ['@aws-sdk/*'],
         },
       }),
+
+      batchParty: new NodejsFunction(this, 'BatchPartyRSVPFunction', {
+        functionName: `wedding-batch-party-rsvp-${environment}`,
+        runtime: lambda.Runtime.NODEJS_20_X,
+        handler: 'handler',
+        entry: path.join(__dirname, 'lambda/batch-party-rsvp.ts'),
+        timeout: cdk.Duration.seconds(30),
+        memorySize: 512, // More memory for processing multiple guests
+        role: lambdaRole,
+        environment: lambdaEnvironment,
+        logGroup: new logs.LogGroup(this, 'BatchPartyRSVPLogs', {
+          retention: logs.RetentionDays.ONE_MONTH,
+          removalPolicy: cdk.RemovalPolicy.DESTROY,
+        }),
+        tracing: lambda.Tracing.ACTIVE,
+        bundling: {
+          externalModules: ['@aws-sdk/*'],
+        },
+      }),
+
+      createGuest: new NodejsFunction(this, 'CreateGuestFunction', {
+        functionName: `wedding-create-guest-${environment}`,
+        runtime: lambda.Runtime.NODEJS_20_X,
+        handler: 'handler',
+        entry: path.join(__dirname, 'lambda/create-guest.ts'),
+        timeout: cdk.Duration.seconds(30),
+        memorySize: 512, // More memory for bulk guest creation
+        role: lambdaRole,
+        environment: lambdaEnvironment,
+        logGroup: new logs.LogGroup(this, 'CreateGuestLogs', {
+          retention: logs.RetentionDays.ONE_MONTH,
+          removalPolicy: cdk.RemovalPolicy.DESTROY,
+        }),
+        tracing: lambda.Tracing.ACTIVE,
+        bundling: {
+          externalModules: ['@aws-sdk/*'],
+        },
+      }),
     };
 
     // Create API Gateway REST API
@@ -201,6 +251,20 @@ export class RsvpApi extends Construct {
     // POST /rsvp/validate - Validate invitation code
     const validateResource = rsvpResource.addResource('validate');
     validateResource.addMethod('POST', new apigateway.LambdaIntegration(this.functions.validate));
+
+    // POST /rsvp/batch-party - Submit RSVP for a whole party
+    const batchPartyResource = rsvpResource.addResource('batch-party');
+    batchPartyResource.addMethod(
+      'POST',
+      new apigateway.LambdaIntegration(this.functions.batchParty)
+    );
+
+    // Guest management resources
+    const guestsResource = this.api.root.addResource('guests');
+
+    // POST /guests/import - Import/create multiple guests
+    const importResource = guestsResource.addResource('import');
+    importResource.addMethod('POST', new apigateway.LambdaIntegration(this.functions.createGuest));
 
     // Individual RSVP resource
     const rsvpIdResource = rsvpResource.addResource('{rsvpId}');

@@ -1,11 +1,2 @@
 name,email,phone,plusOnesAllowed,groupName,groupId,isPrimaryContact,tableNumber,dietaryRestrictions,notes
-John Smith,john.smith@email.com,+1-555-0001,1,Smith Family,smith-family,true,1,Vegetarian,College friend
-Sarah Smith,sarah.smith@email.com,+1-555-0002,0,Smith Family,smith-family,false,1,,John's wife
-Michael Johnson,michael.j@email.com,+1-555-0003,2,Johnson Group,johnson-group,true,2,,Work colleague
-Emily Davis,emily.davis@email.com,+1-555-0004,1,Davis Family,davis-family,true,3,Gluten-Free,Cousin
-Robert Wilson,robert.w@email.com,+1-555-0005,0,,,false,4,Vegan,Uncle Bob
-Lisa Anderson,lisa.a@email.com,+1-555-0006,1,Anderson Family,anderson-family,true,5,,High school friend
-James Brown,james.b@email.com,+1-555-0007,2,Brown Family,brown-family,true,6,Nut Allergy,Best man
-Jennifer Taylor,jen.taylor@email.com,+1-555-0008,0,,,false,7,,Maid of honor
-David Martinez,david.m@email.com,+1-555-0009,1,Martinez Family,martinez-family,true,8,,Neighbor
-Mary Thompson,mary.t@email.com,+1-555-0010,1,Thompson Family,thompson-family,true,9,Vegetarian,Aunt Mary
+chris whitfield, whitfiecbeta@gmail.com,2064883239, 1, whitfiec, whitfiec, yes,,,,

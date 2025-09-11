@@ -335,7 +335,7 @@
         "dependencies": [
           5
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -343,7 +343,7 @@
             "description": "Extend the DynamoDB data model to support plus-ones array and party relationships within the existing single-table design",
             "dependencies": [],
             "details": "Add plus_ones array field to GUEST entity containing guest details, relationship type, and individual dietary preferences. Update the schema to include party_id for grouping related guests and max_plus_ones limit per invitation. Modify existing GSI queries to handle party-based filtering and ensure data integrity constraints for plus-one relationships.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -354,7 +354,7 @@
               "6.1"
             ],
             "details": "Extend existing RSVP submission endpoints to accept party data arrays. Implement batch processing logic for multiple guest responses in single API call. Add validation for party consistency and plus-one limits. Update response format to handle party-level success/error states and individual guest validation results.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -365,7 +365,7 @@
               "6.1"
             ],
             "details": "Build React components for adding/removing plus-one entries dynamically. Include fields for plus-one name, dietary restrictions, special needs, and relationship type. Implement real-time validation for maximum plus-one limits and required field completion. Create intuitive UI for party management with clear visual grouping of family members and plus-ones.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -377,7 +377,50 @@
               "6.3"
             ],
             "details": "Build party summary component displaying all attendees with their preferences and RSVP status. Implement client and server-side validation for maximum plus-one limits per invitation type. Add party-level validation for required information completion and dietary restriction conflicts. Create admin view for reviewing and managing party RSVPs with bulk operations support.",
-            "status": "pending",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Update DynamoDB Schema for Plus-One Support",
+            "description": "Extend the existing DynamoDB schema to support plus-ones array and party relationship management",
+            "dependencies": [],
+            "details": "Modify the RSVP_RESPONSE entity to include plus_ones array field containing guest details (name, email, dietary_restrictions, special_needs, relationship_type). Update GSI patterns to efficiently query party members. Add party_id field to group related RSVP responses. Implement data migration strategy for existing records. Update CloudFormation/CDK templates with new schema attributes and indexes.",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "Create Dynamic Plus-One Form Fields Component",
+            "description": "Build frontend component for dynamically adding and managing plus-one information in the RSVP form",
+            "dependencies": [
+              "6.1"
+            ],
+            "details": "Create PlusOneFields component with add/remove functionality for plus-one entries. Include fields for name, dietary restrictions, special needs, and relationship type. Implement form validation for required fields and data format. Add visual indicators for maximum plus-one limits. Integrate with existing StepPersonal component and ensure proper state management. Style component to match existing form design patterns.",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 7,
+            "title": "Implement Batch Party RSVP API Endpoints",
+            "description": "Create backend API endpoints to handle batch RSVP submissions for entire parties including plus-ones",
+            "dependencies": [
+              "6.1"
+            ],
+            "details": "Develop batch-party-rsvp Lambda function to process party RSVP submissions atomically. Implement validation for maximum plus-one limits per invitation. Create transaction logic to ensure all party members are saved together or none at all. Add error handling for partial failures and rollback mechanisms. Update existing create-rsvp endpoint to handle both individual and party submissions. Include proper logging for debugging party operations.",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 8,
+            "title": "Build Party Summary and Validation Logic",
+            "description": "Create party summary view and implement comprehensive validation for plus-one limits and party management",
+            "dependencies": [
+              "6.2",
+              "6.3"
+            ],
+            "details": "Build StepReview enhancements to display party summary with all attendees and their preferences. Implement client-side and server-side validation for maximum plus-one limits based on invitation type. Create party total calculation logic for headcount and dietary preference summaries. Add confirmation dialogs for party submission. Implement validation feedback for over-limit scenarios with clear user guidance. Ensure party data consistency across form steps.",
+            "status": "done",
             "testStrategy": ""
           }
         ]
@@ -392,7 +435,7 @@
         "dependencies": [
           4
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -400,7 +443,7 @@
             "description": "Set up AWS SES service in the CDK stack with proper domain verification, DKIM authentication, and production-ready configuration",
             "dependencies": [],
             "details": "Add SES configuration to CDK stack including domain identity, DKIM setup, and reputation monitoring. Configure proper IAM permissions for Lambda functions to send emails. Set up domain verification records and ensure DKIM authentication is enabled for email deliverability.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -411,7 +454,7 @@
               "7.1"
             ],
             "details": "Create branded HTML and plain text email templates for: RSVP confirmation, RSVP update notification, and reminder emails for non-respondents. Ensure templates are responsive, accessible, and maintain consistent branding with the wedding website. Include dynamic content placeholders for guest information and event details.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -422,7 +465,7 @@
               "7.2"
             ],
             "details": "Create Lambda function using SES v3 SDK for sending emails with template selection, recipient management, and comprehensive error handling. Implement proper logging, monitoring, and integration with DynamoDB for tracking email status. Include support for both individual and batch email operations.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -433,7 +476,7 @@
               "7.3"
             ],
             "details": "Set up SNS topics for SES bounce and complaint notifications. Create SQS queues for processing these notifications with dead letter queues for failed processing. Implement Lambda function to process bounce/complaint messages and automatically update guest status in DynamoDB. Configure proper retry policies and monitoring.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -444,7 +487,7 @@
               "7.4"
             ],
             "details": "Implement SQS-based email queue for bulk email operations with exponential backoff retry logic. Create processing Lambda function that handles email batching, rate limiting to respect SES sending limits, and proper failure handling. Include monitoring and alerting for queue health and processing failures.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           }
         ]
@@ -468,7 +511,7 @@
             "description": "Create separate admin authentication flow with JWT-based access control and role validation",
             "dependencies": [],
             "details": "Build admin login component with email/password authentication. Create separate admin JWT tokens with ADMIN role. Implement protected route wrapper component that validates admin JWT tokens and redirects unauthorized users. Add admin logout functionality and token refresh mechanism.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -479,7 +522,7 @@
               "8.1"
             ],
             "details": "Design dashboard shell component with collapsible sidebar navigation. Create responsive layout that works on tablet/desktop devices. Include navigation items for RSVP stats, guest management, bulk operations, and export tools. Add user profile section with logout option.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -490,7 +533,7 @@
               "8.2"
             ],
             "details": "Create statistics overview component with key metrics cards (total invites, confirmed, pending, declined). Implement charts using chart library for visual data representation. Set up React Query for real-time data fetching with polling. Display breakdown by dietary restrictions, plus-ones, and other relevant metrics.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -501,7 +544,7 @@
               "8.2"
             ],
             "details": "Create guest list table component with pagination for large datasets. Implement search functionality by name, email, or invitation code. Add filter options for RSVP status, dietary restrictions, and plus-one count. Include individual guest edit capabilities and RSVP status override functionality.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -538,7 +581,7 @@
         "dependencies": [
           5
         ],
-        "status": "pending",
+        "status": "in-progress",
         "subtasks": [
           {
             "id": 1,
@@ -776,11 +819,75 @@
             "testStrategy": ""
           }
         ]
+      },
+      {
+        "id": 13,
+        "title": "Fix admin dashboard data counting and display issues",
+        "description": "Resolve incorrect guest counts and display issues in the admin dashboard by fixing DynamoDB filtering, data formatting, and React component warnings.",
+        "details": "Based on analysis of the existing codebase, this task addresses multiple critical issues in the admin dashboard:\n\n1. **DynamoDB Entity Type Filtering**: Update admin-stats.ts and admin-guests.ts Lambda functions to filter DynamoDB scan results by EntityType='GUEST' instead of scanning all records. The current code (lines 56-58 in admin-stats.ts and 48-50 in admin-guests.ts) performs unfiltered scans, causing incorrect counts. Add FilterExpression to ScanCommand:\n```typescript\nconst guestsResponse = await docClient.send(new ScanCommand({\n  TableName: GUESTS_TABLE_NAME,\n  FilterExpression: 'EntityType = :entityType',\n  ExpressionAttributeValues: { ':entityType': 'GUEST' }\n}));\n```\n\n2. **Fix Guest Name Display**: In admin-guests.ts (lines 139-141), the guest name lookup logic falls back to 'Unknown' when guest data is missing. Improve the data merging logic to properly handle missing guest names and ensure proper fallback values.\n\n3. **Date Formatting**: Fix 'Invalid Date' issues in StatsOverview.tsx (lines 96-104) and GuestList.tsx (line 300) by adding proper date validation and null checks before calling Date constructor. Add helper function:\n```typescript\nconst formatDate = (dateString?: string) => {\n  if (!dateString) return '-';\n  const date = new Date(dateString);\n  return isNaN(date.getTime()) ? 'Invalid Date' : date.toLocaleDateString();\n};\n```\n\n4. **React Key Warnings**: Fix missing keys in list components by ensuring unique key props in StatsOverview.tsx (line 205) and GuestList.tsx (line 267). Use combination of index and unique identifiers where needed.\n\n5. **RSVP Deduplication**: Implement proper deduplication logic in admin-stats.ts to handle multiple RSVP responses from the same guest. Add logic to keep only the latest response per invitation code:\n```typescript\nconst latestRsvps = rsvps.reduce((acc, rsvp) => {\n  const existing = acc[rsvp.invitationCode];\n  if (!existing || new Date(rsvp.submittedAt) > new Date(existing.submittedAt)) {\n    acc[rsvp.invitationCode] = rsvp;\n  }\n  return acc;\n}, {});\n```\n\n6. **Update DynamoDB Schema Alignment**: Ensure all Lambda functions align with the single-table design specified in dynamodb-schema.ts, using proper EntityType filtering and consistent field naming conventions.\n\nThe fixes should maintain backward compatibility while resolving data accuracy issues in the dashboard displays.",
+        "testStrategy": "Verify fixes by: 1) Creating test guests with EntityType='GUEST' and other entity types, confirming only GUEST entities are counted 2) Testing with guests having null/undefined names and dates to ensure proper fallback display 3) Checking browser console for React key warnings elimination 4) Creating multiple RSVP responses for same guest and verifying only latest is counted 5) Validating admin dashboard shows accurate guest counts matching actual database records 6) Testing date display with various date formats and null values 7) Confirming dietary restriction counts are accurate after deduplication 8) Load testing with larger datasets to ensure scan performance with filtering",
+        "status": "done",
+        "dependencies": [
+          2,
+          8
+        ],
+        "priority": "high",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Add EntityType filtering to DynamoDB scan operations in Lambda functions",
+            "description": "Update admin-stats.ts and admin-guests.ts Lambda functions to filter DynamoDB scan results by EntityType='GUEST' instead of scanning all records. Add FilterExpression to ScanCommand operations to ensure only GUEST entities are retrieved and counted.",
+            "dependencies": [],
+            "details": "In admin-stats.ts (lines 56-58) and admin-guests.ts (lines 48-50), replace unfiltered ScanCommand with filtered version:\n```typescript\nconst guestsResponse = await docClient.send(new ScanCommand({\n  TableName: GUESTS_TABLE_NAME,\n  FilterExpression: 'EntityType = :entityType',\n  ExpressionAttributeValues: { ':entityType': 'GUEST' }\n}));\n```\nThis aligns with the single-table design specified in dynamodb-schema.ts where guest records have EntityType='GUEST'.",
+            "status": "done",
+            "testStrategy": "Create test data with mixed EntityType values (GUEST, EVENT, RSVP_RESPONSE) and verify that only GUEST entities are counted in admin statistics. Confirm guest counts match actual GUEST records in database."
+          },
+          {
+            "id": 2,
+            "title": "Implement RSVP deduplication logic to handle multiple responses per guest",
+            "description": "Add deduplication logic in admin-stats.ts to handle scenarios where guests may have submitted multiple RSVP responses, ensuring only the latest response per invitation code is counted in statistics.",
+            "dependencies": [
+              "13.1"
+            ],
+            "details": "Implement deduplication logic after fetching RSVPs:\n```typescript\nconst latestRsvps = rsvps.reduce((acc, rsvp) => {\n  const existing = acc[rsvp.invitationCode];\n  if (!existing || new Date(rsvp.submittedAt) > new Date(existing.submittedAt)) {\n    acc[rsvp.invitationCode] = rsvp;\n  }\n  return acc;\n}, {});\nconst uniqueRsvps = Object.values(latestRsvps);\n```\nThen use uniqueRsvps for all statistical calculations.",
+            "status": "done",
+            "testStrategy": "Create multiple RSVP responses for the same invitation code with different timestamps and verify only the latest response is counted. Test with edge cases like missing timestamps and identical timestamps."
+          },
+          {
+            "id": 3,
+            "title": "Fix date formatting and validation in React components",
+            "description": "Resolve 'Invalid Date' issues in StatsOverview.tsx and GuestList.tsx by adding proper date validation and null checks before calling Date constructor. Create reusable date formatting helper function.",
+            "dependencies": [],
+            "details": "Replace direct date formatting in StatsOverview.tsx (lines 96-104) and GuestList.tsx (line 300) with:\n```typescript\nconst formatDate = (dateString?: string) => {\n  if (!dateString) return '-';\n  const date = new Date(dateString);\n  return isNaN(date.getTime()) ? 'Invalid Date' : date.toLocaleDateString();\n};\n```\nApply this helper function to all date display locations.",
+            "status": "done",
+            "testStrategy": "Test with various date formats including null, undefined, invalid strings, and valid ISO dates. Verify all date displays show either proper formatted dates or appropriate fallback values."
+          },
+          {
+            "id": 4,
+            "title": "Fix React key warnings by adding proper key props to list components",
+            "description": "Resolve React key warnings in StatsOverview.tsx and GuestList.tsx by ensuring unique key props are provided for all mapped list items, using combination of index and unique identifiers where needed.",
+            "dependencies": [],
+            "details": "Fix missing keys in StatsOverview.tsx (line 205) and GuestList.tsx (line 267). For the recent responses table in StatsOverview.tsx, use response email + timestamp as key. For guest list table, use invitation code as key. Ensure all mapped elements have stable, unique keys.",
+            "status": "done",
+            "testStrategy": "Check browser console for React key warnings after changes. Verify list components render correctly with proper keys and no console warnings during data updates or filtering."
+          },
+          {
+            "id": 5,
+            "title": "Improve guest name fallback logic and data merging in admin-guests.ts",
+            "description": "Enhance the guest name lookup logic in admin-guests.ts to properly handle missing guest names and ensure robust fallback values when merging guest and RSVP data.",
+            "dependencies": [
+              "13.1"
+            ],
+            "details": "Improve the guest name fallback logic in admin-guests.ts (lines 139-141). Currently falls back to 'Unknown' when guest data is missing. Enhance the data merging logic in the mergedGuests mapping to:\n1. Check guest.name first\n2. Fall back to rsvp.name if available\n3. Use 'Unknown Guest' as final fallback\n4. Add proper null/undefined checks throughout the merging process",
+            "status": "done",
+            "testStrategy": "Test with guests having missing names, RSVP records without corresponding guest records, and various combinations of missing data. Verify all scenarios display appropriate names without errors."
+          }
+        ]
       }
     ],
     "metadata": {
       "created": "2025-09-08T01:12:16.853Z",
-      "updated": "2025-09-08T06:10:35.704Z",
+      "updated": "2025-09-11T01:02:20.773Z",
       "description": "Tasks for rsvp-system context"
     }
   },
@@ -1012,11 +1119,82 @@
             "testStrategy": "Test the consolidated panel on desktop and mobile viewports, verify all external links open correctly, confirm all original content is accessible and properly styled, and validate that no console errors or styling issues are present."
           }
         ]
+      },
+      {
+        "id": 6,
+        "title": "Design comprehensive Attire component structure and content layout",
+        "description": "Create a detailed design specification for the Attire.tsx component that provides comprehensive dress code guidance for Indian wedding events, organized by event type with cultural context and practical advice for international guests.",
+        "details": "1. Research and document Indian wedding attire customs:\n   - Traditional clothing categories (lehenga, saree, kurta, sherwani, etc.)\n   - Color significance and restrictions (avoiding white/black for certain events)\n   - Fabric choices suitable for Goan climate (breathable materials)\n   - Modesty guidelines and cultural sensitivities\n\n2. Design component structure with event-based organization:\n   - Welcome Party: Smart casual with Indian fusion options\n   - Mehendi: Bright colors, comfortable fabrics for sitting\n   - Sangam: Traditional Indian attire preferred\n   - Wedding Ceremony: Formal traditional wear, color guidelines\n   - Reception: Semi-formal to formal Indian or Western attire\n   - After Party: Party wear, more relaxed dress code\n\n3. Create user-friendly layout sections:\n   - Quick reference guide with do's and don'ts\n   - Event-specific attire cards with visual examples\n   - Shopping recommendations (online stores, local Goa options)\n   - Styling tips for international guests\n   - Climate considerations (lightweight fabrics, accessories)\n   - Rental options and tailoring services\n\n4. Plan interactive elements:\n   - Filterable attire options by event type\n   - Gender-specific recommendations\n   - Price range indicators for shopping guidance\n   - Size and fit advice for traditional Indian clothing\n\n5. Design responsive layout:\n   - Mobile-first approach for easy reference while shopping\n   - Clear visual hierarchy with event timeline integration\n   - Accessibility considerations for color-blind users\n   - Print-friendly version for offline reference",
+        "testStrategy": "1. Validate content accuracy by reviewing with Indian wedding tradition experts and cultural consultants\n2. Test layout responsiveness across mobile, tablet, and desktop viewports\n3. Verify all event types from the Events page are covered with appropriate attire guidance\n4. Conduct user testing with international guests unfamiliar with Indian wedding customs\n5. Ensure shopping links and recommendations are current and accessible\n6. Test accessibility compliance including color contrast and screen reader compatibility\n7. Validate climate-appropriate fabric recommendations against Goa weather patterns\n8. Confirm cultural sensitivity review by Indian community members",
+        "status": "pending",
+        "dependencies": [
+          3
+        ],
+        "priority": "high",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Design event-based attire section structure and data model",
+            "description": "Create a comprehensive data model for the Attire component that organizes dress code recommendations by specific wedding events, incorporating existing event structure from Events.tsx and adding cultural context, climate considerations, and detailed attire specifications for each celebration.",
+            "dependencies": [],
+            "details": "1. Analyze the Event interface from Events.tsx to understand existing event structure and attire fields\n2. Create an AttireRecommendation interface that extends event data with detailed dress code specifications\n3. Design data structure for traditional Indian clothing categories (lehenga, saree, kurta, sherwani) with descriptions\n4. Add color significance mapping (auspicious vs. avoided colors for specific events)\n5. Include fabric recommendations suitable for Goan climate (breathable materials, lightweight options)\n6. Define modesty guidelines and cultural sensitivity information for international guests\n7. Structure shopping recommendations with price ranges, online stores, and local Goa options\n8. Plan interactive filtering system for gender-specific recommendations and event types",
+            "status": "pending",
+            "testStrategy": "Validate data model completeness by ensuring all events from Events.tsx have corresponding attire guidance. Test interface structure with sample data for each event type. Verify cultural accuracy through review with Indian wedding tradition experts."
+          },
+          {
+            "id": 2,
+            "title": "Create comprehensive attire content for each wedding event",
+            "description": "Research and compile detailed dress code guidance for all wedding events including Welcome Party, Haldi, Sangeet, Baraat, Jaimala, Mandap ceremony, Reception, and After Party, with specific recommendations for traditional Indian attire, color guidelines, and practical advice for international guests.",
+            "dependencies": [
+              "6.1"
+            ],
+            "details": "1. Research traditional Indian wedding attire customs and significance for each ceremony type\n2. Compile specific outfit recommendations for each event:\n   - Welcome Party: Smart casual with Indian fusion options and Western alternatives\n   - Haldi: Bright yellows/oranges, comfortable fabrics, clothes guests don't mind staining\n   - Sangeet: Vibrant Indian festive wear, dance-friendly fabrics, statement jewelry\n   - Baraat/Jaimala/Mandap: Formal traditional wear, color restrictions, modest coverage\n   - Reception: Semi-formal Indian or Western attire, elegant options\n   - After Party: Party wear, comfortable dancing attire\n3. Document color significance and restrictions (avoiding white/black for ceremonies)\n4. Create gender-specific recommendations with sizing and fit advice for traditional clothing\n5. Add climate-specific guidance for Goan weather (lightweight fabrics, breathable materials)\n6. Include accessory recommendations (jewelry, footwear, dupatta styling)\n7. Compile shopping resources: online retailers, local Goa boutiques, rental options\n8. Add practical tips for international guests (tailoring services, backup options)",
+            "status": "pending",
+            "testStrategy": "Review content accuracy with cultural consultants and Indian wedding planners. Test comprehensiveness by ensuring each event type has complete attire guidance. Validate shopping recommendations by verifying store availability and pricing information."
+          },
+          {
+            "id": 3,
+            "title": "Implement responsive component layout with event-based organization",
+            "description": "Design and implement the React component structure for the Attire page using a mobile-first responsive layout that organizes dress code information by wedding events, featuring interactive filtering, visual event cards, and seamless integration with the existing site design system.",
+            "dependencies": [
+              "6.1",
+              "6.2"
+            ],
+            "details": "1. Create main AttireSection component with event-based organization matching Events.tsx structure\n2. Implement EventAttireCard components for each wedding event with:\n   - Event name and cultural context indicators\n   - Recommended attire categories with visual examples\n   - Color palette guidance and restrictions\n   - Fabric and styling recommendations\n   - Climate considerations for Goan weather\n3. Add interactive filtering system:\n   - Filter by event type (ceremonies vs. celebrations)\n   - Gender-specific recommendations toggle\n   - Traditional vs. fusion attire options\n4. Design responsive grid layout for mobile, tablet, and desktop viewports\n5. Integrate with existing CSS variables and design system from site\n6. Add smooth animations using Framer Motion matching other components\n7. Implement quick reference sidebar for do's and don'ts\n8. Create collapsible sections for detailed guidance vs. quick overview\n9. Add accessibility features including proper ARIA labels and keyboard navigation",
+            "status": "pending",
+            "testStrategy": "Test responsive layout across mobile, tablet, and desktop breakpoints. Verify interactive filtering functionality works smoothly. Validate design consistency with existing site components. Test accessibility using screen readers and keyboard navigation."
+          },
+          {
+            "id": 4,
+            "title": "Add shopping guidance and practical resources section",
+            "description": "Implement a comprehensive shopping and resources section within the Attire component that provides practical guidance for guests to find appropriate wedding attire, including online retailers, local Goa shopping options, rental services, tailoring recommendations, and budget-friendly alternatives.",
+            "dependencies": [
+              "6.2",
+              "6.3"
+            ],
+            "details": "1. Create ShoppingGuide component with categorized resources:\n   - Online retailers (Indian clothing websites, international shipping options)\n   - Local Goa shopping destinations (markets, boutiques, malls)\n   - Rental services for traditional Indian clothing\n   - Tailoring and alteration services in Goa\n2. Add price range indicators for different budget levels (budget, mid-range, luxury)\n3. Implement size conversion charts for international guests (US/UK to Indian sizing)\n4. Create timeline recommendations for shopping (how far in advance to order)\n5. Add backup plan suggestions for last-minute attire needs\n6. Include practical tips:\n   - Packing traditional clothing for travel\n   - Handling delicate fabrics in humid climate\n   - Emergency styling solutions\n7. Design accordion-style expandable sections for detailed information\n8. Add external links with proper target='_blank' and security attributes\n9. Include customer service contact information for recommended vendors\n10. Create printable shopping checklist for offline reference",
+            "status": "pending",
+            "testStrategy": "Verify all external links are functional and lead to relevant shopping resources. Test price range accuracy through market research. Validate size conversion charts with actual retailer sizing guides. Check printing functionality for shopping checklist."
+          },
+          {
+            "id": 5,
+            "title": "Integrate cultural context and styling tips with visual examples",
+            "description": "Enhance the Attire component with rich cultural context explanations, styling tutorials, and visual guidance to help international guests understand the significance of traditional Indian wedding attire while providing practical styling advice for authentic and respectful presentation.",
+            "dependencies": [
+              "6.2",
+              "6.3",
+              "6.4"
+            ],
+            "details": "1. Create CulturalContext component with educational content:\n   - History and significance of traditional Indian wedding attire\n   - Explanation of regional variations and Goan wedding customs\n   - Cultural etiquette and respectful wearing of traditional clothing\n2. Add StylingTips component with practical guidance:\n   - How to drape a dupatta or saree properly\n   - Jewelry coordination and traditional significance\n   - Footwear selection for different venues (beach, indoor ceremonies)\n   - Hair and makeup suggestions to complement traditional attire\n3. Implement visual examples system:\n   - Outfit combination suggestions with placeholder images\n   - Color coordination examples for each event\n   - Before/after styling comparisons\n4. Add interactive style quiz to help guests choose appropriate attire based on:\n   - Comfort level with traditional clothing\n   - Event importance and guest relationship to couple\n   - Personal style preferences and body type\n5. Create troubleshooting guide for common styling issues\n6. Include video tutorial links for complex draping techniques\n7. Add cultural sensitivity guidelines for photography and social media\n8. Implement tooltips and expandable information cards for detailed explanations\n9. Design print-friendly format for offline reference during shopping or preparation",
+            "status": "pending",
+            "testStrategy": "Review cultural content accuracy with Indian cultural experts and wedding planners. Test interactive style quiz logic with various user inputs. Validate styling advice through feedback from users who have worn traditional Indian clothing. Check video tutorial links for accessibility and relevance."
+          }
+        ]
       }
     ],
     "metadata": {
       "created": "2025-09-08T08:55:12.331Z",
-      "updated": "2025-09-08T10:38:01.178Z",
+      "updated": "2025-09-08T21:20:24.068Z",
       "description": "General website improvements and fixes"
     }
   }

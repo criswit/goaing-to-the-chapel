@@ -1,0 +1,305 @@
+/* Plus One Form Styles */
+
+.plus-ones-section {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.plus-ones-section h3 {
+  color: var(--primary-color, #6b5b95);
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.section-description {
+  color: #666;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+/* Plus One Card */
+.plus-one-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.plus-one-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: #d1d5db;
+}
+
+.plus-one-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.plus-one-header h4 {
+  color: #374151;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.btn-remove-guest {
+  background: transparent;
+  border: none;
+  color: #ef4444;
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.btn-remove-guest:hover {
+  background: #fee2e2;
+  transform: scale(1.1);
+}
+
+/* Toggle Button for Dietary Options */
+.btn-toggle-dietary {
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  color: #6b7280;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  width: 100%;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-toggle-dietary:hover {
+  background: #e5e7eb;
+  color: #4b5563;
+}
+
+.btn-toggle-dietary:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(107, 91, 149, 0.1);
+}
+
+/* Dietary Section */
+.dietary-section {
+  padding: 1rem 0;
+  overflow: hidden;
+}
+
+.checkbox-grid.compact {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #4b5563;
+  transition: color 0.2s ease;
+}
+
+.checkbox-label:hover {
+  color: #1f2937;
+}
+
+.checkbox-label input[type='checkbox'] {
+  margin-right: 0.5rem;
+  width: 16px;
+  height: 16px;
+  accent-color: var(--primary-color, #6b5b95);
+}
+
+.checkbox-text {
+  user-select: none;
+}
+
+/* Add Guest Button */
+.btn-add-guest {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-add-guest:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+}
+
+.btn-add-guest:active {
+  transform: translateY(0);
+}
+
+/* Review Section Styles */
+.plus-ones-review {
+  margin-top: 0.75rem;
+}
+
+.plus-one-review-card {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.plus-one-review-card:last-child {
+  margin-bottom: 0;
+}
+
+.plus-one-name {
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.plus-one-dietary,
+.plus-one-special,
+.plus-one-meal {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin-top: 0.5rem;
+  line-height: 1.4;
+}
+
+.dietary-label,
+.special-label,
+.meal-label {
+  font-weight: 500;
+  color: #4b5563;
+  margin-right: 0.5rem;
+}
+
+/* Form Row Adjustments */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form-group.flex-grow {
+  flex: 1;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .plus-one-card {
+    padding: 1rem;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .checkbox-grid.compact {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 0.5rem;
+  }
+
+  .btn-toggle-dietary {
+    font-size: 0.85rem;
+    padding: 0.6rem 0.75rem;
+  }
+
+  .plus-one-header h4 {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .checkbox-grid.compact {
+    grid-template-columns: 1fr;
+  }
+
+  .plus-ones-section {
+    padding-top: 1.5rem;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .plus-one-card {
+    background: #1f2937;
+    border-color: #374151;
+  }
+
+  .plus-one-header h4 {
+    color: #f3f4f6;
+  }
+
+  .btn-toggle-dietary {
+    background: #374151;
+    border-color: #4b5563;
+    color: #d1d5db;
+  }
+
+  .btn-toggle-dietary:hover {
+    background: #4b5563;
+    color: #f3f4f6;
+  }
+
+  .checkbox-label {
+    color: #d1d5db;
+  }
+
+  .checkbox-label:hover {
+    color: #f3f4f6;
+  }
+
+  .plus-one-review-card {
+    background: #374151;
+    border-color: #4b5563;
+  }
+
+  .plus-one-name {
+    color: #f3f4f6;
+  }
+
+  .plus-one-dietary,
+  .plus-one-special,
+  .plus-one-meal {
+    color: #d1d5db;
+  }
+
+  .dietary-label,
+  .special-label,
+  .meal-label {
+    color: #9ca3af;
+  }
+}

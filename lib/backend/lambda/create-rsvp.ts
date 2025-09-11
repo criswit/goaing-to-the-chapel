@@ -211,10 +211,23 @@ const createRsvpHandler = async (
       });
     }
 
+    // Validate plus-one count matches attendee count
+    const plusOnesCount = validatedData.plusOnes?.length || 0;
+    if (
+      validatedData.rsvpStatus === 'attending' &&
+      validatedData.attendeeCount !== plusOnesCount + 1
+    ) {
+      return createResponse(400, {
+        success: false,
+        error: 'Attendee count must match the number of plus-ones plus the primary guest',
+      });
+    }
+
     // Transform data to database format
     const dbData = transformToDbFormat(validatedData);
     const timestamp = getCurrentTimestamp();
     const rsvpId = generateId();
+    const confirmationNumber = `WED${rsvpId.substring(0, 8).toUpperCase()}`;
 
     // Create RSVP response record
     const rsvpResponseItem = {
@@ -222,8 +235,13 @@ const createRsvpHandler = async (
       SK: KeyBuilder.buildRsvpSK(invitationData.guest_email, timestamp),
       EntityType: 'RSVP_RESPONSE',
       rsvp_id: rsvpId,
+      confirmation_number: confirmationNumber,
       guest_email: invitationData.guest_email,
+      guest_name: invitationData.guest_name, // Include guest name for email processing
       event_id: invitationData.event_id,
+      event_name: invitationData.event_name,
+      event_date: invitationData.event_date,
+      event_location: invitationData.event_location,
       ...dbData,
       created_at: timestamp,
       updated_at: timestamp,
@@ -253,6 +271,7 @@ const createRsvpHandler = async (
         SET rsvp_status = :status,
             plus_ones_count = :count,
             plus_ones_names = :names,
+            plus_ones = :plusOnesDetails,
             dietary_restrictions = :dietary,
             special_requests = :requests,
             last_rsvp_update = :timestamp,
@@ -264,6 +283,7 @@ const createRsvpHandler = async (
         ':status': validatedData.rsvpStatus,
         ':count': validatedData.attendeeCount - 1, // Minus primary guest
         ':names': dbData.plus_ones_names || [],
+        ':plusOnesDetails': dbData.plus_ones_details || [],
         ':dietary': dbData.dietary_restrictions || [],
         ':requests': dbData.special_requests || null,
         ':timestamp': timestamp,
@@ -279,9 +299,6 @@ const createRsvpHandler = async (
     });
 
     await docClient.send(updateGuestCommand);
-
-    // Generate confirmation number
-    const confirmationNumber = `WED${rsvpId.substring(0, 8).toUpperCase()}`;
 
     // Log successful submission
     await SecurityLogger.logSecurityEvent(SecurityEventType.DATA_MODIFICATION, event, {

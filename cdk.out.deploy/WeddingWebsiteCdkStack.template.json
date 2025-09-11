@@ -1,0 +1,1129 @@
+{
+ "Resources": {
+  "WeddingWebsiteWebsiteBucketFC675D05": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketName": {
+     "Fn::Join": [
+      "",
+      [
+       "wedding-website-",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       "-us-east-1"
+      ]
+     ]
+    },
+    "CorsConfiguration": {
+     "CorsRules": [
+      {
+       "AllowedHeaders": [
+        "*"
+       ],
+       "AllowedMethods": [
+        "GET",
+        "HEAD"
+       ],
+       "AllowedOrigins": [
+        "*"
+       ],
+       "MaxAge": 3600
+      }
+     ]
+    },
+    "LifecycleConfiguration": {
+     "Rules": [
+      {
+       "Id": "TransitionNonCurrentVersions",
+       "NoncurrentVersionExpiration": {
+        "NoncurrentDays": 90
+       },
+       "NoncurrentVersionTransitions": [
+        {
+         "StorageClass": "GLACIER",
+         "TransitionInDays": 30
+        }
+       ],
+       "Status": "Enabled"
+      },
+      {
+       "AbortIncompleteMultipartUpload": {
+        "DaysAfterInitiation": 7
+       },
+       "Id": "CleanupIncompleteMultipartUploads",
+       "Status": "Enabled"
+      }
+     ]
+    },
+    "PublicAccessBlockConfiguration": {
+     "BlockPublicAcls": true,
+     "BlockPublicPolicy": true,
+     "IgnorePublicAcls": true,
+     "RestrictPublicBuckets": true
+    },
+    "Tags": [
+     {
+      "Key": "aws-cdk:auto-delete-objects",
+      "Value": "true"
+     },
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "WeddingWebsite"
+     }
+    ],
+    "VersioningConfiguration": {
+     "Status": "Enabled"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "WeddingWebsiteCdkStack/WeddingWebsite/WebsiteBucket/Resource"
+   }
+  },
+  "WeddingWebsiteWebsiteBucketPolicy34A44B42": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "WeddingWebsiteWebsiteBucketFC675D05"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:List*",
+        "s3:PutBucketPolicy"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::GetAtt": [
+          "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+          "Arn"
+         ]
+        }
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "WeddingWebsiteWebsiteBucketFC675D05",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "WeddingWebsiteWebsiteBucketFC675D05",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "s3:GetObject",
+       "Condition": {
+        "StringEquals": {
+         "AWS:SourceArn": {
+          "Fn::Join": [
+           "",
+           [
+            "arn:",
+            {
+             "Ref": "AWS::Partition"
+            },
+            ":cloudfront::",
+            {
+             "Ref": "AWS::AccountId"
+            },
+            ":distribution/",
+            {
+             "Ref": "CloudFrontDistributionEAB06B35"
+            }
+           ]
+          ]
+         }
+        }
+       },
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "cloudfront.amazonaws.com"
+       },
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          {
+           "Fn::GetAtt": [
+            "WeddingWebsiteWebsiteBucketFC675D05",
+            "Arn"
+           ]
+          },
+          "/*"
+         ]
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "WeddingWebsiteCdkStack/WeddingWebsite/WebsiteBucket/Policy/Resource"
+   }
+  },
+  "WeddingWebsiteWebsiteBucketAutoDeleteObjectsCustomResource89A1D54F": {
+   "Type": "Custom::S3AutoDeleteObjects",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F",
+      "Arn"
+     ]
+    },
+    "BucketName": {
+     "Ref": "WeddingWebsiteWebsiteBucketFC675D05"
+    }
+   },
+   "DependsOn": [
+    "WeddingWebsiteWebsiteBucketPolicy34A44B42"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "WeddingWebsiteCdkStack/WeddingWebsite/WebsiteBucket/AutoDeleteObjectsCustomResource/Default"
+   }
+  },
+  "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Version": "2012-10-17",
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ]
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "WeddingWebsiteCdkStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role"
+   }
+  },
+  "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1"
+     },
+     "S3Key": "faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6.zip"
+    },
+    "Timeout": 900,
+    "MemorySize": 128,
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs22.x",
+    "Description": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function for auto-deleting objects in ",
+       {
+        "Ref": "WeddingWebsiteWebsiteBucketFC675D05"
+       },
+       " S3 bucket."
+      ]
+     ]
+    }
+   },
+   "DependsOn": [
+    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "WeddingWebsiteCdkStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler",
+    "aws:asset:path": "asset.faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6",
+    "aws:asset:property": "Code"
+   }
+  },
+  "Certificate4E7ABB08": {
+   "Type": "AWS::CertificateManager::Certificate",
+   "Properties": {
+    "DomainName": "wedding.himnher.dev",
+    "DomainValidationOptions": [
+     {
+      "DomainName": "wedding.himnher.dev",
+      "HostedZoneId": "Z08237002D3AKVKPC3U13"
+     },
+     {
+      "DomainName": "www.wedding.himnher.dev",
+      "HostedZoneId": "Z08237002D3AKVKPC3U13"
+     }
+    ],
+    "SubjectAlternativeNames": [
+     "www.wedding.himnher.dev"
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Name",
+      "Value": "WeddingWebsiteCdkStack/Certificate"
+     },
+     {
+      "Key": "Project",
+      "Value": "WeddingWebsite"
+     }
+    ],
+    "ValidationMethod": "DNS"
+   },
+   "Metadata": {
+    "aws:cdk:path": "WeddingWebsiteCdkStack/Certificate/Resource"
+   }
+  },
+  "CloudFrontCloudFrontLogsBucketCA6FAFB4": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketEncryption": {
+     "ServerSideEncryptionConfiguration": [
+      {
+       "ServerSideEncryptionByDefault": {
+        "SSEAlgorithm": "AES256"
+       }
+      }
+     ]
+    },
+    "LifecycleConfiguration": {
+     "Rules": [
+      {
+       "ExpirationInDays": 90,
+       "Id": "DeleteOldLogs",
+       "Status": "Enabled"
+      }
+     ]
+    },
+    "OwnershipControls": {
+     "Rules": [
+      {
+       "ObjectOwnership": "BucketOwnerPreferred"
+      }
+     ]
+    },
+    "PublicAccessBlockConfiguration": {
+     "BlockPublicAcls": false,
+     "BlockPublicPolicy": true,
+     "IgnorePublicAcls": false,
+     "RestrictPublicBuckets": true
+    },
+    "Tags": [
+     {
+      "Key": "aws-cdk:auto-delete-objects",
+      "Value": "true"
+     },
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "WeddingWebsite"
+     },
+     {
+      "Key": "Purpose",
+      "Value": "CloudFrontLogs"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "WeddingWebsiteCdkStack/CloudFront/CloudFrontLogsBucket/Resource"
+   }
+  },
+  "CloudFrontCloudFrontLogsBucketPolicy87012553": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "CloudFrontCloudFrontLogsBucketCA6FAFB4"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "s3:*",
+       "Condition": {
+        "Bool": {
+         "aws:SecureTransport": "false"
+        }
+       },
+       "Effect": "Deny",
+       "Principal": {
+        "AWS": "*"
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "CloudFrontCloudFrontLogsBucketCA6FAFB4",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "CloudFrontCloudFrontLogsBucketCA6FAFB4",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:List*",
+        "s3:PutBucketPolicy"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::GetAtt": [
+          "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+          "Arn"
+         ]
+        }
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "CloudFrontCloudFrontLogsBucketCA6FAFB4",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "CloudFrontCloudFrontLogsBucketCA6FAFB4",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "s3:PutObject",
+        "s3:PutObjectAcl"
+       ],
+       "Condition": {
+        "StringEquals": {
+         "AWS:SourceAccount": {
+          "Ref": "AWS::AccountId"
+         }
+        }
+       },
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "cloudfront.amazonaws.com"
+       },
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          {
+           "Fn::GetAtt": [
+            "CloudFrontCloudFrontLogsBucketCA6FAFB4",
+            "Arn"
+           ]
+          },
+          "/*"
+         ]
+        ]
+       },
+       "Sid": "AllowCloudFrontLogDelivery"
+      },
+      {
+       "Action": [
+        "s3:GetBucketAcl",
+        "s3:PutBucketAcl"
+       ],
+       "Condition": {
+        "StringEquals": {
+         "AWS:SourceAccount": {
+          "Ref": "AWS::AccountId"
+         }
+        }
+       },
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "cloudfront.amazonaws.com"
+       },
+       "Resource": {
+        "Fn::GetAtt": [
+         "CloudFrontCloudFrontLogsBucketCA6FAFB4",
+         "Arn"
+        ]
+       },
+       "Sid": "AllowCloudFrontAclCheck"
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "WeddingWebsiteCdkStack/CloudFront/CloudFrontLogsBucket/Policy/Resource"
+   }
+  },
+  "CloudFrontCloudFrontLogsBucketAutoDeleteObjectsCustomResourceA362B4C7": {
+   "Type": "Custom::S3AutoDeleteObjects",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F",
+      "Arn"
+     ]
+    },
+    "BucketName": {
+     "Ref": "CloudFrontCloudFrontLogsBucketCA6FAFB4"
+    }
+   },
+   "DependsOn": [
+    "CloudFrontCloudFrontLogsBucketPolicy87012553"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "WeddingWebsiteCdkStack/CloudFront/CloudFrontLogsBucket/AutoDeleteObjectsCustomResource/Default"
+   }
+  },
+  "CloudFrontSecurityHeadersPolicy00F9CE44": {
+   "Type": "AWS::CloudFront::ResponseHeadersPolicy",
+   "Properties": {
+    "ResponseHeadersPolicyConfig": {
+     "Comment": "Security headers policy for wedding website",
+     "Name": "WeddingWebsiteCdkStackCloudFrontSecurityHeadersPolicy999AA57E",
+     "SecurityHeadersConfig": {
+      "ContentTypeOptions": {
+       "Override": true
+      },
+      "FrameOptions": {
+       "FrameOption": "DENY",
+       "Override": true
+      },
+      "ReferrerPolicy": {
+       "Override": true,
+       "ReferrerPolicy": "strict-origin-when-cross-origin"
+      },
+      "StrictTransportSecurity": {
+       "AccessControlMaxAgeSec": 31536000,
+       "IncludeSubdomains": true,
+       "Override": true,
+       "Preload": true
+      },
+      "XSSProtection": {
+       "ModeBlock": true,
+       "Override": true,
+       "Protection": true
+      }
+     }
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "WeddingWebsiteCdkStack/CloudFront/SecurityHeadersPolicy/Resource"
+   }
+  },
+  "CloudFrontStaticAssetsCachePolicyC18639E5": {
+   "Type": "AWS::CloudFront::CachePolicy",
+   "Properties": {
+    "CachePolicyConfig": {
+     "Comment": "Cache policy for static assets with long TTL",
+     "DefaultTTL": 2592000,
+     "MaxTTL": 31536000,
+     "MinTTL": 0,
+     "Name": "WeddingWebsiteCdkStackCloudFrontStaticAssetsCachePolicyA7A3013E-us-east-1",
+     "ParametersInCacheKeyAndForwardedToOrigin": {
+      "CookiesConfig": {
+       "CookieBehavior": "none"
+      },
+      "EnableAcceptEncodingBrotli": true,
+      "EnableAcceptEncodingGzip": true,
+      "HeadersConfig": {
+       "HeaderBehavior": "none"
+      },
+      "QueryStringsConfig": {
+       "QueryStringBehavior": "none"
+      }
+     }
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "WeddingWebsiteCdkStack/CloudFront/StaticAssetsCachePolicy/Resource"
+   }
+  },
+  "CloudFrontImagesCachePolicy768E0319": {
+   "Type": "AWS::CloudFront::CachePolicy",
+   "Properties": {
+    "CachePolicyConfig": {
+     "Comment": "Cache policy for images",
+     "DefaultTTL": 604800,
+     "MaxTTL": 31536000,
+     "MinTTL": 0,
+     "Name": "WeddingWebsiteCdkStackCloudFrontImagesCachePolicy1DF23228-us-east-1",
+     "ParametersInCacheKeyAndForwardedToOrigin": {
+      "CookiesConfig": {
+       "CookieBehavior": "none"
+      },
+      "EnableAcceptEncodingBrotli": true,
+      "EnableAcceptEncodingGzip": true,
+      "HeadersConfig": {
+       "HeaderBehavior": "none"
+      },
+      "QueryStringsConfig": {
+       "QueryStringBehavior": "none"
+      }
+     }
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "WeddingWebsiteCdkStack/CloudFront/ImagesCachePolicy/Resource"
+   }
+  },
+  "CloudFrontDistributionOrigin1S3OriginAccessControl3ECDEEE4": {
+   "Type": "AWS::CloudFront::OriginAccessControl",
+   "Properties": {
+    "OriginAccessControlConfig": {
+     "Name": "WeddingWebsiteCdkStackCloudFOrigin1S3OriginAccessControlCC1D2070",
+     "OriginAccessControlOriginType": "s3",
+     "SigningBehavior": "always",
+     "SigningProtocol": "sigv4"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "WeddingWebsiteCdkStack/CloudFront/Distribution/Origin1/S3OriginAccessControl/Resource"
+   }
+  },
+  "CloudFrontDistributionOrigin2S3OriginAccessControlFE6ABE0D": {
+   "Type": "AWS::CloudFront::OriginAccessControl",
+   "Properties": {
+    "OriginAccessControlConfig": {
+     "Name": "WeddingWebsiteCdkStackCloudFOrigin2S3OriginAccessControl5F650ABC",
+     "OriginAccessControlOriginType": "s3",
+     "SigningBehavior": "always",
+     "SigningProtocol": "sigv4"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "WeddingWebsiteCdkStack/CloudFront/Distribution/Origin2/S3OriginAccessControl/Resource"
+   }
+  },
+  "CloudFrontDistributionOrigin3S3OriginAccessControl108BB65E": {
+   "Type": "AWS::CloudFront::OriginAccessControl",
+   "Properties": {
+    "OriginAccessControlConfig": {
+     "Name": "WeddingWebsiteCdkStackCloudFOrigin3S3OriginAccessControl7A341FB6",
+     "OriginAccessControlOriginType": "s3",
+     "SigningBehavior": "always",
+     "SigningProtocol": "sigv4"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "WeddingWebsiteCdkStack/CloudFront/Distribution/Origin3/S3OriginAccessControl/Resource"
+   }
+  },
+  "CloudFrontDistributionEAB06B35": {
+   "Type": "AWS::CloudFront::Distribution",
+   "Properties": {
+    "DistributionConfig": {
+     "Aliases": [
+      "wedding.himnher.dev",
+      "www.wedding.himnher.dev"
+     ],
+     "CacheBehaviors": [
+      {
+       "CachePolicyId": {
+        "Ref": "CloudFrontStaticAssetsCachePolicyC18639E5"
+       },
+       "Compress": true,
+       "PathPattern": "/static/*",
+       "ResponseHeadersPolicyId": {
+        "Ref": "CloudFrontSecurityHeadersPolicy00F9CE44"
+       },
+       "TargetOriginId": "WeddingWebsiteCdkStackCloudFrontDistributionOrigin2DB962183",
+       "ViewerProtocolPolicy": "redirect-to-https"
+      },
+      {
+       "CachePolicyId": {
+        "Ref": "CloudFrontImagesCachePolicy768E0319"
+       },
+       "Compress": true,
+       "PathPattern": "/images/*",
+       "ResponseHeadersPolicyId": {
+        "Ref": "CloudFrontSecurityHeadersPolicy00F9CE44"
+       },
+       "TargetOriginId": "WeddingWebsiteCdkStackCloudFrontDistributionOrigin3C1197F8E",
+       "ViewerProtocolPolicy": "redirect-to-https"
+      }
+     ],
+     "Comment": "CloudFront distribution for wedding website",
+     "CustomErrorResponses": [
+      {
+       "ErrorCachingMinTTL": 300,
+       "ErrorCode": 404,
+       "ResponseCode": 200,
+       "ResponsePagePath": "/index.html"
+      },
+      {
+       "ErrorCachingMinTTL": 300,
+       "ErrorCode": 403,
+       "ResponseCode": 200,
+       "ResponsePagePath": "/index.html"
+      }
+     ],
+     "DefaultCacheBehavior": {
+      "AllowedMethods": [
+       "GET",
+       "HEAD",
+       "OPTIONS"
+      ],
+      "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+      "CachedMethods": [
+       "GET",
+       "HEAD",
+       "OPTIONS"
+      ],
+      "Compress": true,
+      "ResponseHeadersPolicyId": {
+       "Ref": "CloudFrontSecurityHeadersPolicy00F9CE44"
+      },
+      "TargetOriginId": "WeddingWebsiteCdkStackCloudFrontDistributionOrigin1A7C526A0",
+      "ViewerProtocolPolicy": "redirect-to-https"
+     },
+     "DefaultRootObject": "index.html",
+     "Enabled": true,
+     "HttpVersion": "http2",
+     "IPV6Enabled": true,
+     "Logging": {
+      "Bucket": {
+       "Fn::GetAtt": [
+        "CloudFrontCloudFrontLogsBucketCA6FAFB4",
+        "RegionalDomainName"
+       ]
+      },
+      "IncludeCookies": false,
+      "Prefix": "access-logs/"
+     },
+     "Origins": [
+      {
+       "DomainName": {
+        "Fn::GetAtt": [
+         "WeddingWebsiteWebsiteBucketFC675D05",
+         "RegionalDomainName"
+        ]
+       },
+       "Id": "WeddingWebsiteCdkStackCloudFrontDistributionOrigin1A7C526A0",
+       "OriginAccessControlId": {
+        "Fn::GetAtt": [
+         "CloudFrontDistributionOrigin1S3OriginAccessControl3ECDEEE4",
+         "Id"
+        ]
+       },
+       "S3OriginConfig": {
+        "OriginAccessIdentity": ""
+       }
+      },
+      {
+       "DomainName": {
+        "Fn::GetAtt": [
+         "WeddingWebsiteWebsiteBucketFC675D05",
+         "RegionalDomainName"
+        ]
+       },
+       "Id": "WeddingWebsiteCdkStackCloudFrontDistributionOrigin2DB962183",
+       "OriginAccessControlId": {
+        "Fn::GetAtt": [
+         "CloudFrontDistributionOrigin2S3OriginAccessControlFE6ABE0D",
+         "Id"
+        ]
+       },
+       "S3OriginConfig": {
+        "OriginAccessIdentity": ""
+       }
+      },
+      {
+       "DomainName": {
+        "Fn::GetAtt": [
+         "WeddingWebsiteWebsiteBucketFC675D05",
+         "RegionalDomainName"
+        ]
+       },
+       "Id": "WeddingWebsiteCdkStackCloudFrontDistributionOrigin3C1197F8E",
+       "OriginAccessControlId": {
+        "Fn::GetAtt": [
+         "CloudFrontDistributionOrigin3S3OriginAccessControl108BB65E",
+         "Id"
+        ]
+       },
+       "S3OriginConfig": {
+        "OriginAccessIdentity": ""
+       }
+      }
+     ],
+     "PriceClass": "PriceClass_100",
+     "ViewerCertificate": {
+      "AcmCertificateArn": {
+       "Ref": "Certificate4E7ABB08"
+      },
+      "MinimumProtocolVersion": "TLSv1.2_2021",
+      "SslSupportMethod": "sni-only"
+     }
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "Production"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "WeddingWebsite"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "WeddingWebsiteCdkStack/CloudFront/Distribution/Resource"
+   }
+  },
+  "DnsSetupARecord8B02CF26": {
+   "Type": "AWS::Route53::RecordSet",
+   "Properties": {
+    "AliasTarget": {
+     "DNSName": {
+      "Fn::GetAtt": [
+       "CloudFrontDistributionEAB06B35",
+       "DomainName"
+      ]
+     },
+     "HostedZoneId": {
+      "Fn::FindInMap": [
+       "AWSCloudFrontPartitionHostedZoneIdMap",
+       {
+        "Ref": "AWS::Partition"
+       },
+       "zoneId"
+      ]
+     }
+    },
+    "Comment": "Wedding website CloudFront distribution",
+    "HostedZoneId": "Z08237002D3AKVKPC3U13",
+    "Name": "wedding.himnher.dev.",
+    "Type": "A"
+   },
+   "Metadata": {
+    "aws:cdk:path": "WeddingWebsiteCdkStack/DnsSetup/ARecord/Resource"
+   }
+  },
+  "DnsSetupAAAARecord5ED15128": {
+   "Type": "AWS::Route53::RecordSet",
+   "Properties": {
+    "AliasTarget": {
+     "DNSName": {
+      "Fn::GetAtt": [
+       "CloudFrontDistributionEAB06B35",
+       "DomainName"
+      ]
+     },
+     "HostedZoneId": {
+      "Fn::FindInMap": [
+       "AWSCloudFrontPartitionHostedZoneIdMap",
+       {
+        "Ref": "AWS::Partition"
+       },
+       "zoneId"
+      ]
+     }
+    },
+    "Comment": "Wedding website CloudFront distribution (IPv6)",
+    "HostedZoneId": "Z08237002D3AKVKPC3U13",
+    "Name": "wedding.himnher.dev.",
+    "Type": "AAAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "WeddingWebsiteCdkStack/DnsSetup/AAAARecord/Resource"
+   }
+  },
+  "DnsSetupWwwARecord793DFCB6": {
+   "Type": "AWS::Route53::RecordSet",
+   "Properties": {
+    "AliasTarget": {
+     "DNSName": {
+      "Fn::GetAtt": [
+       "CloudFrontDistributionEAB06B35",
+       "DomainName"
+      ]
+     },
+     "HostedZoneId": {
+      "Fn::FindInMap": [
+       "AWSCloudFrontPartitionHostedZoneIdMap",
+       {
+        "Ref": "AWS::Partition"
+       },
+       "zoneId"
+      ]
+     }
+    },
+    "Comment": "Wedding website www subdomain",
+    "HostedZoneId": "Z08237002D3AKVKPC3U13",
+    "Name": "www.wedding.himnher.dev.",
+    "Type": "A"
+   },
+   "Metadata": {
+    "aws:cdk:path": "WeddingWebsiteCdkStack/DnsSetup/WwwARecord/Resource"
+   }
+  },
+  "DnsSetupWwwAAAARecord5D1FBAF6": {
+   "Type": "AWS::Route53::RecordSet",
+   "Properties": {
+    "AliasTarget": {
+     "DNSName": {
+      "Fn::GetAtt": [
+       "CloudFrontDistributionEAB06B35",
+       "DomainName"
+      ]
+     },
+     "HostedZoneId": {
+      "Fn::FindInMap": [
+       "AWSCloudFrontPartitionHostedZoneIdMap",
+       {
+        "Ref": "AWS::Partition"
+       },
+       "zoneId"
+      ]
+     }
+    },
+    "Comment": "Wedding website www subdomain (IPv6)",
+    "HostedZoneId": "Z08237002D3AKVKPC3U13",
+    "Name": "www.wedding.himnher.dev.",
+    "Type": "AAAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "WeddingWebsiteCdkStack/DnsSetup/WwwAAAARecord/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/+VWW2tjNxD+LavHRXYTh5biN8dJs4FcjJ0WiglBlsbHSnQ0p6M5TrwH//eic88NuqELXfpkz0ia6/fNnNFwdHg4PPikHsNAm4eBs6thsWClH6R6DHdFOBoWx7l+AF4WYlX+uVIpiLH4LKTI8pWzeg7KTLSGEMR4rVwAKVYO9cOsPG1OygdboGDRgxFjphykIEhxq9wMndU7MRYGAhPuhBQqZzwBBwzXq3vQHJonzq5B77SDee4giPGyENbU9sGrleuse/Q6JwLPf1SOb0j5YNmirx4GRlIJTJ2qQ9zf7uX79tQKic+9xjSLgV3mjm2miH/PHCozWTNQbUUKjVT5UM7hI5hL4A2aqBJnpzdCii+nkxNxK5vza7KJ9U2hauUXUAaoUabqaZJAL05lzBQpxEJ8R1ey1HwWjcuLfgO+Q/0/7O4ft+eZiw9AEEvx+tEDhY3NxFhUHCk1M4I1EIER7/MAvKZdFusgxmJxdHc5uZqcnZ6UJ2skDYvFxTfjff+tFevV4VZO175KQlY/VT1a1teFey72XlXX91IDsV1brRhS5VUCNCymnW5ZCIOpsr43RUJelnPiGMgrtluIh+3IUM4aVZeq8dmzuJfaYW7WhJ6HxRxChj5AjeY2CY1pCp4bj6Bzsryrbx3DRm0tkhjHi57B880ug+usBmohcAtE1kBbtzWptH+hJ4uxODm9+lPI169qZFCDteKVRgQmq3mAJUUHjxvwA00YQq15y2r1pKRWhsSLOrloXpWgm6JnQnfZcVoK67XLDSzyVdWPFtsZQWRLC/WX3p5CmBEy6CrXQmQ9qXqTooHjiPx3jOyrJr7ZKzlVegPv9M3AWuWOb9h1Y6onWN8JGvHBQtfZUrkpPb1Q/pUD7RZM1icvTiqyROJmfOo1GuuTs6+R71Vab50fE7KzTbV+9AQqsnUdkSc2om2Vx3a/bk/L7Ia8vWnwvAJ9ytXIrulu4THOUGTU2A1lAmMJNA8YBxvmLETjXVwlczvx3DRznt7C2PPF127LKuJo5aUO04zK4V1zQBlTLjHlmjzawU6E1AC7GtYx3AUrzps7bUzvHcxUAjPFm1rNNSYinP49Y7dtL+aIXC24Doc2zdOmCfXuFmNxc7HYHg5Hd6OD0aGQIgGcQzV9mvHcYOoCk8T6pN1hmBx3e6OUf7MO4qq0T53uvBpKYVpiv/uczMjq9iNh1gp3hwcHrcfzbPtLRztlTAexZbRfRPVH0fW81G9g6QVEbv8TMdzKxVH1rTfp74FlvfXLzR8J/sadqO5zfS8Jc4afj4bFZA4aySwL8RU9tHFFXW+ps6KkbXd/TMQS/CgP6zUV7y+A5UQp9T9Kfr+X0zwwpnMImJOGZR80jbIEUM5Zzi9uzwi3Nm4rFUBOQgBesIpDQbb2SkOXKsusT/bSo4HhffhpOxoND38dHny6D9YOKPdsUxjOq9+/AYixLZSxDgAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "WeddingWebsiteCdkStack/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "WeddingWebsiteBucketName8D95022D": {
+   "Description": "Name of the S3 bucket hosting the website",
+   "Value": {
+    "Ref": "WeddingWebsiteWebsiteBucketFC675D05"
+   },
+   "Export": {
+    "Name": "WeddingWebsiteCdkStack-BucketName"
+   }
+  },
+  "WeddingWebsiteWebsiteEndpointUrl61CD4A74": {
+   "Description": "S3 website endpoint URL",
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Fn::GetAtt": [
+        "WeddingWebsiteWebsiteBucketFC675D05",
+        "RegionalDomainName"
+       ]
+      }
+     ]
+    ]
+   },
+   "Export": {
+    "Name": "WeddingWebsiteCdkStack-WebsiteUrl"
+   }
+  },
+  "WeddingWebsiteBucketArnFCD42E2A": {
+   "Description": "ARN of the S3 bucket",
+   "Value": {
+    "Fn::GetAtt": [
+     "WeddingWebsiteWebsiteBucketFC675D05",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "WeddingWebsiteCdkStack-BucketArn"
+   }
+  },
+  "WeddingWebsiteBucketDomainName2B77C6FB": {
+   "Description": "Domain name of the S3 bucket",
+   "Value": {
+    "Fn::GetAtt": [
+     "WeddingWebsiteWebsiteBucketFC675D05",
+     "DomainName"
+    ]
+   },
+   "Export": {
+    "Name": "WeddingWebsiteCdkStack-BucketDomainName"
+   }
+  },
+  "WebsiteBucketName": {
+   "Description": "Name of the S3 bucket for website content",
+   "Value": {
+    "Ref": "WeddingWebsiteWebsiteBucketFC675D05"
+   },
+   "Export": {
+    "Name": "WeddingWebsiteCdkStack-WebsiteBucketName"
+   }
+  },
+  "CloudFrontDistributionId": {
+   "Description": "CloudFront distribution ID",
+   "Value": {
+    "Ref": "CloudFrontDistributionEAB06B35"
+   },
+   "Export": {
+    "Name": "WeddingWebsiteCdkStack-CloudFrontDistributionId"
+   }
+  },
+  "CloudFrontDomainName": {
+   "Description": "CloudFront distribution domain name",
+   "Value": {
+    "Fn::GetAtt": [
+     "CloudFrontDistributionEAB06B35",
+     "DomainName"
+    ]
+   },
+   "Export": {
+    "Name": "WeddingWebsiteCdkStack-CloudFrontDomainName"
+   }
+  },
+  "WebsiteURL": {
+   "Description": "Wedding website URL",
+   "Value": "https://wedding.himnher.dev",
+   "Export": {
+    "Name": "WeddingWebsiteCdkStack-WebsiteURL"
+   }
+  },
+  "CustomDomain": {
+   "Description": "Custom domain for the wedding website",
+   "Value": "wedding.himnher.dev",
+   "Export": {
+    "Name": "WeddingWebsiteCdkStack-CustomDomain"
+   }
+  },
+  "CloudFrontLogsBucket": {
+   "Description": "S3 bucket for CloudFront access logs",
+   "Value": {
+    "Ref": "CloudFrontCloudFrontLogsBucketCA6FAFB4"
+   },
+   "Export": {
+    "Name": "WeddingWebsiteCdkStack-CloudFrontLogsBucket"
+   }
+  }
+ },
+ "Mappings": {
+  "AWSCloudFrontPartitionHostedZoneIdMap": {
+   "aws": {
+    "zoneId": "Z2FDTNDATAQYW2"
+   },
+   "aws-cn": {
+    "zoneId": "Z3RFFRIM2A3IF5"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

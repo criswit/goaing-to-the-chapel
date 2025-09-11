@@ -8,6 +8,7 @@ import { StepPersonal } from './StepPersonal';
 import { StepDietary } from './StepDietary';
 import { StepReview } from './StepReview';
 import '../../styles/RSVPForm.css';
+import '../../styles/PlusOneForm.css';
 
 const RSVPFormContent: React.FC = () => {
   const { currentStep, goToStep, formData } = useRSVPForm();

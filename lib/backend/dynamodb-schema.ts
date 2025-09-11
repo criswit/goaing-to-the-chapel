@@ -79,8 +79,17 @@ export interface GuestEntity extends BaseAttributes {
   rsvp_status: 'pending' | 'attending' | 'not_attending' | 'maybe';
   plus_ones_count: number;
   plus_ones_names?: string[];
+  plus_ones?: Array<{
+    id?: string;
+    name: string;
+    age_group?: 'adult' | 'child' | 'infant';
+    dietary_restrictions?: string[];
+    special_needs?: string;
+    meal_preference?: string;
+  }>;
   dietary_restrictions?: string[];
   special_requests?: string;
+  max_plus_ones: number;
 
   // Invitation management
   invitation_code: string;
@@ -151,12 +160,17 @@ export interface RsvpResponseEntity extends BaseAttributes {
   // Response details
   party_size: number;
   plus_ones_details?: Array<{
+    id?: string;
     name: string;
+    age_group?: 'adult' | 'child' | 'infant';
     dietary_restrictions?: string[];
+    special_needs?: string;
+    meal_preference?: string;
   }>;
 
   dietary_notes?: string;
   special_accommodations?: string;
+  party_id?: string;
 
   // Tracking
   response_method: 'web' | 'email' | 'phone' | 'admin';

@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PersonalInfoSchema, PersonalInfoData } from '../../types/rsvp';
 import { useRSVPForm } from '../../contexts/RSVPFormContext';
+import { PlusOneFields } from './PlusOneFields';
 
 export const StepPersonal: React.FC = () => {
   const { formData, guestInfo, updateFormData, nextStep, prevStep } = useRSVPForm();
@@ -44,7 +45,13 @@ export const StepPersonal: React.FC = () => {
       if (expectedPlusOnes > currentPlusOnes) {
         // Add more plus one fields
         for (let i = currentPlusOnes; i < expectedPlusOnes; i++) {
-          append({ name: '', ageGroup: 'adult' });
+          append({
+            name: '',
+            ageGroup: 'adult',
+            dietaryRestrictions: [],
+            specialNeeds: '',
+            mealPreference: '',
+          });
         }
       } else if (expectedPlusOnes < currentPlusOnes) {
         // Remove excess plus one fields
@@ -173,50 +180,37 @@ export const StepPersonal: React.FC = () => {
                 <div className="plus-ones-section">
                   <h3>Guest Information</h3>
                   <p className="section-description">
-                    Please provide the names of your additional guests
+                    Please provide information for your additional guests. You can optionally add
+                    dietary restrictions and special needs for each guest.
                   </p>
                   {fields.map((field, index) => (
-                    <motion.div
+                    <PlusOneFields
                       key={field.id}
-                      className="plus-one-group"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      transition={{ delay: index * 0.1 }}
-                    >
-                      <div className="form-row">
-                        <div className="form-group flex-grow">
-                          <label htmlFor={`plusOnes.${index}.name`}>Guest {index + 2} Name *</label>
-                          <input
-                            {...register(`plusOnes.${index}.name` as const)}
-                            id={`plusOnes.${index}.name`}
-                            type="text"
-                            placeholder="Full name"
-                            className={`form-input ${
-                              errors.plusOnes?.[index]?.name ? 'error' : ''
-                            }`}
-                          />
-                          {errors.plusOnes?.[index]?.name && (
-                            <span className="error-message">
-                              {errors.plusOnes[index]?.name?.message}
-                            </span>
-                          )}
-                        </div>
-                        <div className="form-group">
-                          <label htmlFor={`plusOnes.${index}.ageGroup`}>Age Group</label>
-                          <select
-                            {...register(`plusOnes.${index}.ageGroup` as const)}
-                            id={`plusOnes.${index}.ageGroup`}
-                            className="form-input"
-                          >
-                            <option value="adult">Adult</option>
-                            <option value="child">Child (2-12)</option>
-                            <option value="infant">Infant (0-2)</option>
-                          </select>
-                        </div>
-                      </div>
-                    </motion.div>
+                      index={index}
+                      register={register}
+                      watch={watch}
+                      errors={errors}
+                      onRemove={() => remove(index)}
+                      showRemoveButton={fields.length > 1 && index === fields.length - 1}
+                    />
                   ))}
+                  {fields.length < maxPlusOnes && (
+                    <button
+                      type="button"
+                      onClick={() =>
+                        append({
+                          name: '',
+                          ageGroup: 'adult',
+                          dietaryRestrictions: [],
+                          specialNeeds: '',
+                          mealPreference: '',
+                        })
+                      }
+                      className="btn btn-add-guest"
+                    >
+                      + Add Another Guest
+                    </button>
+                  )}
                 </div>
               )}
             </motion.div>

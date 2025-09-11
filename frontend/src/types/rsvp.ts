@@ -28,8 +28,34 @@ export const PersonalInfoSchema = z.object({
   plusOnes: z
     .array(
       z.object({
+        id: z.string().optional(),
         name: z.string().min(2, 'Name must be at least 2 characters'),
         ageGroup: z.enum(['adult', 'child', 'infant'] as const).optional(),
+        dietaryRestrictions: z
+          .array(
+            z.enum([
+              'vegetarian',
+              'vegan',
+              'gluten_free',
+              'dairy_free',
+              'nut_allergy',
+              'shellfish_allergy',
+              'halal',
+              'kosher',
+              'no_beef',
+              'no_pork',
+              'other',
+            ] as const)
+          )
+          .optional(),
+        specialNeeds: z
+          .string()
+          .max(500, 'Special needs must be less than 500 characters')
+          .optional(),
+        mealPreference: z
+          .string()
+          .max(100, 'Meal preference must be less than 100 characters')
+          .optional(),
       })
     )
     .optional(),

@@ -24,6 +24,7 @@
     "web-vitals": "^2.1.4",
     "zod": "^3.25.76"
   },
+  "proxy": "https://t7w8s73kf3.execute-api.us-east-1.amazonaws.com",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
