@@ -4,7 +4,7 @@ import { InvitationValidationResponse, RSVPFormData, RSVPSubmissionResponse } fr
 const API_BASE_URL =
   process.env.REACT_APP_API_URL ||
   (window.location.hostname === 'localhost'
-    ? 'https://api.wedding.himnher.dev/production' // Use deployed API for local development
+    ? 'https://api.wedding.himnher.dev/production' // Use custom domain for local development
     : 'https://api.wedding.himnher.dev/production');
 
 export class RSVPApiService {

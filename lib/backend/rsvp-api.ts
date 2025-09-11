@@ -239,6 +239,13 @@ export class RsvpApi extends Construct {
         loggingLevel: apigateway.MethodLoggingLevel.INFO,
         dataTraceEnabled: true,
         metricsEnabled: true,
+        tracingEnabled: true,
+        methodOptions: {
+          '/*/*': {
+            throttlingRateLimit: 1000,
+            throttlingBurstLimit: 2000,
+          },
+        },
       },
       cloudWatchRole: true,
     });
