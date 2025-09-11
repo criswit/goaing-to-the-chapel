@@ -7,15 +7,12 @@ import { logger } from './utils';
 const WEBSITE_URL = process.env.WEBSITE_URL || 'https://wedding.himnher.dev';
 
 interface EmailMessage {
-  type: 'single';
   templateType: 'confirmation' | 'update' | 'reminder';
-  recipients: Array<{
-    email: string;
-    name: string;
-    templateData: Record<string, unknown>;
-    guestId?: string;
-    eventId?: string;
-  }>;
+  recipientEmail: string;
+  recipientName: string;
+  templateData: Record<string, unknown>;
+  guestId?: string;
+  eventId?: string;
 }
 
 /**
@@ -197,30 +194,25 @@ export const handler = async (event: any): Promise<any[]> => {
 
       if (shouldSendEmail && guestEmail && guestName) {
         const emailMessage: EmailMessage = {
-          type: 'single',
           templateType,
-          recipients: [
-            {
-              email: guestEmail,
-              name: guestName,
-              templateData: {
-                guestName,
-                eventName,
-                eventDate,
-                eventLocation,
-                rsvpStatus,
-                attendeeCount,
-                confirmationNumber,
-                plusOnes,
-                dietaryRestrictions,
-                specialRequests,
-                websiteUrl: WEBSITE_URL,
-                email: guestEmail,
-              },
-              guestId: guestEmail,
-              eventId,
-            },
-          ],
+          recipientEmail: guestEmail,
+          recipientName: guestName,
+          templateData: {
+            guestName,
+            eventName,
+            eventDate,
+            eventLocation,
+            rsvpStatus,
+            attendeeCount,
+            confirmationNumber,
+            plusOnes,
+            dietaryRestrictions,
+            specialRequests,
+            websiteUrl: WEBSITE_URL,
+            email: guestEmail,
+          },
+          guestId: guestEmail,
+          eventId,
         };
 
         // For EventBridge Pipes to SQS, each element in the returned array
@@ -230,7 +222,6 @@ export const handler = async (event: any): Promise<any[]> => {
         logger.info('✅ Email message prepared and added to queue', {
           recordIndex: i,
           messageIndex: sqsMessages.length - 1,
-          type: 'single',
           templateType,
           recipientEmail: guestEmail,
           eventId,
@@ -269,10 +260,8 @@ export const handler = async (event: any): Promise<any[]> => {
     messageCount: sqsMessages.length,
     messages: sqsMessages.map((msg, idx) => ({
       index: idx,
-      type: msg.type,
       templateType: msg.templateType,
-      recipientCount: msg.recipients.length,
-      recipientEmail: msg.recipients[0]?.email,
+      recipientEmail: msg.recipientEmail,
     })),
     totalRecordsProcessed: records.length,
   });
