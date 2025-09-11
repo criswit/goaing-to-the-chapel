@@ -1,6 +1,43 @@
-## WEDDING WEBSITE
+# GOA Wedding Website 
 
-### Guest List Import Guide
+A full-stack wedding website and RSVP management system built with React, TypeScript, and AWS CDK. This system provides a complete solution for managing wedding invitations, guest responses, and event coordination.
+
+## Overview
+
+This wedding website system consists of two main components:
+
+### Frontend (React + TypeScript)
+- **Wedding Website**: A beautiful, responsive website hosted on CloudFront at `wedding.himnher.dev`
+- **Multi-page Navigation**: Home, Travel, Stay, Events, Attire, Registry, FAQ, and RSVP pages
+- **Guest RSVP Interface**: Secure invitation code-based RSVP system for guests
+- **Admin Dashboard**: JWT-protected admin panel at `/admin/login` for guest management
+
+### Backend (AWS Serverless)
+- **API Gateway**: RESTful APIs for guest RSVP operations and admin management
+- **DynamoDB**: Single-table design for guest data, RSVP responses, and admin users
+- **Lambda Functions**: Serverless functions for RSVP processing, email notifications, and admin operations
+- **SES Integration**: Automated email confirmations, reminders, and notifications
+- **Custom Domain**: API accessible at `api.wedding.himnher.dev`
+
+## Key Features
+
+- **Invitation Code System**: Auto-generated 6-character codes for secure guest access
+- **Group Management**: Handle families and couples with designated primary contacts
+- **Email Automation**: Automated confirmations, updates, and reminders via AWS SES
+- **Admin Dashboard**: Complete guest management with statistics, bulk operations, and data export
+- **CSV Import/Export**: Easy guest list management with validation and reporting
+- **Mobile Responsive**: Optimized for all devices and screen sizes
+- **Security**: JWT-based authentication and secure invitation code validation
+
+## Quick Start
+
+1. **Deploy Infrastructure**: `npm run build && npx cdk deploy RsvpBackendStack --profile wedding-website`
+2. **Create Admin User**: `node scripts/create-admin-user.js`
+3. **Import Guest List**: `node scripts/import-guests.js your-guests.csv --dry-run` (test first)
+4. **Import Guests**: `node scripts/import-guests.js your-guests.csv`
+5. **Test System**: `just test-cors` and visit `https://wedding.himnher.dev/admin/login`
+
+## Guest List Import Guide
 
 #### Overview
 This guide explains how to import your wedding guest list into the RSVP system database.
