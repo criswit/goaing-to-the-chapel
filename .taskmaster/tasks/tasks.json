@@ -971,7 +971,7 @@
         "description": "Uncomment the TokenAuthorizer creation and attach it to all protected admin API endpoints (/admin/protected/*) to secure the admin dashboard from unauthorized access by removing debugging comments in admin-api.ts.",
         "details": "The JWT authorizer is currently disabled with \"TEMPORARY: Disable authorizer for debugging\" comments throughout admin-api.ts. To re-enable authentication:\n\n1. **Uncomment TokenAuthorizer Creation** (lines 120-125): Uncomment the TokenAuthorizer instantiation that uses the existing authorizerFunction (verify-admin.ts handler)\n\n2. **Re-enable Authorizer on Protected Endpoints**: Uncomment the authorizer property in method configurations for all protected endpoints:\n   - Stats endpoint (line 152): `/admin/protected/stats` GET method\n   - Guests endpoint (lines 165, 175): `/admin/protected/guests` GET and PUT methods\n   - Guest detail endpoints (lines 188, 197, 208): `/admin/protected/guests/{invitationCode}` PUT, GET, and DELETE methods\n\n3. **Verify Authorizer Function Configuration**: Ensure authorizerFunction is properly configured with:\n   - Handler: 'verify-admin.handler' (already set at line 57)\n   - JWT public key parameter access (already granted at line 71)\n   - Proper timeout and memory settings (10s, 256MB - already configured)\n\n4. **Test Authorization Flow**: The authorizer validates JWT tokens with RS256 algorithm, checks for ADMIN/SUPER_ADMIN roles, and returns proper API Gateway policy documents. The verify-admin.ts handler is already implemented and functional.\n\nThe authorizer uses the existing JWT infrastructure with public key from SSM parameter `/wedding-rsvp/production/jwt/private-key` and validates tokens issued by the admin authentication system.\n<info added on 2025-09-11T17:56:35.065Z>\n**Reference Comprehensive Research Findings**: The implementation should incorporate best practices and optimization strategies detailed in .taskmaster/docs/research/2025-09-11_16.md. This research document contains critical guidance on JWT authentication best practices, AWS Lambda DynamoDB integration patterns, invitation code security enhancements, and performance optimization strategies that directly apply to re-enabling the JWT authorizer. Key considerations from the research should be applied during implementation, including proper token validation, secure key management, efficient Lambda-DynamoDB interactions, and performance optimizations for the authorization flow.\n</info added on 2025-09-11T17:56:35.065Z>",
         "testStrategy": "1. Deploy CDK stack and verify TokenAuthorizer is created in API Gateway console 2. Test unauthenticated requests to protected endpoints return 401 Unauthorized with proper CORS headers 3. Obtain valid JWT token via /admin/auth POST endpoint with admin credentials 4. Test authenticated requests to all protected endpoints with Authorization: Bearer <token> header return 200 OK 5. Test expired/invalid tokens return 401 Unauthorized 6. Verify authorizer caching works correctly (5-minute TTL) 7. Check CloudWatch logs for authorizer function show successful token validation and proper role checking 8. Test admin dashboard frontend can access all protected endpoints with stored JWT token",
-        "status": "pending",
+        "status": "done",
         "dependencies": [
           8,
           15
@@ -983,8 +983,8 @@
             "title": "Audit and document current authorization code structure in admin-api.ts",
             "description": "Review all commented authorization code in admin-api.ts, document the current state of TokenAuthorizer instantiation (lines 120-125), and catalog all protected endpoints that need authorizer re-attachment including their current commented state.",
             "dependencies": [],
-            "details": "Examine the existing admin-api.ts file to understand the current authorization infrastructure. Verify the authorizerFunction configuration at line 57, review the JWT public key parameter access at line 71, and document all TEMPORARY debugging comments. Create a checklist of all endpoints requiring authorizer re-enablement: /admin/protected/stats, /admin/protected/guests, and /admin/protected/guests/{invitationCode} methods.",
-            "status": "pending",
+            "details": "Examine the existing admin-api.ts file to understand the current authorization infrastructure. Verify the authorizerFunction configuration at line 57, review the JWT public key parameter access at line 71, and document all TEMPORARY debugging comments. Create a checklist of all endpoints requiring authorizer re-enablement: /admin/protected/stats, /admin/protected/guests, and /admin/protected/guests/{invitationCode} methods.\n<info added on 2025-09-11T18:07:55.466Z>\nAUDIT COMPLETE: Verified TokenAuthorizer code structure in admin-api.ts confirmed at lines 120-125 with proper handler reference to authorizerFunction. All six protected endpoint authorizer attachments identified and confirmed commented out: Stats GET method (line 152), Guests GET method (line 166), Guests PUT method (line 176), Guest detail PUT method (line 189), Guest detail GET method (line 199), and Guest detail DELETE method (line 209). The verify-admin.ts Lambda authorizer handler confirmed fully functional with proper RS256 JWT signature validation using SSM Parameter Store public key retrieval, role-based authorization checking for ADMIN and SUPER_ADMIN roles, comprehensive IAM policy generation with wildcard resource permissions, and structured context passing including email, role, and name claims. Authorization infrastructure is production-ready and requires only uncommenting the identified code blocks to restore full JWT protection to all admin API endpoints.\n</info added on 2025-09-11T18:07:55.466Z>",
+            "status": "done",
             "testStrategy": "Create comprehensive documentation of current state, verify all commented code locations match the task description, and confirm the verify-admin.ts handler exists and is properly configured."
           },
           {
@@ -995,7 +995,7 @@
               "16.1"
             ],
             "details": "Verify the authorizerFunction configuration uses 'verify-admin.handler' as specified at line 57. Confirm JWT public key parameter access is properly granted at line 71 with correct SSM parameter path '/wedding-rsvp/production/jwt/private-key'. Validate timeout (10s) and memory (256MB) settings are appropriate for JWT validation workload.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Review CDK configuration for Lambda function properties, verify IAM role has SSM parameter read permissions, and confirm the verify-admin.ts handler implements proper JWT validation with RS256 algorithm."
           },
           {
@@ -1006,7 +1006,7 @@
               "16.2"
             ],
             "details": "Locate the commented TokenAuthorizer instantiation block around lines 120-125 in admin-api.ts. Remove the debugging comments and uncomment the authorizer creation code that references the existing authorizerFunction. Ensure the TokenAuthorizer is properly instantiated with the correct configuration parameters.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Verify the TokenAuthorizer code compiles without errors after uncommenting, confirm it references the correct authorizerFunction, and validate the authorizer configuration matches the expected CDK TokenAuthorizer pattern."
           },
           {
@@ -1017,7 +1017,7 @@
               "16.3"
             ],
             "details": "Find the commented authorizer property in the stats endpoint method configuration around line 152. Remove the TEMPORARY debugging comments and uncomment the authorizer attachment for the GET /admin/protected/stats endpoint. Ensure the authorizer reference matches the TokenAuthorizer instance created in the previous subtask.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Verify the endpoint configuration includes the authorizer property, confirm the authorizer reference is correct, and validate the CDK synthesis includes the authorization configuration for this endpoint."
           },
           {
@@ -1028,7 +1028,7 @@
               "16.3"
             ],
             "details": "Locate the commented authorizer properties for both the GET and PUT methods of the /admin/protected/guests endpoint. Remove TEMPORARY debugging comments at lines 165 and 175. Uncomment the authorizer attachment for both methods to ensure guest list viewing and bulk operations require proper authentication.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Verify both GET and PUT methods for /admin/protected/guests include authorizer properties, confirm authorizer references are consistent with the TokenAuthorizer instance, and validate CDK configuration includes authorization for both operations."
           },
           {
@@ -1039,7 +1039,7 @@
               "16.3"
             ],
             "details": "Find the commented authorizer properties for the guest detail endpoints that handle individual guest operations by invitation code. Remove TEMPORARY debugging comments and uncomment authorizer attachments for PUT (line 188), GET (line 197), and DELETE (line 208) methods of /admin/protected/guests/{invitationCode}.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Verify all three HTTP methods (PUT, GET, DELETE) for the guest detail endpoints include authorizer properties, confirm consistent authorizer references, and validate CDK synthesis includes authorization configuration for all individual guest operations."
           },
           {
@@ -1052,7 +1052,7 @@
               "16.6"
             ],
             "details": "Review the verify-admin.ts handler to ensure it returns proper API Gateway policy documents for both Allow and Deny scenarios. Implement structured logging for authentication attempts, failures, and successes. Ensure CORS headers are included in authorization failure responses to prevent browser issues with the admin dashboard.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Test invalid JWT tokens return 401 responses with proper CORS headers, verify structured logs are generated for auth events, and confirm browser can handle authorization failures gracefully without CORS errors."
           },
           {
@@ -1063,7 +1063,7 @@
               "16.7"
             ],
             "details": "Review and apply relevant JWT authentication best practices from the research findings. Implement authorizer result caching with appropriate TTL, ensure RS256 algorithm validation, and optimize Lambda performance with connection reuse and proper error handling. Apply security hardening measures for admin authentication flow.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Verify JWT validation uses RS256 algorithm correctly, test authorizer caching behavior with repeated requests, measure authorization latency, and confirm security best practices are implemented according to research recommendations."
           },
           {
@@ -1074,7 +1074,7 @@
               "16.8"
             ],
             "details": "Execute CDK deployment to provision the uncommented authorization infrastructure. Use AWS console to verify the TokenAuthorizer appears in API Gateway, confirm it's attached to all specified admin endpoints, and validate the authorizer configuration points to the correct Lambda function with appropriate caching settings.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Check API Gateway console shows TokenAuthorizer exists, verify all protected endpoints list the authorizer in their method configuration, and confirm authorizer Lambda function is deployed with correct handler and permissions."
           },
           {
@@ -1085,7 +1085,7 @@
               "16.9"
             ],
             "details": "Test unauthenticated requests to all protected endpoints return 401 Unauthorized with CORS headers. Obtain valid JWT tokens via /admin/auth endpoint and verify authenticated requests succeed. Test invalid tokens, expired tokens, and insufficient role permissions. Validate the authorization flow handles edge cases properly and admin dashboard functions correctly with authentication enabled.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Execute test matrix covering: (1) unauthenticated requests to all protected endpoints, (2) authenticated requests with valid admin JWT tokens, (3) requests with invalid/expired tokens, (4) role-based access validation, and (5) end-to-end admin dashboard functionality with authentication enabled."
           }
         ]
@@ -1093,7 +1093,7 @@
     ],
     "metadata": {
       "created": "2025-09-08T01:12:16.853Z",
-      "updated": "2025-09-11T17:55:01.572Z",
+      "updated": "2025-09-11T18:15:17.265Z",
       "description": "Tasks for rsvp-system context"
     }
   },

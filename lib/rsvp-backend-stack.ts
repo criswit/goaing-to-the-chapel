@@ -4,7 +4,7 @@ import { Construct } from 'constructs';
 import { RsvpDatabase } from './backend/rsvp-database';
 import { RsvpApi } from './backend/rsvp-api';
 import { ApiDomainConfig } from './backend/api-domain-config';
-import { AuthInfrastructure } from './backend/auth-infrastructure';
+import { AuthInfrastructureSimple as AuthInfrastructure } from './backend/auth-infrastructure-simple';
 import { EmailInfrastructure } from './backend/email-infrastructure';
 import { EmailLambdas } from './backend/email-lambdas';
 import { EmailStreamProcessor } from './backend/email-stream-processor';

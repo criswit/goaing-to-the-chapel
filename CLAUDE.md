@@ -34,35 +34,79 @@ This is a full-stack AWS CDK wedding RSVP system with:
 - CSV-based guest list import system with auto-generated invitation codes
 - DynamoDB single-table design with GSI access patterns
 
-## Critical Post-Deployment Setup
+## JWT Key Management (Critical for Admin Authentication)
 
-**REQUIRED after any backend deployment (these steps are often missed):**
+**IMPORTANT: JWT keys are now managed separately from CDK deployments to prevent regeneration issues.**
 
+### First-Time Deployment
 ```bash
-# 1. Deploy backend infrastructure first
-npm run build
-npx cdk deploy RsvpBackendStack --profile wedding-website
+# 1. Initialize JWT keys (one-time setup - MUST do before first deployment)
+npm run init:jwt-keys
 
-# 2. Create admin user (MUST DO - admin panel won't work without this)
+# 2. Deploy backend infrastructure
+npm run deploy:backend
+
+# 3. Create admin user
 node scripts/create-admin-user.js
-# OR use justfile command
-just setup-admin
 
-# 3. Import guest list (MUST DO - no guests means no RSVPs)
+# 4. Import guest list
 node scripts/import-guests.js your-guests.csv --dry-run  # Test first
 node scripts/import-guests.js your-guests.csv            # Actual import
-# OR use justfile command
-just import-guests
 
-# 4. Test CORS functionality (CRITICAL - commonly broken)
+# 5. Test system
 just test-cors
-# OR manual test
-curl -X OPTIONS https://api.wedding.himnher.dev/production/rsvp/validate \
-  -H "Origin: https://wedding.himnher.dev" -v
+```
 
-# 5. Verify admin panel access
+### Subsequent Deployments
+```bash
+# Just deploy - keys are preserved
+npm run deploy:backend
+```
+
+### Key Rotation (When Needed)
+```bash
+# Full rotation with Lambda refresh
+npm run rotate:jwt-keys
+
+# This will:
+# 1. Generate new key pair
+# 2. Update SSM parameters
+# 3. Force Lambda cold starts
+# 4. Invalidate all admin sessions
+```
+
+### Key Storage Locations
+- **Private Key**: `/wedding-rsvp/production/jwt/private-key` (SSM SecureString)
+- **Public Key**: `/wedding-rsvp/production/jwt/public-key` (SSM String)
+
+### CDK Architecture
+The stack uses `AuthInfrastructureSimple` which:
+- **Does NOT** generate keys (prevents regeneration on deploy)
+- **Only references** existing SSM parameters
+- **Preserves** keys across all deployments
+
+## Critical Post-Deployment Setup
+
+**REQUIRED after backend deployment:**
+
+```bash
+# 1. Ensure JWT keys exist (if first time)
+npm run init:jwt-keys
+
+# 2. Deploy backend
+npm run deploy:backend
+
+# 3. Create admin user (if needed)
+node scripts/create-admin-user.js
+
+# 4. Import/update guest list
+node scripts/import-guests.js your-guests.csv
+
+# 5. Test CORS functionality
+just test-cors
+
+# 6. Verify admin panel access
 just test-admin-login
-# OR manual test: visit https://wedding.himnher.dev/admin/login
 ```
 
 ## CORS Issue Resolution
@@ -109,6 +153,97 @@ node scripts/create-admin-user.js
 # - Password (min 8 characters)
 # - Role (ADMIN or SUPER_ADMIN)
 ```
+
+## Testing Admin Dashboard Locally
+
+**Prerequisites for Local Testing:**
+1. Backend must be deployed to AWS (admin API runs in Lambda)
+2. Frontend development server must be running
+3. Admin user must exist in DynamoDB
+
+**Step-by-Step Local Testing Guide:**
+
+```bash
+# 1. Start the frontend development server
+cd frontend
+npm start
+# Server will run on http://localhost:3000
+
+# 2. Verify proxy configuration in frontend/package.json
+# Should point to admin API: "proxy": "https://5rjco8kq9l.execute-api.us-east-1.amazonaws.com"
+
+# 3. Ensure frontend config uses correct URLs
+# Check frontend/src/config.ts for localhost configuration:
+# - apiUrl: '/production'
+# - adminApiUrl: '/prod'
+```
+
+**Test Admin Credentials:**
+- **Email**: `auth-test@wedding.dev`
+- **Password**: `TestPassword123!`
+- **Role**: ADMIN
+
+**Alternative Test Credentials (if available):**
+- **Email**: `admin@wedding.himnher.dev`  
+- **Password**: Contact system administrator
+- **Role**: SUPER_ADMIN
+
+**Creating a Test Admin User:**
+```bash
+# Using AWS CLI directly
+aws dynamodb put-item \
+  --table-name WeddingAdmins \
+  --item '{
+    "email": {"S": "test-admin@wedding.dev"},
+    "name": {"S": "Test Admin"},
+    "passwordHash": {"S": "$2a$10$RskdVUPK4IlB04ALCL7x6OHTD6joIXuW2AxJoPYbTujv8KPVfZdHm"},
+    "role": {"S": "ADMIN"},
+    "createdAt": {"S": "'$(date -u +"%Y-%m-%dT%H:%M:%S.000Z")'"}
+  }' \
+  --profile wedding-website
+
+# The passwordHash above corresponds to: TestPassword123!
+```
+
+**Testing Workflow:**
+
+1. **Access Login Page:**
+   - Navigate to `http://localhost:3000/admin/login`
+   - Verify login form loads without errors
+
+2. **Test Authentication:**
+   - Enter test credentials
+   - Click Login button
+   - Should redirect to `/admin/dashboard` on success
+
+3. **Verify Dashboard Features:**
+   - **Statistics Overview**: Should display RSVP counts and response rates
+   - **Guest List**: Should show all guests with filtering/search
+   - **Protected Routes**: All admin routes should require authentication
+
+4. **Common Local Development Issues:**
+
+   **Issue: "Proxy error" or 403/500 errors**
+   - Solution: Check `frontend/package.json` proxy points to correct API
+   - Verify: `"proxy": "https://5rjco8kq9l.execute-api.us-east-1.amazonaws.com"`
+
+   **Issue: "No authentication token found" errors**
+   - Solution: Must login first at `/admin/login`
+   - Token stored in localStorage as `adminToken`
+
+   **Issue: CORS errors**
+   - Solution: Ensure backend is deployed with proper CORS configuration
+   - Test: `curl -X OPTIONS https://admin.wedding.himnher.dev/prod/admin/protected/stats -H "Origin: http://localhost:3000"`
+
+   **Issue: Login fails with "Invalid credentials"**
+   - Solution: Verify admin user exists in DynamoDB
+   - Check: `aws dynamodb scan --table-name WeddingAdmins --profile wedding-website`
+
+5. **Debugging Tips:**
+   - Open browser DevTools to monitor network requests
+   - Check localStorage for `adminToken` after login
+   - Verify API calls go to `/prod/admin/*` paths
+   - Monitor CloudWatch logs for Lambda function errors
 
 **Admin Panel Features:**
 - Dashboard: RSVP statistics, guest counts, attendance breakdown
@@ -484,6 +619,18 @@ just validate-guests
 - **Files**: Update all Lambda functions using DynamoDB (admin-guests.ts, admin-stats.ts, etc.)
 - **Test**: Verify guest edit/save functionality in admin panel works without errors
 
+**7. JWT "Invalid Signature" Errors (401):**
+- **Cause**: Keys regenerated during CDK deployment (old CDK behavior)
+- **Solution**: Initialize stable keys with `npm run init:jwt-keys`
+- **Verify**: Check CloudWatch logs for authorizer Lambda
+- **Test**: Admin login should work after Lambda refresh
+
+**8. Admin Sessions Invalid After Deployment:**
+- **Cause**: JWT keys were regenerated (should not happen with new setup)
+- **Solution**: Ensure using `AuthInfrastructureSimple` in CDK stack
+- **Prevention**: Always use `npm run deploy:backend` instead of raw CDK commands
+- **Recovery**: If keys were regenerated, run `npm run init:jwt-keys` to set stable keys
+
 ## Justfile Commands Reference
 
 **Setup & Deployment:**
@@ -491,6 +638,14 @@ just validate-guests
 just setup-admin           # Create admin user interactively
 just import-guests         # Import guest list from CSV
 just deploy               # Full deployment (frontend + backend)
+```
+
+**JWT Key Management (NPM Scripts):**
+```bash
+npm run init:jwt-keys      # Initialize keys (first-time setup)
+npm run rotate:jwt-keys    # Rotate keys with Lambda refresh
+npm run deploy:first-time  # Init keys + deploy (for new projects)
+npm run deploy:backend     # Normal deployment (preserves keys)
 ```
 
 **Testing & Validation:**

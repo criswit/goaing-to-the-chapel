@@ -56,7 +56,7 @@ const AdminLogin: React.FC = () => {
     setError(null);
 
     try {
-      const response = await fetch(`${config.adminApiUrl}admin/auth`, {
+      const response = await fetch(`${config.adminApiUrl}/admin/auth`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

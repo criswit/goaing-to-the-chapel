@@ -6,6 +6,7 @@ import * as kms from 'aws-cdk-lib/aws-kms';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { Construct } from 'constructs';
 import * as crypto from 'crypto';
+import { IAuthInfrastructure } from './auth-infrastructure-interface';
 
 export interface AuthInfrastructureProps {
   /**
@@ -29,7 +30,7 @@ export interface AuthInfrastructureProps {
  * 3. Manages KMS encryption for parameters
  * 4. Provides IAM permissions for Lambda access
  */
-export class AuthInfrastructure extends Construct {
+export class AuthInfrastructure extends Construct implements IAuthInfrastructure {
   public readonly jwtPrivateKeyParameter: ssm.StringParameter;
   public readonly jwtPublicKeyParameter: ssm.StringParameter;
   public readonly kmsKey: kms.Key;

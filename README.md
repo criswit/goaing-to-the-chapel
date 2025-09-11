@@ -31,11 +31,97 @@ This wedding website system consists of two main components:
 
 ## Quick Start
 
-1. **Deploy Infrastructure**: `npm run build && npx cdk deploy RsvpBackendStack --profile wedding-website`
-2. **Create Admin User**: `node scripts/create-admin-user.js`
-3. **Import Guest List**: `node scripts/import-guests.js your-guests.csv --dry-run` (test first)
-4. **Import Guests**: `node scripts/import-guests.js your-guests.csv`
-5. **Test System**: `just test-cors` and visit `https://wedding.himnher.dev/admin/login`
+### First-Time Setup
+1. **Initialize JWT Keys**: `npm run init:jwt-keys` (one-time setup)
+2. **Deploy Infrastructure**: `npm run deploy:backend`
+3. **Create Admin User**: `node scripts/create-admin-user.js`
+4. **Import Guest List**: `node scripts/import-guests.js your-guests.csv --dry-run` (test first)
+5. **Import Guests**: `node scripts/import-guests.js your-guests.csv`
+6. **Test System**: `just test-cors` and visit `https://wedding.himnher.dev/admin/login`
+
+### Subsequent Deployments
+```bash
+npm run deploy:backend  # Keys are preserved across deployments
+```
+
+## JWT Key Management
+
+### Overview
+JWT keys for admin authentication are managed separately from CDK deployments to prevent accidental regeneration. Keys are stored in AWS Systems Manager Parameter Store and persist across deployments.
+
+### Key Initialization (First-Time Setup)
+```bash
+# Initialize keys before first deployment
+npm run init:jwt-keys
+
+# Or manually specify environment
+node scripts/init-jwt-keys.js production
+```
+
+The initialization script:
+- Checks if keys already exist in SSM Parameter Store
+- Only generates new keys if they don't exist
+- Stores keys at:
+  - `/wedding-rsvp/production/jwt/private-key` (SecureString)
+  - `/wedding-rsvp/production/jwt/public-key` (String)
+
+### Key Rotation
+When you need to rotate keys (e.g., for security or compliance):
+
+```bash
+# Option 1: Full rotation with Lambda refresh
+npm run rotate:jwt-keys
+
+# Option 2: Force regeneration only
+npm run rotate:jwt-keys:force
+
+# Option 3: Manual rotation with confirmation
+node scripts/init-jwt-keys.js production
+# Answer "yes" when prompted to regenerate
+```
+
+**Important**: Key rotation will:
+- Invalidate all existing admin sessions
+- Require all admin users to log in again
+- Automatically refresh Lambda functions to use new keys
+
+### CDK Integration
+The CDK stack uses `AuthInfrastructureSimple` which:
+- References existing SSM parameters (doesn't create them)
+- Grants Lambda functions read access to the keys
+- Preserves keys across deployments
+
+```typescript
+// lib/backend/auth-infrastructure-simple.ts
+this.jwtPrivateKeyParameter = ssm.StringParameter.fromStringParameterName(
+  this, 'JWTPrivateKey', '/wedding-rsvp/production/jwt/private-key'
+);
+```
+
+### Troubleshooting
+
+**Issue: "Invalid signature" errors after deployment**
+- Cause: CDK previously regenerated keys on each deployment
+- Solution: Run `npm run init:jwt-keys` to set stable keys
+
+**Issue: Admin login fails after key rotation**
+- Expected behavior - all sessions are invalidated
+- Solution: Log in again with admin credentials
+
+**Issue: Lambda functions using old keys**
+- Solution: Force Lambda refresh:
+```bash
+./scripts/rotate-jwt-keys.sh production
+```
+
+### Available NPM Scripts
+```json
+"init:jwt-keys": "Initialize JWT keys (first-time setup)",
+"rotate:jwt-keys": "Rotate keys with Lambda refresh",
+"rotate:jwt-keys:force": "Force key regeneration",
+"deploy:first-time": "Initialize keys + deploy",
+"deploy:backend": "Regular deployment (preserves keys)"
+```
 
 ## Guest List Import Guide
 
@@ -179,23 +265,23 @@ For issues or questions:
 - Run with `--debug` flag for detailed errors
 
 <!-- TASKMASTER_EXPORT_START -->
-> 🎯 **Taskmaster Export** - 2025-09-11 18:04:23 UTC
+> 🎯 **Taskmaster Export** - 2025-09-11 19:15:20 UTC
 > 📋 Export: with subtasks • Status filter: none
 > 🔗 Powered by [Task Master](https://task-master.dev?utm_source=github-readme&utm_medium=readme-export&utm_campaign=goaing-to-the-chapel&utm_content=task-export-link)
 
 | Project Dashboard |  |
 | :-                |:-|
-| Task Progress     | ███████████░░░░░░░░░ 56% |
-| Done | 9 |
+| Task Progress     | █████████████░░░░░░░ 63% |
+| Done | 10 |
 | In Progress | 1 |
-| Pending | 6 |
+| Pending | 5 |
 | Deferred | 0 |
 | Cancelled | 0 |
 |-|-|
-| Subtask Progress | ████████████░░░░░░░░ 62% |
-| Completed | 51 |
+| Subtask Progress | ███████████████░░░░░ 74% |
+| Completed | 61 |
 | In Progress | 0 |
-| Pending | 31 |
+| Pending | 21 |
 
 
 | ID | Title | Status | Priority | Dependencies | Complexity |
@@ -287,20 +373,21 @@ For issues or questions:
 | 15.3 | Create Comprehensive Guest Update Zod Schema | ✓&nbsp;done | -            | 15.2 | N/A |
 | 15.4 | Implement Single-Table DynamoDB Update Operations | ✓&nbsp;done | -            | 15.3 | N/A |
 | 15.5 | Add Comprehensive Error Handling and Audit Logging | ✓&nbsp;done | -            | 15.4 | N/A |
-| 16 | Re-enable JWT authorizer for admin dashboard API endpoints | ○&nbsp;pending | high | 8, 15 | N/A |
-| 16.1 | Audit and document current authorization code structure in admin-api.ts | ○&nbsp;pending | -            | None | N/A |
-| 16.2 | Validate JWT authorizer function configuration and dependencies | ○&nbsp;pending | -            | 16.1 | N/A |
-| 16.3 | Uncomment TokenAuthorizer instantiation in admin-api.ts | ○&nbsp;pending | -            | 16.2 | N/A |
-| 16.4 | Re-enable authorizer for admin stats endpoint | ○&nbsp;pending | -            | 16.3 | N/A |
-| 16.5 | Re-enable authorizer for admin guests list endpoints | ○&nbsp;pending | -            | 16.3 | N/A |
-| 16.6 | Re-enable authorizer for guest detail endpoints | ○&nbsp;pending | -            | 16.3 | N/A |
-| 16.7 | Implement comprehensive error handling for authorization failures | ○&nbsp;pending | -            | 16.4, 16.5, 16.6 | N/A |
-| 16.8 | Apply JWT authentication best practices from research findings | ○&nbsp;pending | -            | 16.7 | N/A |
-| 16.9 | Deploy and verify TokenAuthorizer creation in AWS | ○&nbsp;pending | -            | 16.8 | N/A |
-| 16.10 | Execute comprehensive authorization testing | ○&nbsp;pending | -            | 16.9 | N/A |
+| 16 | Re-enable JWT authorizer for admin dashboard API endpoints | ✓&nbsp;done | high | 8, 15 | N/A |
+| 16.1 | Audit and document current authorization code structure in admin-api.ts | ✓&nbsp;done | -            | None | N/A |
+| 16.2 | Validate JWT authorizer function configuration and dependencies | ✓&nbsp;done | -            | 16.1 | N/A |
+| 16.3 | Uncomment TokenAuthorizer instantiation in admin-api.ts | ✓&nbsp;done | -            | 16.2 | N/A |
+| 16.4 | Re-enable authorizer for admin stats endpoint | ✓&nbsp;done | -            | 16.3 | N/A |
+| 16.5 | Re-enable authorizer for admin guests list endpoints | ✓&nbsp;done | -            | 16.3 | N/A |
+| 16.6 | Re-enable authorizer for guest detail endpoints | ✓&nbsp;done | -            | 16.3 | N/A |
+| 16.7 | Implement comprehensive error handling for authorization failures | ✓&nbsp;done | -            | 16.4, 16.5, 16.6 | N/A |
+| 16.8 | Apply JWT authentication best practices from research findings | ✓&nbsp;done | -            | 16.7 | N/A |
+| 16.9 | Deploy and verify TokenAuthorizer creation in AWS | ✓&nbsp;done | -            | 16.8 | N/A |
+| 16.10 | Execute comprehensive authorization testing | ✓&nbsp;done | -            | 16.9 | N/A |
 
 > 📋 **End of Taskmaster Export** - Tasks are synced from your project using the `sync-readme` command.
 <!-- TASKMASTER_EXPORT_END -->
+
 
 
 

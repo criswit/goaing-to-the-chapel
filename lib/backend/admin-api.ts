@@ -5,12 +5,12 @@ import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { Construct } from 'constructs';
 import * as path from 'path';
-import { AuthInfrastructure } from './auth-infrastructure';
+import { IAuthInfrastructure } from './auth-infrastructure-interface';
 
 export interface AdminApiProps {
   guestsTable: dynamodb.ITable;
   rsvpsTable: dynamodb.ITable;
-  authInfrastructure: AuthInfrastructure;
+  authInfrastructure: IAuthInfrastructure;
   corsOrigin?: string;
 }
 
@@ -117,12 +117,12 @@ export class AdminApi extends Construct {
       responseHeaders: corsHeaders,
     });
 
-    // TEMPORARY: Disable authorizer creation for debugging
-    // this.authorizer = new apigateway.TokenAuthorizer(this, 'AdminAuthorizer', {
-    //   handler: this.authorizerFunction,
-    //   identitySource: 'method.request.header.Authorization',
-    //   resultsCacheTtl: cdk.Duration.minutes(5),
-    // });
+    // Create TokenAuthorizer for JWT validation
+    this.authorizer = new apigateway.TokenAuthorizer(this, 'AdminAuthorizer', {
+      handler: this.authorizerFunction,
+      identitySource: 'method.request.header.Authorization',
+      resultsCacheTtl: cdk.Duration.minutes(5),
+    });
 
     // Create endpoints
     const adminResource = this.api.root.addResource('admin');
@@ -148,8 +148,7 @@ export class AdminApi extends Construct {
         proxy: true,
       }),
       {
-        // TEMPORARY: Disable authorizer for debugging
-        // authorizer: this.authorizer,
+        authorizer: this.authorizer,
       }
     );
 
@@ -162,8 +161,7 @@ export class AdminApi extends Construct {
         proxy: true,
       }),
       {
-        // TEMPORARY: Disable authorizer for debugging
-        // authorizer: this.authorizer,
+        authorizer: this.authorizer,
       }
     );
     guestsResource.addMethod(
@@ -172,8 +170,7 @@ export class AdminApi extends Construct {
         proxy: true,
       }),
       {
-        // TEMPORARY: Disable authorizer for debugging
-        // authorizer: this.authorizer,
+        authorizer: this.authorizer,
       }
     );
 
@@ -185,8 +182,7 @@ export class AdminApi extends Construct {
         proxy: true,
       }),
       {
-        // TEMPORARY: Disable authorizer for debugging
-        // authorizer: this.authorizer,
+        authorizer: this.authorizer,
       }
     );
     guestDetailResource.addMethod(
@@ -195,8 +191,7 @@ export class AdminApi extends Construct {
         proxy: true,
       }),
       {
-        // TEMPORARY: Disable authorizer for debugging
-        // authorizer: this.authorizer,
+        authorizer: this.authorizer,
       }
     );
     guestDetailResource.addMethod(
@@ -205,8 +200,7 @@ export class AdminApi extends Construct {
         proxy: true,
       }),
       {
-        // TEMPORARY: Disable authorizer for debugging
-        // authorizer: this.authorizer,
+        authorizer: this.authorizer,
       }
     );
 

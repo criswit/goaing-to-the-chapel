@@ -42,7 +42,7 @@ const StatsOverview: React.FC = () => {
       }
 
       const config = await loadConfig();
-      const response = await fetch(`${config.adminApiUrl}admin/protected/stats`, {
+      const response = await fetch(`${config.adminApiUrl}/admin/protected/stats`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

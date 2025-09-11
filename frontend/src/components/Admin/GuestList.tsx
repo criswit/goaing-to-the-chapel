@@ -84,7 +84,7 @@ const GuestList: React.FC = () => {
       }
 
       const config = await loadConfig();
-      const response = await fetch(`${config.adminApiUrl}admin/protected/guests`, {
+      const response = await fetch(`${config.adminApiUrl}/admin/protected/guests`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -199,7 +199,7 @@ const GuestList: React.FC = () => {
 
       const config = await loadConfig();
       const response = await fetch(
-        `${config.adminApiUrl}admin/protected/guests/${editingGuest.invitationCode}`,
+        `${config.adminApiUrl}/admin/protected/guests/${editingGuest.invitationCode}`,
         {
           method: 'PUT',
           headers: {

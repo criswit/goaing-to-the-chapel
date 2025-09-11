@@ -36,21 +36,22 @@ export const handler = async (
   console.log('Admin authorization request received');
 
   try {
-    const token = event.authorizationToken?.replace('Bearer ', '');
+    const token = event.authorizationToken?.replace('Bearer ', '').trim();
 
     if (!token) {
       console.log('No authorization token provided');
       throw new Error('Unauthorized');
     }
 
-    // Get JWT public key
+    // Get JWT public key (cached for performance)
     const publicKey = await getJWTPublicKey();
 
-    // Verify and decode token
+    // Verify and decode token with proper error handling
     const decoded = jwt.verify(token, publicKey, {
       algorithms: ['RS256'],
       issuer: 'wedding-rsvp-admin',
       audience: 'wedding-admin-dashboard',
+      clockTolerance: 10, // Allow 10 seconds of clock skew
     }) as TokenPayload;
 
     // Check if user has admin role
@@ -81,7 +82,14 @@ export const handler = async (
       },
     };
   } catch (error) {
-    console.error('Admin authorization error:', error);
+    // Enhanced error logging for debugging
+    if (error instanceof jwt.TokenExpiredError) {
+      console.error('JWT token expired:', error.expiredAt);
+    } else if (error instanceof jwt.JsonWebTokenError) {
+      console.error('JWT validation error:', error.message);
+    } else {
+      console.error('Admin authorization error:', error);
+    }
     throw new Error('Unauthorized');
   }
 };
@@ -95,6 +103,7 @@ export async function verifyAdminToken(token: string): Promise<TokenPayload | nu
       algorithms: ['RS256'],
       issuer: 'wedding-rsvp-admin',
       audience: 'wedding-admin-dashboard',
+      clockTolerance: 10, // Allow 10 seconds of clock skew
     }) as TokenPayload;
 
     if (decoded.role !== 'ADMIN' && decoded.role !== 'SUPER_ADMIN') {
@@ -103,7 +112,14 @@ export async function verifyAdminToken(token: string): Promise<TokenPayload | nu
 
     return decoded;
   } catch (error) {
-    console.error('Token verification error:', error);
+    // Enhanced error logging for debugging
+    if (error instanceof jwt.TokenExpiredError) {
+      console.error('Token verification error - expired:', error.expiredAt);
+    } else if (error instanceof jwt.JsonWebTokenError) {
+      console.error('Token verification error - invalid:', error.message);
+    } else {
+      console.error('Token verification error:', error);
+    }
     return null;
   }
 }

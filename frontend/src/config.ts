@@ -22,7 +22,7 @@ export async function loadConfig(): Promise<AppConfig> {
   // For local development, use relative URLs to leverage proxy
   if (window.location.hostname === 'localhost') {
     cachedConfig = {
-      apiUrl: '/prod',
+      apiUrl: '/production',
       adminApiUrl: '/prod',
       environment: 'development',
     };
