@@ -55,14 +55,18 @@ export const logger = {
 };
 
 export const createResponse = (statusCode: number, body: any): APIResponse => {
+  // Get allowed origin from environment or default to permissive for dev
+  const allowedOrigin = process.env.CORS_ORIGIN || '*';
+
   return {
     statusCode,
     headers: {
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Origin': allowedOrigin,
       'Access-Control-Allow-Headers':
-        'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
+        'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Auth-Token',
       'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS',
+      'Access-Control-Allow-Credentials': 'true',
     },
     body: JSON.stringify(body),
   };

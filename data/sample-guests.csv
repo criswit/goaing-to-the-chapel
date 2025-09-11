@@ -1,2 +1,3 @@
 name,email,phone,plusOnesAllowed,groupName,groupId,isPrimaryContact,tableNumber,dietaryRestrictions,notes
-chris whitfield, whitfiecbeta@gmail.com,2064883239, 1, whitfiec, whitfiec, yes,,,,
+chris whitfield, whitfiecbeta@gmail.com,2064883239, 1, whitfiec, whitfiec, yes,,,
+bob loblaw,the.chriswhitfield@gmail.com,206,1,the.chris,the.chris,yes,,,

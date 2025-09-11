@@ -142,6 +142,8 @@ export class RsvpBackendStack extends cdk.Stack {
         allowedOrigins = [
           `https://${props.domainName}`,
           `https://www.${props.domainName}`,
+          'https://wedding.himnher.dev', // Main domain
+          'https://www.wedding.himnher.dev', // www subdomain
           'https://api.wedding.himnher.dev', // API domain
           'http://localhost:3000', // For local development
           'http://localhost:5173', // Vite dev server

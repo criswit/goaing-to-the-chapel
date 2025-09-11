@@ -54,6 +54,7 @@ export interface APIResponse {
     'Access-Control-Allow-Origin': string;
     'Access-Control-Allow-Headers': string;
     'Access-Control-Allow-Methods': string;
+    'Access-Control-Allow-Credentials'?: string;
   };
   body: string;
 }
