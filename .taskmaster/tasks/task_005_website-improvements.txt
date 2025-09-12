@@ -1,0 +1,68 @@
+# Task ID: 5
+# Title: Consolidate visa-related sections into unified Travel.tsx panel
+# Status: done
+# Dependencies: 2
+# Priority: medium
+# Description: Merge the separate 'Required Documentation' and 'E-Visa Application Process' sections in Travel.tsx into a single comprehensive visa panel that eliminates redundancy and provides a streamlined visa guide for wedding guests.
+# Details:
+1. Locate and analyze the two existing visa sections in Travel.tsx:
+   - Required Documentation section (lines 251-319)
+   - E-Visa Application Process section (lines 321-364)
+2. Create a new unified 'Visa Guide' section that combines:
+   - Visa timeline and application deadlines
+   - Complete documentation requirements list
+   - Step-by-step application process
+   - Pro tips and common pitfalls
+   - Processing timeframes and costs
+3. Reorganize content into logical subsections:
+   - Application Timeline & Deadlines
+   - Required Documents Checklist
+   - Application Process Steps
+   - Important Tips & Considerations
+4. Remove the two existing separate sections (lines 251-364) and replace with the consolidated panel
+5. Ensure consistent styling and formatting with other Travel.tsx panels
+6. Maintain all existing visa information while eliminating duplicate content
+7. Add clear headings and improved visual hierarchy for better readability
+8. Verify all links and references are preserved in the consolidated section
+
+# Test Strategy:
+1. Verify the two original visa sections (lines 251-319 and 321-364) have been completely removed from Travel.tsx
+2. Confirm the new consolidated visa panel appears in their place with all content properly merged
+3. Check that no visa-related information has been lost in the consolidation process
+4. Test that the new section maintains consistent styling with other panels on the Travel page
+5. Verify all external links and references within the visa content still function correctly
+6. Confirm the consolidated section provides a logical flow from timeline to documentation to application steps
+7. Test responsive design to ensure the consolidated content displays properly on mobile and desktop
+8. Validate that the section reduces cognitive load by eliminating redundant information while maintaining completeness
+
+# Subtasks:
+## 1. Analyze existing visa sections and extract all content [done]
+### Dependencies: None
+### Description: Examine the current 'E-Visa Application Process' panel (lines 252-319) and 'Required Documentation' panel (lines 322-364) in Travel.tsx to catalog all existing content including timeline information, application details, documentation requirements, pro tips, and warning messages.
+### Details:
+Read through Travel.tsx lines 252-364 to identify: visa timeline with application deadlines (120 days before, 2-3 weeks recommended, 4 days minimum), application details (website, processing time, cost, entry restrictions), pro tips (multiple-entry recommendation, screenshot approval, print copies), documentation requirements (passport requirements, photos, confirmations), and all warning messages. Create a comprehensive inventory of all content elements to ensure nothing is lost during consolidation.
+
+## 2. Design unified visa guide structure with logical subsections [done]
+### Dependencies: 5.1
+### Description: Create a new consolidated visa panel structure with organized subsections: Application Timeline & Deadlines, Required Documents Checklist, Application Process Steps, and Important Tips & Considerations, ensuring improved visual hierarchy and logical content flow.
+### Details:
+Design the new 'Visa Guide' panel structure using existing Travel.tsx panel patterns. Organize content into 4 main subsections: 1) Application Timeline & Deadlines (combining timeline from lines 259-284), 2) Required Documents Checklist (merging documentation from lines 329-351), 3) Application Process Steps (incorporating application details from lines 286-306), 4) Important Tips & Considerations (consolidating pro tips from lines 307-316 and warnings). Maintain consistent CSS classes like 'travel-panel', 'panel-header', and existing styling patterns found in other Travel.tsx panels.
+
+## 3. Implement consolidated visa guide panel with merged content [done]
+### Dependencies: 5.2
+### Description: Create the new unified 'Visa Guide' panel by combining all content from both existing visa sections into the designed structure, ensuring no information is lost and maintaining all links, styling, and interactive elements.
+### Details:
+Implement the new consolidated panel in Travel.tsx by combining content from lines 252-364. Preserve all existing elements: Shield icon, visa timeline with timeline-items, application website link (indianvisaonline.gov.in), processing details, cost information, pro tips list, documentation requirements grid, and warning cards. Ensure all CSS classes (visa-content, visa-timeline, timeline-items, visa-details-grid, doc-requirements, doc-grid, warning-card) are maintained for proper styling. Keep all lucide-react icons (Shield, Globe, Info, Briefcase, AlertCircle) and their associated styling.
+
+## 4. Remove original visa sections and integrate consolidated panel [done]
+### Dependencies: 5.3
+### Description: Remove the two separate visa sections (lines 252-319 and 322-364) from Travel.tsx and replace them with the new consolidated visa guide panel in the appropriate location within the travel layout.
+### Details:
+Delete lines 252-364 in Travel.tsx which contain both the 'E-Visa Application Process' panel and 'Required Documentation' panel. Insert the new consolidated 'Visa Guide' panel in the same location to maintain the travel page flow. Ensure the new panel is properly positioned within the travel-content div structure and maintains proper spacing with surrounding elements. Verify that the data-section attribute and any section-specific functionality continues to work correctly.
+
+## 5. Verify content integrity and test consolidated visa panel functionality [done]
+### Dependencies: 5.4
+### Description: Conduct comprehensive testing to ensure the consolidated visa guide panel displays correctly, maintains all original functionality, preserves responsive design, and provides improved user experience with no missing information or broken styling.
+### Details:
+Test the consolidated visa panel across different screen sizes to ensure responsive design is maintained. Verify all interactive elements work: hover effects, warning cards, timeline styling, and external links (indianvisaonline.gov.in). Check that all content from both original sections is present and easily accessible. Validate that CSS animations and motion effects from framer-motion continue to work. Ensure the new panel integrates seamlessly with the overall Travel.tsx page flow and maintains consistent visual hierarchy with other travel panels.
+

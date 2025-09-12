@@ -1,0 +1,56 @@
+# Task ID: 1
+# Title: Refactor Home page to display only Hero section
+# Status: done
+# Dependencies: None
+# Priority: medium
+# Description: Modify the Home component in App.tsx to render only the Hero component instead of the current full-page layout that includes Travel, Events, Attire, Registry, and FAQ sections.
+# Details:
+1. Locate the Home component or main routing logic in App.tsx
+2. Identify where Travel, Events, Attire, Registry, and FAQ components are currently rendered on the home page
+3. Remove these components from the home page render logic while keeping them available for individual page routes
+4. Ensure the Hero component remains as the sole content on the home page
+5. Verify that navigation menu still provides access to the removed sections as separate pages
+6. Update any routing configuration to ensure Travel, Events, Attire, Registry, and FAQ are accessible via navigation
+7. Test that the home page no longer scrolls through all content and only displays the Hero section with couple's information, photos, and heartfelt message
+8. Ensure responsive design is maintained for the simplified home page layout
+
+# Test Strategy:
+1. Navigate to the home page and verify only the Hero section is displayed
+2. Confirm the page is no longer scrollable through multiple sections
+3. Test that the navigation menu still provides links to Travel, Events, Attire, Registry, and FAQ pages
+4. Click each navigation item to ensure the removed sections are still accessible as individual pages
+5. Verify the Hero section displays correctly with couple's information, photos, and heartfelt message
+6. Test responsive behavior on mobile and desktop to ensure the simplified layout works across devices
+7. Check that no broken links or missing content issues were introduced during the refactoring
+
+# Subtasks:
+## 1. Update Home component to render only Hero component [done]
+### Dependencies: None
+### Description: Modify the Home function in App.tsx to render only the Hero component instead of the current layout that includes Travel, Events, Attire, Registry, and FAQ components
+### Details:
+In App.tsx line 17-28, change the Home function to return only <Hero /> component instead of the current multiple components. Remove Travel, Events, Attire, Registry, and FAQ components from the Home component JSX while keeping the Hero component as the sole content.
+
+## 2. Verify individual route accessibility for removed components [done]
+### Dependencies: 1.1
+### Description: Ensure that Travel, Events, Attire, Registry, and FAQ components are still accessible via their individual routes after being removed from the Home component
+### Details:
+Test that the existing individual routes in App.tsx lines 38-43 (/travel, /events, /attire, /registry, /faq) still work correctly and render their respective components when accessed directly. Verify routing configuration remains intact for these separate pages.
+
+## 3. Test navigation menu functionality after home page refactor [done]
+### Dependencies: 1.1, 1.2
+### Description: Verify that the Navigation component still provides proper access to all sections as separate pages after the Home component modification
+### Details:
+Test the Navigation component links in frontend/src/components/Navigation.tsx lines 37-88 to ensure all navigation items (Travel, Stay, Events, Attire, Registry, FAQ, RSVP) still function correctly and direct users to the appropriate pages. Verify active state highlighting works properly.
+
+## 4. Validate Hero component standalone functionality [done]
+### Dependencies: 1.1
+### Description: Ensure the Hero component works correctly as the sole content on the home page and maintains its responsive design and animations
+### Details:
+Test that the Hero component in frontend/src/components/Hero.tsx maintains its full functionality when rendered alone on the home page. Verify all animations (framer-motion), images, styling, and responsive behavior work correctly without the other components present.
+
+## 5. Perform comprehensive testing of refactored home page layout [done]
+### Dependencies: 1.1, 1.2, 1.3, 1.4
+### Description: Conduct thorough testing to ensure the refactored home page meets all requirements and maintains website functionality
+### Details:
+Perform end-to-end testing of the refactored application to ensure: home page displays only Hero section, navigation works correctly to all other sections, removed components are accessible via direct routes, responsive design is maintained, and overall user experience is preserved.
+

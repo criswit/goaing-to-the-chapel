@@ -1,0 +1,172 @@
+# Task ID: 6
+# Title: Design comprehensive Attire component structure and content layout
+# Status: pending
+# Dependencies: 3
+# Priority: high
+# Description: Create a detailed design specification for the Attire.tsx component that provides comprehensive dress code guidance for Indian wedding events, organized by event type with cultural context and practical advice for international guests.
+# Details:
+The content specification is now fully defined in `.taskmaster/docs/attire-page-content.md` with complete structure and guidelines for American guests. The implementation needs to:
+
+1. Replace the current work-in-progress placeholder in Attire.tsx with comprehensive content based on the specification
+2. Implement structured sections:
+   - Hero section with encouraging but not mandatory messaging
+   - Women's attire options (traditional Indian, fusion, and Western)
+   - Men's attire options (traditional Indian, fusion, and Western)
+   - Color palette guidance (encourage vibrant colors, avoid white/red)
+   - Shopping resources and practical guidance
+   - Beach-specific considerations for the Goan ocean-side celebration
+
+3. Maintain cultural sensitivity while making Indian attire accessible to American guests
+4. Create responsive design that works on all devices with mobile-first approach
+5. Integrate with existing CSS variables and design system from the current Attire.tsx
+6. Include interactive elements like visual inspiration galleries and practical shopping guidance
+7. Ensure the tone remains welcoming, informative, and celebratory as specified in the content document
+
+# Test Strategy:
+1. Validate content accuracy against the specification document in `.taskmaster/docs/attire-page-content.md`
+2. Test layout responsiveness across mobile, tablet, and desktop viewports
+3. Verify cultural sensitivity and inclusivity of messaging for American guests unfamiliar with Indian traditions
+4. Test accessibility compliance including color contrast, screen reader compatibility, and keyboard navigation
+5. Validate that shopping resources and links are functional and current
+6. Ensure the component integrates properly with existing CSS variables and site design system
+7. Conduct user testing with target audience (American guests) to verify clarity and usefulness of guidance
+8. Verify beach-specific recommendations are appropriate for Goan climate and venue
+
+# Subtasks:
+## 1. Implement hero section and main messaging based on content specification [pending]
+### Dependencies: None
+### Description: Replace the work-in-progress placeholder in Attire.tsx with a welcoming hero section that implements the encouraging but non-mandatory messaging for Indian attire, includes beach context for the Goan celebration, and establishes the inclusive tone defined in the content specification document.
+### Details:
+1. Remove the current work-in-progress AlertCircle placeholder from Attire.tsx
+2. Implement hero section with title 'What to Wear to Our Wedding' and encouraging subtitle
+3. Add main message emphasizing that Indian attire is encouraged but not mandatory
+4. Include confidence-focused messaging: 'Wear whatever makes you feel confident and celebration-ready'
+5. Add special beach context note about ocean-side celebration requirements
+6. Implement responsive typography using existing CSS variables from the current component
+7. Maintain Framer Motion animations consistent with the existing motion.h2 pattern
+8. Ensure the tone is welcoming, inclusive, and celebratory as specified in the content document
+9. Add appropriate spacing and visual hierarchy for easy scanning on mobile devices
+
+## 2. Create comprehensive women's attire options section [pending]
+### Dependencies: 6.1
+### Description: Implement a detailed women's attire section with traditional Indian options (lehengas, sarees, salwar kameez, kaftans), fusion styles, and Western alternatives, including descriptions, styling advice, and beach-appropriate recommendations based on the content specification.
+### Details:
+1. Create structured section for women's attire with clear categorization
+2. Implement traditional Indian options subsection:
+   - Lehengas: skirt and blouse sets with dupatta, range from embellished to simple
+   - Sarees: draped fabric with fitted blouse, various styling options
+   - Salwar Kameez & Palazzo Sets: tunic with loose pants for ease of movement
+   - Kaftans: flowing robes, plain or embellished, ideal for beach settings
+3. Add fusion & Western options subsection:
+   - Indo-Western: crop tops with flowing skirts, maxi dresses with Indian embroidery
+   - Western Options: maxi/midi dresses, dressy blouses with skirts, jumpsuits
+4. Include practical considerations for each option (comfort, movement, beach-friendliness)
+5. Add visual hierarchy with appropriate headings and descriptions
+6. Implement responsive grid layout for easy mobile navigation
+7. Use existing CSS class structure and color variables from the current Attire.tsx
+
+## 3. Create comprehensive men's attire options section [pending]
+### Dependencies: 6.2
+### Description: Implement a detailed men's attire section with traditional Indian options (kurta sets, sherwanis, dhoti kurta, bandhgala, pathani suits), fusion styles, and Western alternatives, including cultural significance and practical guidance based on the content specification.
+### Details:
+1. Create structured section for men's attire with clear categorization
+2. Implement traditional Indian options subsection:
+   - Kurta Sets: long tunic with matching pants, simple cotton to formal embroidered
+   - Sherwanis: formal long coat-like garment over fitted pants with intricate embroidery
+   - Dhoti Kurta: traditional combination with draped dhoti, elegant and culturally significant
+   - Bandhgala: formal Indian suit jacket with high neck (Nehru collar)
+   - Pathani Suits: loose-fitting kurta and salwar with relaxed elegance
+3. Add fusion & Western options subsection:
+   - Indo-Western: Nehru jackets with pants, shirts with traditional prints
+   - Western Options: light suits, blazers with dress pants, smart-casual combinations
+4. Include cultural significance explanations where appropriate
+5. Add practical considerations for Goan climate and beach venue
+6. Implement consistent styling with women's section using responsive grid layout
+7. Maintain existing CSS variables and animation patterns from the current component
+
+## 4. Implement color palette guidance and restrictions [pending]
+### Dependencies: 6.3
+### Description: Create a visually appealing color guidance section that clearly explains encouraged colors (rich jewel tones, warm colors) and colors to avoid (white, red, pale colors) with cultural context and visual examples based on the content specification.
+### Details:
+1. Create color palette guidance section with visual color representation
+2. Implement encouraged colors section:
+   - Bold jewel tones: emerald green, royal blue, deep purple, fuchsia
+   - Warm colors: coral, sunset orange, gold
+   - Include brief explanations of why these colors are preferred
+3. Add colors to avoid section with cultural context:
+   - All white (traditionally reserved for the bride)
+   - Red (traditionally reserved for the bride)
+   - Very pale or muted colors
+4. Consider implementing color swatches or visual representations where possible
+5. Add cultural sensitivity explanations appropriate for American guests
+6. Ensure the guidance is clear and easy to understand without being overly prescriptive
+7. Implement responsive design that works well on mobile devices
+8. Use appropriate CSS styling consistent with the existing component structure
+
+## 5. Add shopping resources and practical guidance section [pending]
+### Dependencies: 6.4
+### Description: Implement a comprehensive shopping and resources section with local Indian clothing stores, online retailers, visual inspiration sources (Pinterest, Instagram), and closing message with contact information based on the content specification.
+### Details:
+1. Create shopping guidance section with practical resources
+2. Add Indian wear sources subsection:
+   - Local Indian clothing stores
+   - Online Indian retailers
+   - Department stores with Indian fusion sections
+3. Implement visual inspiration subsection:
+   - Pinterest search suggestions: 'Indian wedding guest attire,' 'wedding kurta men,' 'lehenga styling'
+   - Instagram hashtag recommendations: #indianwedding, #weddingguest, #indianoutfit
+4. Add closing message section:
+   - Emphasis on feeling amazing and celebration-ready
+   - Contact information for questions
+   - Enthusiastic anticipation for the celebration
+5. Include practical tips for shopping timeline and preparation
+6. Ensure all external links (if added) follow proper security practices
+7. Implement responsive layout that maintains readability on mobile devices
+8. Use consistent styling and animations with the rest of the component
+
+## 6. Integrate comprehensive attire photo gallery with all available images [pending]
+### Dependencies: 6.1, 6.2, 6.3
+### Description: Create an interactive photo gallery system that showcases all available attire photos from /frontend/public/attire/ directory, organizing them by category and providing visual inspiration for guests based on the content specification.
+### Details:
+**Available Photos to Integrate:**
+
+**Women's Attire Photos:**
+- `indian-western.jpg` - Indo-Western fusion styles
+- `jumpsuit.jpg` - Western jumpsuit option
+- `kaftan.jpg` - Traditional kaftan
+- `lehenga.jpg` - Traditional lehenga
+- `salwar-kameez.jpg` - Salwar kameez set
+- `saree.jpg` - Traditional saree
+
+**Men's Attire Photos:**
+- `bandhgala.jpg` - Formal bandhgala
+- `dhoti.jpg` - Traditional dhoti kurta
+- `kurtaSet.jpg` - Standard kurta set
+- `Nehru_Jacket.jpg` - Indo-Western Nehru jacket
+- `sherwani.jpg` - Formal sherwani
+
+**Implementation Requirements:**
+1. Create responsive photo gallery component that displays all 11 attire photos
+2. Organize photos by category (Women's Traditional, Women's Fusion/Western, Men's Traditional, Men's Fusion/Western)
+3. Implement hover effects and lightbox functionality for better viewing
+4. Add captions that match the attire descriptions from the content specification
+5. Ensure photos are optimized for web performance (lazy loading, proper sizing)
+6. Create mobile-friendly grid layout that works across all device sizes
+7. Integrate with existing CSS variables and design system
+8. Add accessibility features (alt text, keyboard navigation, screen reader support)
+9. Consider adding Pinterest/Instagram-style inspiration board layout
+10. Ensure photos load efficiently and maintain aspect ratios
+
+**Technical Considerations:**
+- Use React Image component with proper optimization
+- Implement intersection observer for lazy loading
+- Create reusable PhotoGallery component for maintainability
+- Ensure proper alt text for each photo describing the attire type
+- Consider adding zoom functionality for detailed viewing
+- Implement proper error handling for missing images
+- Follow existing component patterns from ImageGallery.tsx
+- Use established CSS variables from App.css design system
+
+**Dependency Justification:**
+This subtask depends on tasks 6.1, 6.2, and 6.3 being completed first because the photo gallery component will need to integrate seamlessly with the established content sections. The hero section (6.1) will define the overall page structure and CSS classes that the gallery component must align with. The women's attire section (6.2) and men's attire section (6.3) will establish the content categories, descriptions, and layout patterns that the photo gallery must reference and enhance. The gallery component will need to match the established section styling, reference the same attire categories defined in those sections, and provide visual supplements to the textual descriptions created in tasks 6.2 and 6.3.
+

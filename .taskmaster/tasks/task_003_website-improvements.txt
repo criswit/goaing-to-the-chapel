@@ -1,0 +1,97 @@
+# Task ID: 3
+# Title: Implement event map sidebar navigation for Events page
+# Status: done
+# Dependencies: None
+# Priority: medium
+# Description: Create a fixed sidebar navigation on the left side of the Events page with clickable event links, active state indicators, and responsive behavior to improve navigation between wedding events.
+# Details:
+1. Modify the Events.tsx component to implement a two-column layout with sidebar navigation and main content area
+2. Extract event titles and IDs from the existing 11 events data (Guest Arrival to After Party) to populate navigation links
+3. Create a fixed sidebar component with:
+   - List of all event titles as clickable navigation links
+   - Sticky positioning to remain visible during scrolling
+   - Active state styling to highlight the currently viewed event
+4. Implement smooth scrolling functionality using scrollIntoView() or similar when navigation links are clicked
+5. Add Intersection Observer API to detect which event card is currently in the viewport and update the active state in the sidebar accordingly
+6. Ensure the existing timeline layout is preserved in the main content area while accommodating the new sidebar
+7. Implement responsive behavior:
+   - Show full sidebar on desktop screens
+   - Collapse to a dropdown menu or toggle button on mobile devices
+   - Maintain proper spacing and layout across different screen sizes
+8. Style the sidebar to match the existing design system colors, typography, and spacing
+9. Utilize the existing data-event-id attributes on event cards for navigation targeting
+10. Test smooth scrolling performance and intersection observer accuracy across different browsers
+
+# Test Strategy:
+1. Verify the sidebar appears on the left side of the Events page with all 11 event titles listed
+2. Click each navigation link to confirm smooth scrolling to the corresponding event card
+3. Scroll through the Events page manually and verify the active state indicator updates correctly in the sidebar
+4. Test responsive behavior by resizing the browser window to mobile dimensions and confirm the sidebar collapses appropriately
+5. Verify the sidebar maintains sticky positioning and remains visible during scrolling
+6. Check that the main content area timeline layout is preserved and properly spaced with the new sidebar
+7. Test on multiple browsers (Chrome, Firefox, Safari) to ensure cross-browser compatibility
+8. Validate that the sidebar styling matches the existing design system
+9. Confirm smooth scrolling works correctly with the existing data-event-id attributes on event cards
+10. Test accessibility features including keyboard navigation and screen reader compatibility
+
+# Subtasks:
+## 1. Create sidebar navigation component structure [done]
+### Dependencies: None
+### Description: Create a new EventsSidebar component with the basic structure for displaying navigation links and implement the two-column layout modification in Events.tsx
+### Details:
+1. Create a new file frontend/src/components/EventsSidebar.tsx with React component structure
+2. Define props interface for EventsSidebar accepting events array and activeEventId
+3. Modify Events.tsx to implement two-column layout using CSS Grid or Flexbox
+4. Add container div with sidebar and main content areas
+5. Import and place EventsSidebar component in the left column
+6. Move existing events-timeline into the main content area (right column)
+7. Update Events.css to support the new layout structure with proper spacing
+
+## 2. Implement sidebar navigation links and styling [done]
+### Dependencies: 3.1
+### Description: Build the clickable navigation links list in the sidebar using the existing events data and style it to match the design system
+### Details:
+1. Extract event titles and IDs from the events array passed as props
+2. Render a list of navigation links using event.title and event.id
+3. Add CSS classes for sidebar styling (sticky positioning, background, padding)
+4. Style navigation links with proper typography, spacing, and hover states
+5. Match existing design system colors from Events.css variables (--primary-color, --secondary-color, etc.)
+6. Implement responsive behavior - full sidebar on desktop, hidden/collapsed on mobile
+7. Add proper semantic HTML structure using nav and ul elements
+
+## 3. Add smooth scrolling functionality for navigation clicks [done]
+### Dependencies: 3.2
+### Description: Implement click handlers for sidebar navigation links that smoothly scroll to the corresponding event cards using the existing data-event-id attributes
+### Details:
+1. Add onClick handlers to each navigation link in the sidebar
+2. Implement scrollToEvent function that uses document.querySelector to find target event card by data-event-id
+3. Use scrollIntoView({ behavior: 'smooth', block: 'start' }) to smoothly scroll to the target event
+4. Follow the existing scrollIntoView pattern used in CulturalCompass.tsx (line 67)
+5. Add proper error handling for cases where event element is not found
+6. Ensure smooth scrolling works with the existing timeline layout and doesn't interfere with other scroll behavior
+
+## 4. Implement active state detection using Intersection Observer [done]
+### Dependencies: 3.3
+### Description: Add Intersection Observer API to detect which event card is currently in the viewport and update the active state in the sidebar accordingly
+### Details:
+1. Create useIntersectionObserver custom hook similar to existing ScrollSpy functionality
+2. Set up Intersection Observer to watch all elements with data-event-id attributes
+3. Configure observer with appropriate threshold (e.g., 0.3) and rootMargin for optimal detection
+4. Implement state management to track the currently active event ID
+5. Pass activeEventId to EventsSidebar component to highlight the active navigation link
+6. Add CSS styling for active state (different background color, border, or text color)
+7. Ensure proper cleanup of observer when component unmounts
+
+## 5. Implement responsive behavior and mobile optimizations [done]
+### Dependencies: 3.4
+### Description: Add responsive behavior for mobile devices, converting the sidebar to a dropdown menu or toggle button while maintaining all navigation functionality
+### Details:
+1. Add CSS media queries for mobile breakpoints (matching existing @media (max-width: 768px) pattern)
+2. On mobile, hide the fixed sidebar and show a dropdown menu or toggle button instead
+3. Implement mobile navigation state management (open/closed) using useState
+4. Create mobile dropdown/toggle component with same navigation links
+5. Style mobile navigation to match existing design system and ensure proper z-index layering
+6. Test smooth scrolling functionality works correctly on mobile devices
+7. Ensure proper touch interactions and accessibility for mobile navigation
+8. Maintain proper spacing and layout across different screen sizes
+

@@ -1,0 +1,27 @@
+# Task ID: 2
+# Title: Update Airport & Transportation section with accurate Goa transport information
+# Status: done
+# Dependencies: 1
+# Priority: high
+# Description: Update the Transportation section in Travel.tsx to remove outdated Uber/Ola information and provide accurate guidance on current transportation options in Goa, emphasizing prepaid taxi counters and local alternatives.
+# Details:
+1. Locate and modify lines 290-297 in Travel.tsx that contain the Uber/Ola transport option
+2. Remove or replace the Uber/Ola grid item with updated information about app-based cab restrictions
+3. Add a prominent warning message about government restrictions on Uber/Ola services in Goa
+4. Update the prepaid taxi counter option to emphasize it as the most reliable choice
+5. Research and update current pricing for prepaid taxis from Goa airport (verify if ₹1,800-2,500 range is still accurate)
+6. Add new transport option for hotel-arranged transfers with contact information if available
+7. Include local taxi service recommendations as alternatives
+8. Update the 'App-based booking' note to reflect current restrictions and recommend calling taxi services directly
+9. Ensure the transport options grid maintains consistent styling and responsive design
+10. Consider adding a last-updated timestamp for the transportation information
+
+# Test Strategy:
+1. Verify the Uber/Ola option has been removed or updated with restriction warnings
+2. Confirm prepaid taxi counters are prominently featured as the primary recommendation
+3. Check that pricing information is current and clearly displayed
+4. Test responsive design across different screen sizes to ensure the updated transport grid displays correctly
+5. Validate that warning messages about app-based restrictions are visible and prominent
+6. Ensure all new transport options have consistent formatting with existing options
+7. Test that any contact information or booking instructions are accurate and functional
+8. Cross-reference updated information with recent travel guides or official Goa transport websites
