@@ -241,13 +241,14 @@ function createGuestItems(
   // Second pass: create guest items with new composite key structure
   guests.forEach((guest) => {
     const email = guest.email.toLowerCase().trim();
-    const invitationCode = generateNameBasedCode(guest.name, existingCodes).toLowerCase();
+    // Generate uppercase invitation code to match validation requirements
+    const invitationCode = generateNameBasedCode(guest.name, existingCodes);
 
     // Use safeParsePlusOnesAllowed to ensure valid number
     const plusOnesCount = safeParsePlusOnesAllowed(guest.plusOnesAllowed);
 
     const guestItem: GuestItem = {
-      // New composite key structure: PK is GUEST#code, SK is PROFILE
+      // New composite key structure: PK is GUEST#code (uppercase), SK is PROFILE
       PK: `GUEST#${invitationCode}`,
       SK: 'PROFILE',
       item_type: 'GUEST',
@@ -257,7 +258,7 @@ function createGuestItems(
       name: guest.name, // Added for compatibility
       email: email,
       phone: guest.phone || '',
-      invitation_code: invitationCode,
+      invitation_code: invitationCode, // Store as uppercase
       max_guests: plusOnesCount + 1, // Total including the guest themselves
 
       // Metadata

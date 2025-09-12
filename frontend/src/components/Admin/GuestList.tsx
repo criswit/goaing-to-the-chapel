@@ -13,6 +13,7 @@ interface Guest {
   plusOneName?: string;
   plusOneDietaryRestrictions?: string[];
   submittedAt?: string;
+  notes?: string;
 }
 
 interface FilterOptions {
@@ -34,6 +35,7 @@ const GuestList: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [editingGuest, setEditingGuest] = useState<Guest | null>(null);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [editError, setEditError] = useState<string | null>(null);
 
   const itemsPerPage = 20;
 
@@ -179,6 +181,7 @@ const GuestList: React.FC = () => {
   const handleEditGuest = (guest: Guest) => {
     setEditingGuest({ ...guest });
     setShowEditModal(true);
+    setEditError(null); // Clear any previous errors
   };
 
   const handleSaveGuest = async () => {
@@ -202,6 +205,20 @@ const GuestList: React.FC = () => {
       const config = await loadConfig();
       // Remove any trailing slash from adminApiUrl before appending the path
       const adminApiUrl = config.adminApiUrl.replace(/\/$/, '');
+
+      // Only send the fields that should be updated, not DynamoDB internals
+      const updateData = {
+        name: editingGuest.name,
+        email: editingGuest.email,
+        phone: editingGuest.phone,
+        rsvpStatus: editingGuest.rsvpStatus,
+        partySize: editingGuest.partySize,
+        plusOneName: editingGuest.plusOneName,
+        dietaryRestrictions: editingGuest.dietaryRestrictions,
+        plusOneDietaryRestrictions: editingGuest.plusOneDietaryRestrictions,
+        notes: editingGuest.notes,
+      };
+
       const response = await fetch(
         `${adminApiUrl}/admin/protected/guests/${editingGuest.invitationCode}`,
         {
@@ -210,12 +227,34 @@ const GuestList: React.FC = () => {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(editingGuest),
+          body: JSON.stringify(updateData),
         }
       );
 
       if (!response.ok) {
-        throw new Error('Failed to update guest');
+        // Try to parse error response for detailed error message
+        let errorMessage = 'Failed to update guest';
+        try {
+          const errorData = await response.json();
+          if (errorData.error) {
+            errorMessage = errorData.error;
+          }
+          if (errorData.details) {
+            // If details is an array of validation errors
+            if (Array.isArray(errorData.details)) {
+              const detailMessages = errorData.details
+                .map((detail: any) => detail.message || detail)
+                .join(', ');
+              errorMessage = `${errorMessage}: ${detailMessages}`;
+            } else if (typeof errorData.details === 'string') {
+              errorMessage = `${errorMessage}: ${errorData.details}`;
+            }
+          }
+        } catch (parseError) {
+          // If we can't parse the error response, use the default message
+          console.error('Could not parse error response:', parseError);
+        }
+        throw new Error(errorMessage);
       }
 
       // Update the guest in the local state
@@ -225,15 +264,116 @@ const GuestList: React.FC = () => {
 
       setShowEditModal(false);
       setEditingGuest(null);
+      setEditError(null);
     } catch (err) {
       console.error('Error updating guest:', err);
-      alert('Failed to update guest. Please try again.');
+      // Display the actual error message
+      const errorMessage =
+        err instanceof Error ? err.message : 'Failed to update guest. Please try again.';
+      setEditError(errorMessage);
     }
   };
 
   const handleCancelEdit = () => {
     setShowEditModal(false);
     setEditingGuest(null);
+    setEditError(null);
+  };
+
+  const handleSendReminder = async () => {
+    if (selectedGuests.size === 0) return;
+
+    const confirmed = window.confirm(
+      `Send reminder emails to ${selectedGuests.size} selected guest(s)?`
+    );
+    if (!confirmed) return;
+
+    try {
+      const token = localStorage.getItem('adminToken');
+      if (!token) {
+        alert('Please log in to send reminders');
+        return;
+      }
+
+      const config = await loadConfig();
+      const adminApiUrl = config.adminApiUrl.replace(/\/$/, '');
+
+      // Get selected guest details (not currently used but may be needed for future features)
+      // const selectedGuestList = guests.filter(g => selectedGuests.has(g.invitationCode));
+
+      const response = await fetch(`${adminApiUrl}/admin/protected/send-reminders`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          invitationCodes: Array.from(selectedGuests),
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to send reminders');
+      }
+
+      const result = await response.json();
+      alert(`Successfully sent reminders to ${result.sentCount || selectedGuests.size} guest(s)`);
+      setSelectedGuests(new Set());
+    } catch (err) {
+      console.error('Error sending reminders:', err);
+      alert('Failed to send reminders. Please try again.');
+    }
+  };
+
+  const handleExportSelected = () => {
+    if (selectedGuests.size === 0) return;
+
+    // Get selected guest data
+    const selectedGuestList = guests.filter((g) => selectedGuests.has(g.invitationCode));
+
+    // Create CSV content
+    const headers = [
+      'Name',
+      'Email',
+      'Phone',
+      'Invitation Code',
+      'RSVP Status',
+      'Party Size',
+      'Plus One Name',
+      'Dietary Restrictions',
+      'Plus One Dietary',
+      'Responded Date',
+    ];
+    const csvContent = [
+      headers.join(','),
+      ...selectedGuestList.map((guest) =>
+        [
+          guest.name,
+          guest.email,
+          guest.phone || '',
+          guest.invitationCode,
+          guest.rsvpStatus || 'pending',
+          guest.partySize || 1,
+          guest.plusOneName || '',
+          (guest.dietaryRestrictions || []).join('; '),
+          (guest.plusOneDietaryRestrictions || []).join('; '),
+          guest.submittedAt ? new Date(guest.submittedAt).toLocaleDateString() : '',
+        ]
+          .map((field) => `"${String(field).replace(/"/g, '""')}"`)
+          .join(',')
+      ),
+    ].join('\n');
+
+    // Create blob and download
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', `selected_guests_${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const getStatusBadge = (status?: string) => {
@@ -316,8 +456,12 @@ const GuestList: React.FC = () => {
         <div className="selection-bar">
           <span>{selectedGuests.size} guests selected</span>
           <div className="selection-actions">
-            <button className="btn-secondary">Send Reminder</button>
-            <button className="btn-secondary">Export Selected</button>
+            <button className="btn-secondary" onClick={handleSendReminder}>
+              Send Reminder
+            </button>
+            <button className="btn-secondary" onClick={handleExportSelected}>
+              Export Selected
+            </button>
             <button className="btn-text" onClick={() => setSelectedGuests(new Set())}>
               Clear Selection
             </button>
@@ -451,6 +595,21 @@ const GuestList: React.FC = () => {
         <div className="modal-overlay" onClick={handleCancelEdit}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <h2>Edit Guest</h2>
+            {editError && (
+              <div
+                className="error-message"
+                style={{
+                  background: '#fee',
+                  border: '1px solid #fcc',
+                  borderRadius: '4px',
+                  padding: '10px',
+                  marginBottom: '15px',
+                  color: '#c00',
+                }}
+              >
+                <strong>Error:</strong> {editError}
+              </div>
+            )}
             <div className="modal-form">
               <div className="form-group">
                 <label>Name:</label>

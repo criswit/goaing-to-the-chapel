@@ -347,6 +347,7 @@ async function handleSingleGuestUpdate(
       };
     }
 
+    // Use validated uppercase code directly for database lookup
     const validatedCode = codeValidation.data;
 
     // Parse and validate request body
@@ -629,6 +630,7 @@ async function handleGetSingleGuest(
       };
     }
 
+    // Use validated uppercase code directly for database lookup
     const validatedCode = codeValidation.data;
 
     // Fetch profile
@@ -718,6 +720,7 @@ async function handleDeleteGuest(
       };
     }
 
+    // Use validated uppercase code directly for database lookup
     const validatedCode = codeValidation.data;
 
     // Check if guest exists

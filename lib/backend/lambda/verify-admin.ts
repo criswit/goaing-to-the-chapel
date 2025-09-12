@@ -62,7 +62,18 @@ export const handler = async (
 
     console.log(`Admin authorized: ${decoded.email} with role ${decoded.role}`);
 
-    // Return authorization response
+    // Return authorization response with wildcard resource to allow all methods and paths
+    // This is necessary for path parameters like /admin/protected/guests/{invitationCode}
+    const arnParts = event.methodArn.split(':');
+    const apiGatewayArn = arnParts.slice(0, 5).join(':');
+    const stage = event.methodArn.split('/')[1];
+    const apiId = event.methodArn.split('/')[0].split(':').pop();
+
+    // Create a wildcard resource ARN that allows all methods and paths
+    const resource = `${apiGatewayArn}:${apiId}/${stage}/*/*`;
+
+    console.log(`Generated policy resource: ${resource}`);
+
     return {
       principalId: decoded.email,
       policyDocument: {
@@ -71,7 +82,7 @@ export const handler = async (
           {
             Action: 'execute-api:Invoke',
             Effect: 'Allow',
-            Resource: event.methodArn.split('/').slice(0, -2).join('/') + '/*',
+            Resource: resource,
           },
         ],
       },

@@ -54,10 +54,10 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
       });
     }
 
-    // Sanitize and format invitation code
-    const formattedCode = body.invitationCode.toLowerCase().trim();
+    // Sanitize and format invitation code - convert to uppercase to match database
+    const formattedCode = body.invitationCode.toUpperCase().trim();
 
-    if (!/^[a-z0-9-]{3,50}$/.test(formattedCode)) {
+    if (!/^[A-Z0-9-]{3,50}$/.test(formattedCode)) {
       logger.warn('Invalid invitation code format', { code: formattedCode });
       return createResponse(400, {
         valid: false,

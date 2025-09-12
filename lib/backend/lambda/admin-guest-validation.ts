@@ -38,12 +38,12 @@ const PlusOneDetailsSchema = z.object({
     .optional(),
 });
 
-// Invitation code validation
+// Invitation code validation - accepts both upper and lowercase, transforms to uppercase
 export const InvitationCodeSchema = z
   .string()
   .min(6, 'Invitation code must be at least 6 characters')
   .max(8, 'Invitation code must be at most 8 characters')
-  .regex(/^[A-Z0-9]+$/, 'Invitation code must be uppercase alphanumeric')
+  .regex(/^[a-zA-Z0-9]+$/, 'Invitation code must be alphanumeric')
   .transform((val) => val.toUpperCase());
 
 // Admin guest update request schema - allows partial updates

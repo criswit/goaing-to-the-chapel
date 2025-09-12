@@ -20,7 +20,7 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
 
   try {
     const body = JSON.parse(event.body || '{}');
-    const invitationCode = body.invitationCode?.toLowerCase().trim();
+    const invitationCode = body.invitationCode?.toUpperCase().trim();
 
     if (!invitationCode) {
       return {
