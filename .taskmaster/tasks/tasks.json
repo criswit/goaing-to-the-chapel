@@ -503,7 +503,7 @@
           6,
           7
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -555,7 +555,7 @@
               "8.4"
             ],
             "details": "Build bulk selection interface with checkbox functionality for guest list. Create reminder email composition tool with template options. Implement bulk status update capabilities. Add progress tracking for bulk operations with error handling and retry mechanisms.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -566,7 +566,7 @@
               "8.4"
             ],
             "details": "Build export interface with format selection (CSV/PDF) and field customization options. Implement CSV generation for guest lists and RSVP data. Create PDF report generation with formatted layouts for printing. Add download progress indicators and error handling for large datasets.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           }
         ]
@@ -581,7 +581,7 @@
         "dependencies": [
           5
         ],
-        "status": "in-progress",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -589,7 +589,7 @@
             "description": "Update database schema to support event_responses object with individual RSVP data per event",
             "dependencies": [],
             "details": "Modify DynamoDB table structure to include event_responses object containing separate fields for each event (ceremony, reception, pre-wedding). Each event should have attendance status, dietary restrictions, special requests, and event-specific preferences. Update existing data migration scripts to handle schema changes. Ensure backward compatibility with existing single-event RSVPs.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -600,7 +600,7 @@
               "9.1"
             ],
             "details": "Update Lambda functions to process event_responses object in RSVP submissions. Modify GET endpoints to return event-specific data for form population. Add validation logic for required vs optional events. Update response formatting to handle multiple event statuses. Ensure API maintains compatibility with existing single-event clients while supporting new multi-event structure.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -611,7 +611,7 @@
               "9.2"
             ],
             "details": "Update React components to render individual event sections with attendance toggles. Add event descriptions and timing information for clarity. Implement progressive disclosure showing event-specific questions only when attendance is confirmed. Create unified form validation that handles partial submissions (attending some events but not others). Add visual indicators to distinguish between different event types.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -622,7 +622,7 @@
               "9.3"
             ],
             "details": "Create conditional logic for event-specific questions: transportation needs for destination ceremony, accommodation preferences for multi-day events, dietary restrictions per event, plus-one attendance per event. Implement smart form flow that shows/hides fields based on event selections. Add validation to ensure required event-specific information is completed. Create clear UI feedback for conditional field requirements.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           }
         ]
@@ -637,7 +637,7 @@
         "dependencies": [
           8
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -645,7 +645,7 @@
             "description": "Create Lambda functions to generate vendor-specific data exports including catering lists, venue lists, transportation lists, and accommodation summaries",
             "dependencies": [],
             "details": "Develop Lambda functions for each vendor type: 1) Catering export with dietary restrictions and guest counts 2) Venue export with final headcount and special requests 3) Transportation export with pickup requirements and passenger details 4) Accommodation export with preferences summary. Each function should query DynamoDB for relevant RSVP data, aggregate information by vendor requirements, and prepare data structures for format conversion. Include data validation and error handling for missing or incomplete RSVP information.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -656,7 +656,7 @@
               "10.1"
             ],
             "details": "Create format conversion modules for CSV (using csv-writer), PDF (using jsPDF or puppeteer), and JSON output. Implement template engine for customizable export formats allowing vendors to specify field ordering, headers, and data formatting. Store templates in S3 with version control and template validation. Include support for vendor logos, custom styling for PDFs, and configurable data field mapping. Add template testing functionality to preview exports before delivery.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -667,7 +667,7 @@
               "10.2"
             ],
             "details": "Configure Amazon SES for email delivery with proper domain verification and DKIM setup. Create EventBridge rules for scheduled export triggers (daily, weekly, custom intervals). Build email composition service with vendor-specific templates, attachment handling for export files, and delivery confirmation tracking. Implement retry logic for failed deliveries and bounce/complaint handling. Add email recipient management allowing multiple contacts per vendor with role-based distribution (primary, backup, accounting).",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -678,7 +678,7 @@
               "10.3"
             ],
             "details": "Develop admin interface components for: 1) Vendor management with contact information and export preferences 2) Template editor with live preview for customizing export formats 3) Schedule configuration with flexible timing options and timezone support 4) Export history and delivery status tracking 5) Manual export trigger capability for ad-hoc requests. Include form validation, user permissions (admin-only access), and integration with existing admin dashboard design patterns. Add export analytics showing delivery success rates and vendor engagement metrics.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           }
         ]
@@ -694,7 +694,7 @@
           9,
           10
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -702,7 +702,7 @@
             "description": "Set up AWS API Gateway throttling policies with 10 requests per second per IP address and configure burst limits for production deployment",
             "dependencies": [],
             "details": "Configure API Gateway throttling settings including per-IP rate limits (10 req/sec), burst capacity configuration, and throttling error responses. Set up usage plans and API keys for different client types. Implement proper error handling for rate limit exceeded responses (429 status codes). Configure CloudWatch alarms for monitoring throttling metrics.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -711,7 +711,7 @@
             "description": "Add Zod schema validation and input sanitization across all API endpoints to prevent XSS and injection attacks",
             "dependencies": [],
             "details": "Create Zod validation schemas for all API request payloads including RSVP forms, guest lookup, and admin operations. Implement input sanitization middleware for HTML tags, SQL injection patterns, and script injection attempts. Add validation for email formats, phone numbers, and special characters. Configure proper error responses for validation failures.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -720,7 +720,7 @@
             "description": "Implement comprehensive audit logging for all RSVP changes and administrative actions with CloudWatch integration",
             "dependencies": [],
             "details": "Create audit logging Lambda layer with structured logging format. Log all RSVP submissions, updates, deletions, and admin actions including user identity, timestamp, action type, and data changes. Integrate with CloudWatch Logs for centralized logging. Set up log retention policies and alerting for suspicious activities. Include request tracing and correlation IDs.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -729,7 +729,7 @@
             "description": "Set up HTTPS enforcement, SSL certificates, and implement comprehensive security headers for all API responses",
             "dependencies": [],
             "details": "Configure SSL/TLS certificates through AWS Certificate Manager. Implement security headers including HSTS, X-Content-Type-Options, X-Frame-Options, and CSP headers. Set up HTTPS-only redirects in CloudFront and API Gateway. Configure CORS policies with proper origin restrictions. Add security header middleware to Lambda functions.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -738,7 +738,7 @@
             "description": "Set up encryption at rest for sensitive data using AWS KMS and implement proper key rotation policies",
             "dependencies": [],
             "details": "Configure DynamoDB encryption at rest using customer-managed KMS keys. Set up KMS key policies and rotation schedules. Implement encryption for sensitive fields like phone numbers and special requests. Configure Lambda environment variable encryption. Set up proper IAM roles for key access and implement encryption/decryption utilities.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -749,7 +749,7 @@
               "11.1"
             ],
             "details": "Configure Lambda provisioned concurrency for critical RSVP endpoints to reduce cold starts. Set up DynamoDB auto-scaling policies for read/write capacity based on utilization metrics. Implement CloudFront caching with appropriate TTL values for API responses. Configure connection pooling for database operations and optimize Lambda memory allocation based on performance testing.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           }
         ]
@@ -764,7 +764,7 @@
         "dependencies": [
           11
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -772,7 +772,7 @@
             "description": "Create PWA manifest file and implement service worker for offline functionality and app installation",
             "dependencies": [],
             "details": "Create manifest.json with app metadata (name, icons, theme colors, display mode). Implement service worker registration in main app. Set up basic caching strategies for static assets. Enable 'Add to Home Screen' functionality. Configure scope and start URL for PWA installation.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -783,7 +783,7 @@
               "12.1"
             ],
             "details": "Create IndexedDB schema for storing RSVP form data offline. Implement data models for guest info, dietary preferences, and plus-ones. Add background sync API for queuing form submissions when offline. Handle sync conflicts and duplicate submission prevention. Store partial form progress for user continuity.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -792,7 +792,7 @@
             "description": "Enhance mobile user experience with touch-optimized controls and navigation patterns",
             "dependencies": [],
             "details": "Implement touch-friendly form controls with proper sizing (min 44px touch targets). Add mobile-specific navigation patterns like bottom navigation or drawer menu. Optimize form field spacing and grouping for mobile screens. Implement swipe gestures for multi-step forms. Add mobile-specific loading states and progress indicators.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -803,7 +803,7 @@
               "12.2"
             ],
             "details": "Create mobile-friendly validation messages with better positioning. Implement real-time validation with debounced API calls. Optimize API payloads by removing unnecessary data fields for mobile requests. Add request compression and implement progressive data loading. Create mobile-specific error handling with retry mechanisms.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -815,7 +815,7 @@
               "12.4"
             ],
             "details": "Add proper ARIA labels and roles throughout mobile interface. Implement keyboard navigation support for touch interfaces. Ensure sufficient color contrast ratios (4.5:1). Add screen reader support with meaningful announcements. Test with assistive technologies on mobile devices. Implement focus management for modal dialogs and form transitions.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           }
         ]
@@ -901,7 +901,7 @@
         "description": "Create a PUT endpoint at /admin/protected/guests/{invitationCode} in the admin Lambda function that enables updating guest records in DynamoDB with comprehensive field support including name, email, phone, RSVP status, party size, plus one details, and dietary restrictions.",
         "details": "Extend the existing admin-guests.ts Lambda function to handle PUT requests with invitation code path parameters. The current implementation supports updating guest information but needs enhancement for path-based routing. Implement: 1) Path parameter extraction for invitation code from '/admin/protected/guests/{invitationCode}' route 2) Enhanced input validation using Zod schemas to validate all guest fields (name, email, phone, RSVP status, party size, dietary restrictions, plus one details) 3) DynamoDB update operations for both GUEST#PROFILE and GUEST#RSVP records using the single-table design pattern 4) Proper error handling with 400 for validation errors, 404 for non-existent guests, and 500 for server errors 5) Update the admin-api.ts CDK configuration to add the path-based route resource 'guests.addResource('{invitationCode}')' with proper CORS headers 6) Comprehensive response structure returning updated guest data and confirmation messages 7) Audit logging for all admin modifications to track changes. Use existing DynamoDB client setup, maintain compatibility with current table structure (wedding-rsvp-production), and follow existing error handling patterns in admin-guests.ts:287-295.\n<info added on 2025-09-11T17:55:13.639Z>\nImplementation should follow the comprehensive research findings documented in .taskmaster/docs/research/2025-09-11_16.md, incorporating JWT authentication best practices for secure admin token validation, AWS Lambda DynamoDB integration patterns for optimized database operations, invitation code security enhancements to prevent enumeration attacks, and performance optimization strategies including connection pooling and batch operations to ensure efficient guest data updates.\n</info added on 2025-09-11T17:55:13.639Z>",
         "testStrategy": "Test endpoint functionality with valid invitation codes and various field updates, verify path parameter extraction works correctly, test input validation rejects invalid data formats, confirm database updates are applied to correct records, test error handling for non-existent invitation codes returns 404, verify CORS headers are properly configured for cross-origin requests, validate response structure includes updated guest information, test concurrent update scenarios to ensure data consistency",
-        "status": "pending",
+        "status": "done",
         "dependencies": [
           1,
           2,
@@ -1093,7 +1093,7 @@
     ],
     "metadata": {
       "created": "2025-09-08T01:12:16.853Z",
-      "updated": "2025-09-11T18:15:17.265Z",
+      "updated": "2025-09-14T23:53:04.447Z",
       "description": "Tasks for rsvp-system context"
     }
   },
@@ -1405,11 +1405,80 @@
             "parentTaskId": 6
           }
         ]
+      },
+      {
+        "id": 7,
+        "title": "Simplify Events page to display only 5 core wedding events with Day 1/Day 2 separation",
+        "description": "Reorganize Events.tsx to remove the elaborate timeline of 11 events and display only 5 essential wedding events (Haldi, Mehendi & Sangeet, Baraat, Wedding, Reception Dinner) with clear visual separation between Day 1 and Day 2.",
+        "details": "1. Modify the events array in Events.tsx (lines 52-163) to include only the 5 specified core events:\n   - Day 1: Haldi (3:30-4:30 PM), Mehendi & Sangeet combined (7:00-11:00 PM)\n   - Day 2: Baraat (3:00-3:30 PM), Wedding/Mandap Ceremony (4:15-5:45 PM), Reception Dinner (7:00-11:00 PM)\n\n2. Remove existing elaborate events: Guest Arrival, Cocktail Hour, Jaimala, Ceremony Intermission, second Cocktail Hour, and After Party from the events array\n\n3. Combine Mehendi and Sangeet into a single event card titled 'Mehendi & Sangeet Night' with comprehensive description covering both traditions\n\n4. Update the event rendering logic to group events by day with clear visual separators:\n   - Add day headers ('Day 1 - Friday, February 14' and 'Day 2 - Saturday, February 15')\n   - Implement CSS styling for day separation with distinct background colors or borders\n\n5. Simplify event card content by:\n   - Reducing description text to be more concise and focused\n   - Maintaining the cultural tooltips for the 5 core events only\n   - Keeping the essential info: time, location, attire, and brief description\n\n6. Update EventsSidebar component to reflect the reduced navigation with only 5 events plus day separators\n\n7. Ensure responsive design continues to work with the simplified layout and fewer events\n<info added on 2025-09-15T00:03:45.231Z>\nI'll analyze the codebase to understand the current implementation and then generate the research-based update for this task.Based on my analysis of the codebase and the comprehensive research provided, I need to generate the update text that incorporates the research findings into the task details.8. Implement enhanced day-based visual hierarchy following modern UX patterns:\n   - Add prominent day headers with full date and cultural context ('Day 1 - Friday, February 14 - Celebration Begins' and 'Day 2 - Saturday, February 15 - Sacred Ceremonies')\n   - Apply color-coded visual systems: warmer tones (oranges, yellows) for Day 1 preparatory ceremonies, deeper formal colors (burgundy, gold) for Day 2 sacred ceremonies\n   - Implement progressive visual weight where Day 2 events receive fuller emphasis through increased card height or richer styling\n   - Update CSS to create 48px spacing between day sections vs. 24px baseline for events within each day\n\n9. Enhance event card structure for better information hierarchy:\n   - Restructure event cards with primary information layer (name, time, location), secondary details (cultural explanation, dress code), and expandable tertiary content for deeper cultural context\n   - Update the existing Event interface in Events.tsx (lines 7-16) to include new fields: culturalName (Sanskrit/Hindi), participationLevel ('observe'|'participate'|'optional'), significance ('high'|'medium'|'low')\n   - Maintain existing tooltip system for cultural context but enhance with pronunciation guides for Sanskrit/Hindi terms\n\n10. Update EventsSidebar component navigation for day-based grouping:\n    - Modify EventsSidebar.tsx to include day separator headers in the navigation list\n    - Add visual indicators to distinguish between Day 1 and Day 2 events using the same color-coding system\n    - Implement contextual progress indicators to show guests their temporal position within the celebration\n\n11. Ensure mobile-responsive design for simplified day-based layout:\n    - Implement sticky day headers on mobile viewports to maintain context during scrolling\n    - Optimize card layouts for single-column mobile display while preserving day separation\n    - Update media queries in Events.css to handle the new day-based visual hierarchy on smaller screens\n\n12. Integrate cultural sensitivity improvements based on research:\n    - Enhance cultural tooltips with respectful but accessible explanations that avoid oversimplification\n    - Add participation guidance for each event to help international guests understand expected involvement levels\n    - Include subtle pronunciation guides for cultural terms while maintaining authenticity\n</info added on 2025-09-15T00:03:45.231Z>",
+        "testStrategy": "1. Verify the Events page displays exactly 5 event cards grouped under Day 1 and Day 2 headers\n2. Confirm Day 1 shows Haldi and combined Mehendi & Sangeet events with proper Friday date\n3. Confirm Day 2 shows Baraat, Wedding Ceremony, and Reception Dinner with proper Saturday date\n4. Test that the sidebar navigation updates to show only the 5 core events with day groupings\n5. Verify cultural tooltips work correctly for all 5 events and display appropriate Hindi translations\n6. Check responsive behavior on mobile devices to ensure day separation is clear\n7. Test smooth scrolling from sidebar to event cards still functions properly\n8. Validate that removed events (Guest Arrival, multiple cocktail hours, etc.) no longer appear anywhere in the component\n9. Ensure the combined Mehendi & Sangeet event card properly describes both traditions\n10. Confirm visual styling creates clear separation between the two days without cluttering the interface",
+        "status": "done",
+        "dependencies": [
+          3
+        ],
+        "priority": "medium",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Update events array to include only 5 core events with Day 1/Day 2 structure",
+            "description": "Modify the events array in Events.tsx (lines 52-163) to remove the 11 existing events and replace with exactly 5 core events: Haldi (3:30-4:30 PM), Mehendi & Sangeet combined (7:00-11:00 PM), Baraat (3:00-3:30 PM), Wedding/Mandap Ceremony (4:15-5:45 PM), and Reception Dinner (7:00-11:00 PM). Group Day 1 events (Haldi, Mehendi & Sangeet) and Day 2 events (Baraat, Wedding, Reception).",
+            "dependencies": [],
+            "details": "Remove existing events: Guest Arrival, Cocktail Hour, Jaimala, Ceremony Intermission, second Cocktail Hour, and After Party. Create new events array with proper date structure (Friday February 14 for Day 1, Saturday February 15 for Day 2). Combine Mehendi and Sangeet into single event titled 'Mehendi & Sangeet Night' with comprehensive description covering both traditions. Update event IDs, titles, times, locations, descriptions, and attire information.",
+            "status": "done",
+            "testStrategy": "Verify events array contains exactly 5 events with correct dates, times, and grouping. Confirm Day 1 has Haldi and combined Mehendi & Sangeet events. Confirm Day 2 has Baraat, Wedding Ceremony, and Reception Dinner events."
+          },
+          {
+            "id": 2,
+            "title": "Implement day-based visual separation with headers and styling",
+            "description": "Add day headers ('Day 1 - Friday, February 14' and 'Day 2 - Saturday, February 15') and implement CSS styling for clear visual separation between day groups. Create distinct background colors or borders to differentiate the days and enhance the visual hierarchy.",
+            "dependencies": [
+              "7.1"
+            ],
+            "details": "Update the events-timeline rendering logic to group events by day with clear visual separators. Implement 48px spacing between day sections vs. 24px baseline for events within each day. Add prominent day headers with full date and cultural context. Apply color-coded visual systems: warmer tones (oranges, yellows) for Day 1 preparatory ceremonies, deeper formal colors (burgundy, gold) for Day 2 sacred ceremonies. Update Events.css with new styling for day separation.",
+            "status": "done",
+            "testStrategy": "Verify day headers appear correctly above event groups. Test visual separation between Day 1 and Day 2 events. Confirm color coding and spacing differences are properly applied."
+          },
+          {
+            "id": 3,
+            "title": "Update cultural tooltips for the 5 core events only",
+            "description": "Modify the tooltips object to include only the cultural context information for the 5 core events (Haldi, Mehendi & Sangeet, Baraat, Wedding/Mandap, Reception). Remove tooltips for eliminated events and ensure the remaining tooltips are accurate and culturally sensitive.",
+            "dependencies": [
+              "7.1"
+            ],
+            "details": "Update the tooltips object (lines 24-50) to remove entries for eliminated events and maintain only: haldi, sangeet (updated for combined event), baraat, mandap, and add reception if needed. Enhance cultural tooltips with respectful but accessible explanations. Add participation guidance for each event to help international guests understand expected involvement levels. Include subtle pronunciation guides for cultural terms while maintaining authenticity.",
+            "status": "done",
+            "testStrategy": "Verify tooltips appear only for the 5 core events. Test tooltip content for cultural accuracy and sensitivity. Confirm pronunciation guides and participation guidance are included where appropriate."
+          },
+          {
+            "id": 4,
+            "title": "Update EventsSidebar component for day-based navigation",
+            "description": "Modify EventsSidebar.tsx to reflect the reduced navigation with only 5 events and add day separator headers in the navigation list. Implement visual indicators to distinguish between Day 1 and Day 2 events using the same color-coding system from the main events display.",
+            "dependencies": [
+              "7.1",
+              "7.2"
+            ],
+            "details": "Update EventsSidebar component to include day separator headers in the navigation list. Add visual indicators using color-coding system. Implement contextual progress indicators to show guests their temporal position within the celebration. Update the events-sidebar CSS to handle the new day-based visual hierarchy. Ensure mobile dropdown menu reflects the same day-based grouping.",
+            "status": "done",
+            "testStrategy": "Verify sidebar shows day headers separating event groups. Test color-coded visual indicators for Day 1 vs Day 2 events. Confirm mobile dropdown menu displays the same day-based structure. Test active state indicators work correctly with reduced event list."
+          },
+          {
+            "id": 5,
+            "title": "Optimize responsive design for simplified day-based layout",
+            "description": "Update mobile responsive design in Events.css to handle the new simplified day-based layout with fewer events. Implement sticky day headers on mobile viewports and optimize card layouts for single-column mobile display while preserving day separation.",
+            "dependencies": [
+              "7.2",
+              "7.4"
+            ],
+            "details": "Update media queries in Events.css to handle the new day-based visual hierarchy on smaller screens. Implement sticky day headers on mobile viewports to maintain context during scrolling. Optimize card layouts for single-column mobile display while preserving day separation. Ensure the simplified layout with only 5 events works correctly across all screen sizes. Update mobile sidebar toggle and dropdown to work with day-based structure.",
+            "status": "done",
+            "testStrategy": "Test responsive design across mobile, tablet, and desktop viewports. Verify sticky day headers work on mobile devices. Confirm single-column layout preserves day separation on small screens. Test mobile sidebar navigation with reduced event list and day headers."
+          }
+        ]
       }
     ],
     "metadata": {
       "created": "2025-09-08T08:55:12.331Z",
-      "updated": "2025-09-12T01:28:13.585Z",
+      "updated": "2025-09-15T01:37:16.192Z",
       "description": "General website improvements and fixes"
     }
   }
