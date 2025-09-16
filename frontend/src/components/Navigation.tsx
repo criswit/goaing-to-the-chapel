@@ -15,7 +15,7 @@ const Navigation: React.FC = () => {
     <nav className="navigation">
       <div className="nav-container">
         <Link to="/" className="nav-logo" onClick={closeMenu} aria-label="Go to home page">
-          <h2>goa'ing to the chapel</h2>
+          <h2>happy wife happy life?</h2>
         </Link>
 
         <button className="mobile-toggle" onClick={() => setIsOpen(!isOpen)}>

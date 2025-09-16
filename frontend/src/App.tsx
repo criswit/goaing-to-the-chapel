@@ -14,12 +14,14 @@ import AdminLogin from './components/Admin/AdminLogin';
 import AdminDashboard from './components/Admin/AdminDashboard';
 import StatsOverview from './components/Admin/StatsOverview';
 import GuestList from './components/Admin/GuestList';
+import HeroPhotoColumns from './components/HeroPhotoColumns';
 import './App.css';
 
 // Home page component that displays only the Hero section
 function Home() {
   return (
     <>
+      <HeroPhotoColumns />
       <Hero />
     </>
   );

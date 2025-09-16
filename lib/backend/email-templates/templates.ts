@@ -77,7 +77,7 @@ export const getRsvpConfirmationTemplate = (data: TemplateData): EmailTemplate =
     <body style="font-family: 'Georgia', serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f5f5f5;">
       <div style="background-color: white; border-radius: 10px; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
         <h1 style="color: #6b5b95; text-align: center; font-size: 28px; margin-bottom: 10px;">
-          Goa'ing to the Chapel
+          Goa-ing to the Chapel
         </h1>
         <p style="text-align: center; color: #88B0D3; font-size: 18px; margin-bottom: 30px;">
           Aakanchha & Christopher

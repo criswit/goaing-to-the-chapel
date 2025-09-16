@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Calendar, Clock, MapPin, List } from 'lucide-react';
+import { Calendar, Clock, MapPin } from 'lucide-react';
 import { motion } from 'framer-motion';
-import EventsSidebar from './EventsSidebar';
 import '../styles/Events.css';
 
 interface Event {
@@ -20,8 +19,7 @@ interface Event {
 }
 
 const Events: React.FC = () => {
-  const [activeEventId, setActiveEventId] = useState<string | null>(null);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [, setActiveEventId] = useState<string | null>(null);
   const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
 
@@ -153,17 +151,6 @@ const Events: React.FC = () => {
       day: 2,
     },
   ];
-
-  // Handle smooth scrolling to event
-  const handleEventClick = (eventId: string) => {
-    const element = document.querySelector(`[data-event-id="${eventId}"]`);
-    if (element) {
-      const yOffset = -100; // Account for fixed header
-      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      window.scrollTo({ top: y, behavior: 'smooth' });
-      setIsMobileMenuOpen(false); // Close mobile menu after selection
-    }
-  };
 
   // Setup Intersection Observer for active state detection
   useEffect(() => {

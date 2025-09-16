@@ -256,6 +256,92 @@ create-admin:
 quick-admin:
     ./scripts/quick-admin-setup.sh
 
+# Photo Gallery Management Commands
+# Upload a single photo to the gallery
+upload-photo photo-path category:
+    node scripts/upload-photos.js "{{photo-path}}" {{category}}
+
+# Upload a directory of photos to the gallery
+upload-photos-dir directory category:
+    node scripts/upload-photos.js "{{directory}}" {{category}} --dir
+
+# Upload our story photos (shortcut)
+upload-story-photos directory:
+    node scripts/upload-photos.js "{{directory}}" our-story --dir
+
+# Upload engagement photos (shortcut)
+upload-engagement-photos directory:
+    node scripts/upload-photos.js "{{directory}}" engagement --dir
+
+# Upload venue photos (shortcut)
+upload-venue-photos directory:
+    node scripts/upload-photos.js "{{directory}}" venue --dir
+
+# Upload celebration photos (shortcut)
+upload-celebration-photos directory:
+    node scripts/upload-photos.js "{{directory}}" celebration --dir
+
+# Upload venue preview photos (shortcut)
+upload-venue-preview-photos directory:
+    node scripts/upload-photos.js "{{directory}}" venue-preview --dir
+
+# Generate photo manifest after uploading photos
+generate-photo-manifest:
+    node scripts/generate-photo-manifest.js
+    @echo "✅ Photo manifest generated successfully"
+
+# Upload photos and refresh everything (directory upload with manifest and CDN refresh)
+upload-and-refresh directory category:
+    node scripts/upload-photos.js "{{directory}}" {{category}} --dir
+    node scripts/generate-photo-manifest.js
+    aws cloudfront create-invalidation --distribution-id E9PYPZ8LGGB9L --paths "/*" --profile wedding-website
+    @echo "✅ Photos uploaded, manifest generated, and CDN cache cleared"
+
+# Extract and upload photos from ZIP file
+upload-zip zip-file category:
+    #!/usr/bin/env bash
+    set -e
+    TEMP_DIR=$(mktemp -d)
+    echo "📦 Extracting ZIP file to temporary directory..."
+    unzip -q "{{zip-file}}" -d "$TEMP_DIR"
+    echo "📤 Uploading photos from extracted files..."
+    node scripts/upload-photos.js "$TEMP_DIR" {{category}} --dir
+    echo "🧹 Cleaning up temporary files..."
+    rm -rf "$TEMP_DIR"
+    echo "📋 Generating photo manifest..."
+    node scripts/generate-photo-manifest.js
+    echo "🔄 Invalidating CloudFront cache..."
+    aws cloudfront create-invalidation --distribution-id E9PYPZ8LGGB9L --paths "/*" --profile wedding-website
+    @echo "✅ ZIP photos uploaded, manifest generated, and CDN cache cleared"
+
+# Quick upload for a single photo with full refresh
+quick-photo-upload photo-path category:
+    node scripts/upload-photos.js "{{photo-path}}" {{category}}
+    node scripts/generate-photo-manifest.js
+    aws cloudfront create-invalidation --distribution-id E9PYPZ8LGGB9L --paths "/*" --profile wedding-website
+    @echo "✅ Photo uploaded, manifest generated, and CDN cache cleared"
+
+# Show photo upload help
+photo-upload-help:
+    @echo "📸 Photo Upload Commands:"
+    @echo ""
+    @echo "Categories available:"
+    @echo "  - our-story"
+    @echo "  - engagement"
+    @echo "  - venue"
+    @echo "  - celebration"
+    @echo "  - venue-preview"
+    @echo ""
+    @echo "Examples:"
+    @echo "  just upload-photo ./my-photo.jpg our-story"
+    @echo "  just upload-photos-dir ./engagement-photos/ engagement"
+    @echo "  just upload-and-refresh ./venue-photos/ venue"
+    @echo ""
+    @echo "Shortcuts for common categories:"
+    @echo "  just upload-story-photos ./our-story-photos/"
+    @echo "  just upload-engagement-photos ./engagement-photos/"
+    @echo ""
+
 # Help Commands
 # Show detailed help for a command
 help command:

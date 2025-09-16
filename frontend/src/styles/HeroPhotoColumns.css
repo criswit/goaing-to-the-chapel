@@ -1,0 +1,144 @@
+.hero-photo-column {
+  position: fixed;
+  top: 0;
+  height: 100vh;
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding: 20px 10px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero-photo-column-left {
+  left: 60px;
+}
+
+.hero-photo-column-right {
+  right: 60px;
+}
+
+.hero-photo-frame {
+  width: 200px;
+  height: 230px;
+  background: white;
+  padding: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  pointer-events: auto;
+  position: relative;
+}
+
+.hero-photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+  display: block;
+}
+
+/* Add subtle decorative elements */
+.hero-photo-frame::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right: 4px;
+  bottom: 4px;
+  border: 1px solid rgba(139, 114, 85, 0.1);
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+/* Hover effect shadow */
+.hero-photo-frame:hover {
+  box-shadow: 0 8px 30px rgba(139, 114, 85, 0.3);
+}
+
+/* Responsive adjustments for tablets */
+@media (max-width: 1200px) {
+  .hero-photo-column {
+    width: 180px;
+  }
+
+  .hero-photo-frame {
+    width: 160px;
+    height: 185px;
+    padding: 6px;
+  }
+}
+
+/* Hide on mobile to preserve content space */
+@media (max-width: 768px) {
+  .hero-photo-column {
+    display: none;
+  }
+}
+
+/* Ultra-wide screens - move columns slightly inward */
+@media (min-width: 1600px) {
+  .hero-photo-column-left {
+    left: 100px;
+  }
+
+  .hero-photo-column-right {
+    right: 100px;
+  }
+
+  .hero-photo-frame {
+    width: 240px;
+    height: 275px;
+  }
+}
+
+/* Animation for photo transitions */
+@keyframes fadeSlide {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Stagger effect for initial load */
+.hero-photo-frame.photo-1,
+.hero-photo-frame.photo-4 {
+  animation-delay: 0.1s;
+}
+
+.hero-photo-frame.photo-2,
+.hero-photo-frame.photo-5 {
+  animation-delay: 0.2s;
+}
+
+.hero-photo-frame.photo-3,
+.hero-photo-frame.photo-6 {
+  animation-delay: 0.3s;
+}
+
+/* Ensure main content has proper spacing */
+.hero-container {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Adjust spacing to account for photo columns */
+@media (min-width: 1200px) {
+  .hero-container {
+    padding: 0 280px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  .hero-container {
+    padding: 0 200px;
+  }
+}

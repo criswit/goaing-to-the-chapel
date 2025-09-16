@@ -2,6 +2,37 @@
   background: var(--background);
 }
 
+/* Photo Gallery Section */
+.events-gallery-section {
+  margin-top: 4rem;
+  padding: 3rem 0;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 20px;
+  margin: 4rem 2rem 0;
+}
+
+.gallery-title {
+  text-align: center;
+  font-size: 2.5rem;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.gallery-subtitle {
+  text-align: center;
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  font-style: italic;
+}
+
+.events-gallery {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;

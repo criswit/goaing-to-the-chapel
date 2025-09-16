@@ -2,10 +2,13 @@ import * as cdk from 'aws-cdk-lib';
 import * as acm from 'aws-cdk-lib/aws-certificatemanager';
 import * as route53 from 'aws-cdk-lib/aws-route53';
 import * as iam from 'aws-cdk-lib/aws-iam';
+import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
 import { Construct } from 'constructs';
 import { WebsiteBucket } from './website-bucket';
 import { CloudFrontDistribution } from './cloudfront-distribution';
 import { DnsConfig, DnsSetup } from './dns-config';
+import { PhotoGalleryBucket } from './photo-gallery-bucket';
+import { PhotoGalleryCloudFront } from './photo-gallery-cloudfront';
 
 export interface WeddingWebsiteCdkStackProps extends cdk.StackProps {
   /**
@@ -29,6 +32,16 @@ export class WeddingWebsiteCdkStack extends cdk.Stack {
    * The DNS setup construct (if configured)
    */
   public readonly dnsSetup?: DnsSetup;
+
+  /**
+   * The photo gallery bucket construct
+   */
+  public readonly photoGalleryBucket: PhotoGalleryBucket;
+
+  /**
+   * The photo gallery CloudFront distribution
+   */
+  public readonly photoGalleryCloudFront: PhotoGalleryCloudFront;
 
   constructor(scope: Construct, id: string, props?: WeddingWebsiteCdkStackProps) {
     super(scope, id, props);
@@ -102,6 +115,28 @@ export class WeddingWebsiteCdkStack extends cdk.Stack {
       }
     }
 
+    // Create Photo Gallery infrastructure
+    this.photoGalleryBucket = new PhotoGalleryBucket(this, 'PhotoGallery', {
+      bucketNamePrefix: 'wedding-photo-gallery',
+      versioned: true,
+      removalPolicy: this.getRemovalPolicy(),
+      enablePublicRead: true,
+      corsAllowedOrigins: props?.dnsConfig?.domainName
+        ? [
+            `https://${props.dnsConfig.domainName}`,
+            `https://www.${props.dnsConfig.domainName}`,
+            'http://localhost:3000', // For local development
+          ]
+        : ['*'],
+    });
+
+    // Create Photo Gallery CloudFront distribution
+    this.photoGalleryCloudFront = new PhotoGalleryCloudFront(this, 'PhotoGalleryCDN', {
+      photoBucket: this.photoGalleryBucket,
+      // Don't use custom domain - certificate doesn't cover photos subdomain
+      priceClass: cloudfront.PriceClass.PRICE_CLASS_100,
+    });
+
     // Create CloudFront distribution
     this.cloudFrontDistribution = new CloudFrontDistribution(this, 'CloudFront', {
       websiteBucket: this.websiteBucket.bucket,
@@ -171,6 +206,25 @@ export class WeddingWebsiteCdkStack extends cdk.Stack {
       description: 'S3 bucket for CloudFront access logs',
       value: this.cloudFrontDistribution.logsBucket.bucketName,
       exportName: `${this.stackName}-CloudFrontLogsBucket`,
+    });
+
+    // Photo Gallery Outputs
+    new cdk.CfnOutput(this, 'PhotoGalleryBucketName', {
+      description: 'S3 bucket for photo gallery',
+      value: this.photoGalleryBucket.bucket.bucketName,
+      exportName: `${this.stackName}-PhotoGalleryBucketName`,
+    });
+
+    new cdk.CfnOutput(this, 'PhotoGalleryCDNDomain', {
+      description: 'CloudFront domain for photo gallery',
+      value: this.photoGalleryCloudFront.distributionDomainName,
+      exportName: `${this.stackName}-PhotoGalleryCDNDomain`,
+    });
+
+    new cdk.CfnOutput(this, 'PhotoGalleryURL', {
+      description: 'Photo gallery CDN URL',
+      value: `https://${this.photoGalleryCloudFront.distributionDomainName}`,
+      exportName: `${this.stackName}-PhotoGalleryURL`,
     });
 
     // Add stack-level tags

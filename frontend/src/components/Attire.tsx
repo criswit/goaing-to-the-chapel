@@ -67,19 +67,10 @@ const Attire: React.FC = () => {
   const womenFusion: AttireOption[] = [
     {
       name: 'Indo-Western',
-      description: 'Modern fusion styles',
+      description: 'Modern fusion and Western styles',
       details:
-        'Crop tops with flowing skirts, maxi dresses with Indian embroidery, kaftans with traditional embellishments.',
+        'Crop tops with flowing skirts, maxi dresses with Indian embroidery, kaftans with traditional embellishments, maxi or midi dresses, dressy blouses with skirts or flowing pants, jumpsuits or cocktail dresses.',
       image: '/attire/women/indo-western.jpg',
-      beachFriendly: true,
-      recommendedFor: ['All events'],
-    },
-    {
-      name: 'Western Options',
-      description: 'Traditional Western formal wear',
-      details:
-        'Maxi or midi dresses, dressy blouses with skirts or flowing pants, jumpsuits or cocktail dresses.',
-      image: '/attire/women/jumpsuit.jpg',
       beachFriendly: true,
       recommendedFor: ['All events'],
     },
@@ -129,14 +120,6 @@ const Attire: React.FC = () => {
       image: '/attire/men/Nehru_Jacket.jpg',
       beachFriendly: true,
       recommendedFor: ['Reception', 'All events'],
-    },
-    {
-      name: 'Western Options',
-      description: 'Traditional Western formal wear',
-      details:
-        'Light suits or blazers with dress pants, dress shirts with chinos, smart-casual combinations.',
-      beachFriendly: true,
-      recommendedFor: ['All events'],
     },
   ];
 
@@ -200,11 +183,6 @@ const Attire: React.FC = () => {
                     onKeyPress={(e) => e.key === 'Enter' && setSelectedImage(option.image || null)}
                   >
                     <img src={option.image} alt={option.name} />
-                    {option.beachFriendly && (
-                      <span className="beach-badge">
-                        <Sun size={16} /> Beach Friendly
-                      </span>
-                    )}
                   </div>
                 )}
                 <div className="attire-option-content">
@@ -256,7 +234,8 @@ const Attire: React.FC = () => {
           >
             <div className="intro-card beach-special">
               <Sun className="intro-icon" size={32} />
-              <h3>A Beach Celebration in Goa!</h3>
+              <h3>A beach celebration where Indian Attire is encouraged!</h3>
+              <h4>(but not required)</h4>
               <p>
                 Our wedding will be an ocean-side celebration with the sand between your toes and
                 the sea breeze in your hair. Think light, breezy fabrics and comfortable elegance!
@@ -288,10 +267,7 @@ const Attire: React.FC = () => {
         >
           {/* Women's Attire */}
           <div className="attire-category">
-            <h3 className="category-title">
-              <span className="category-icon">👗</span>
-              Women's Attire Options
-            </h3>
+            <h3 className="category-title">Women's Attire Options</h3>
             {renderAttireSection(
               'Traditional Indian Options',
               womenTraditional,
@@ -302,78 +278,10 @@ const Attire: React.FC = () => {
 
           {/* Men's Attire */}
           <div className="attire-category">
-            <h3 className="category-title">
-              <span className="category-icon">👔</span>
-              Men's Attire Options
-            </h3>
+            <h3 className="category-title">Men's Attire Options</h3>
             {renderAttireSection('Traditional Indian Options', menTraditional, 'men-traditional')}
             {renderAttireSection('Fusion & Western Options', menFusion, 'men-fusion')}
           </div>
-
-          {/* Color Palette */}
-          <motion.div
-            className="color-guidance"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h3 className="category-title">
-              <Palette className="category-icon inline-icon" size={24} />
-              Color Palette Guidance
-            </h3>
-
-            <div className="color-sections">
-              <div className="color-section recommended">
-                <h4>✨ Embrace These Vibrant Colors</h4>
-                <p>Indian weddings celebrate with rich, bold colors!</p>
-                <div className="color-swatches">
-                  {colorPalette
-                    .filter((c) => c.recommended)
-                    .map((color) => (
-                      <div key={color.name} className="color-swatch">
-                        <div
-                          className="swatch"
-                          style={{ backgroundColor: color.hex }}
-                          title={color.name}
-                        />
-                        <span>{color.name}</span>
-                      </div>
-                    ))}
-                </div>
-              </div>
-
-              <div className="color-section avoid">
-                <h4>🚫 Colors to Avoid</h4>
-                <p>These colors have special significance in Indian weddings</p>
-                <div className="color-swatches">
-                  {colorPalette
-                    .filter((c) => !c.recommended)
-                    .map((color) => (
-                      <div key={color.name} className="color-swatch avoided">
-                        <div
-                          className="swatch"
-                          style={{ backgroundColor: color.hex }}
-                          title={color.name}
-                        />
-                        <span>{color.name}</span>
-                      </div>
-                    ))}
-                </div>
-                <div className="color-notes">
-                  <p>
-                    • <strong>White:</strong> Traditionally reserved for the bride
-                  </p>
-                  <p>
-                    • <strong>Red:</strong> Traditionally reserved for the bride
-                  </p>
-                  <p>
-                    • <strong>Very pale colors:</strong> May wash out in photos
-                  </p>
-                </div>
-              </div>
-            </div>
-          </motion.div>
 
           {/* Shopping Resources */}
           <motion.div
