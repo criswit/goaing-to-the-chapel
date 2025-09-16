@@ -14,7 +14,7 @@ import {
 import HotelInfoHeader from './HotelInfoHeader';
 import GoogleMapWidget from './GoogleMapWidget';
 import { accommodations, regionVibes } from '../data/accommodations';
-import { AccommodationOption, RegionVibe } from '../types/accommodation';
+import { AccommodationOption } from '../types/accommodation';
 import '../styles/Stay.css';
 
 const Stay: React.FC = () => {

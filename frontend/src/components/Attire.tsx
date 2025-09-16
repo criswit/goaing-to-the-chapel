@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ChevronDown, ChevronUp, Sparkles, Palette, ShoppingBag, Camera, Sun } from 'lucide-react';
+import { ChevronDown, ChevronUp, Sparkles, ShoppingBag, Camera, Sun } from 'lucide-react';
 import '../styles/Attire.css';
 
 interface AttireOption {
@@ -10,12 +10,6 @@ interface AttireOption {
   image?: string;
   beachFriendly?: boolean;
   recommendedFor?: string[];
-}
-
-interface ColorSwatch {
-  name: string;
-  hex: string;
-  recommended: boolean;
 }
 
 const Attire: React.FC = () => {
@@ -121,21 +115,6 @@ const Attire: React.FC = () => {
       beachFriendly: true,
       recommendedFor: ['Reception', 'All events'],
     },
-  ];
-
-  const colorPalette: ColorSwatch[] = [
-    // Recommended colors
-    { name: 'Emerald Green', hex: '#50C878', recommended: true },
-    { name: 'Royal Blue', hex: '#4169E1', recommended: true },
-    { name: 'Deep Purple', hex: '#663399', recommended: true },
-    { name: 'Fuchsia', hex: '#FF00FF', recommended: true },
-    { name: 'Coral', hex: '#FF7F50', recommended: true },
-    { name: 'Sunset Orange', hex: '#FD5E53', recommended: true },
-    { name: 'Gold', hex: '#FFD700', recommended: true },
-    // Colors to avoid
-    { name: 'White', hex: '#FFFFFF', recommended: false },
-    { name: 'Red', hex: '#FF0000', recommended: false },
-    { name: 'Pale Pink', hex: '#FFE4E1', recommended: false },
   ];
 
   const renderAttireSection = (title: string, options: AttireOption[], sectionKey: string) => {
