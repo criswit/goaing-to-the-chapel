@@ -2,26 +2,45 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import '../styles/HeroPhotoColumns.css';
 
-// Configure your photos here - add your photo filenames to this array
-// Place your photos in: frontend/public/images/hero-columns/
-// Photos should be square or portrait orientation for best results
+// All photos from ~/Downloads/tmp - now randomly shuffled on each rotation
 const HERO_PHOTOS = [
+  'DSC05992.JPG',
+  'PICT_20250614_153816.JPG',
+  'PXL_20220827_034159938.jpg',
+  'PXL_20221025_042336782.jpg',
   'PXL_20221229_204111613.jpg',
   'PXL_20230308_194403181.jpg',
+  'PXL_20230308_194439048.jpg',
+  'PXL_20230308_201352818.jpg',
   'PXL_20230308_233928609.jpg',
+  'PXL_20230308_233930791.jpg',
+  'PXL_20230327_022104224.jpg',
+  'PXL_20230627_004545954.jpg',
   'PXL_20230729_220947191.MP.jpg',
   'PXL_20230731_210834535.jpg',
   'PXL_20231029_082129469.jpg',
-];
-
-// Fallback photos if custom photos aren't available yet
-const FALLBACK_PHOTOS = [
-  '/images/hero-columns/PXL_20221229_204111613.jpg',
-  '/images/hero-columns/PXL_20230308_194403181.jpg',
-  '/images/hero-columns/PXL_20230308_233928609.jpg',
-  '/images/hero-columns/PXL_20230729_220947191.MP.jpg',
-  '/images/hero-columns/PXL_20230731_210834535.jpg',
-  '/images/hero-columns/PXL_20231029_082129469.jpg',
+  'PXL_20231103_011911086.MP.jpg',
+  'PXL_20231103_012105507.jpg',
+  'PXL_20231105_070013575.jpg',
+  'PXL_20231105_143317022.MP.jpg',
+  'PXL_20231106_073921958-01-01.jpeg',
+  'PXL_20240513_011222198.MP.jpg',
+  'PXL_20240605_023237445.MP~2.jpg',
+  'PXL_20240630_013935165.MP.jpg',
+  'PXL_20240630_021149566.jpg',
+  'PXL_20240810_025326400.jpg',
+  'PXL_20240825_173802344.MP.jpg',
+  'PXL_20240831_020525291.MP.jpg',
+  'PXL_20240909_203441130.MP.jpg',
+  'PXL_20240909_211951281.jpg',
+  'PXL_20240915_211656449.MP~2.jpg',
+  'PXL_20240919_022001433.jpg',
+  'PXL_20241130_210140681.jpg',
+  'PXL_20241201_232706261.MP.jpg',
+  'PXL_20241208_003149827.MP.jpg',
+  'PXL_20250223_203252471.MP.jpg',
+  'PXL_20250309_225013220.jpg',
+  'PXL_20250315_010426574.MP.jpg',
 ];
 
 interface PhotoData {
@@ -37,35 +56,32 @@ const HeroPhotoColumns: React.FC = () => {
 
   // Load photos
   useEffect(() => {
-    // Check if we have custom photos in hero-columns directory
-    const testImage = new Image();
-    testImage.onload = () => {
-      // Custom photos exist, use them
-      const photoData: PhotoData[] = HERO_PHOTOS.map((filename, index) => ({
-        id: `hero-${index}`,
-        url: `/images/hero-columns/${filename}`,
-      }));
-      setPhotos(photoData);
-    };
-    testImage.onerror = () => {
-      // No custom photos yet, use fallback
-      const photoData: PhotoData[] = FALLBACK_PHOTOS.map((path, index) => ({
-        id: `fallback-${index}`,
-        url: path,
-      }));
-      setPhotos(photoData);
-    };
-    // Test if first photo exists
-    testImage.src = `/images/hero-columns/${HERO_PHOTOS[0]}`;
+    // Create photo data from the complete list
+    const photoData: PhotoData[] = HERO_PHOTOS.map((filename, index) => ({
+      id: `photo-${index}`,
+      url: `/images/hero-columns/${filename}`,
+    }));
+    setPhotos(photoData);
   }, []);
 
-  // Initialize and rotate photos
+  // Initialize and rotate photos with complete randomization
   useEffect(() => {
     if (photos.length === 0) return;
 
-    // Initialize with first 6 photos
+    // Fisher-Yates shuffle for true randomness
+    const shuffleArray = (array: PhotoData[]) => {
+      const shuffled = [...array];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      return shuffled;
+    };
+
+    // Update photos with fresh random selection each time
     const updatePhotos = () => {
-      const shuffled = [...photos].sort(() => Math.random() - 0.5);
+      const shuffled = shuffleArray(photos);
+      // Always pick 6 random photos from the full set
       setCurrentLeftPhotos(shuffled.slice(0, 3));
       setCurrentRightPhotos(shuffled.slice(3, 6));
     };
@@ -73,7 +89,7 @@ const HeroPhotoColumns: React.FC = () => {
     // Initial set
     updatePhotos();
 
-    // Rotate photos every 5 seconds
+    // Rotate photos every 5 seconds with new random selection
     const interval = setInterval(() => {
       updatePhotos();
       setPhotoIndex((prev) => (prev + 1) % photos.length);
